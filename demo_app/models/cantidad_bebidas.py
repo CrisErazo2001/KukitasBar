@@ -49,11 +49,11 @@ class cantidad:
     def get_all(cls):
         query = "SELECT * FROM "+ table_name +";"
         results = connectToMySQL(cls.db_name).query_db(query)
-        bebidas = []
+        cant = []
         
-        for bebida in results:
-            bebidas.append( cls(bebida) )
-        return bebidas
+        for can in results:
+            cant.append( cls(can) )
+        return cant
     
     @classmethod
     def save(cls, data):
@@ -62,35 +62,35 @@ class cantidad:
     
     @classmethod
     def get_by_id(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE id_cantidad = %(id_cantidad)s";
+        query  = "SELECT * FROM "+ table_name +" WHERE id_cantidad = %(id_cantidad)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
     @classmethod
     def get_by_id_bebidas(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s";
+        query  = "SELECT * FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
     
     @classmethod
     def delete_by_id(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE id_bebidas = %(id_cantidad)s";
+        query  = "DELETE FROM "+ table_name +" WHERE id_bebidas = %(id_cantidad)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
     @classmethod
     def delete_by_id_bebidas(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE nombre = %(id_bebidas)s";
+        query  = "DELETE FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET id_bebidas = %(id_bebidas)s, cant_1 = %(cant_1)s,cant_2 = %(cant_2)s,cant_3 = %(cant_3)s,cant_4 = %(cant_4)s,cant_5 = %(cant_5)s,cant_6 = %(cant_6)s,cant_7 = %(cant_7)s,cant_8 = %(cant_8)s,cant_9 = %(cant_9)s,cant_10 = %(cant_10)s,cant_11 = %(cant_11)s,cant_12 = %(cant_12)s,cant_13 = %(cant_13)s,cant_14 = %(cant_14)s,cant_15 = %(cant_15)s,cant_16 = %(cant_16)s,cant_17 = %(cant_17)s,cant_18 = %(cant_18)s,cant_19 = %(cant_19)s,cant_20 = %(cant_20)s,cant_21 = %(cant_21)s,cant_22 = %(cant_22)s,cant_23 = %(cant_23)s,cant_24 = %(cant_24)s,cant_25 = %(cant_25)s,cant_26 = %(cant_26)s,cant_27 = %(cant_27)s"+" WHERE id_cantidad = %(id_cantidad)s";
+        query  = "UPDATE "+ table_name +" SET id_bebidas = %(id_bebidas)s, cant_1 = %(cant_1)s,cant_2 = %(cant_2)s,cant_3 = %(cant_3)s,cant_4 = %(cant_4)s,cant_5 = %(cant_5)s,cant_6 = %(cant_6)s,cant_7 = %(cant_7)s,cant_8 = %(cant_8)s,cant_9 = %(cant_9)s,cant_10 = %(cant_10)s,cant_11 = %(cant_11)s,cant_12 = %(cant_12)s,cant_13 = %(cant_13)s,cant_14 = %(cant_14)s,cant_15 = %(cant_15)s,cant_16 = %(cant_16)s,cant_17 = %(cant_17)s,cant_18 = %(cant_18)s,cant_19 = %(cant_19)s,cant_20 = %(cant_20)s,cant_21 = %(cant_21)s,cant_22 = %(cant_22)s,cant_23 = %(cant_23)s,cant_24 = %(cant_24)s,cant_25 = %(cant_25)s,cant_26 = %(cant_26)s,cant_27 = %(cant_27)s"+" WHERE id_cantidad = %(id_cantidad)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
     @classmethod
     def update_by_id_bebidas(cls, data):
-        query  = "UPDATE "+ table_name +" SET id_bebidas = %(id_bebidas)s, cant_1 = %(cant_1)s,cant_2 = %(cant_2)s,cant_3 = %(cant_3)s,cant_4 = %(cant_4)s,cant_5 = %(cant_5)s,cant_6 = %(cant_6)s,cant_7 = %(cant_7)s,cant_8 = %(cant_8)s,cant_9 = %(cant_9)s,cant_10 = %(cant_10)s,cant_11 = %(cant_11)s,cant_12 = %(cant_12)s,cant_13 = %(cant_13)s,cant_14 = %(cant_14)s,cant_15 = %(cant_15)s,cant_16 = %(cant_16)s,cant_17 = %(cant_17)s,cant_18 = %(cant_18)s,cant_19 = %(cant_19)s,cant_20 = %(cant_20)s,cant_21 = %(cant_21)s,cant_22 = %(cant_22)s,cant_23 = %(cant_23)s,cant_24 = %(cant_24)s,cant_25 = %(cant_25)s,cant_26 = %(cant_26)s,cant_27 = %(cant_27)s"+" WHERE id_bebidas = %(id_bebidas)s";
+        query  = "UPDATE "+ table_name +" SET id_bebidas = %(id_bebidas)s, cant_1 = %(cant_1)s,cant_2 = %(cant_2)s,cant_3 = %(cant_3)s,cant_4 = %(cant_4)s,cant_5 = %(cant_5)s,cant_6 = %(cant_6)s,cant_7 = %(cant_7)s,cant_8 = %(cant_8)s,cant_9 = %(cant_9)s,cant_10 = %(cant_10)s,cant_11 = %(cant_11)s,cant_12 = %(cant_12)s,cant_13 = %(cant_13)s,cant_14 = %(cant_14)s,cant_15 = %(cant_15)s,cant_16 = %(cant_16)s,cant_17 = %(cant_17)s,cant_18 = %(cant_18)s,cant_19 = %(cant_19)s,cant_20 = %(cant_20)s,cant_21 = %(cant_21)s,cant_22 = %(cant_22)s,cant_23 = %(cant_23)s,cant_24 = %(cant_24)s,cant_25 = %(cant_25)s,cant_26 = %(cant_26)s,cant_27 = %(cant_27)s"+" WHERE id_bebidas = %(id_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     

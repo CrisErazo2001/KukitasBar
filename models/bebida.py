@@ -61,72 +61,34 @@ class bebida:
     
     @classmethod
     def get_by_id(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s;"
+        query  = "SELECT * FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
     @classmethod
     def get_by_name(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE nombre = %(nombre)s;"
+        query  = "SELECT * FROM "+ table_name +" WHERE nombre = %(nombre)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
     
     @classmethod
     def delete_by_id(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s;"
+        query  = "DELETE * FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        return result
+        return cls(result[0])
     
     @classmethod
     def delete_by_name(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE nombre = %(nombre)s;"
+        query  = "DELETE * FROM "+ table_name +" WHERE nombre = %(nombre)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        return result
+        return cls(result[0])
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE id_bebidas = %(id_bebidas)s;"
+        query  = "UPDATE "+ table_name +"SET Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE id_bebidas = %(id_bebidas)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        return result
+        return cls(result[0])
     
     @classmethod
     def update_by_name(cls, data):
-        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE nombre = %(nombre)s;"
+        query  = "UPDATE "+ table_name +"SET Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE nombre = %(nombre)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        return result
-    
-    
-    def asdict(self):
-
-        dict = {
-            'id_bebidas': self.id_bebidas,  
-            'Pos_1': self.Pos_1, 
-            'Pos_2': self.Pos_2 , 
-            'Pos_3': self.Pos_3, 
-            'Pos_4':  self.Pos_4 , 
-            'Pos_5':  self.Pos_5 , 
-            'Pos_6': self.Pos_6  ,
-            'Pos_7': self.Pos_7  ,
-            'Pos_8': self.Pos_8  ,
-            'Pos_9': self.Pos_9  ,
-            'Pos_10': self.Pos_10 ,
-            'Pos_11': self.Pos_11  ,
-            'Pos_12': self.Pos_12  ,
-            'Pos_13': self.Pos_13  ,
-            'Pos_14': self.Pos_14 ,
-            'Pos_15': self.Pos_15 ,
-            'Pos_16': self.Pos_16  ,
-            'Pos_17': self.Pos_17  ,
-            'Pos_18': self.Pos_18  ,
-            'Pos_19': self.Pos_19  ,
-            'Pos_20': self.Pos_20 ,
-            'Pos_21': self.Pos_21  ,
-            'Pos_22': self.Pos_22  ,
-            'Pos_23': self.Pos_23  ,
-            'Pos_24': self.Pos_24  ,
-            'Pos_25': self.Pos_25  ,
-            'Pos_26': self.Pos_26  ,
-            'Pos_27': self.Pos_27  ,
-            'nombre': self.nombre  
-
-        }
-        
-        return dict
+        return cls(result[0])

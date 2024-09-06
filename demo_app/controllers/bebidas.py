@@ -44,7 +44,7 @@ def create_bebida():
     sv_data = bebida.get_all()
     for beb in sv_data:
         if beb.nombre == data['nombre']:
-            return '<h5> Estas repitiendo nombre </h5>'
+            return jsonify(error=400, text='Estas repitiendo nombre'), 400
         else: 
             continue
     print("Data: ", data)  

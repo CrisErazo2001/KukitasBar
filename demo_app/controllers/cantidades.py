@@ -47,7 +47,7 @@ def create_cantidad():
     for can in sv_data:
         if can.id_bebidas == data['id_bebida']:
 
-            return '<h5> Estas repitiendo id de bebida </h5>'
+            return jsonify(error=400, text='Estas repitiendo id de lista de bebidas'), 400
         
 
     print("Data: ", data)  
