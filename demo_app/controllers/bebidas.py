@@ -136,7 +136,7 @@ def update_bebida_by_id():
     print(result)
     return redirect('/bebida')
 
-@app.route('/bebida/delete/name',methods=['POST'])
+@app.route('/bebida/modify/name',methods=['POST'])
 def update_bebida_by_name():
        
     data = {

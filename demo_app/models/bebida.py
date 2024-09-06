@@ -83,13 +83,13 @@ class bebida:
         return result
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +"SET nombre = %(nombre)s, Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE id_bebidas = %(id_bebidas)s";
+        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE id_bebidas = %(id_bebidas)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
     @classmethod
     def update_by_name(cls, data):
-        query  = "UPDATE "+ table_name +"SET nombre = %(nombre)s, Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE nombre = %(nombre)s";
+        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE nombre = %(nombre)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
