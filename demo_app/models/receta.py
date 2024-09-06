@@ -138,3 +138,14 @@ class receta:
         }
         
         return dict
+    
+    def pasos_receta(self):
+        posiciones = [self.bebida_1,self.bebida_2,self.bebida_3,self.bebida_4,self.bebida_5,self.bebida_6,self.bebida_7,self.bebida_8,self.bebida_9,self.bebida_10]
+        cantidades = [self.cant_1,self.cant_2,self.cant_3,self.cant_4,self.cant_5,self.cant_5,self.cant_6,self.cant_7,self.cant_8,self.cant_9,self.cant_10]
+
+        data = {
+            'posiciones': posiciones,
+            'cantidades': cantidades
+        }
+
+        return data

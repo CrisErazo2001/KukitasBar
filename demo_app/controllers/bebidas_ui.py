@@ -8,10 +8,14 @@ import requests
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
+@app.route('/')
+def index():
+        return redirect('/bebida')
+
 @app.route('/bebida')
 def addbebidas():
     
-        return render_template("bebida.html")
+        return render_template("disposicion_botellas.html")
 
 @app.route('/bebida/get')
 def getbebidas():

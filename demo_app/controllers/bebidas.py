@@ -37,9 +37,9 @@ def create_bebida():
         'Pos_22': request.form['Pos_22'],
         'Pos_23': request.form['Pos_23'],
         'Pos_24': request.form['Pos_24'],
-        'Pos_25': request.form['Pos_25'],
-        'Pos_26': request.form['Pos_26'],
-        'Pos_27': request.form['Pos_27'],
+        'Pos_25': '',
+        'Pos_26': '',
+        'Pos_27': '',
         'nombre': request.form['nombre']
 
     }

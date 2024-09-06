@@ -13,6 +13,11 @@ app.secret_key = 'keep it secret, keep it safe'
 def create_cantidad():
     print("creando una lista de cantidades")
     data = {
+        'nombre': request.form["nombre"]
+    }
+    beb = bebida.get_by_name(data)
+
+    data = {
         'cant_1': request.form["cant_1"],
         'cant_2': request.form["cant_2"],
         'cant_3': request.form['cant_3'],
@@ -37,23 +42,23 @@ def create_cantidad():
         'cant_22': request.form['cant_22'],
         'cant_23': request.form['cant_23'],
         'cant_24': request.form['cant_24'],
-        'cant_25': request.form['cant_25'],
-        'cant_26': request.form['cant_26'],
-        'cant_27': request.form['cant_27'],
-        'id_bebidas': request.form['id_bebidas']
+        'cant_25': 0,
+        'cant_26': 0,
+        'cant_27': 0,
+        'id_bebidas' : beb.id_bebidas
+        
 
     }
     sv_data = cantidad.get_all()
     for can in sv_data:
-        if can.id_bebidas == data['id_bebida']:
-
+        if can.id_bebidas == data['id_bebidas']:
             return jsonify(error=400, text='Estas repitiendo id de lista de bebidas'), 400
         
 
     print("Data: ", data)  
     id = cantidad.save(data)
     
-    return redirect('/cantidad')
+    return redirect('/bebida#tab3')
 
 @app.route('/cantidad/get-all')
 def get_all_cantidades():
