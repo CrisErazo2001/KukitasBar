@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de espera</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="principal">
+        <div class="lista-espera">
+            <div class="titulos">
+                <h1>LISTA DE ESPERA</h1>
+            </div>
+            <div class="lista-espera-row">
+                
+                <div class="lista-espera-column">
+                    <h1>
+                        Nombres
+                    </h1>
+                    <h2>
+                        Mateo
+                    </h2>
+                    <h2>
+                        Javier
+                    </h2>
+                </div>
+                <div class="lista-espera-column">
+                    <h1>
+                        Tiempo de espera
+                    </h1>
+                    <h2>
+                        2 min
+                    </h2>
+                    <h2>
+                        4 min
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="proceso">   
+            <div class="proceso-column">
+                <div class="titulos">
+                    <h1>ESTADO DEL PROCESO</h1>
+                </div>
+                <h1><span id="name" style="text-transform: uppercase;"></span> </h1>
+                <h2><span id="estado-proceso" style="text-transform: uppercase;"></span></h2>
+                
+                
+                <img style="width: 70%; height: 50%;" src="Images/Batiendo.gif" alt="">
+                <div class="estado-container" style="position: relative; width: 300px; height: 50px; background-color: none; border: 4px solid #e75b1e; border-radius: 7px;">
+                    <div id="estado" class="estado-barra" style="width: 0%; height: 100%; background-color: #e75b1e;"></div>
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                        <h2 style="margin: 0;">ESTADO</h2>
+                       
+                    </div>
+
+                </div>
+            </div>
+        
+                
+        </div>
+        <div class="info-bebida">
+            <div class="info-bebida-column">
+                <div class="titulos">
+                    <h1>INFORMACIÓN DE LA BEBIDA</h1>
+                </div>
+                <h2> <span id="bebida"></span></h2>
+                <img style="width: 40%; height: 45%; margin-top: 40px;" src="Images/vaso4.png" alt="">
+                <h2>Ingredientes:</h2>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        
+        const wsPercent = new WebSocket('http://192.168.0.241:1880/ws/porcentaje');
+        const wsName = new WebSocket('http://192.168.0.241:1880/ws/name');
+        const wsEstadoProceso = new WebSocket('http://192.168.0.241:1880/ws/estadoproceso');
+
+        // Manejar mensajes recibidos desde Node-RED
+        wsPercent.onmessage = function(event) {
+            const percent = event.data;
+            console.log(percent);
+
+            // Actualizar el ancho de la barra de estado
+            const estadoBarra = document.getElementById('estado');
+            estadoBarra.style.width = percent + '%';
+        };
+
+        wsName.onmessage = function(event) {
+            // Dividir la cadena por el separador "-"
+            const data = event.data.split('-');
+
+            // Asignar el nombre del cóctel (primera parte) y el nombre de la persona (segunda parte)
+            const cocktailName = data[0];  // Nombre del cóctel
+            const personName = data[1];    // Nombre de la persona
+
+            // Imprimir el nombre de la persona en el elemento con id 'name'
+            document.getElementById('name').innerText =personName;
+
+            // Imprimir el nombre del cóctel en el elemento con id 'drink'
+            document.getElementById('bebida').innerText =cocktailName;
+        };
+
+
+
+        wsEstadoProceso.onmessage = function(event) {
+            document.getElementById('estado-proceso').innerText =event.data;
+        };
+
+    </script>
+
+</body>
+</html>

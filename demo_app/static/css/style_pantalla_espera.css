@@ -1,0 +1,101 @@
+.principal{
+    background-color: rgb(218, 16, 16);
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 15px; 
+}
+
+.lista-espera{
+    width: 30%;
+    background-color: rgb(11, 62, 75);
+    border-right: 5px solid #787878;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: aliceblue;
+}
+
+.titulos{
+    
+    border: 4px solid #e75b1e;
+    padding: 5px 15px 5px 15px ;
+    border-radius: 7px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.lista-espera-row{
+    
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: aliceblue;
+    
+}
+
+.lista-espera-column{
+    
+    display: flex;
+    padding: 0px 20px 20px 20px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: aliceblue;
+    margin-left: 10px;
+}
+
+
+.proceso{
+    background-color: rgb(11, 62, 75);
+    border-right: 5px solid #787878;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.proceso-column{
+    display: flex;
+    top: 0px;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    color: aliceblue;
+
+}
+
+.estado{
+    display: flex;
+    width: 200px;
+    margin-top: 30px;
+    padding: 10px 20px 10px 20px;
+    border: 4px solid white;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    
+}
+
+.info-bebida{
+    color: aliceblue;
+    background-color: rgb(11, 62, 75);
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-bebida-column{
+    color: aliceblue;
+    background-color: rgb(11, 62, 75);
+    
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+}

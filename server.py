@@ -12,6 +12,6 @@ APP = app
 
 
 if __name__=="__main__":
-    APP.run(debug=True)
-    #APP.run(debug=True,host='192.17.10.3', port=65100)
+    #APP.run(debug=True)
+    APP.run(debug=True,host='192.168.100.127')
     # APP.run(debug=True)
