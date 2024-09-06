@@ -41,6 +41,12 @@ def create_bebida():
         'nombre': request.form['nombre']
 
     }
+    sv_data = bebida.get_all()
+    for beb in sv_data:
+        if beb.nombre == data['nombre']:
+            return '<h5> Estas repitiendo nombre </h5>'
+        else: 
+            continue
     print("Data: ", data)  
     id = bebida.save(data)
     
