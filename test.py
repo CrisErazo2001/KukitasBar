@@ -1,36 +1,51 @@
 from demo_app.models.bebida import bebida
+from demo_app.models.receta import receta
+import requests
+
+
+
+url1 = 'http://127.0.0.1:5000/bebida/define/3'
+url2 = 'http://127.0.0.1:5000/bebida/define/get'
+r1 = requests.get(url1)
+r2 = requests.get(url2)
+result1 = r1.json()
+result2 = r2.json()
+
+print(result1)
+print(result2)
 
 data = {
-        'id_bebidas': 3,
-        'Pos_1': 'a',
-        'Pos_2': 'a',
-        'Pos_3': 'a',
-        'Pos_4': 'a',
-        'Pos_5': 'a',
-        'Pos_6': 'a',
-        'Pos_7': 'a',
-        'Pos_8':'a',
-        'Pos_9': 'a',
-        'Pos_10': 'a',
-        'Pos_11': 'a',
-        'Pos_12': 'a',
-        'Pos_13': 'a',
-        'Pos_14': 'a',
-        'Pos_15': 'a',
-        'Pos_16': 'a',
-        'Pos_17': 'a',
-        'Pos_18': 'a',
-        'Pos_19': 'a',
-        'Pos_20': 'a',
-        'Pos_21': 'a',
-        'Pos_22': 'a',
-        'Pos_23': 'a',
-        'Pos_24': 'a',
-        'Pos_25': 'a',
-        'Pos_26': 'a',
-        'Pos_27': 'a',
-        'nombre': 'a'
+    
+    'id_bebidas': result1['bebida_list_id'], 
+    'nombre':1, 
+    'bebida_1': 1,
+    'bebida_2': 1,
+    'bebida_3': 1,
+    'bebida_4': 1,
+    'bebida_5':  1,
+    'bebida_6':1,
+    'bebida_7': 1,
+    'bebida_8': 1,
+    'bebida_9': 1,
+    'bebida_10': 1,
+    'cant_1': 12,
+    'cant_2': 12, 
+    'cant_3': 21,
+    'cant_4': 12, 
+    'cant_5': 12, 
+    'cant_6': 12,
+    'cant_7': 12,
+    'cant_8': 12,
+    'cant_9': 12,
+    'cant_10': 12,
+    'tiempo_prep': 7,
+    
+}
 
-    }
-
-bebida.update_by_id(data)
+url3 = 'http://127.0.0.1:5000/receta/create'
+response = requests.post(url3, json=data)
+if response.status_code == 200:
+    response_data = response.json()  # Convertir la respuesta a JSON
+    print(response_data)  # Mostrar los datos recibidos
+else:
+    print(f'Error: {response.status_code}')

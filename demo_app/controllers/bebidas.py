@@ -7,6 +7,8 @@ import datetime
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
+bebidas_id = 0
+
 @app.route('/bebida/create',methods=['POST'])
 def create_bebida():
     print("creando una lista de bebidas")
@@ -179,3 +181,25 @@ def update_bebida_by_name():
     result = bebida.update_by_name(data)
     print(result)
     return redirect('/bebida')
+
+@app.route('/bebida/define/<id>')
+def define_bebida_list(id):
+    
+    global bebidas_id 
+    bebidas_id = int(id)
+    data = {
+      
+        'bebida_list_id': bebidas_id
+    }
+    
+    return jsonify(data)
+
+@app.route('/bebida/define/get')
+def get_bebida_list():
+    global bebidas_id 
+    data = {
+      
+        'bebida_list_id': bebidas_id
+    }
+    
+    return jsonify(data)
