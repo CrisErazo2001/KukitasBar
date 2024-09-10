@@ -1,4 +1,4 @@
-from demo_app.models.bebida import bebida
+from demo_app.models.posicion_bebidas import bebida
 from demo_app.models.receta import receta
 import requests
 

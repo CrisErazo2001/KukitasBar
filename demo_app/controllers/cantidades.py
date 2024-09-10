@@ -2,7 +2,7 @@ from flask import render_template, redirect, session, request, flash, jsonify, m
 import json
 from demo_app import app
 from demo_app.models.cantidad_bebidas import cantidad
-from demo_app.models.bebida import bebida
+from demo_app.models.posicion_bebidas import posicion_bebidas
 from flask_bcrypt import Bcrypt
 import datetime
 bcrypt = Bcrypt(app)
@@ -15,7 +15,7 @@ def create_cantidad():
     data = {
         'nombre': request.form["nombre"]
     }
-    beb = bebida.get_by_name(data)
+    beb = posicion_bebidas.get_by_name(data)
 
     data = {
         'cant_1': request.form["cant_1"],
@@ -45,7 +45,7 @@ def create_cantidad():
         'cant_25': 0,
         'cant_26': 0,
         'cant_27': 0,
-        'id_bebidas' : beb.id_bebidas
+        'id_bebidas' : beb.id_posicion_bebidas
         
 
     }
@@ -144,13 +144,13 @@ def update_cantidad_by_id():
         'cant_25': request.form['cant_25'],
         'cant_26': request.form['cant_26'],
         'cant_27': request.form['cant_27'],
-        'id_bebidas': request.form['id_bebidas']
+        'id_posicion_bebidas': request.form['id_posicion_bebidas']
     }
     result = cantidad.update_by_id(data)
     print(result)
     return redirect('/cantidad')
 
-@app.route('/cantidad/modify/id_bebidas',methods=['cantT'])
+@app.route('/cantidad/modify/id_bebidas',methods=['POST'])
 def update_cantidad_by_id_bebidas():
        
     data = {
@@ -182,7 +182,7 @@ def update_cantidad_by_id_bebidas():
         'cant_25': request.form['cant_25'],
         'cant_26': request.form['cant_26'],
         'cant_27': request.form['cant_27'],
-        'id_bebidas': request.form['id_bebidas']
+        'id_posicion_bebidas': request.form['id_posicion_bebidas']
     }
     result = cantidad.update_by_id_bebidas(data)
     print(result)

@@ -1,7 +1,7 @@
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
-from demo_app.models.bebida import bebida
+from demo_app.models.posicion_bebidas import posicion_bebidas
 from flask_bcrypt import Bcrypt
 import datetime
 bcrypt = Bcrypt(app)
@@ -9,8 +9,8 @@ app.secret_key = 'keep it secret, keep it safe'
 
 bebidas_id = 0
 
-@app.route('/bebida/create',methods=['POST'])
-def create_bebida():
+@app.route('/bebida/posicion/create',methods=['POST'])
+def create_bebida_pos():
     print("creando una lista de bebidas")
     data = {
         'Pos_1': request.form["Pos_1"],
@@ -40,24 +40,27 @@ def create_bebida():
         'Pos_25': '',
         'Pos_26': '',
         'Pos_27': '',
-        'nombre': request.form['nombre']
+        'nombre': request.form['nombre'],
+        'id_lista_bebidas': request.form['id_lista_bebidas']
 
     }
-    sv_data = bebida.get_all()
+    sv_data = posicion_bebidas.get_all()
     for beb in sv_data:
         if beb.nombre == data['nombre']:
             return jsonify(error=400, text='Estas repitiendo nombre'), 400
+        elif beb.id_lista_bebidas == data['id_lista_bebidas']:
+            return jsonify(error=400, text='Estas repitiendo id_lista_bebidas'), 400
         else: 
             continue
     print("Data: ", data)  
-    id = bebida.save(data)
+    id = posicion_bebidas.save(data)
     
     return redirect('/bebida')
 
-@app.route('/bebida/get-all')
-def get_all_bebidas():
+@app.route('/bebida/posicion/get-all')
+def get_all_bebidas_pos():
        
-    data = bebida.get_all()
+    data = posicion_bebidas.get_all()
     bebidas = []
     for beb in data:
         bebidas.append(beb.asdict())
@@ -65,52 +68,53 @@ def get_all_bebidas():
     
     return jsonify(bebidas)
 
-@app.route('/bebida/get/id')
-def get_bebida_by_id():
+@app.route('/bebida/posicion/get/id')
+def get_bebida_by_id_pos():
     
     print(request.args)
     data = {
-        'id_bebidas': request.args["id_bebidas"]
+        'id_posicion_bebidas': request.args["id_posicion_bebidas"]
     }
-    result = bebida.get_by_id(data)
+    result = posicion_bebidas.get_by_id(data)
     result = result.asdict()
     return jsonify(result)
 
-@app.route('/bebida/get/name')
-def get_bebida_by_name():
+@app.route('/bebida/posicion/get/name')
+def get_bebida_by_name_pos():
        
     data = {
         'nombre': request.args["nombre"]
     }
-    result = bebida.get_by_name(data)
+    result = posicion_bebidas.get_by_name(data)
     result = result.asdict()
     return jsonify(result)
 
-@app.route('/bebida/delete/id',methods=['POST'])
-def delete_bebida_by_id():
+@app.route('/bebida/posicion/delete/id',methods=['POST'])
+def delete_bebida_by_id_pos():
        
     data = {
-        'id_bebidas': request.form["id_bebidas"]
+        'id_posicion_bebidas': request.form["id_posicion_bebidas"]
     }
-    result = bebida.delete_by_id(data)
+    result = posicion_bebidas.delete_by_id(data)
     print(result)
-    return redirect('/bebida/delete')
+    return redirect('/bebida/posicion/delete')
 
-@app.route('/bebida/delete/name',methods=['POST'])
-def delete_bebida_by_name():
+@app.route('/bebida/posicion/delete/name',methods=['POST'])
+def delete_bebida_by_name_pos():
        
     data = {
         'nombre': request.form["nombre"]
     }
-    result = bebida.delete_by_name(data)
+    result = posicion_bebidas.delete_by_name(data)
     print(result)
-    return redirect('/bebida/delete')
+    return redirect('/bebida/posicion/delete')
 
-@app.route('/bebida/modify/id',methods=['POST'])
-def update_bebida_by_id():
+@app.route('/bebida/posicion/modify/id',methods=['POST'])
+def update_bebida_by_id_pos():
        
     data = {
-        'id_bebidas': request.form['id_bebidas'],
+        'id_posicion_bebidas': request.form['id_posicion_bebidas'],
+        'id_lista_bebidas': request.form['id_lista_bebidas'],
         'Pos_1': request.form["Pos_1"],
         'Pos_2': request.form["Pos_2"],
         'Pos_3': request.form['Pos_3'],
@@ -140,15 +144,15 @@ def update_bebida_by_id():
         'Pos_27': request.form['Pos_27'],
         'nombre': request.form['nombre']
     }
-    result = bebida.update_by_id(data)
+    result = posicion_bebidas.update_by_id(data)
     print(result)
     return redirect('/bebida')
 
-@app.route('/bebida/modify/name',methods=['POST'])
-def update_bebida_by_name():
+@app.route('/bebida/posicion/modify/name',methods=['POST'])
+def update_bebida_by_name_pos():
        
     data = {
-        
+        'id_lista_bebidas': request.form['id_lista_bebidas'],
         'Pos_1': request.form["Pos_1"],
         'Pos_2': request.form["Pos_2"],
         'Pos_3': request.form['Pos_3'],
@@ -178,28 +182,7 @@ def update_bebida_by_name():
         'Pos_27': request.form['Pos_27'],
         'nombre': request.form['nombre']
     }
-    result = bebida.update_by_name(data)
+    result = posicion_bebidas.update_by_name(data)
     print(result)
     return redirect('/bebida')
 
-@app.route('/bebida/define/<id>')
-def define_bebida_list(id):
-    
-    global bebidas_id 
-    bebidas_id = int(id)
-    data = {
-      
-        'bebida_list_id': bebidas_id
-    }
-    
-    return jsonify(data)
-
-@app.route('/bebida/define/get')
-def get_bebida_list():
-    global bebidas_id 
-    data = {
-      
-        'bebida_list_id': bebidas_id
-    }
-    
-    return jsonify(data)

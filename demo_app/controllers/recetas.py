@@ -2,7 +2,7 @@ from flask import render_template, redirect, session, request, flash, jsonify, m
 import json
 from demo_app import app
 from demo_app.models.receta import receta
-from demo_app.models.bebida import bebida
+from demo_app.models.posicion_bebidas import bebida
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import requests
