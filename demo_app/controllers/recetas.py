@@ -2,141 +2,84 @@ from flask import render_template, redirect, session, request, flash, jsonify, m
 import json
 from demo_app import app
 from demo_app.models.receta import receta
-from demo_app.models.posicion_bebidas import bebida
+from demo_app.models.posicion_bebidas import posicion_bebidas
+from demo_app.models.cantidad_bebidas import cantidad
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import requests
-bcrypt = Bcrypt(app)
-app.secret_key = 'keep it secret, keep it safe'
+import asyncio
+from websockets.sync.client import connect
 
+def webSocket_connection():
+    with connect("ws://192.168.0.241:1880/ws/receta") as websocket:
+        
+        websocket.send('1')
+        
+
+receta_envio={}
 
 @app.route('/receta/create',methods=['POST'])
 def create_receta():
     print("creando una receta")
-    # url1 = 'http://127.0.0.1:5000/bebida/define/get'
-    # r1 = requests.get(url1)
-    # result1 = r1.json()
-    
-    # result = bebida.get_by_id(result1['bebida_list_id'])
-    # dict = result.asdict()
-    # pos = list(dict.keys())
-    # values = list(dict.values())
-    if request.form["bebida_1"] != '':
-        bebida_1=request.form["bebida_1"]
+    f = open("bebida_id.txt", "r")
+    bebidas_id = f.read()
+    print(bebidas_id)
+    if bebidas_id == '' or bebidas_id == '0':
+        bebidas_id = 0
     else:
-        bebida_1=0
-
-    if request.form["bebida_2"] != '':
-        bebida_2=request.form["bebida_2"]
-    else:
-        bebida_2=0
-    if request.form["bebida_3"] != '':
-        bebida_3=request.form["bebida_3"]
-    else:
-        bebida_3=0
-    if request.form["bebida_4"] != '':
-        bebida_4=request.form["bebida_4"]
-    else:
-        bebida_4=0
-    if request.form["bebida_5"] != '':
-        bebida_5=request.form["bebida_5"]
-    else:
-        bebida_5=0
-    if request.form["bebida_6"] != '':
-        bebida_6=request.form["bebida_6"]
-    else:
-        bebida_6=0
-    if request.form["bebida_7"] != '':
-        bebida_7=request.form["bebida_7"]
-    else:
-        bebida_7=0
-    if request.form["bebida_8"] != '':
-        bebida_8=request.form["bebida_8"]
-    else:
-        bebida_8=0
-    if request.form["bebida_9"] != '':
-        bebida_9=request.form["bebida_9"]
-    else:
-        bebida_9=0
-    if request.form["bebida_10"] != '':
-        bebida_10=request.form["bebida_10"]
-    else:
-        bebida_10=0
-    if request.form["cant_1"] != '':
-        cant_1=request.form["cant_1"]
-    else:
-        cant_1=0
-
-    if request.form["cant_2"] != '':
-        cant_2=request.form["cant_2"]
-    else:
-        cant_2=0
-    if request.form["cant_3"] != '':
-        cant_3=request.form["cant_3"]
-    else:
-        cant_3=0
-    if request.form["cant_4"] != '':
-        cant_4=request.form["cant_4"]
-    else:
-        cant_4=0
-    if request.form["cant_5"] != '':
-        cant_5=request.form["cant_5"]
-    else:
-        cant_5=0
-    if request.form["cant_6"] != '':
-        cant_6=request.form["cant_6"]
-    else:
-        cant_6=0
-    if request.form["cant_7"] != '':
-        cant_7=request.form["cant_7"]
-    else:
-        cant_7=0
-    if request.form["cant_8"] != '':
-        cant_8=request.form["cant_8"]
-    else:
-        cant_8=0
-    if request.form["cant_9"] != '':
-        cant_9=request.form["cant_9"]
-    else:
-        cant_9=0
-    if request.form["cant_10"] != '':
-        cant_10=request.form["cant_10"]
-    else:
-        cant_10=0
+        bebidas_id = int(bebidas_id)
+    cantidades = []
+    for i in range(10):
+        y = 'cant_'+str(i+1)
+        x = request.form[y]
+        if x =='':
+            cantidades.append(0)
+        else:
+            cantidades.append(x)
 
     data = {
             
-            'id_bebidas': request.form['id_bebidas'], 
+            'id_lista_bebidas': bebidas_id, 
             'nombre':request.form["nombre"], 
-            'bebida_1': bebida_1,
-            'bebida_2': bebida_2, 
-            'bebida_3': bebida_3,
-            'bebida_4': bebida_4, 
-            'bebida_5':  bebida_5, 
-            'bebida_6': bebida_6,
-            'bebida_7': bebida_7,
-            'bebida_8': bebida_8,
-            'bebida_9': bebida_9,
-            'bebida_10': bebida_10,
-            'cant_1': cant_1, 
-            'cant_2': cant_2, 
-            'cant_3': cant_3,
-            'cant_4':  cant_4, 
-            'cant_5':  cant_5, 
-            'cant_6': cant_6,
-            'cant_7': cant_7,
-            'cant_8': cant_8,
-            'cant_9': cant_9,
-            'cant_10': cant_10,
+            'bebida_1': request.form["bebida_1"],
+            'bebida_2': request.form["bebida_2"],
+            'bebida_3': request.form["bebida_3"],
+            'bebida_4': request.form["bebida_4"], 
+            'bebida_5':  request.form["bebida_5"], 
+            'bebida_6': request.form["bebida_6"],
+            'bebida_7': request.form["bebida_7"],
+            'bebida_8': request.form["bebida_8"],
+            'bebida_9': request.form["bebida_9"],
+            'bebida_10': request.form["bebida_10"],
+            'cant_1': cantidades[0], 
+            'cant_2': cantidades[1], 
+            'cant_3': cantidades[2],
+            'cant_4':  cantidades[3], 
+            'cant_5':  cantidades[4], 
+            'cant_6': cantidades[5],
+            'cant_7': cantidades[6],
+            'cant_8': cantidades[7],
+            'cant_9': cantidades[8],
+            'cant_10': cantidades[9],
             'tiempo_prep': request.form["tiempo_prep"]
             
         }
-          
+
+    data2 = {
+        'nombre': data['nombre']
+    }
+    search = receta.get_by_name(data2)
+    for rec in search:
+        if rec.id_lista_bebidas == bebidas_id:
+            return jsonify(error=400, text='Estas repitiendo nombre para esta lista de bebidas'), 400
+        else:
+            continue
 
     print("Data: ", data)  
-    id = receta.save(data)
+
+    receta.save(data)
     
-    return redirect('/bebida#tab2')
+    return redirect('/bebida#tab3')
 
 @app.route('/receta/get-all')
 def get_all_recetas():
@@ -162,13 +105,13 @@ def get_receta_by_id():
     result = result.asdict()
     return jsonify(result)
 
-@app.route('/receta/get/id_bebidas')
-def get_receta_by_id_bebidas():
+@app.route('/receta/get/id_lista_bebidas')
+def get_receta_by_id_lista_bebidas():
        
     data = {
-        'id_bebidas': request.args["id_bebidas"]
+        'id_lista_bebidas': request.args["id_lista_bebidas"]
     }
-    result = receta.get_by_id_bebidas(data)
+    result = receta.get_by_id_lista_bebidas(data)
     recetas = []
     for rec in result:
         recetas.append(rec.asdict())
@@ -186,13 +129,13 @@ def delete_receta_by_id():
     print(result)
     return redirect('/receta/delete')
 
-@app.route('/receta/delete/id_bebidas',methods=['POST'])
-def delete_receta_by_id_bebidas():
+@app.route('/receta/delete/id_lista_bebidas',methods=['POST'])
+def delete_receta_by_id_lista_bebidas():
        
     data = {
-        'id_bebidas': request.form["id_bebidas"]
+        'id_lista_bebidas': request.form["id_lista_bebidas"]
     }
-    result = receta.delete_by_id_bebidas(data)
+    result = receta.delete_by_id_lista_bebidas(data)
     print(result)
     return redirect('/receta/delete')
 
@@ -206,7 +149,7 @@ def update_receta_by_id():
        
     data = {
             
-            'id_bebidas': request.form['bebida_list_id'], 
+            'id_lista_bebidas': request.form['id_lista_bebidas'], 
             'nombre':request.form["nombre"], 
             'bebida_1': request.form["bebida_1"],
             'bebida_2': request.form["bebida_2"], 
@@ -236,12 +179,69 @@ def update_receta_by_id():
     return redirect('/receta')
 
 
-@app.route('/receta/send/<id>')
-def send_receta(id):
-    data = {'id_receta': int(id)}
-    response = receta.get_by_id(data)
-    response = response.pasos_receta()
+@app.route('/receta/send')
+def send_receta():
+    global receta_envio
 
-    return jsonify(response)
+    return jsonify(receta_envio)
+
+@app.route('/receta/generar-posiciones',methods=['POST'])
+def generar_posicion_receta():
+    global receta_envio
+    f = open("bebida_id.txt", "r")
+    bebidas_id = f.read()
+    if bebidas_id == '' or bebidas_id == '0':
+            bebidas_id = 0
+    else:
+        bebidas_id = int(bebidas_id)
+    
+    data = {
+        'nombre': request.form['nombre']
+    }
+    print(data)
+    data2 = {
+        'id_lista_bebidas': bebidas_id
+    }
+    search = receta.get_by_name(data)
+    
+    for rec in search:
+        if rec.id_lista_bebidas == bebidas_id:
+            result = rec.asdict()
+        else:
+            continue
+
+    search2 = posicion_bebidas.get_by_id_lista_bebidas(data2)
+    data3 = {
+        'id_posicion_bebidas': search2.id_posicion_bebidas
+    }
+    # search3 = cantidad.get_by_id_posicion_bebidas(data3)
+    search2 = search2.aslist()
+    # search3 = search3.aslist()
+    posiciones = []
+    cantidades = []
+    for i in range(10):
+        x = 'bebida_'+str(i+1)
+        y = 'cant_'+str(i+1)
+        if result[x] == '':
+            posiciones.append(0)
+            cantidades.append(0)
+            continue
+        posiciones.append(search2.index(result[x]))
+        cantidades.append(result[y])
+    f.close()
+    print('posiciones: ', posiciones)
+    print('cantidades ', cantidades)
+
+    receta_envio = {
+        'posiciones': posiciones,
+        'cantidades': cantidades
+    }
+
+    webSocket_connection()
+
+
+
+    return redirect('/bebida#tab3')
+
 
 

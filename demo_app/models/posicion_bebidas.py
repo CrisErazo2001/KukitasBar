@@ -65,6 +65,13 @@ class posicion_bebidas:
         query  = "SELECT * FROM "+ table_name +" WHERE id_posicion_bebidas = %(id_posicion_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
+    
+    @classmethod
+    def get_by_id_lista_bebidas(cls, data):
+        query  = "SELECT * FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
+        result = connectToMySQL(cls.db_name).query_db(query,data)
+        return cls(result[0])
+    
     @classmethod
     def get_by_name(cls, data):
         query  = "SELECT * FROM "+ table_name +" WHERE nombre = %(nombre)s;"
@@ -132,3 +139,38 @@ class posicion_bebidas:
         }
         
         return dict
+    
+    def aslist(self):
+
+        lista = [
+            self.id_posicion_bebidas,  
+            self.Pos_1, 
+            self.Pos_2 , 
+            self.Pos_3, 
+            self.Pos_4 , 
+            self.Pos_5 , 
+            self.Pos_6  ,
+            self.Pos_7  ,
+            self.Pos_8  ,
+            self.Pos_9  ,
+            self.Pos_10 ,
+            self.Pos_11  ,
+            self.Pos_12  ,
+            self.Pos_13  ,
+            self.Pos_14 ,
+            self.Pos_15 ,
+            self.Pos_16  ,
+            self.Pos_17  ,
+            self.Pos_18  ,
+            self.Pos_19  ,
+            self.Pos_20 ,
+            self.Pos_21  ,
+            self.Pos_22  ,
+            self.Pos_23  ,
+            self.Pos_24  ,
+            self.Pos_25  ,
+            self.Pos_26  ,
+            self.Pos_27  
+        ]
+        
+        return lista

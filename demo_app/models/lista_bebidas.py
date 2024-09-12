@@ -49,7 +49,11 @@ class lista_bebidas:
     def get_by_id(cls, data):
         query  = "SELECT * FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        return cls(result[0])
+        print('Result: ',result)
+        if result == False:
+            return []
+        else: 
+            return cls(result[0])
     @classmethod
     
     def get_by_name(cls, data):

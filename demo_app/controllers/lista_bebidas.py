@@ -3,6 +3,7 @@ import json
 from demo_app import app
 from demo_app.models.lista_bebidas import lista_bebidas
 from demo_app.models.posicion_bebidas import posicion_bebidas
+from demo_app.models.receta import receta
 from flask_bcrypt import Bcrypt
 import datetime
 bcrypt = Bcrypt(app)
@@ -117,18 +118,21 @@ def update_bebida_by_id():
 
 
 
-@app.route('/bebida/define-lista-global')
-def define_bebida_list(id):
-    
+@app.route('/bebida/define-lista-global',methods=['POST'])
+def define_bebida_list():
+    f = open("bebida_id.txt", "w")
     global bebidas_id 
     
     data = {
       
-        'nombre': request.args('nombre')
+        'nombre': request.form['nombre']
     }
     lista = lista_bebidas.get_by_name(data)
     bebidas_id = lista.id_lista_bebidas
-    return redirect('/bebidas')
+    print('Bebidas ID: ', bebidas_id)
+    f.write(str(bebidas_id))
+    f.close()
+    return redirect('/bebida')
 
 @app.route('/bebida/define-lista-global/get')
 def get_bebida_list():
@@ -142,20 +146,49 @@ def get_bebida_list():
 
 @app.route('/bebida')
 def addbebidas():
+         
+        f = open("bebida_id.txt", "r+")
+        bebidas_id = f.read()
+        print(bebidas_id)
+        if bebidas_id == '' or bebidas_id == '0':
+            bebidas_id = 0
+        else:
+            bebidas_id = int(bebidas_id)
         sv_data = lista_bebidas.get_all()
         listas = []
         for lista in sv_data:
-            nombre = lista.asdic()
+            nombre = lista.asdict()
             listas.append(nombre['nombre'])
 
         data = {
       
-            'bebida_list_id': bebidas_id
+            'id_lista_bebidas': bebidas_id
         }
+        print(data)
+        if bebidas_id != 0:
+            if lista_bebidas.get_by_id(data) != []:
+                sv_data2 = lista_bebidas.get_by_id(data)
+                bebidas = [sv_data2.bebida_1,sv_data2.bebida_2,sv_data2.bebida_3,sv_data2.bebida_4,sv_data2.bebida_5,sv_data2.bebida_6,sv_data2.bebida_7,sv_data2.bebida_8,sv_data2.bebida_9,sv_data2.bebida_10,sv_data2.bebida_11,sv_data2.bebida_12]
+            else:
+                f.write('0')
+                bebidas = []
+        else:
+                bebidas = []
+        bebidas_total = ['']
+        for x in bebidas:
+            if x != '':
+                bebidas_total.append(x)
+            else:
+                continue
 
-        # if lista_bebidas.get_by_id(data) > 0:
-        #     sv_data2 = lista_bebidas.get_by_id(data)
-        #     bebidas = [sv_data2.bebida_1,sv_data2.bebida_2,sv_data2.bebida_3,sv_data2.bebida_4,sv_data2.bebida_5,sv_data2.bebida_6,sv_data2.bebida_7,sv_data2.bebida_8,sv_data2.bebida_9,sv_data2.bebida_10,sv_data2.bebida_11,sv_data2.bebida_12]
-        # else:
-        #     bebidas = []
-        return render_template("disposicion_botellas_2.html",lista_bebidas = listas,bebidas = [])
+        recetas = receta.get_by_id_lista_bebidas(data)
+        recetas_total = []
+        for rec in recetas:
+            recetas_total.append(rec.asdict()['nombre'])
+        
+        print(recetas_total)
+
+
+        f.close()
+        print(bebidas)
+        return render_template("disposicion_botellas_2.html",lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total)

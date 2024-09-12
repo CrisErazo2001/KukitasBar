@@ -14,7 +14,6 @@ class receta:
     
     def __init__( self , data ):
         self.id_receta  =  data['id_receta']
-        self.id_bebidas  =  data['id_bebidas']
         self.nombre = data['nombre']
         self.bebida_1  =  data['bebida_1']
         self.bebida_2  =  data['bebida_2']
@@ -37,6 +36,7 @@ class receta:
         self.cant_9  =  data['cant_9']
         self.cant_10  =  data['cant_10']
         self.tiempo_prep  =  data['tiempo_prep']
+        self.id_lista_bebidas = data['id_lista_bebidas']
         
 
         
@@ -52,7 +52,7 @@ class receta:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( id_bebidas,nombre,bebida_1,bebida_2,bebida_3,bebida_4,bebida_5,bebida_6,bebida_7,bebida_8,bebida_9,bebida_10,cant_1,cant_2,cant_3,cant_4,cant_5,cant_6,cant_7,cant_8,cant_9,cant_10,tiempo_prep ) VALUES (  %(id_bebidas)s, %(nombre)s, %(bebida_1)s, %(bebida_2)s, %(bebida_3)s, %(bebida_4)s, %(bebida_5)s, %(bebida_6)s, %(bebida_7)s, %(bebida_8)s, %(bebida_9)s, %(bebida_10)s,%(cant_1)s, %(cant_2)s, %(cant_3)s, %(cant_4)s, %(cant_5)s, %(cant_6)s, %(cant_7)s, %(cant_8)s, %(cant_9)s, %(cant_10)s, %(tiempo_prep)s);"
+        query = "INSERT INTO "+ table_name +" ( id_lista_bebidas,nombre,bebida_1,bebida_2,bebida_3,bebida_4,bebida_5,bebida_6,bebida_7,bebida_8,bebida_9,bebida_10,cant_1,cant_2,cant_3,cant_4,cant_5,cant_6,cant_7,cant_8,cant_9,cant_10,tiempo_prep ) VALUES (  %(id_lista_bebidas)s, %(nombre)s, %(bebida_1)s, %(bebida_2)s, %(bebida_3)s, %(bebida_4)s, %(bebida_5)s, %(bebida_6)s, %(bebida_7)s, %(bebida_8)s, %(bebida_9)s, %(bebida_10)s,%(cant_1)s, %(cant_2)s, %(cant_3)s, %(cant_4)s, %(cant_5)s, %(cant_6)s, %(cant_7)s, %(cant_8)s, %(cant_9)s, %(cant_10)s, %(tiempo_prep)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -61,14 +61,16 @@ class receta:
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
     @classmethod
-    def get_by_id_bebidas(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s;"
+    def get_by_id_lista_bebidas(cls, data):
+        query  = "SELECT * FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         recetas = []
         
         for rec in result:
             recetas.append( cls(rec) )
         return recetas
+    
+    @classmethod
     def get_by_name(cls, data):
         query  = "SELECT * FROM "+ table_name +" WHERE nombre = %(nombre)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
@@ -86,8 +88,8 @@ class receta:
     
       
     @classmethod
-    def delete_by_id_bebidas(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE id_bebidas = %(id_bebidas)s;"
+    def delete_by_id_lista_bebidas(cls, data):
+        query  = "DELETE FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -97,7 +99,7 @@ class receta:
 
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET id_bebidas = %(id_bebidas)s, nombre = %(nombre)s, bebida_1 = %(bebida_1)s, bebida_2 = %(bebida_2)s, bebida_3 = %(bebida_3)s, bebida_4 = %(bebida_4)s, bebida_5 = %(bebida_5)s, bebida_6 = %(bebida_6)s, bebida_7 = %(bebida_7)s, bebida_8 = %(bebida_8)s, bebida_9 = %(bebida_9)s, bebida_10 = %(bebida_10)s, cant_1 = %(cant_1)s,cant_2 = %(cant_2)s,cant_3 = %(cant_3)s,cant_4 = %(cant_4)s,cant_5 = %(cant_5)s,cant_6 = %(cant_6)s,cant_7 = %(cant_7)s,cant_8 = %(cant_8)s,cant_9 = %(cant_9)s,cant_10 = %(cant_10)s,tiempo_prep = %(tiempo_prep)s"+" WHERE id_receta = %(id_receta)s;"
+        query  = "UPDATE "+ table_name +" SET id_lista_bebidas = %(id_lista_bebidas)s, nombre = %(nombre)s, bebida_1 = %(bebida_1)s, bebida_2 = %(bebida_2)s, bebida_3 = %(bebida_3)s, bebida_4 = %(bebida_4)s, bebida_5 = %(bebida_5)s, bebida_6 = %(bebida_6)s, bebida_7 = %(bebida_7)s, bebida_8 = %(bebida_8)s, bebida_9 = %(bebida_9)s, bebida_10 = %(bebida_10)s, cant_1 = %(cant_1)s,cant_2 = %(cant_2)s,cant_3 = %(cant_3)s,cant_4 = %(cant_4)s,cant_5 = %(cant_5)s,cant_6 = %(cant_6)s,cant_7 = %(cant_7)s,cant_8 = %(cant_8)s,cant_9 = %(cant_9)s,cant_10 = %(cant_10)s,tiempo_prep = %(tiempo_prep)s"+" WHERE id_receta = %(id_receta)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -107,7 +109,6 @@ class receta:
 
         dict = {
             'id_receta': self.id_receta, 
-            'id_bebidas': self.id_bebidas,  
             'nombre': self.nombre, 
             'bebida_1': self.bebida_1, 
             'bebida_2': self.bebida_2 , 
@@ -129,20 +130,11 @@ class receta:
             'cant_8': self.cant_8  ,
             'cant_9': self.cant_9  ,
             'cant_10': self.cant_10 ,
-            'tiempo_prep': self.tiempo_prep
+            'tiempo_prep': self.tiempo_prep,
+            'id_lista_bebidas': self.id_lista_bebidas
             
 
         }
         
         return dict
     
-    def pasos_receta(self):
-        posiciones = [self.bebida_1,self.bebida_2,self.bebida_3,self.bebida_4,self.bebida_5,self.bebida_6,self.bebida_7,self.bebida_8,self.bebida_9,self.bebida_10]
-        cantidades = [self.cant_1,self.cant_2,self.cant_3,self.cant_4,self.cant_5,self.cant_6,self.cant_7,self.cant_8,self.cant_9,self.cant_10]
-
-        data = {
-            'posiciones': posiciones,
-            'cantidades': cantidades
-        }
-
-        return data

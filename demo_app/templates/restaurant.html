@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
 
     <!-- Site Metas -->
-    <title>Food Funday Restaurant - One page HTML Responsive</title>
+    <title>Kukitas Bar - Demo </title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -71,6 +71,8 @@
                                     <li class="active"><a href="#banner">Home</a></li>
                                     
                                     <li><a href="#menu">Menu</a></li>
+
+                                    <li><a href="#bebidas">Bebidas</a></li>
                                     
                                     <li><a href="#gallery">Gallery</a></li>
                                     
@@ -381,7 +383,262 @@
     </div>
     <!-- end menu -->
 
-   
+    <div id="menu" class="menu-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+    
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title text-center">
+						Menú
+					</h2>
+                        <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. </p>
+                    </div>
+
+
+                    <!-- Inicio Popup-->
+                    <div class="popup" id="popup">
+
+                        <div class="cuadro-popup">
+                            <h2 class="letras-popup">Tu <span id="drink-name"></span> estará lista en un par de minutos!!!</h2>
+                        </div>
+                        <img src="../static/images/Saludo.gif" style="margin-top: 70px; height: 300px;">
+                        <h2 class="letras-npopup">Cómo podemos llamarte?</h2>
+
+                        <div class="pruban">
+                            <div class="input-wrapper">
+                                <input autocomplete="off" class="input" type="text" id="name" placeholder="Escribe tu nombre" oninput="validateInput()" />
+                                <label class="label" for="name">
+                                  Escribe tu nombre aquí
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="reserve-book-btn text-center">
+                                <div class="para-botones">
+                                    <button class="hvr-underline-from-center"  id="order-btn" disabled onclick="closePopup()">ORDENAR </button>
+                                    <button class="hvr-underline-from-center cancel-btn" type="button" onclick="cancelOrder()">CANCELAR</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                
+                    </div>
+                    <!-- Fin Popup-->
+                    
+                    <div class="tab-menu">
+                        <div class="slider slider-nav">
+                            <div class="tab-title-menu">
+                                <h2>CÓCTELES SUAVES</h2>
+                                <p> <i class="fi fi-ts-glass-citrus" style="font-size: 50px;"></i> </p>
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>CÓCTELES FUERTES</h2>
+                                <p> <i class="fi fi-ts-martini-glass-citrus" style="font-size: 50px;"></i> </p>
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>CERVEZAS</h2>
+                                <p> <i class="fi fi-rs-beer" style="font-size: 50px;"></i> </p>
+                            </div>
+                            <div class="tab-title-menu">
+                                <h2>NO ALCOHÓLICAS</h2>
+                                <p> <i class="fi fi-tr-drink-alt" style="font-size: 50px;"></i> </p>
+                            </div>
+                        </div>
+
+                        <div class="slider slider-single">
+                            <div class="items-menu">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/mojito.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>MOJITO </h3>
+                                            <h2>
+                                                Ron blanco, jugo de limón, esencia de menta
+                                            </h2>
+                                        </div>
+                                        <button class="offer-price" onclick="openPopup('MOJITO')">Pedir aquí</button>
+                                    </div>
+                                </div>
+
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/daiquiri.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>DAIQUIRI</h3>
+                                            <h2>
+                                                Ron blanco, jugo de limón, jarabe de azucar
+                                            </h2>
+                                        </div>
+                                        <button class="offer-price" onclick="openPopup('DAIQUIRI')">Pedir aquí</button>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/pina-colada.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>PIÑA COLADA</h3>
+                                            <h2>
+                                                Ron blanco, jugo de piña, crema de coco
+                                        </h2>
+                                        </div>
+                                        <button class="offer-price" onclick="openPopup('PIÑA COLADA')">Pedir aquí</button>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/caipirinha.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CAIPIRINHA</h3>
+                                            <h2>
+                                                Cachaça, jugo de limón, jarabe de azucar
+                                        </h2>
+                                        </div>
+                                        <button class="offer-price" onclick="openPopup('CAIPIRINHA')">Pedir aquí</button>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-04.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>MEAT FEAST PIZZA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-05.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$15</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-06.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>SPICY MEATBALLS</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$6.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-07.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHOCOLATE FUDGECAKE</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$4.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-08.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$9.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-09.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$10</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-10.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>MEAT FEAST PIZZA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$12.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-09.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$9.5</span>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <div class="offer-item">
+                                        <img src="../static/images/menu-item-thumbnail-08.jpg" alt="" class="img-responsive">
+                                        <div>
+                                            <h3>CHICKEN TIKKA MASALA</h3>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                            </p>
+                                        </div>
+                                        <span class="offer-price">$5.5</span>
+                                    </div>
+                                </div>
+
+                                <!-- end col -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end tab-menu -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+
+    </div>
+    <!-- end menu -->
 
 
     <div id="gallery" class="gallery-main pad-top-100 pad-bottom-100">

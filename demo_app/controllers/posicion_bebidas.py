@@ -2,6 +2,7 @@ from flask import render_template, redirect, session, request, flash, jsonify, m
 import json
 from demo_app import app
 from demo_app.models.posicion_bebidas import posicion_bebidas
+from demo_app.models.cantidad_bebidas import cantidad
 from flask_bcrypt import Bcrypt
 import datetime
 bcrypt = Bcrypt(app)
@@ -12,7 +13,14 @@ bebidas_id = 0
 @app.route('/bebida/posicion/create',methods=['POST'])
 def create_bebida_pos():
     print("creando una lista de bebidas")
-    data = {
+    f = open("bebida_id.txt", "r")
+    bebidas_id = f.read()
+    print(bebidas_id)
+    if bebidas_id == '' or bebidas_id == '0':
+        bebidas_id = 0
+    else:
+        bebidas_id = int(bebidas_id)
+    data1 = {
         'Pos_1': request.form["Pos_1"],
         'Pos_2': request.form["Pos_2"],
         'Pos_3': request.form['Pos_3'],
@@ -41,20 +49,78 @@ def create_bebida_pos():
         'Pos_26': '',
         'Pos_27': '',
         'nombre': request.form['nombre'],
-        'id_lista_bebidas': request.form['id_lista_bebidas']
+        'id_lista_bebidas': bebidas_id
 
     }
+    
     sv_data = posicion_bebidas.get_all()
     for beb in sv_data:
-        if beb.nombre == data['nombre']:
+        if beb.nombre == data1['nombre']:
             return jsonify(error=400, text='Estas repitiendo nombre'), 400
-        elif beb.id_lista_bebidas == data['id_lista_bebidas']:
+        elif beb.id_lista_bebidas == data1['id_lista_bebidas']:
             return jsonify(error=400, text='Estas repitiendo id_lista_bebidas'), 400
         else: 
             continue
-    print("Data: ", data)  
-    id = posicion_bebidas.save(data)
     
+    posicion_bebidas.save(data1)
+
+    search = {
+        'nombre':data1['nombre']
+    }
+
+    id = posicion_bebidas.get_by_name(search)
+    cantidades = []
+    for i in range(24):
+        y = 'cant_'+str(i+1)
+        x = request.form[y]
+        if x == 0 or x =='':
+            cantidades.append(0)
+        else:
+            cantidades.append(x)
+    
+    print(cantidades)
+
+
+    data2 = {
+        'cant_1': cantidades[0],
+        'cant_2': cantidades[1],
+        'cant_3': cantidades[2],
+        'cant_4': cantidades[3],
+        'cant_5': cantidades[4],
+        'cant_6': cantidades[5],
+        'cant_7': cantidades[6],
+        'cant_8': cantidades[7],
+        'cant_9': cantidades[8],
+        'cant_10': cantidades[9],
+        'cant_11': cantidades[10],
+        'cant_12': cantidades[11],
+        'cant_13': cantidades[12],
+        'cant_14': cantidades[13],
+        'cant_15': cantidades[14],
+        'cant_16': cantidades[15],
+        'cant_17': cantidades[16],
+        'cant_18': cantidades[17],
+        'cant_19': cantidades[18],
+        'cant_20': cantidades[19],
+        'cant_21': cantidades[20],
+        'cant_22': cantidades[21],
+        'cant_23': cantidades[22],
+        'cant_24': cantidades[23],
+        'cant_25': 0,
+        'cant_26': 0,
+        'cant_27': 0,
+        'id_posicion_bebidas' : id.id_posicion_bebidas
+        
+    }
+    
+    sv_data2 = cantidad.get_all()
+    for cant in sv_data2:
+        if cant.id_posicion_bebidas == data2['id_posicion_bebidas']:
+            return jsonify(error=400, text='Estas repitiendo id_posicion_bebidas'), 400
+        else: 
+            continue
+    cantidad.save(data2)
+    f.close()
     return redirect('/bebida')
 
 @app.route('/bebida/posicion/get-all')
