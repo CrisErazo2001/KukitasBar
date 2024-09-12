@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
+
+    <!-- Site Metas -->
+    <title>Kukitas Bar - Demo </title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="../static/images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <!-- Site CSS -->
+    
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/styles_botellas.css">
+
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="../static/css/responsive.css">
+    <!-- color -->
+    <link id="changeable-colors" rel="stylesheet" href="../static/css/colors/orange.css" />
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.5.1/uicons-thin-straight/css/uicons-thin-straight.css'>
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.5.1/uicons-thin-straight/css/uicons-thin-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+    <!-- Modernizer -->
+    <script src="../static/js/modernizer.js"></script>
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="site-header">
+        <header id="header" class="header-block-top">
+            <div class="container">
+                <div class="row">
+                    <div class="main-menu">
+                        <!-- navbar -->
+                        <nav class="navbar navbar-default" id="mainNav">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <div class="logo">
+                                    <a class="navbar-brand js-scroll-trigger logo-header" href="#">
+                                        <img src="../static/images/LOGO-BAR.png" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="navbar" class="navbar-collapse collapse">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="active"><a href="#banner">Home</a></li>
+
+                                    <li><a href="/#menu">Menu</a></li>
+
+                                    <li><a href="/bebida">Bebidas</a></li>
+
+                                    <li><a href="/#gallery">Gallery</a></li>
+
+                                    <li><a href="/#pricing">pricing</a></li>
+                                    <!-- 
+                                    <li><a href="#reservation">Reservaion</a></li>
+                                    -->
+                                    <li><a href="/#about">About us</a></li>
+                                    <!--
+                                    <li><a href="#footer">Contact us</a></li>
+                                    -->
+                                </ul>
+                            </div>
+                            <!-- end nav-collapse -->
+                        </nav>
+                        <!-- end navbar -->
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container-fluid -->
+        </header>
+        <!-- end header -->
+    </div>
+    <!-- end site-header -->
+    <div class='gallery-main pad-top-100 pad-bottom-100'>
+
+
+        <div class="box-principal">
+
+            <div class="tabs">
+                <div class="tab-container">
+
+                    <div id="tab3" class="tab">
+                        <!-- <li><a href="#tab3">Crear Bebidas</a></li> -->
+                        <a href="#tab3">Crear Bebidas</a>
+                        <div class="tab-content">
+                            <div class="tab-dos">
+
+                            </div>
+                            <h2>Ingresar Receta</h2>
+                            <form action="/receta/create" method="post" class="data">
+                                <div class="form-group">
+                                    <label for="nombre" class="to-selector">
+                                        <input type="text" placeholder="Nombre de receta" class="input-css"
+                                            name="nombre" aria-describedby="textHelp">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_1" class="to-selector">
+                                        <select name="bebida_1" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_2" class="to-selector">
+                                        <select name="bebida_2" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_3" class="to-selector">
+                                        <select name="bebida_3" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_4" class="to-selector">
+                                        <select name="bebida_4" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_5" class="to-selector">
+                                        <select name="bebida_5" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_6" class="to-selector">
+                                        <select name="bebida_6" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bebida_7" class="to-selector">
+                                        <select name="bebida_7" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bebida_8" class="to-selector">
+                                        <select name="bebida_8" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bebida_9" class="to-selector">
+                                        <select name="bebida_9" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_10" class="to-selector">
+                                        <select name="bebida_10" class="select-css-2">
+                                            {% for o in bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_1" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 1" class="input-css"
+                                            name="cant_1" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_2" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 2" class="input-css"
+                                            name="cant_2" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_3" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 3" class="input-css"
+                                            name="cant_3" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_4" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 4" class="input-css"
+                                            name="cant_4" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_5" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 5" class="input-css"
+                                            name="cant_5" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_6" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 6" class="input-css"
+                                            name="cant_6" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_7" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 7" class="input-css"
+                                            name="cant_7" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_8" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 8" class="input-css"
+                                            name="cant_8" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_9" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 9" class="input-css"
+                                            name="cant_9" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cant_10" class="to-selector">
+                                        <input type="text" placeholder="Cantidad Bebida 9" class="input-css"
+                                            name="cant_10" aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tiempo_prep" class="to-selector">
+                                        <input type="text" placeholder="Tiempo de Preparacion" class="input-css"
+                                            name="tiempo_prep" aria-describedby="text">
+                                    </label>
+                                </div>
+
+                                <input type="submit" value="Crear Receta" class="botonera-normal">
+
+                            </form>
+                            <h1>Seleccionar Bebida</h1>
+                            <form action="/receta/generar-posiciones" method="POST" class="data">
+
+                                <div class="form-group">
+                                    <label for="nombre" class="to-selector">
+                                        <select name="nombre" class="select-css">
+                                            {% for o in recetas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <input type="submit" value="Enviar" class="botonera-normal">
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="tab2" class="tab">
+                        <a href="#tab2">Distribución de botellas</a>
+
+
+                        <div class="tab-content">
+
+                            <div class="hola">
+                                <h1>Distribución de Botellas</h1>
+                            </div>
+
+                            <div class="button-container">
+                                <!-- Columna C y D -->
+                                <div class="column-container">
+                                    <!-- Columna C -->
+                                    <div class="button-column">
+                                        <button class="n-button" id="C6">C6</button>
+                                        <button class="n-button" id="C5">C5</button>
+                                        <button class="n-button" id="C4">C4</button>
+                                        <button class="n-button" id="C3">C3</button>
+                                        <button class="n-button" id="C2">C2</button>
+                                        <button class="n-button" id="C1">C1</button>
+                                    </div>
+
+                                    <!-- Columna D -->
+                                    <div class="button-column">
+                                        <button class="n-button" id="D6">D6</button>
+                                        <button class="n-button" id="D5">D5</button>
+                                        <button class="n-button" id="D4">D4</button>
+                                        <button class="n-button" id="D3">D3</button>
+                                        <button class="n-button" id="D2">D2</button>
+                                        <button class="n-button" id="D1">D1</button>
+                                    </div>
+                                </div>
+                                <!-- Fila B -->
+                                <div class="button-row">
+                                    <button class="n-button" id="B6">B6</button>
+                                    <button class="n-button" id="B5">B5</button>
+                                    <button class="n-button" id="B4">B4</button>
+                                    <button class="n-button" id="B3">B3</button>
+                                    <button class="n-button" id="B2">B2</button>
+                                    <button class="n-button" id="B1">B1</button>
+                                </div>
+                                <!-- Fila A -->
+                                <div class="button-row">
+                                    <button class="n-button" id="A6">A6</button>
+                                    <button class="n-button" id="A5">A5</button>
+                                    <button class="n-button" id="A4">A4</button>
+                                    <button class="n-button" id="A3">A3</button>
+                                    <button class="n-button" id="A2">A2</button>
+                                    <button class="n-button" id="A1">A1</button>
+                                </div>
+
+                            </div>
+                            <form action="/bebida/posicion/create" method="post" class="data">
+                                <div class="container">
+                                    <div class="column">
+                                        <h2>Disposición</h2>
+                                        <div class="form-group">
+                                            <label for="nombre" class="form-label">
+                                                <input type="text" placeholder="Nombre de conjunto" class="input-css"
+                                                    name="nombre" aria-describedby="textHelp">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_1" class="form-label">
+                                                <select name="Pos_1" class="select-css-2">
+                                                    <option value="" disabled selected>A1</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_2" class="form-label">
+                                                <select name="Pos_2" class="select-css-2">
+                                                    <option value="" disabled selected>A2</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_3" class="form-label">
+                                                <select name="Pos_3" class="select-css-2">
+                                                    <option value="" disabled selected>A3</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_4" class="form-label">
+                                                <select name="Pos_4" class="select-css-2">
+                                                    <option value="" disabled selected>A4</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_5" class="form-label">
+                                                <select name="Pos_5" class="select-css-2">
+                                                    <option value="" disabled selected>A5</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_6" class="form-label">
+                                                <select name="Pos_6" class="select-css-2">
+                                                    <option value="" disabled selected>A6</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Pos_7" class="form-label">
+                                                <select name="Pos_7" class="select-css-2">
+                                                    <option value="" disabled selected>B1</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Pos_8" class="form-label">
+                                                <select name="Pos_8" class="select-css-2">
+                                                    <option value="" disabled selected>B2</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Pos_9" class="form-label">
+                                                <select name="Pos_9" class="select-css-2">
+                                                    <option value="" disabled selected>B3</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_10" class="form-label">
+                                                <select name="Pos_10" class="select-css-2">
+                                                    <option value="" disabled selected>B4</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_11" class="form-label">
+                                                <select name="Pos_11" class="select-css-2">
+                                                    <option value="" disabled selected>B5</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_12" class="form-label">
+                                                <select name="Pos_12" class="select-css-2">
+                                                    <option value="" disabled selected>B6</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_13" class="form-label">
+                                                <select name="Pos_13" class="select-css-2">
+                                                    <option value="" disabled selected>c1</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_14" class="form-label">
+                                                <select name="Pos_14" class="select-css-2">
+                                                    <option value="" disabled selected>C2</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_15" class="form-label">
+                                                <select name="Pos_15" class="select-css-2">
+                                                    <option value="" disabled selected>C3</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_16" class="form-label">
+                                                <select name="Pos_16" class="select-css-2">
+                                                    <option value="" disabled selected>C4</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_17" class="form-label">
+                                                <select name="Pos_17" class="select-css-2">
+                                                    <option value="" disabled selected>C5</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_18" class="form-label">
+                                                <select name="Pos_18" class="select-css-2">
+                                                    <option value="" disabled selected>C6</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_19" class="form-label">
+                                                <select name="Pos_19" class="select-css-2">
+                                                    <option value="" disabled selected>D1</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_20" class="form-label">
+                                                <select name="Pos_20" class="select-css-2">
+                                                    <option value="" disabled selected>D2</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_21" class="form-label">
+                                                <select name="Pos_21" class="select-css-2">
+                                                    <option value="" disabled selected>D3</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_22" class="form-label">
+                                                <select name="Pos_22" class="select-css-2">
+                                                    <option value="" disabled selected>D4</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_23" class="form-label">
+                                                <select name="Pos_23" class="select-css-2">
+                                                    <option value="" disabled selected>D5</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Pos_24" class="form-label">
+                                                <select name="Pos_24" class="select-css-2">
+                                                    <option value="" disabled selected>D6</option>
+                                                    {% for o in bebidas %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <h2>Contenido</h2>
+                                        <div class="form-group">
+                                            <label for="cant_1" class="form-label">
+                                                <input type="text" placeholder="A1" class="input-css" name="cant_1"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_2" class="form-label">
+                                                <input type="text" placeholder="A2" class="input-css" name="cant_2"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_3" class="form-label">
+                                                <input type="text" placeholder="A3" class="input-css" name="cant_3"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_4" class="form-label">
+                                                <input type="text" placeholder="A4" class="input-css" name="cant_4"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_5" class="form-label">
+                                                <input type="text" placeholder="A5" class="input-css" name="cant_5"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_6" class="form-label">
+                                                <input type="text" placeholder="A6" class="input-css" name="cant_6"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="cant_7" class="form-label">
+                                                <input type="text" placeholder="B1" class="input-css" name="cant_7"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="cant_8" class="form-label">
+                                                <input type="text" placeholder="B2" class="input-css" name="cant_8"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="cant_9" class="form-label">
+                                                <input type="text" placeholder="B3" class="input-css" name="cant_9"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_10" class="form-label">
+                                                <input type="text" placeholder="B4" class="input-css" name="cant_10"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_11" class="form-label">
+                                                <input type="text" placeholder="B5" class="input-css" name="cant_11"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_12" class="form-label">
+                                                <input type="text" placeholder="B6" class="input-css" name="cant_12"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_13" class="form-label">
+                                                <input type="text" placeholder="C1" class="input-css" name="cant_13"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_14" class="form-label">
+                                                <input type="text" placeholder="C2" class="input-css" name="cant_14"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_15" class="form-label">
+                                                <input type="text" placeholder="C3" class="input-css" name="cant_15"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_16" class="form-label">
+                                                <input type="text" placeholder="C4" class="input-css" name="cant_16"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_17" class="form-label">
+                                                <input type="text" placeholder="C5" class="input-css" name="cant_17"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_18" class="form-label">
+                                                <input type="text" placeholder="C6" class="input-css" name="cant_18"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_19" class="form-label">
+                                                <input type="text" placeholder="D1" class="input-css" name="cant_19"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_20" class="form-label">
+                                                <input type="text" placeholder="D2" class="input-css" name="cant_20"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_21" class="form-label">
+                                                <input type="text" placeholder="D3" class="input-css" name="cant_21"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_22" class="form-label">
+                                                <input type="text" placeholder="D4" class="input-css" name="cant_22"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_23" class="form-label">
+                                                <input type="text" placeholder="D5" class="input-css" name="cant_23"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cant_24" class="form-label">
+                                                <input type="text" placeholder="D6" class="input-css" name="cant_24"
+                                                    aria-describedby="text">
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <input type="submit" value="Guardar Distribución de botellas" class="botonera-normal">
+
+                            </form>
+                            <!-- End button-box -->
+
+                        </div>
+                        <!-- End tab-content -->
+                    </div>
+                    <div id="tab1" class="tab">
+                        <a href="#tab1">Crear Listado de Bebidas</a>
+                        <div class="tab-content">
+                            <div class="tab-dos">
+
+                            </div>
+                            <h1>Crear Listado de bebidas</h1>
+
+                            <form action="/bebidas/create" method="POST" class="data">
+                                <div class="form-group">
+                                    <label for="nombre" class="to-selector">
+                                        <input type="text" placeholder="Nombre del listado de bebidas" class="input-css"
+                                            name="nombre" aria-describedby="textHelp">
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bebida_1" class="to-selector">
+                                        <input type="text" placeholder="Bebida 1" class="input-css" name="bebida_1"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_2" class="to-selector">
+                                        <input type="text" placeholder="Bebida 2" class="input-css" name="bebida_2"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_3" class="to-selector">
+                                        <input type="text" placeholder="Bebida 3" class="input-css" name="bebida_3"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_4" class="to-selector">
+                                        <input type="text" placeholder="Bebida 4" class="input-css" name="bebida_4"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_5" class="to-selector">
+                                        <input type="text" placeholder="Bebida 5" class="input-css" name="bebida_5"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_6" class="to-selector">
+                                        <input type="text" placeholder="Bebida 6" class="input-css" name="bebida_6"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bebida_7" class="to-selector">
+                                        <input type="text" placeholder="Bebida 7" class="input-css" name="bebida_7"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bebida_8" class="to-selector">
+                                        <input type="text" placeholder="Bebida 8" class="input-css" name="bebida_8"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bebida_9" class="to-selector">
+                                        <input type="text" placeholder="Bebida 9" class="input-css" name="bebida_9"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_10" class="to-selector">
+                                        <input type="text" placeholder="Bebida 10" class="input-css" name="bebida_10"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_11" class="to-selector">
+                                        <input type="text" placeholder="Bebida 11" class="input-css" name="bebida_11"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebida_12" class="to-selector">
+                                        <input type="text" placeholder="Bebida 12" class="input-css" name="bebida_12"
+                                            aria-describedby="text">
+                                    </label>
+                                </div>
+
+
+                                <input type="submit" value="Crear Lista" class="botonera-normal">
+
+                            </form>
+                            <h1>Seleccionar lista de bebidas</h1>
+                            <form action="/bebida/define-lista-global" method="POST" class="data">
+
+                                <div class="form-group">
+                                    <label for="nombre" class="to-selector">
+                                        <select name="nombre" class="select-css">
+                                            {% for o in lista_bebidas %}
+                                            <option value="{{ o }}">{{ o }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <input type="submit" value="Seleccionar" class="botonera-normal">
+                            </form>
+
+                            <!-- End botonera -->
+
+                        </div>
+                    </div>
+                    <!-- End tab-content -->
+                </div>
+                <!-- End tab-container -->
+            </div>
+            <!-- End tabs -->
+        </div><!-- End box-principal -->
+    </div>
+
+
+</body>
+
+</html>

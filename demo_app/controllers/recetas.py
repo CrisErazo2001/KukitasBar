@@ -241,7 +241,7 @@ def generar_posicion_receta():
 
 
 
-    return redirect('/bebida#tab3')
+    return redirect('/')
 
 
 

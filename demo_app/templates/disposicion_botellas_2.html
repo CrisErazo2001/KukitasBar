@@ -70,6 +70,9 @@
 
         <div class="tabs">
             <div class="tab-container">
+                <div id="tab4" class="tab">
+                    <a href="/">Home</a>
+                </div>
 
                 <div id="tab3" class="tab">
                     <a href="#tab3">Crear Bebidas</a>
@@ -248,20 +251,7 @@
                             <input type="submit" value="Crear Receta" class="botonera-normal">
 
                         </form>
-                        <h1>Seleccionar Bebida</h1>
-                        <form action="/receta/generar-posiciones" method="POST" class="data">
-
-                            <div class="form-group">
-                                <label for="nombre" class="to-selector">
-                                    <select name="nombre" class="select-css">
-                                        {% for o in recetas %}
-                                        <option value="{{ o }}">{{ o }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </label>
-                            </div>
-                            <input type="submit" value="Enviar" class="botonera-normal">
-                        </form>
+                        
                     </div>
                 </div>
 
