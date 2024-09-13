@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botones con Formularios POST</title>
+</head>
+
+<body>
+    <h1>Presiona un botón para enviar datos</h1>
+
+    <div>
+        {% for button in buttons %}
+        <form method="POST">
+            <input type="hidden" name="button_value" value="{{ button }}">
+            <button type="submit">{{ button }}</button>
+        </form>
+        {% endfor %}
+    </div>
+
+    <h1>Datos en Tabla</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.edad }}</td>
+                <td>{{ item.ciudad }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

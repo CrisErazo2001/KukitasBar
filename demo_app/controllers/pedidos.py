@@ -2,7 +2,7 @@ from flask import render_template, redirect, session, request, flash, jsonify, m
 import json
 from demo_app import app
 from demo_app.models.pedido import pedido
-from demo_app.models.posicion_bebidas import bebida
+from demo_app.models.posicion_bebidas import posicion_bebidas
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import requests
@@ -125,4 +125,16 @@ def update_pedido_by_id():
     result = pedido.update_by_id(data)
     print(result)
     return redirect('/pedido')
+
+
+
+@app.route('/pedidos',methods=['GET'])
+def pedidos():
+
+    data = [
+        {"nombre": "Juan", "tiempo": 30},
+        {"nombre": "Ana", "tiempo": 25},
+        {"nombre": "Luis", "tiempo": 28},
+    ]
+    return render_template('pantalla_espera.html',data = data,nombre_cliente_actual='mateo',nombre_bebida='nombre',lista_ingredientes='ingredientes')
 
