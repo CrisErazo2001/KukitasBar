@@ -20,65 +20,74 @@ def create_bebida_pos():
         bebidas_id = 0
     else:
         bebidas_id = int(bebidas_id)
+    
+    posiciones = []
+    cantidades = []
+    for i in range(24):
+        aux_pos = 'Pos_'+str(i+1)
+        aux_cant = 'cant_'+str(i+1)
+        aux_list_pos = request.form[aux_pos]
+        aux_list_cant = request.form[aux_cant]
+        if aux_list_pos != '' and aux_list_cant != '':
+            if not aux_list_cant.isnumeric():
+                return jsonify(error=400, text='Tu cantidad no es un numero'), 400
+            elif aux_list_cant == '0':
+                return jsonify(error=400, text='Tu cantidad no puede ser 0'), 400
+            else:
+                posiciones.append(aux_list_pos) 
+                cantidades.append(aux_list_cant)
+        elif aux_list_pos == '' and aux_list_cant == '':
+            posiciones.append('') 
+            cantidades.append(0)
+        elif aux_list_pos != '' and aux_list_cant == '':
+            return jsonify(error=400, text='Tienes una bebida sin cantidad'), 400
+        elif aux_list_pos == '' and aux_list_cant != '':
+            return jsonify(error=400, text='Tienes una cantidad sin bebida'), 400
+        
     data1 = {
-        'Pos_1': request.form["Pos_1"],
-        'Pos_2': request.form["Pos_2"],
-        'Pos_3': request.form['Pos_3'],
-        'Pos_4': request.form['Pos_4'],
-        'Pos_5': request.form['Pos_5'],
-        'Pos_6': request.form['Pos_6'],
-        'Pos_7': request.form['Pos_7'],
-        'Pos_8': request.form['Pos_8'],
-        'Pos_9': request.form['Pos_9'],
-        'Pos_10': request.form['Pos_10'],
-        'Pos_11': request.form['Pos_11'],
-        'Pos_12': request.form['Pos_12'],
-        'Pos_13': request.form['Pos_13'],
-        'Pos_14': request.form['Pos_14'],
-        'Pos_15': request.form['Pos_15'],
-        'Pos_16': request.form['Pos_16'],
-        'Pos_17': request.form['Pos_17'],
-        'Pos_18': request.form['Pos_18'],
-        'Pos_19': request.form['Pos_19'],
-        'Pos_20': request.form['Pos_20'],
-        'Pos_21': request.form['Pos_21'],
-        'Pos_22': request.form['Pos_22'],
-        'Pos_23': request.form['Pos_23'],
-        'Pos_24': request.form['Pos_24'],
+        'Pos_1': posiciones[0],
+        'Pos_2': posiciones[1],
+        'Pos_3': posiciones[2],
+        'Pos_4': posiciones[3],
+        'Pos_5': posiciones[4],
+        'Pos_6': posiciones[5],
+        'Pos_7': posiciones[6],
+        'Pos_8': posiciones[7],
+        'Pos_9': posiciones[8],
+        'Pos_10': posiciones[9],
+        'Pos_11': posiciones[10],
+        'Pos_12': posiciones[11],
+        'Pos_13': posiciones[12],
+        'Pos_14': posiciones[13],
+        'Pos_15': posiciones[14],
+        'Pos_16': posiciones[15],
+        'Pos_17': posiciones[16],
+        'Pos_18': posiciones[17],
+        'Pos_19': posiciones[18],
+        'Pos_20': posiciones[19],
+        'Pos_21': posiciones[20],
+        'Pos_22': posiciones[21],
+        'Pos_23': posiciones[22],
+        'Pos_24': posiciones[23],
         'Pos_25': '',
         'Pos_26': '',
         'Pos_27': '',
-        'nombre': request.form['nombre'],
+        'nombre': '',
         'id_lista_bebidas': bebidas_id
 
     }
     
     sv_data = posicion_bebidas.get_all()
     for beb in sv_data:
-        if beb.nombre == data1['nombre']:
-            return jsonify(error=400, text='Estas repitiendo nombre'), 400
-        elif beb.id_lista_bebidas == data1['id_lista_bebidas']:
+        if beb.id_lista_bebidas == data1['id_lista_bebidas']:
             return jsonify(error=400, text='Estas repitiendo id_lista_bebidas'), 400
         else: 
             continue
     
     posicion_bebidas.save(data1)
 
-    search = {
-        'nombre':data1['nombre']
-    }
-
-    id = posicion_bebidas.get_by_name(search)
-    cantidades = []
-    for i in range(24):
-        y = 'cant_'+str(i+1)
-        x = request.form[y]
-        if x == 0 or x =='':
-            cantidades.append(0)
-        else:
-            cantidades.append(x)
-    
-    print(cantidades)
+    id = posicion_bebidas.get_all()
+    id = id[len(id)-1]
 
 
     data2 = {

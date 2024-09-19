@@ -108,11 +108,10 @@ def generar_posicion_receta(id_receta):
         
 
         while c > cant[z]:
-            print('c: ',c)
-            print('cant[z]: ',cant[z])
             aux[pos] = 'Siguiente'
             pos = aux.index(bebida[x])
             z = 'cant_'+str(pos)
+
         print('aux: ',aux)
 
         if bebida[x] == '':
@@ -145,7 +144,7 @@ def webSocket_connection():
 
 @app.route('/receta/create',methods=['POST'])
 def create_receta():
-    print("creando una receta")
+    
     f = open("bebida_id.txt", "r")
     bebidas_id = f.read()
     print(bebidas_id)
@@ -153,29 +152,53 @@ def create_receta():
         bebidas_id = 0
     else:
         bebidas_id = int(bebidas_id)
+    bebidas = []
     cantidades = []
     for i in range(10):
-        y = 'cant_'+str(i+1)
-        x = request.form[y]
-        if x =='':
+        aux_bebida = 'bebida_'+str(i+1)
+        aux_cant = 'cant_'+str(i+1)
+        aux_list_bebida = request.form[aux_bebida]
+        aux_list_cant = request.form[aux_cant]
+        if aux_list_bebida != '' and aux_list_cant != '':
+            if not aux_list_cant.isnumeric():
+                return jsonify(error=400, text='Tu cantidad no es un numero'), 400
+            elif aux_list_cant == 0:
+                return jsonify(error=400, text='Tu cantidad no puede ser 0'), 400
+            else:
+                bebidas.append(aux_list_bebida) 
+                cantidades.append(aux_list_cant)
+        elif aux_list_bebida == '' and aux_list_cant == '':
+            bebidas.append('') 
             cantidades.append(0)
-        else:
-            cantidades.append(x)
+        elif aux_list_bebida != '' and aux_list_cant == '':
+            return jsonify(error=400, text='Tienes una bebida sin cantidad'), 400
+        elif aux_list_bebida == '' and aux_list_cant != '':
+            return jsonify(error=400, text='Tienes una cantidad sin bebida'), 400
+    
+    nombre_bebida = request.form["nombre"]
+    if nombre_bebida == '':
+        return jsonify(error=400, text='No tienes nombre'), 400
+    
+    tiempo_prep = request.form["tiempo_prep"]
+    if not tiempo_prep.isnumeric():
+        return jsonify(error=400, text='Tu tiempo no es un numero'), 400
+    elif tiempo_prep == '0':
+        return jsonify(error=400, text='Tu tiempo no puede ser 0'), 400
 
     data = {
             
             'id_lista_bebidas': bebidas_id, 
-            'nombre':request.form["nombre"], 
-            'bebida_1': request.form["bebida_1"],
-            'bebida_2': request.form["bebida_2"],
-            'bebida_3': request.form["bebida_3"],
-            'bebida_4': request.form["bebida_4"], 
-            'bebida_5':  request.form["bebida_5"], 
-            'bebida_6': request.form["bebida_6"],
-            'bebida_7': request.form["bebida_7"],
-            'bebida_8': request.form["bebida_8"],
-            'bebida_9': request.form["bebida_9"],
-            'bebida_10': request.form["bebida_10"],
+            'nombre': nombre_bebida, 
+            'bebida_1': bebidas[0],
+            'bebida_2': bebidas[1],
+            'bebida_3': bebidas[2],
+            'bebida_4': bebidas[3], 
+            'bebida_5': bebidas[4],
+            'bebida_6': bebidas[5],
+            'bebida_7': bebidas[6],
+            'bebida_8': bebidas[7],
+            'bebida_9': bebidas[8],
+            'bebida_10': bebidas[9],
             'cant_1': cantidades[0], 
             'cant_2': cantidades[1], 
             'cant_3': cantidades[2],
@@ -186,7 +209,7 @@ def create_receta():
             'cant_8': cantidades[7],
             'cant_9': cantidades[8],
             'cant_10': cantidades[9],
-            'tiempo_prep': request.form["tiempo_prep"]
+            'tiempo_prep': tiempo_prep
             
         }
 

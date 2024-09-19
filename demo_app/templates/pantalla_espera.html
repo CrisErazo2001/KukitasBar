@@ -20,7 +20,8 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Tiempo de espera</th>
+                            <th>Bebida</th>
+                            <th>Hora de retiro aprox.</th>
 
                         </tr>
                     </thead>
@@ -28,7 +29,8 @@
                         {% for item in data %}
                         <tr>
                             <td>{{ item.nombre }}</td>
-                            <td>{{ item.tiempo }} min</td>
+                            <td>{{ item.bebida }}</td>
+                            <td>{{ item.tiempo }}</td>
 
                         </tr>
                         {% endfor %}

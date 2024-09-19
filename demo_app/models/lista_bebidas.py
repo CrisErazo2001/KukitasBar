@@ -50,16 +50,21 @@ class lista_bebidas:
         query  = "SELECT * FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         print('Result: ',result)
-        if result == False:
-            return []
-        else: 
-            return cls(result[0])
+        if len(result) == 0:
+            result = []
+        else:
+            result = cls(result[0])
+        return result
     @classmethod
     
     def get_by_name(cls, data):
         query  = "SELECT * FROM "+ table_name +" WHERE nombre = %(nombre)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        return cls(result[0])
+        if len(result) == 0:
+            result = []
+        else:
+            result = cls(result[0])
+        return result
     
     @classmethod
     def delete_by_id(cls, data):

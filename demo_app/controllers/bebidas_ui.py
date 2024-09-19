@@ -14,7 +14,7 @@ app.secret_key = 'keep it secret, keep it safe'
 def index():
         f = open("bebida_id.txt", "r+")
         bebidas_id = f.read()
-        print(bebidas_id)
+        
         if bebidas_id == '' or bebidas_id == '0':
             bebidas_id = 0
         else:
@@ -29,7 +29,7 @@ def index():
       
             'id_lista_bebidas': bebidas_id
         }
-        print(data)
+        
         if bebidas_id != 0:
             if lista_bebidas.get_by_id(data) != []:
                 sv_data2 = lista_bebidas.get_by_id(data)
@@ -64,11 +64,9 @@ def index():
             }
             recetas_total.append(aux)
         
-        print(recetas_total)
-
-
+        
+        
         f.close()
-        print(bebidas)
         return render_template('restaurant.html',lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total)
 
 

@@ -82,7 +82,7 @@
                         </div>
 
 
-                        <h1>Ingresar Receta</h1>
+                        <h1>Ingresar Receta: {{lista_bebidas_nombre}}</h1>
 
 
 
@@ -104,6 +104,7 @@
                                     <div class="form-group">
                                         <label for="bebida_1" class="to-selector">
                                             <select name="bebida_1" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -113,6 +114,7 @@
                                     <div class="form-group">
                                         <label for="bebida_2" class="to-selector">
                                             <select name="bebida_2" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -122,6 +124,7 @@
                                     <div class="form-group">
                                         <label for="bebida_3" class="to-selector">
                                             <select name="bebida_3" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -131,6 +134,7 @@
                                     <div class="form-group">
                                         <label for="bebida_4" class="to-selector">
                                             <select name="bebida_4" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -140,6 +144,7 @@
                                     <div class="form-group">
                                         <label for="bebida_5" class="to-selector">
                                             <select name="bebida_5" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -149,6 +154,7 @@
                                     <div class="form-group">
                                         <label for="bebida_6" class="to-selector">
                                             <select name="bebida_6" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -159,6 +165,7 @@
                                     <div class="form-group">
                                         <label for="bebida_7" class="to-selector">
                                             <select name="bebida_7" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -169,6 +176,7 @@
                                     <div class="form-group">
                                         <label for="bebida_8" class="to-selector">
                                             <select name="bebida_8" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -179,6 +187,7 @@
                                     <div class="form-group">
                                         <label for="bebida_9" class="to-selector">
                                             <select name="bebida_9" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -188,6 +197,7 @@
                                     <div class="form-group">
                                         <label for="bebida_10" class="to-selector">
                                             <select name="bebida_10" class="select-css-2">
+                                                <option value="">Selecciona un ingrediente:</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -291,12 +301,13 @@
                     <div class="tab-content">
 
                       
-                        <h1>Distribución de Botellas</h1>
-                    
+                        <h1>Distribución de Botellas: {{lista_bebidas_nombre}}</h1>
+                        
                         <div class="box-general">
                             <div class="button-container">
                                 <!-- Columna C y D -->
                                 <div class="column-container">
+                                    
                                     <!-- Columna C -->
                                     <div class="button-column">
                                         <button class="n-button" id="C6">C6</button>
@@ -309,12 +320,12 @@
     
                                     <!-- Columna D -->
                                     <div class="button-column">
-                                        <button class="n-button" id="D6">D6</button>
-                                        <button class="n-button" id="D5">D5</button>
-                                        <button class="n-button" id="D4">D4</button>
-                                        <button class="n-button" id="D3">D3</button>
-                                        <button class="n-button" id="D2">D2</button>
-                                        <button class="n-button" id="D1">D1</button>
+                                        <button class="n-button" id="D6">D6 </button>
+                                        <button class="n-button" id="D5">D5 </button>
+                                        <button class="n-button" id="D4">D4 </button>
+                                        <button class="n-button" id="D3">D3 </button>
+                                        <button class="n-button" id="D2">D2 </button>
+                                        <button class="n-button" id="D1">D1 </button>
                                     </div>
                                 </div>
                                 <!-- Fila B -->
@@ -344,7 +355,7 @@
 
                         <form action="/bebida/posicion/create" method="post" class="data">
 
-                            <div class="dispo-name">
+                            <!-- <div class="dispo-name">
 
                                 <h3>Nombre del Conjunto</h3>
                                 <div class="form-group">
@@ -353,7 +364,7 @@
                                             name="nombre" aria-describedby="textHelp">
                                     </label>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                             <div class="container">
@@ -364,7 +375,7 @@
                                     <div class="form-group">
                                         <label for="Pos_1" class="form-label">
                                             <select name="Pos_1" class="select-css-2">
-                                                <option value="" disabled selected>A1</option>
+                                                <option value="">A1: {{posicion_bebidas.Pos_1}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -374,7 +385,7 @@
                                     <div class="form-group">
                                         <label for="Pos_2" class="form-label">
                                             <select name="Pos_2" class="select-css-2">
-                                                <option value="" disabled selected>A2</option>
+                                                <option value="">A2: {{posicion_bebidas.Pos_2}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -384,7 +395,7 @@
                                     <div class="form-group">
                                         <label for="Pos_3" class="form-label">
                                             <select name="Pos_3" class="select-css-2">
-                                                <option value="" disabled selected>A3</option>
+                                                <option value="" >A3: {{posicion_bebidas.Pos_3}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -394,7 +405,7 @@
                                     <div class="form-group">
                                         <label for="Pos_4" class="form-label">
                                             <select name="Pos_4" class="select-css-2">
-                                                <option value="" disabled selected>A4</option>
+                                                <option value="" >A4: {{posicion_bebidas.Pos_4}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -404,7 +415,7 @@
                                     <div class="form-group">
                                         <label for="Pos_5" class="form-label">
                                             <select name="Pos_5" class="select-css-2">
-                                                <option value="" disabled selected>A5</option>
+                                                <option value="" >A5: {{posicion_bebidas.Pos_5}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -414,7 +425,7 @@
                                     <div class="form-group">
                                         <label for="Pos_6" class="form-label">
                                             <select name="Pos_6" class="select-css-2">
-                                                <option value="" disabled selected>A6</option>
+                                                <option value="" >A6: {{posicion_bebidas.Pos_6}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -425,7 +436,7 @@
                                     <div class="form-group">
                                         <label for="Pos_7" class="form-label">
                                             <select name="Pos_7" class="select-css-2">
-                                                <option value="" disabled selected>B1</option>
+                                                <option value="" >B1: {{posicion_bebidas.Pos_7}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -436,7 +447,7 @@
                                     <div class="form-group">
                                         <label for="Pos_8" class="form-label">
                                             <select name="Pos_8" class="select-css-2">
-                                                <option value="" disabled selected>B2</option>
+                                                <option value="" >B2: {{posicion_bebidas.Pos_8}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -447,7 +458,7 @@
                                     <div class="form-group">
                                         <label for="Pos_9" class="form-label">
                                             <select name="Pos_9" class="select-css-2">
-                                                <option value="" disabled selected>B3</option>
+                                                <option value="" >B3: {{posicion_bebidas.Pos_9}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -457,7 +468,7 @@
                                     <div class="form-group">
                                         <label for="Pos_10" class="form-label">
                                             <select name="Pos_10" class="select-css-2">
-                                                <option value="" disabled selected>B4</option>
+                                                <option value="" >B4: {{posicion_bebidas.Pos_10}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -467,7 +478,7 @@
                                     <div class="form-group">
                                         <label for="Pos_11" class="form-label">
                                             <select name="Pos_11" class="select-css-2">
-                                                <option value="" disabled selected>B5</option>
+                                                <option value="" >B5: {{posicion_bebidas.Pos_11}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -477,7 +488,7 @@
                                     <div class="form-group">
                                         <label for="Pos_12" class="form-label">
                                             <select name="Pos_12" class="select-css-2">
-                                                <option value="" disabled selected>B6</option>
+                                                <option value="" >B6: {{posicion_bebidas.Pos_12}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -487,7 +498,7 @@
                                     <div class="form-group">
                                         <label for="Pos_13" class="form-label">
                                             <select name="Pos_13" class="select-css-2">
-                                                <option value="" disabled selected>c1</option>
+                                                <option value="" >C1: {{posicion_bebidas.Pos_13}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -497,7 +508,7 @@
                                     <div class="form-group">
                                         <label for="Pos_14" class="form-label">
                                             <select name="Pos_14" class="select-css-2">
-                                                <option value="" disabled selected>C2</option>
+                                                <option value="" >C2: {{posicion_bebidas.Pos_14}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -507,7 +518,7 @@
                                     <div class="form-group">
                                         <label for="Pos_15" class="form-label">
                                             <select name="Pos_15" class="select-css-2">
-                                                <option value="" disabled selected>C3</option>
+                                                <option value="" >C3: {{posicion_bebidas.Pos_15}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -517,7 +528,7 @@
                                     <div class="form-group">
                                         <label for="Pos_16" class="form-label">
                                             <select name="Pos_16" class="select-css-2">
-                                                <option value="" disabled selected>C4</option>
+                                                <option value="" >C4: {{posicion_bebidas.Pos_16}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -527,7 +538,7 @@
                                     <div class="form-group">
                                         <label for="Pos_17" class="form-label">
                                             <select name="Pos_17" class="select-css-2">
-                                                <option value="" disabled selected>C5</option>
+                                                <option value="" >C5: {{posicion_bebidas.Pos_17}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -537,7 +548,7 @@
                                     <div class="form-group">
                                         <label for="Pos_18" class="form-label">
                                             <select name="Pos_18" class="select-css-2">
-                                                <option value="" disabled selected>C6</option>
+                                                <option value="" >C6: {{posicion_bebidas.Pos_18}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -547,7 +558,7 @@
                                     <div class="form-group">
                                         <label for="Pos_19" class="form-label">
                                             <select name="Pos_19" class="select-css-2">
-                                                <option value="" disabled selected>D1</option>
+                                                <option value="" >D1: {{posicion_bebidas.Pos_12}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -557,7 +568,7 @@
                                     <div class="form-group">
                                         <label for="Pos_20" class="form-label">
                                             <select name="Pos_20" class="select-css-2">
-                                                <option value="" disabled selected>D2</option>
+                                                <option value="" >D2: {{posicion_bebidas.Pos_20}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -567,7 +578,7 @@
                                     <div class="form-group">
                                         <label for="Pos_21" class="form-label">
                                             <select name="Pos_21" class="select-css-2">
-                                                <option value="" disabled selected>D3</option>
+                                                <option value="" >D3: {{posicion_bebidas.Pos_21}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -577,7 +588,7 @@
                                     <div class="form-group">
                                         <label for="Pos_22" class="form-label">
                                             <select name="Pos_22" class="select-css-2">
-                                                <option value="" disabled selected>D4</option>
+                                                <option value="" >D4: {{posicion_bebidas.Pos_22}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -587,7 +598,7 @@
                                     <div class="form-group">
                                         <label for="Pos_23" class="form-label">
                                             <select name="Pos_23" class="select-css-2">
-                                                <option value="" disabled selected>D5</option>
+                                                <option value="" >D5: {{posicion_bebidas.Pos_23}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -597,7 +608,7 @@
                                     <div class="form-group">
                                         <label for="Pos_24" class="form-label">
                                             <select name="Pos_24" class="select-css-2">
-                                                <option value="" disabled selected>D6</option>
+                                                <option value="" >D6: {{posicion_bebidas.Pos_24}}</option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -609,148 +620,148 @@
                                     <h3>Contenido</h3>
                                     <div class="form-group">
                                         <label for="cant_1" class="form-label">
-                                            <input type="text" placeholder="A1" class="input-css" name="cant_1"
+                                            <input type="text" placeholder="A1: {{cantidades_bebidas.cant_1}}" class="input-css" name="cant_1"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_2" class="form-label">
-                                            <input type="text" placeholder="A2" class="input-css" name="cant_2"
+                                            <input type="text" placeholder="A2: {{cantidades_bebidas.cant_2}}" class="input-css" name="cant_2"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_3" class="form-label">
-                                            <input type="text" placeholder="A3" class="input-css" name="cant_3"
+                                            <input type="text" placeholder="A3: {{cantidades_bebidas.cant_3}}" class="input-css" name="cant_3"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_4" class="form-label">
-                                            <input type="text" placeholder="A4" class="input-css" name="cant_4"
+                                            <input type="text" placeholder="A4: {{cantidades_bebidas.cant_4}}" class="input-css" name="cant_4"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_5" class="form-label">
-                                            <input type="text" placeholder="A5" class="input-css" name="cant_5"
+                                            <input type="text" placeholder="A5: {{cantidades_bebidas.cant_5}}" class="input-css" name="cant_5"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_6" class="form-label">
-                                            <input type="text" placeholder="A6" class="input-css" name="cant_6"
+                                            <input type="text" placeholder="A6: {{cantidades_bebidas.cant_6}}" class="input-css" name="cant_6"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="cant_7" class="form-label">
-                                            <input type="text" placeholder="B1" class="input-css" name="cant_7"
+                                            <input type="text" placeholder="B1: {{cantidades_bebidas.cant_7}}" class="input-css" name="cant_7"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="cant_8" class="form-label">
-                                            <input type="text" placeholder="B2" class="input-css" name="cant_8"
+                                            <input type="text" placeholder="B2: {{cantidades_bebidas.cant_8}}" class="input-css" name="cant_8"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="cant_9" class="form-label">
-                                            <input type="text" placeholder="B3" class="input-css" name="cant_9"
+                                            <input type="text" placeholder="B3: {{cantidades_bebidas.cant_9}}" class="input-css" name="cant_9"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_10" class="form-label">
-                                            <input type="text" placeholder="B4" class="input-css" name="cant_10"
+                                            <input type="text" placeholder="B4: {{cantidades_bebidas.cant_10}}" class="input-css" name="cant_10"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_11" class="form-label">
-                                            <input type="text" placeholder="B5" class="input-css" name="cant_11"
+                                            <input type="text" placeholder="B5: {{cantidades_bebidas.cant_11}}" class="input-css" name="cant_11"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_12" class="form-label">
-                                            <input type="text" placeholder="B6" class="input-css" name="cant_12"
+                                            <input type="text" placeholder="B6: {{cantidades_bebidas.cant_12}}" class="input-css" name="cant_12"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_13" class="form-label">
-                                            <input type="text" placeholder="C1" class="input-css" name="cant_13"
+                                            <input type="text" placeholder="C1: {{cantidades_bebidas.cant_13}}" class="input-css" name="cant_13"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_14" class="form-label">
-                                            <input type="text" placeholder="C2" class="input-css" name="cant_14"
+                                            <input type="text" placeholder="C2: {{cantidades_bebidas.cant_14}}" class="input-css" name="cant_14"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_15" class="form-label">
-                                            <input type="text" placeholder="C3" class="input-css" name="cant_15"
+                                            <input type="text" placeholder="C3: {{cantidades_bebidas.cant_15}}" class="input-css" name="cant_15"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_16" class="form-label">
-                                            <input type="text" placeholder="C4" class="input-css" name="cant_16"
+                                            <input type="text" placeholder="C4: {{cantidades_bebidas.cant_16}}" class="input-css" name="cant_16"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_17" class="form-label">
-                                            <input type="text" placeholder="C5" class="input-css" name="cant_17"
+                                            <input type="text" placeholder="C5: {{cantidades_bebidas.cant_17}}" class="input-css" name="cant_17"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_18" class="form-label">
-                                            <input type="text" placeholder="C6" class="input-css" name="cant_18"
+                                            <input type="text" placeholder="C6: {{cantidades_bebidas.cant_18}}" class="input-css" name="cant_18"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_19" class="form-label">
-                                            <input type="text" placeholder="D1" class="input-css" name="cant_19"
+                                            <input type="text" placeholder="D1: {{cantidades_bebidas.cant_19}}" class="input-css" name="cant_19"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_20" class="form-label">
-                                            <input type="text" placeholder="D2" class="input-css" name="cant_20"
+                                            <input type="text" placeholder="D2: {{cantidades_bebidas.cant_20}}" class="input-css" name="cant_20"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_21" class="form-label">
-                                            <input type="text" placeholder="D3" class="input-css" name="cant_21"
+                                            <input type="text" placeholder="D3: {{cantidades_bebidas.cant_21}}" class="input-css" name="cant_21"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_22" class="form-label">
-                                            <input type="text" placeholder="D4" class="input-css" name="cant_22"
+                                            <input type="text" placeholder="D4: {{cantidades_bebidas.cant_22}}" class="input-css" name="cant_22"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_23" class="form-label">
-                                            <input type="text" placeholder="D5" class="input-css" name="cant_23"
+                                            <input type="text" placeholder="D5: {{cantidades_bebidas.cant_23}}" class="input-css" name="cant_23"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_24" class="form-label">
-                                            <input type="text" placeholder="D6" class="input-css" name="cant_24"
+                                            <input type="text" placeholder="D6: {{cantidades_bebidas.cant_24}}" class="input-css" name="cant_24"
                                                 aria-describedby="text">
                                         </label>
                                     </div>
