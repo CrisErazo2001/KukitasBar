@@ -82,8 +82,6 @@
                                     <li><a href="#pricing">pricing</a></li>
 
                                     <li><a href="/bebida">Bebidas</a></li>
-
-                                    <li><a href="/pedidos">Pedidos</a></li>
                                     <!-- 
                                     <li><a href="#reservation">Reservaion</a></li>
                                     -->
@@ -120,6 +118,7 @@
                             <div class="book-btn">
                                 <a href="#menu" class="table-btn hvr-underline-from-center">MENÚ</a>
                             </div>
+
                         </div>
                         <!-- end banner-cell -->
                     </div>
@@ -144,9 +143,8 @@
                         <h2 class="block-title text-center">
                             Menú
                         </h2>
-                        <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum
-                            available, but the majority have suffered alteration in some form, by injected humour, or
-                            randomised words which don't look even slightly believable. </p>
+                        <p class="title-caption text-center">Este es el menu de todas las recetas disponibles para la
+                            distribucion de bebidas seleccionada</p>
                     </div>
 
 
@@ -160,30 +158,50 @@
                         <img src="../static/images/Saludo.gif" style="margin-top: 70px; height: 300px;">
                         <h2 class="letras-npopup">Cómo podemos llamarte?</h2>
 
-                        <div class="pruban">
-                            <div class="input-wrapper">
-                                <input autocomplete="off" class="input" type="text" id="name"
-                                    placeholder="Escribe tu nombre" oninput="validateInput()" />
-                                <label class="label" for="name">
-                                    Escribe tu nombre aquí
-                                </label>
-                            </div>
-                        </div>
+                        <!-- Formulario que enviará la bebida seleccionada y el nombre -->
+                        <form action="/pedido/create" method="POST" id="order-form">
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="reserve-book-btn text-center">
-                                <div class="para-botones">
-                                    <button class="hvr-underline-from-center" id="order-btn" disabled
-                                        onclick="closePopup()">ORDENAR </button>
-                                    <button class="hvr-underline-from-center cancel-btn" type="button"
-                                        onclick="cancelOrder()">CANCELAR</button>
-
+                            <div class="pruban">
+                                <div class="input-wrapper">
+                                    
+                                    <label for="nombre_cliente">
+                                        <input autocomplete="off" class="input" type="text" id="nombre_cliente" name="nombre_cliente"
+                                        placeholder="Escribe tu nombre" oninput="validateInput()" />
+                                       
+                                    </label>
                                 </div>
                             </div>
-                        </div>
+
+                            <!-- Campo oculto para enviar el nombre de la bebida seleccionada -->
+                            
+                            <input type="hidden" id="selected-drink" name="nombre_bebida" value="">
+                            
+                            
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="reserve-book-btn text-center">
+
+                                    <!--
+                    <div class="para-botones">
+                        <button class="hvr-underline-from-center" id="order-btn" disabled
+                            onclick="closePopup()">ORDENAR </button>
+                        <button class="hvr-underline-from-center cancel-btn" type="button"
+                            onclick="cancelOrder()">CANCELAR</button>
 
                     </div>
-                    <!-- Fin Popup-->
+                    -->
+                                    <div class="para-botones">
+                                        <!-- Botón de enviar que cierra el popup y envía el formulario -->
+                                        <button class="hvr-underline-from-center" type="submit" value="Enviar"
+                                            id="order-btn" disabled onclick="closePopup()">ORDENAR</button>
+                                        <button class="hvr-underline-from-center cancel-btn" type="button"
+                                            onclick="cancelOrder()">CANCELAR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
 
                     <div class="tab-menu">
                         <div class="slider slider-nav">
@@ -191,14 +209,17 @@
                                 <h2>CÓCTELES</h2>
                                 <p> <i class="fi fi-ts-glass-citrus" style="font-size: 50px;"></i> </p>
                             </div>
-                            <!-- <div class="tab-title-menu">
-                                <h2>CÓCTELES FUERTES</h2>
-                                <p> <i class="fi fi-ts-martini-glass-citrus" style="font-size: 50px;"></i> </p>
-                            </div>
+
                             <div class="tab-title-menu">
                                 <h2>CERVEZAS</h2>
                                 <p> <i class="fi fi-rs-beer" style="font-size: 50px;"></i> </p>
                             </div>
+
+                            <!-- <div class="tab-title-menu">
+                                <h2>CÓCTELES FUERTES</h2>
+                                <p> <i class="fi fi-ts-martini-glass-citrus" style="font-size: 50px;"></i> </p>
+                            </div>
+
                             <div class="tab-title-menu">
                                 <h2>NO ALCOHÓLICAS</h2>
                                 <p> <i class="fi fi-tr-drink-alt" style="font-size: 50px;"></i> </p>
@@ -206,6 +227,7 @@
                         </div>
 
                         <div class="slider slider-single">
+                            <!--
                             <div class="items-menu">
                                 <h1>Seleccionar Bebida</h1>
                                 <form action="/receta/generar-posiciones" method="POST" class="data">
@@ -222,7 +244,50 @@
                                     <input type="submit" value="Enviar" class="botonera-normal">
                                 </form>
                             </div>
+                            -->
+
+                            <!--
+
+                            <div class="items-menu">
+                                <h2 class="block-title text-center">Selecciona una Bebida</h2>
                             
+                                <form action="/receta/generar-posiciones" method="POST" class="data">
+                                    <div class="bebidas-contenedor">
+
+
+                                        {% for o in recetas %}
+                                        <div class="bebida-item">
+                                            <button class="hvr-underline-from-center" onclick="openPopup('Mojito')">Pedir aquí</button>
+                                            <h2 class="block-title text-center">{{ o }}</h2>
+                                  
+                                            <!-- Si necesitas enviar la selección de una bebida al backend, puedes usar un input hidden 
+                                            <input type="radio" name="nombre" value="{{ o }}"> Seleccionar --
+                                            
+                                        </div>
+                                        {% endfor %}
+                                        
+                                    </div>
+                                    <input type="submit" value="Enviar" class="botonera-normal">
+                                </form>
+                            </div>
+                            -->
+
+                            <div class="items-menu">
+                                <h2 class="block-title text-center">Selecciona una Bebida</h2>
+
+                                <div class="bebidas-contenedor">
+                                    {% for o in recetas %}
+                                    <div class="bebida-item">
+                                        <h2 class="block-title text-center">{{ o.nombre }}</h2>
+                                        <h3 class="block-title text-center">{{ o.ingredientes }}</h3>
+                                        <!-- Botón para seleccionar bebida y abrir el popup -->
+                                        <button class="botonera-n" onclick="openPopup('{{ o.nombre }}')">Pedir
+                                            aquí</button>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
                             <!-- <div class="items-menu">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
 
@@ -994,11 +1059,14 @@
     </div>
     <!-- end footer-main -->
 
-    <a href="#" class="scrollup" style="display: none;">Scroll</a>
+    <a href="#menu" class="scrollup">Scroll</a>
+
+
+    <!--
 
     <section id="color-panel" class="close-color-panel">
         <a class="panel-button gray2"><i class="fa fa-cog fa-spin fa-2x"></i></a>
-        <!-- Colors -->
+        <! Colors --
         <div class="segment">
             <h4 class="gray2 normal no-padding">Color Scheme</h4>
             <a title="orange" class="switcher orange-bg"></a>
@@ -1007,6 +1075,7 @@
             <a title="vivid-yellow" class="switcher vivid-yellow-bg"></a>
         </div>
     </section>
+    -->
 
     <!-- ALL JS FILES -->
     <script src="../static/js/all.js"></script>
@@ -1014,6 +1083,7 @@
     <script>
         // Conectar al WebSocket en Node-RED
         const ws = new WebSocket('http://192.168.0.241:1880/ws/data');
+        const refresh = new WebSocket('http://192.168.0.241:1880/ws/refresh');
 
         // Enviar datos a Node-RED
         function enviarDatos() {
@@ -1031,21 +1101,55 @@
             console.error('WebSocket Error: ', error);
         };
 
+        //Inicio WS refresh
+
+        refresh.onmessage = function (event) {
+            console.log('Mensaje recibido desde Node-RED:', event.data);
+            // Si el mensaje es 'refresh', se recarga la página
+            if (event.data === 'true') {
+                location.reload(); // Recarga la página
+            }
+        };
+
+        // Manejar la apertura de la conexión
+        refresh.onopen = function () {
+            console.log('WebSocket conectado');
+        };
+
+        // Manejar errores de la conexión
+        refresh.onerror = function (error) {
+            console.log('WebSocket Error:', error);
+        };
+
+        // Manejar el cierre de la conexión
+        refresh.onclose = function () {
+            console.log('WebSocket desconectado');
+        };
+
+        //Fin WS Refresh
+
         let popup = document.getElementById("popup");
         let selectedDrink = "";
         let orderBtn = document.getElementById("order-btn");
 
         function openPopup(drinkName) {
-            selectedDrink = drinkName;
-            document.getElementById('drink-name').textContent = drinkName;
-            popup.classList.add("open-popup");
+            //selectedDrink = drinkName;
+            //document.getElementById('drink-name').textContent = drinkName;
+            //popup.classList.add("open-popup");
             //ws.send(selectedDrink);
-            console.log(selectedDrink);
+            //console.log(selectedDrink);
 
+            selectedDrink = drinkName;
+            document.getElementById('drink-name').textContent = drinkName; // Mostrar el nombre en el popup
+            document.getElementById('selected-drink').value =
+            drinkName; // Asignar el nombre de la bebida al input hidden
+            popup.classList.add("open-popup");
+            console.log(selectedDrink);
+            ws.send(selectedDrink);
         }
 
         function validateInput() {
-            let nameInput = document.getElementById('name').value;
+            let nameInput = document.getElementById('nombre_cliente').value;
             if (nameInput.trim() !== "") {
                 orderBtn.disabled = false; // Habilitar el botón si el nombre no está vacío
             } else {
@@ -1055,19 +1159,7 @@
 
         function closePopup() {
 
-            //document.getElementById('drink-name').textContent = selectedDrink;
-            //popup.classList.remove("open-popup");
-            //ws.send(selectedDrink);
-
-            // let name = document.getElementById('name').value.trim();
-            // if (name !== "") {
-            //    let orderDetails = `${selectedDrink}-${name}`;
-            //    popup.classList.remove("open-popup");
-            //    ws.send(orderDetails); // Enviar bebida y nombre por WebSocket
-            //    console.log(orderDetails);
-            //}
-
-            let nameInput = document.getElementById('name');
+            let nameInput = document.getElementById('nombre_cliente');
             let name = nameInput.value.trim();
 
             if (name !== "") {
@@ -1075,6 +1167,7 @@
                 popup.classList.remove("open-popup");
                 ws.send(orderDetails); // Enviar bebida y nombre por WebSocket
                 console.log(orderDetails);
+                document.getElementById('order-form').submit(); // Enviar el formulario
 
                 // Limpiar el campo de nombre
                 nameInput.value = "";
@@ -1084,7 +1177,7 @@
 
         function cancelOrder() {
             // Limpiar el campo de nombre
-            let nameInput = document.getElementById('name');
+            let nameInput = document.getElementById('nombre_cliente');
             nameInput.value = "";
 
             // Cerrar el popup

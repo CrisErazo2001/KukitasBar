@@ -99,7 +99,8 @@
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
+    margin-top: 20px;
 }
 
 .botonera-normal:hover{
@@ -472,5 +473,28 @@ a {
 .column {
     width: 48%; /* Ajusta el porcentaje según necesites */
     padding: 10px;
+}
+
+.box-general{
+    width: 100%;
+    display: flex;
+    height: auto;
+    /* background-color: #e48811; */
+    align-content: center;
+}
+.box-interna{
+    width: 50%;
+    height: auto;
+    /* background-color: #493f32; */
+    display: flex;
+    flex-direction: column;
+}
+.dispo-name{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
 }
 

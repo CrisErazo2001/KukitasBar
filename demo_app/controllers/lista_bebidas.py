@@ -97,6 +97,7 @@ def delete_bebida_by_name():
 def update_bebida_by_id():
        
     data = {
+        
         'id_lista_bebidas': request.form['id_lista_bebidas'],
         'nombre':request.form["nombre"], 
         'bebida_1': request.form["bebida_1"],

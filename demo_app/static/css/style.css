@@ -399,7 +399,7 @@ html, body{ height: 100%; }
 
 .banner .container, .banner .banner-static, .banner .col-lg-12 {
     height: 110%;
-    
+
 }
 .banner-text {
     display: table;
@@ -594,6 +594,7 @@ html, body{ height: 100%; }
     border: none;
     cursor: pointer;
     margin-bottom: 50px;
+    margin-top: 50px;
 }
 
 .botonera-normal:hover{
@@ -617,7 +618,7 @@ html, body{ height: 100%; }
     transform: translate3d(-50%, 20px, 0);
     opacity: 0;
   }
-  @media (min-width: 768px) {
+    @media (min-width: 768px) {
     from {
       -webkit-transform: translate(-50%, 0);
       -webkit-transform: translate3d(-50%, 0, 0);
@@ -650,6 +651,7 @@ html, body{ height: 100%; }
     transform: translate3d(-50%, 20px, 0);
     opacity: 0;
   }
+
   @media (min-width: 768px) {
     from {
       -webkit-transform: translate(-50%, 0);
@@ -921,12 +923,6 @@ html, body{ height: 100%; }
 	box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.05);
 }
 
-.items-menu{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    text-align: center;
-}
 
 .offer-item {
     position: relative;
@@ -1173,7 +1169,6 @@ color:#ffffff;
 	border-top:1px solid #ccc;
 	padding-top:25px;
     padding-bottom: 20px;
-
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -2185,4 +2180,140 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
 
 .vivid-yellow-bg{
 	background: #fdcb03;
+}
+
+
+.bebidas-contenedor {
+    display: flex;
+
+    
+    justify-content: center; /* Centrar las bebidas horizontalmente */
+    
+    width: 100%; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.bebida-item {
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 100%; /* Para pantallas pequeñas, ocupa toda la fila */
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.bebida-item:hover {
+    transform: scale(1.05);
+}
+
+.bebida-item h2 {
+    margin: 0 0 10px 0;
+    font-size: 32px;
+    color: #000;
+}
+.bebida-item h3 {
+    margin: 10px 0 0px 0;
+    font-size: 20px;
+    color: #e75b1e;
+}
+
+.bebida-item ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.bebida-item input[type="radio"] {
+    margin-top: 10px;
+}
+
+.bebida-item ul li {
+    margin-bottom: 5px;
+}
+
+.data{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.botonera-div{
+	/*background:#e75b1e;*/
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    align-self: center; /* Centra el botón horizontalmente */
+}
+
+.botonera-div:hover{
+	border:3px solid red;
+	background:none;
+    color: #e75b1e;
+}
+
+
+.items-menu{
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+    padding-top: 20px;
+    box-sizing: border-box;
+}
+
+.botonera-n{
+	/*background:#e75b1e;*/
+	color:#fff;
+	width: 40%;
+    padding: 15px 10px 15px 10px;
+    display: inline-block;
+    text-align: center;
+    font-weight: 800;
+	text-transform:uppercase;
+	font-size:18px;
+    background-color: #e75b1e;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.botonera-n:hover{
+	border:3px solid red;
+	background:none;
+    color: #e75b1e;
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Para pantallas más grandes (tablets y desktops) */
+@media (min-width: 600px) {
+    .bebida-item {
+        width: calc(50% - 20px); /* Dos columnas, resta el gap entre columnas */
+    }
+}
+
+/* Para pantallas pequeñas (móviles) */
+@media (max-width: 599px) {
+    .bebida-item {
+        width: 100%; /* Una columna */
+    }
 }

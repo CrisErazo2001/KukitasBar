@@ -4,11 +4,136 @@ from demo_app import app
 from demo_app.models.receta import receta
 from demo_app.models.posicion_bebidas import posicion_bebidas
 from demo_app.models.cantidad_bebidas import cantidad
+from demo_app.models.pedido import pedido
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import requests
 import asyncio
 from websockets.sync.client import connect
+
+receta_envio={}
+aux_id_cantidades = 0
+
+def reducir_cantidades(dic,id_cantidad):
+    solicitud = {
+        'id_cantidad': id_cantidad
+    }
+    search = cantidad.get_by_id(solicitud)
+    cantidaddes_lista = [search.cant_1,search.cant_2,search.cant_3,search.cant_4,search.cant_5,search.cant_6,search.cant_7,search.cant_8,search.cant_9,search.cant_10,search.cant_11,search.cant_12,search.cant_13,search.cant_14,search.cant_15,search.cant_16,search.cant_17,search.cant_18,search.cant_19,search.cant_20,search.cant_21,search.cant_22,search.cant_23,search.cant_24,search.cant_25,search.cant_26,search.cant_27,search.id_posicion_bebidas]
+    for i in range(10):
+        cantidades = dic['cantidades']
+        posiciones = dic['posiciones']
+        if cantidades[i] > 0:
+            aux = posiciones[i]
+            cantidaddes_lista[aux-1] = cantidaddes_lista[aux-1]-cantidades[i]
+
+    data = {
+        'id_cantidad': id_cantidad,
+        'cant_1': cantidaddes_lista[0],
+        'cant_2': cantidaddes_lista[1],
+        'cant_3': cantidaddes_lista[2],
+        'cant_4': cantidaddes_lista[3],
+        'cant_5': cantidaddes_lista[4],
+        'cant_6': cantidaddes_lista[5],
+        'cant_7': cantidaddes_lista[6],
+        'cant_8': cantidaddes_lista[7],
+        'cant_9': cantidaddes_lista[8],
+        'cant_10': cantidaddes_lista[9],
+        'cant_11': cantidaddes_lista[10],
+        'cant_12': cantidaddes_lista[11],
+        'cant_13': cantidaddes_lista[12],
+        'cant_14': cantidaddes_lista[13],
+        'cant_15': cantidaddes_lista[14],
+        'cant_16': cantidaddes_lista[15],
+        'cant_17': cantidaddes_lista[16],
+        'cant_18': cantidaddes_lista[17],
+        'cant_19': cantidaddes_lista[18],
+        'cant_20': cantidaddes_lista[19],
+        'cant_21': cantidaddes_lista[20],
+        'cant_22': cantidaddes_lista[21],
+        'cant_23': cantidaddes_lista[22],
+        'cant_24': cantidaddes_lista[23],
+        'cant_25': cantidaddes_lista[24],
+        'cant_26': cantidaddes_lista[25],
+        'cant_27': cantidaddes_lista[26],
+        'id_posicion_bebidas': cantidaddes_lista[27]
+    }
+    cantidad.update_by_id(data)
+
+
+def generar_posicion_receta(id_receta):
+    
+    f = open("bebida_id.txt", "r")
+    bebidas_id = f.read()
+    if bebidas_id == '' or bebidas_id == '0':
+            bebidas_id = 0
+    else:
+        bebidas_id = int(bebidas_id)
+    
+    data_pbeb = {
+        'id_lista_bebidas': bebidas_id
+    }
+
+    pedidos = pedido.get_all()
+
+    data_bebida = {
+        'id_receta' : pedidos[0].id_receta
+    }
+
+    bebida = receta.get_by_id(data_bebida)
+
+    pbeb = posicion_bebidas.get_by_id_lista_bebidas(data_pbeb)
+
+    data_cant = {
+        'id_posicion_bebidas': pbeb.id_posicion_bebidas
+    }
+
+    cant = cantidad.get_by_id_posicion_bebidas(data_cant)
+    id_cantidades = cant.id_cantidad
+    bebida = bebida.asdict()
+    pbeb = pbeb.aslist()
+    cant = cant.asdict()
+    
+    posiciones = []
+    cantidades = []
+    aux = pbeb
+    for i in range(10):
+        x = 'bebida_'+str(i+1)
+        y = 'cant_'+str(i+1)
+        
+        
+        pos = aux.index(bebida[x])
+        c = bebida[y]
+        z = 'cant_'+str(pos)
+        
+
+        while c > cant[z]:
+            print('c: ',c)
+            print('cant[z]: ',cant[z])
+            aux[pos] = 'Siguiente'
+            pos = aux.index(bebida[x])
+            z = 'cant_'+str(pos)
+        print('aux: ',aux)
+
+        if bebida[x] == '':
+            posiciones.append(0)
+            cantidades.append(0)
+        else:
+            posiciones.append(pos)
+            cantidades.append(c)
+
+
+    receta_envio = {
+        'posiciones': posiciones,
+        'cantidades': cantidades
+    }
+
+    
+
+
+
+    return receta_envio,id_cantidades
+
 
 def webSocket_connection():
     with connect("ws://192.168.0.241:1880/ws/receta") as websocket:
@@ -16,7 +141,7 @@ def webSocket_connection():
         websocket.send('1')
         
 
-receta_envio={}
+
 
 @app.route('/receta/create',methods=['POST'])
 def create_receta():
@@ -178,70 +303,37 @@ def update_receta_by_id():
     print(result)
     return redirect('/receta')
 
+@app.route('/receta/terminada')
+def fin_receta():
+    global receta_envio
+    global aux_id_cantidades
+    result = pedido.get_all()
+    if result == []:
+        return jsonify('No hay pedidos en lista')
+    # result = result[::-1]
+    print(result[0].id_pedidos)
+    data = {
+        'id_pedidos': result[0].id_pedidos
+    }
+    pedido.delete_by_id(data)
+    reducir_cantidades(receta_envio,aux_id_cantidades)
+    return redirect('/receta/send')
+    # webSocket_connection()
+    # return 200
+
 
 @app.route('/receta/send')
 def send_receta():
     global receta_envio
+    global aux_id_cantidades
+    pedidos = pedido.get_all()
+    if pedidos == []:
+        return jsonify('No hay pedidos en lista')
+    receta_envio, aux_id_cantidades = generar_posicion_receta(pedidos[0].id_pedidos)
 
     return jsonify(receta_envio)
 
-@app.route('/receta/generar-posiciones',methods=['POST'])
-def generar_posicion_receta():
-    global receta_envio
-    f = open("bebida_id.txt", "r")
-    bebidas_id = f.read()
-    if bebidas_id == '' or bebidas_id == '0':
-            bebidas_id = 0
-    else:
-        bebidas_id = int(bebidas_id)
-    
-    data = {
-        'nombre': request.form['nombre']
-    }
-    print(data)
-    data2 = {
-        'id_lista_bebidas': bebidas_id
-    }
-    search = receta.get_by_name(data)
-    
-    for rec in search:
-        if rec.id_lista_bebidas == bebidas_id:
-            result = rec.asdict()
-        else:
-            continue
 
-    search2 = posicion_bebidas.get_by_id_lista_bebidas(data2)
-    data3 = {
-        'id_posicion_bebidas': search2.id_posicion_bebidas
-    }
-    # search3 = cantidad.get_by_id_posicion_bebidas(data3)
-    search2 = search2.aslist()
-    # search3 = search3.aslist()
-    posiciones = []
-    cantidades = []
-    for i in range(10):
-        x = 'bebida_'+str(i+1)
-        y = 'cant_'+str(i+1)
-        if result[x] == '':
-            posiciones.append(0)
-            cantidades.append(0)
-            continue
-        posiciones.append(search2.index(result[x]))
-        cantidades.append(result[y])
-    f.close()
-    print('posiciones: ', posiciones)
-    print('cantidades ', cantidades)
-
-    receta_envio = {
-        'posiciones': posiciones,
-        'cantidades': cantidades
-    }
-
-    webSocket_connection()
-
-
-
-    return redirect('/')
 
 
 

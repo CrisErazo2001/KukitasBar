@@ -3,38 +3,47 @@ import json
 from demo_app import app
 from demo_app.models.pedido import pedido
 from demo_app.models.posicion_bebidas import posicion_bebidas
+from demo_app.models.receta import receta
 from flask_bcrypt import Bcrypt
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
+
+
+
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
 
 @app.route('/pedido/create',methods=['POST'])
 def create_pedido():
-    print("creando una receta")
-    url1 = 'http://127.0.0.1:5000/bebida/get/id'
-    r1 = requests.get(url1)
-    result1 = r1.json()
-    
-    date_str = request.form["ready_at"]
-    date_format = '%H:%M:%S'
 
-    date_obj = datetime.strptime(date_str, date_format)
+    f = open("bebida_id.txt", "r")
+    bebidas_id = f.read()
+    solicitud = {
+        'id_lista_bebidas': bebidas_id
+    }
+    
+    nombre_bebida = request.form['nombre_bebida']
+    search_bebida = receta.get_by_id_lista_bebidas(solicitud)
+    for x in search_bebida:
+        if nombre_bebida == x.nombre:
+            result = x
+            break
+        else:
+            continue
 
     data = {
-            
-            'id_bebidas': result1['bebida_list_id'], 
-            'nombre_cliente':request.form["nombre_cliente"], 
-            'id_receta': request.form["id_receta"],
-            'ready_at': request.form["ready_at"]
-        }
+        
+        'nombre_cliente': request.form["nombre_cliente"],  
+        'id_receta': result.id_receta,
+        'ready_at': datetime.now() + timedelta(minutes=7)
+    }
           
 
     print("Data: ", data)  
-    id = pedido.save(data)
-    
-    return redirect('/pedido')
+    pedido.save(data)
+    f.close()
+    return redirect('/')
 
 @app.route('/pedido/get-all')
 def get_all_pedido():
@@ -128,13 +137,18 @@ def update_pedido_by_id():
 
 
 
-@app.route('/pedidos',methods=['GET'])
-def pedidos():
 
-    data = [
-        {"nombre": "Juan", "tiempo": 30},
-        {"nombre": "Ana", "tiempo": 25},
-        {"nombre": "Luis", "tiempo": 28},
-    ]
+
+@app.route('/pedido',methods=['GET'])
+def pedidos():
+    result = pedido.get_all()
+    data = []
+    for ped in result:
+        x = {
+            'nombre': ped.nombre_cliente,
+            'tiempo': ped.ready_at
+        }
+        data.append(x)
+    
     return render_template('pantalla_espera.html',data = data,nombre_cliente_actual='mateo',nombre_bebida='nombre',lista_ingredientes='ingredientes')
 

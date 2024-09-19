@@ -15,7 +15,7 @@ class pedido:
     def __init__( self , data ):
         self.id_pedidos  =  data['id_pedidos']
         self.nombre_cliente  =  data['nombre_cliente']
-        self.id_bebidas = data['id_bebidas']
+        
         self.id_receta  =  data['id_receta']
         self.create_at  =  data['create_at']
         self.ready_at  =  data['ready_at']
@@ -35,7 +35,7 @@ class pedido:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( nombre_cliente,id_bebidas,id_receta,ready_at) VALUES ( %(nombre_cliente)s, %(id_bebidas)s, %(id_receta)s, %(ready_at)s);"
+        query = "INSERT INTO "+ table_name +" ( nombre_cliente,id_receta,ready_at) VALUES ( %(nombre_cliente)s, %(id_receta)s, %(ready_at)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -76,7 +76,7 @@ class pedido:
 
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET nombre_cliente = %(nombre_cliente)s, id_bebidas = %(id_bebidas)s, id_receta = %(id_receta)s, ready_at = %(ready_at)s"+" WHERE id_pedidos = %(id_pedidos)s;"
+        query  = "UPDATE "+ table_name +" SET nombre_cliente = %(nombre_cliente)s, id_receta = %(id_receta)s, ready_at = %(ready_at)s"+" WHERE id_pedidos = %(id_pedidos)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -87,7 +87,6 @@ class pedido:
         dict = {
             'id_pedidos': self.id_pedidos, 
             'nombre_cliente': self.nombre_cliente,  
-            'id_bebidas': self.id_bebidas, 
             'id_receta': self.id_receta, 
             'create_at': self.create_at , 
             'ready_at': self.ready_at
