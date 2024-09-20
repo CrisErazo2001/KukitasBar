@@ -10,64 +10,31 @@
 
 <body>
 
-    <div class="box-principal">
-
-
-
-        <div class="popup" id="popup">
-
-            <div class="cuadro-popup">
-                <h4 class="letras-popup">Indica el tipo de botella que irá en el espacio: <span id="drink-name"></span>
-                </h4>
-            </div>
-            <!-- <img src="images/R2.gif" style="margin-top: 70px; height: 400px;">
-        -->
-            <div class="to-selector">
-                <select name="comp_select" class="select-css">
-                    {% for o in bebidas %}
-                    <option value="{{ o }}">{{ o }}</option>
+    <div class="popup_error" id="errorPopup">
+        <div class="popup_error-content">
+            <span class="close-btn" id="closeBtn">&times;</span>
+            <h2>Error</h2>
+            <!-- Usamos Jinja2 para mostrar el mensaje flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if category == 'error' %}
+                            <p>{{ message }}</p>
+                            
+                        {% endif %}
                     {% endfor %}
-                </select>
-            </div>
-
-            <div class="to-selector">
-                <label for="cantidad" class="form-label">
-                    <input type="text" placeholder="Cantidad de bebida" class="input-css" name="cantidad"
-                        aria-describedby="textHelp">
-                </label>
-            </div>
-
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="reserve-book-btn text-center">
-                    <button class="hvr-underline-from-center" type="" value="SEND" id="" onclick="closePopup()">GUARDAR
-                    </button>
-                </div>
-            </div>
+                {% endif %}
+            {% endwith %}
+            
 
         </div>
+    </div>
 
-        <div class="popup" id="popup-cb">
+    
+    
 
-            <div class="cuadro-popup">
-                <h4 class="letras-popup">Indica la cantidad de líquido disponible en la botella(original): <span
-                        id="name-drink"></span> </h4>
-            </div>
-            <!-- <img src="images/R2.gif" style="margin-top: 70px; height: 400px;">
-        -->
-
-
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="reserve-book-btn text-center">
-                    <button class="hvr-underline-from-center" type="" value="SEND" id="" onclick="closePopupB()">GUARDAR
-                    </button>
-                </div>
-            </div>
-
-        </div>
-
-
-
-
+    <div class="box-principal">
+        
         <div class="tabs">
             <div class="tab-container">
                 <div id="tab4" class="tab">
@@ -777,6 +744,7 @@
                     </div>
                     <!-- End tab-content -->
                 </div>
+
                 <div id="tab1" class="tab">
                     <a href="#tab1">Crear Listado de Bebidas</a>
                     <div class="tab-content">
@@ -902,7 +870,7 @@
         <!-- End tabs -->
     </div><!-- End box-principal -->
 
-
+    
 
     <script>
         let popup = document.getElementById("popup");
@@ -927,6 +895,30 @@
 
         function closePopupB() {
             popupB.classList.remove("open-popup");
+        }
+
+        
+    </script>
+    <script>
+        const popupA = document.getElementById('errorPopup');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Verifica si hay un mensaje flash y muestra el popup
+        {% if get_flashed_messages() %}
+            console.log('Mensaje flash');
+            popupA.style.display = 'flex';
+            popupA.classList.add('fade-in');
+        {% endif %}
+
+        // Cerrar popup manualmente
+        closeBtn.onclick = function() {
+            popupA.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == popup) {
+                popupA.style.display = 'none';
+            }
         }
     </script>
 

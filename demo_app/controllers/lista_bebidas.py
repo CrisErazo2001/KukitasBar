@@ -14,9 +14,26 @@ bebidas_id = 0
 
 @app.route('/bebidas/create',methods=['POST'])
 def create_bebida():
-    print("creando una lista de bebidas")
+    nombre = request.form["nombre"]
+    bebidas = []
+
+    if nombre == '':
+        flash('No ingresaste un nombre', 'error')
+        return redirect('/bebida')
+    lleno = False
+    for i in range(12):
+        aux = 'bebida_'+str(i+1)
+        if request.form[aux] != '':
+            lleno = True
+            break
+        else:
+            continue
+    if not lleno:
+        flash('No has ingresado ninguna bebida', 'error')
+        return redirect('/bebida')
+    
     data = {
-        'nombre':request.form["nombre"], 
+        'nombre':nombre, 
         'bebida_1': request.form["bebida_1"],
         'bebida_2': request.form["bebida_2"], 
         'bebida_3': request.form["bebida_3"],
@@ -35,7 +52,8 @@ def create_bebida():
     sv_data = lista_bebidas.get_all()
     for beb in sv_data:
         if beb.nombre == data['nombre']:
-            return jsonify(error=400, text='Estas repitiendo nombre'), 400
+            flash('Hay otra lista con el mismo nombre', 'error')
+            return redirect('/bebida')
         else: 
             continue
     print("Data: ", data)  

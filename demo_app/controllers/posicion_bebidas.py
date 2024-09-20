@@ -3,6 +3,7 @@ import json
 from demo_app import app
 from demo_app.models.posicion_bebidas import posicion_bebidas
 from demo_app.models.cantidad_bebidas import cantidad
+from demo_app.models.lista_bebidas import lista_bebidas
 from flask_bcrypt import Bcrypt
 import datetime
 bcrypt = Bcrypt(app)
@@ -20,9 +21,48 @@ def create_bebida_pos():
         bebidas_id = 0
     else:
         bebidas_id = int(bebidas_id)
+
+    id_lista_bebidas = {
+        'id_lista_bebidas': bebidas_id
+    }
+
+    lleno = False
+    for i in range(12):
+        aux = 'Pos_'+str(i+1)
+        if request.form[aux] != '':
+            lleno = True
+            break
+        else:
+            continue
+    if not lleno:
+        flash('No has ingresado ninguna bebida', 'error')
+        return redirect('/bebida#tab2')
     
     posiciones = []
     cantidades = []
+    bebidas = []
+
+    if bebidas_id != 0:
+        if lista_bebidas.get_by_id(id_lista_bebidas) != []:
+            sv_data2 = lista_bebidas.get_by_id(id_lista_bebidas)
+            
+            bebidas = [sv_data2.bebida_1,sv_data2.bebida_2,sv_data2.bebida_3,sv_data2.bebida_4,sv_data2.bebida_5,sv_data2.bebida_6,sv_data2.bebida_7,sv_data2.bebida_8,sv_data2.bebida_9,sv_data2.bebida_10,sv_data2.bebida_11,sv_data2.bebida_12]
+        else:
+            
+            bebidas = []
+    else:
+            bebidas = []
+    bebidas_total = []
+    for x in bebidas:
+        if x != '':
+            bebidas_total.append(x)
+        else:
+            continue
+    
+    
+
+
+    
     for i in range(24):
         aux_pos = 'Pos_'+str(i+1)
         aux_cant = 'cant_'+str(i+1)
@@ -30,9 +70,11 @@ def create_bebida_pos():
         aux_list_cant = request.form[aux_cant]
         if aux_list_pos != '' and aux_list_cant != '':
             if not aux_list_cant.isnumeric():
-                return jsonify(error=400, text='Tu cantidad no es un numero'), 400
+                flash('Una cantidad no es un numero', 'error')
+                return redirect('/bebida#tab2')
             elif aux_list_cant == '0':
-                return jsonify(error=400, text='Tu cantidad no puede ser 0'), 400
+                flash('La cantidad no puede ser 0', 'error')
+                return redirect('/bebida#tab2')
             else:
                 posiciones.append(aux_list_pos) 
                 cantidades.append(aux_list_cant)
@@ -40,9 +82,19 @@ def create_bebida_pos():
             posiciones.append('') 
             cantidades.append(0)
         elif aux_list_pos != '' and aux_list_cant == '':
-            return jsonify(error=400, text='Tienes una bebida sin cantidad'), 400
+            flash('Existe una bebida sin cantidad', 'error')
+            return redirect('/bebida#tab2')
         elif aux_list_pos == '' and aux_list_cant != '':
-            return jsonify(error=400, text='Tienes una cantidad sin bebida'), 400
+            flash('Existe una cantidad sin bebida', 'error')
+            return redirect('/bebida#tab2')
+        
+    
+    for i in bebidas_total:
+        try:
+            posiciones.index(i)
+        except ValueError:
+            flash('Debe utilizar al menos una vez todas las bebidas', 'error')
+            return redirect('/bebida#tab2')
         
     data1 = {
         'Pos_1': posiciones[0],
@@ -125,12 +177,13 @@ def create_bebida_pos():
     sv_data2 = cantidad.get_all()
     for cant in sv_data2:
         if cant.id_posicion_bebidas == data2['id_posicion_bebidas']:
-            return jsonify(error=400, text='Estas repitiendo id_posicion_bebidas'), 400
+            flash('Se esta repitiendo la lista de bebida', 'error')
+            return redirect('/bebida#tab2')
         else: 
             continue
     cantidad.save(data2)
     f.close()
-    return redirect('/bebida')
+    return redirect('/bebida#tab2')
 
 @app.route('/bebida/posicion/get-all')
 def get_all_bebidas_pos():

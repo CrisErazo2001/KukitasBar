@@ -1,3 +1,3 @@
-nombre_del_buggy = 'GeekflareE'
-nombre = nombre_del_buggy[:-1]
-print(nombre)
+nombre_del_buggy = ['a','b','c']
+ 
+print(nombre_del_buggy.index('d'))

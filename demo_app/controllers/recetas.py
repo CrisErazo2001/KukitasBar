@@ -22,6 +22,24 @@ def create_receta():
         bebidas_id = 0
     else:
         bebidas_id = int(bebidas_id)
+
+    nombre_bebida = request.form["nombre"]
+    if nombre_bebida == '':
+        flash('No ha ingresado un nombre', 'error')
+        return redirect('/bebida#tab3')
+    
+    lleno = False
+    for i in range(10):
+        aux = 'bebida_'+str(i+1)
+        if request.form[aux] != '':
+            lleno = True
+            break
+        else:
+            continue
+    if not lleno:
+        flash('No has ingresado ninguna bebida', 'error')
+        return redirect('/bebida#tab3')
+    
     bebidas = []
     cantidades = []
     for i in range(10):
@@ -31,9 +49,11 @@ def create_receta():
         aux_list_cant = request.form[aux_cant]
         if aux_list_bebida != '' and aux_list_cant != '':
             if not aux_list_cant.isnumeric():
-                return jsonify(error=400, text='Tu cantidad no es un numero'), 400
+                flash('La cantidad no es un numero', 'error')
+                return redirect('/bebida#tab3')
             elif aux_list_cant == 0:
-                return jsonify(error=400, text='Tu cantidad no puede ser 0'), 400
+                flash('La cantidad no puede ser 0', 'error')
+                return redirect('/bebida#tab3')
             else:
                 bebidas.append(aux_list_bebida) 
                 cantidades.append(aux_list_cant)
@@ -41,19 +61,29 @@ def create_receta():
             bebidas.append('') 
             cantidades.append(0)
         elif aux_list_bebida != '' and aux_list_cant == '':
-            return jsonify(error=400, text='Tienes una bebida sin cantidad'), 400
+            flash('Existe una bebida sin cantidad', 'error')
+            return redirect('/bebida#tab3')
         elif aux_list_bebida == '' and aux_list_cant != '':
-            return jsonify(error=400, text='Tienes una cantidad sin bebida'), 400
+            flash('Existe una cantidad sin bebida', 'error')
+            return redirect('/bebida#tab3')
     
-    nombre_bebida = request.form["nombre"]
-    if nombre_bebida == '':
-        return jsonify(error=400, text='No tienes nombre'), 400
+    
     
     tiempo_prep = request.form["tiempo_prep"]
     if not tiempo_prep.isnumeric():
-        return jsonify(error=400, text='Tu tiempo no es un numero'), 400
+        flash('No ha ingresado un tiempo de preparacion o no es un numero', 'error')
+        return redirect('/bebida#tab3')
     elif tiempo_prep == '0':
-        return jsonify(error=400, text='Tu tiempo no puede ser 0'), 400
+        flash('El tiempo de preparacion ingresado no puede ser 0', 'error')
+        return redirect('/bebida#tab3')
+    
+    total_cantidad = 0    
+    for i in cantidades:
+        total_cantidad = total_cantidad + int(i)
+
+    if total_cantidad > 10:
+        flash('La suma total de las cantidades no puede ser superior a 10', 'error')
+        return redirect('/bebida#tab3')
 
     data = {
             
@@ -89,7 +119,8 @@ def create_receta():
     search = receta.get_by_name(data2)
     for rec in search:
         if rec.id_lista_bebidas == bebidas_id:
-            return jsonify(error=400, text='Estas repitiendo nombre para esta lista de bebidas'), 400
+            flash('Se esta repitiendo nombre para esta lista de bebidas', 'error')
+            return redirect('/bebida#tab3')
         else:
             continue
 
