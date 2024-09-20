@@ -175,7 +175,8 @@ def create_pedido():
         'nombre_cliente': request.form["nombre_cliente"],  
         'id_receta': result.id_receta,
         'id_lista_bebidas': bebidas_id,
-        'ready_at': datetime.now() + timedelta(minutes=tiempo)
+        'ready_at': datetime.now() + timedelta(minutes=tiempo),
+        'status': '0'
     }
           
 
@@ -281,34 +282,7 @@ def update_pedido_by_id():
 @app.route('/pedido',methods=['GET'])
 def pedidos():
     global pedido_actual 
-    try:
-        pedido_aux_1 = pedido_actual.asdict()
-        solicitud = {
-            'id_receta':pedido_aux_1['id_receta']
-        }
-        rec1 = receta.get_by_id(solicitud)
-        rec_aux1 = rec1.asdict()
-        ingredientes1 = ''
-        for i in range(10):
-            aux_bebida1 = 'bebida_'+str(i+1)
-            if rec_aux1[aux_bebida1] != '':
-                ingredientes1 = ingredientes1 + rec_aux1[aux_bebida1] +', '
-            else:
-                continue
-        ingredientes1 = ingredientes1[:-2]
-        pedido_aux = {
-            'nombre': pedido_aux_1['nombre_cliente'],
-            'bebida': rec1.nombre,
-            'tiempo': pedido_aux_1['ready_at'],
-            'ingredientes': ingredientes1
-        }
-    except TypeError as te:
-        pedido_aux = {
-                'nombre': '',
-                'bebida': '',
-                'tiempo': '',
-                'ingredientes': ''
-            }
+    
     
     result = pedido.get_all()
     data = []
@@ -319,49 +293,99 @@ def pedidos():
             'tiempo': '',
             'ingredientes': ''
         }]
+        pedido_aux = {
+            'nombre': '',
+            'bebida': '',
+            'tiempo': '',
+            'ingredientes': ''
+        }
     else: 
+        cont = 0
         for ped in result:
-            solicitud = {
+            if ped.status == 1:
+                solicitud = {
                 'id_receta':ped.id_receta
+                }
+                rec = receta.get_by_id(solicitud)
+                rec_aux = rec.asdict()
+                ingredientes = ''
+                for i in range(10):
+                    aux_bebida = 'bebida_'+str(i+1)
+                    if rec_aux[aux_bebida] != '':
+                        ingredientes = ingredientes + rec_aux[aux_bebida] +', '
+                    else:
+                        continue
+                ingredientes = ingredientes[:-2]
+                pedido_aux = {
+                    'nombre': ped.nombre_cliente,
+                    'bebida': rec.nombre,
+                    'tiempo': ped.ready_at,
+                    'ingredientes': ingredientes
+                }
+                
+                continue
+            else:
+                cont = cont + 1
+                solicitud = {
+                    'id_receta':ped.id_receta
+                }
+                rec = receta.get_by_id(solicitud)
+                rec_aux = rec.asdict()
+                ingredientes = ''
+                for i in range(10):
+                    aux_bebida = 'bebida_'+str(i+1)
+                    if rec_aux[aux_bebida] != '':
+                        ingredientes = ingredientes + rec_aux[aux_bebida] +', '
+                    else:
+                        continue
+                ingredientes = ingredientes[:-2]
+                x = {
+                    'nombre': ped.nombre_cliente,
+                    'bebida': rec.nombre,
+                    'tiempo': ped.ready_at,
+                    'ingredientes': ingredientes
+                }
+                data.append(x)
+        if cont == len(result):
+            pedido_aux = {
+                'nombre': '',
+                'bebida': '',
+                'tiempo': '',
+                'ingredientes': ''
             }
-            rec = receta.get_by_id(solicitud)
-            rec_aux = rec.asdict()
-            ingredientes = ''
-            for i in range(10):
-                aux_bebida = 'bebida_'+str(i+1)
-                if rec_aux[aux_bebida] != '':
-                    ingredientes = ingredientes + rec_aux[aux_bebida] +', '
-                else:
-                    continue
-            ingredientes = ingredientes[:-2]
-            x = {
-                'nombre': ped.nombre_cliente,
-                'bebida': rec.nombre,
-                'tiempo': ped.ready_at,
-                'ingredientes': ingredientes
-            }
-            data.append(x)
     
-    return render_template('pantalla_espera.html',data = data[1:],nombre_cliente_actual=pedido_aux['nombre'],nombre_bebida=pedido_aux['bebida'],lista_ingredientes=pedido_aux['ingredientes'])
+    return render_template('pantalla_espera.html',data = data,nombre_cliente_actual=pedido_aux['nombre'],nombre_bebida=pedido_aux['bebida'],lista_ingredientes=pedido_aux['ingredientes'])
 
 
-@app.route('/pedido/terminada')
+@app.route('/pedido/end')
 def fin_receta():
     global receta_envio
-    global aux_id_cantidades
+    id_cantidades = 0
+
     result = pedido.get_all()
     if result == []:
-        return jsonify('No hay pedidos en lista')
-    # result = result[::-1]
-    print(result[0].id_pedidos)
-    data = {
-        'id_pedidos': result[0].id_pedidos
-    }
-    pedido.delete_by_id(data)
-    reducir_cantidades(receta_envio,aux_id_cantidades)
-    return redirect('/pedido/send')
+        return redirect('/pedido/status')
+    if result[0].status == 1:
+        sol = {
+            'id_lista_bebidas' : result[0].id_lista_bebidas
+        }
+        aux_pos = posicion_bebidas.get_by_id_lista_bebidas(sol)
+        sol = {
+            'id_posicion_bebidas': aux_pos.id_posicion_bebidas
+        }
+        aux_cant = cantidad.get_by_id_posicion_bebidas(sol)
+        id_cantidades = aux_cant.id_cantidad
+        print(result[0].id_pedidos)
+        data = {
+            'id_pedidos': result[0].id_pedidos
+        }
+        pedido.delete_by_id(data)
+        reducir_cantidades(receta_envio,id_cantidades)
+        return redirect('/pedido/send')
     # webSocket_connection()
     # return 200
+    else:
+        return redirect('/pedido/send')
 
 
 @app.route('/pedido/send')
@@ -372,11 +396,32 @@ def send_receta():
 
     pedidos = pedido.get_all()
     if pedidos == []:
-        return jsonify('No hay pedidos en lista')
+        return jsonify({
+            'posiciones':[],
+            'cantidades':[]
+        })
     pedido_actual = pedidos[0]
+    pedido_actual.change_status()
+    aux_pedido = pedido_actual.asdict()
+    pedido.update_by_id(aux_pedido)
     receta_envio, aux_id_cantidades = generar_posicion_receta(pedidos[0].id_pedidos)
     if receta_envio == {}:
-        pedido_actual = pedido
+        
         return jsonify(error=400, text='No dispones de la bebida suficiente'), 400
     return jsonify(receta_envio)
 
+@app.route('/pedido/status')
+def send_status_pedidos():
+    
+
+    pedidos = pedido.get_all()
+    if pedidos == []:
+        result = {
+            'status': False
+        }
+    else:
+        result = {
+            'status': True
+        }
+    
+    return jsonify(result)

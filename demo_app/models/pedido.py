@@ -19,6 +19,7 @@ class pedido:
         self.id_receta  =  data['id_receta']
         self.create_at  =  data['create_at']
         self.ready_at  =  data['ready_at']
+        self.status  =  data['status']
         
         
 
@@ -35,7 +36,7 @@ class pedido:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( nombre_cliente,id_receta,ready_at,id_lista_bebidas) VALUES ( %(nombre_cliente)s, %(id_receta)s, %(ready_at)s,%(id_lista_bebidas)s);"
+        query = "INSERT INTO "+ table_name +" ( nombre_cliente,id_receta,ready_at,id_lista_bebidas,status) VALUES ( %(nombre_cliente)s, %(id_receta)s, %(ready_at)s,%(id_lista_bebidas)s,%(status)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -76,7 +77,7 @@ class pedido:
 
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET id_lista_bebidas = %(id_lista_bebidas)s, nombre_cliente = %(nombre_cliente)s, id_receta = %(id_receta)s, ready_at = %(ready_at)s"+" WHERE id_pedidos = %(id_pedidos)s;"
+        query  = "UPDATE "+ table_name +" SET id_lista_bebidas = %(id_lista_bebidas)s, nombre_cliente = %(nombre_cliente)s, id_receta = %(id_receta)s, ready_at = %(ready_at)s, status = %(status)s"+" WHERE id_pedidos = %(id_pedidos)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -90,8 +91,13 @@ class pedido:
             'id_receta': self.id_receta, 
             'id_lista_bebidas': self.id_lista_bebidas,
             'create_at': self.create_at , 
-            'ready_at': self.ready_at
+            'ready_at': self.ready_at,
+            'status': self.status
 
         }
         
         return dict
+    
+    def change_status(self):
+        self.status = 1
+        
