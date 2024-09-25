@@ -41,7 +41,6 @@ class posicion_bebidas:
         self.Pos_25  =  data['Pos_25']
         self.Pos_26  =  data['Pos_26']
         self.Pos_27  =  data['Pos_27']
-        self.nombre  =  data['nombre']
         self.id_lista_bebidas = data['id_lista_bebidas']
 
         
@@ -57,7 +56,7 @@ class posicion_bebidas:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( Pos_1,Pos_2,Pos_3,Pos_4,Pos_5,Pos_6,Pos_7,Pos_8,Pos_9,Pos_10,Pos_11,Pos_12,Pos_13,Pos_14,Pos_15,Pos_16,Pos_17,Pos_18,Pos_19,Pos_20,Pos_21,Pos_22,Pos_23,Pos_24,Pos_25,Pos_26,Pos_27,nombre,id_lista_bebidas ) VALUES ( %(Pos_1)s, %(Pos_2)s, %(Pos_3)s, %(Pos_4)s, %(Pos_5)s, %(Pos_6)s, %(Pos_7)s, %(Pos_8)s, %(Pos_9)s, %(Pos_10)s, %(Pos_11)s, %(Pos_12)s, %(Pos_13)s, %(Pos_14)s, %(Pos_15)s, %(Pos_16)s, %(Pos_17)s, %(Pos_18)s, %(Pos_19)s, %(Pos_20)s, %(Pos_21)s, %(Pos_22)s, %(Pos_23)s, %(Pos_24)s, %(Pos_25)s, %(Pos_26)s, %(Pos_27)s, %(nombre)s, %(id_lista_bebidas)s);"
+        query = "INSERT INTO "+ table_name +" ( Pos_1,Pos_2,Pos_3,Pos_4,Pos_5,Pos_6,Pos_7,Pos_8,Pos_9,Pos_10,Pos_11,Pos_12,Pos_13,Pos_14,Pos_15,Pos_16,Pos_17,Pos_18,Pos_19,Pos_20,Pos_21,Pos_22,Pos_23,Pos_24,Pos_25,Pos_26,Pos_27,id_lista_bebidas ) VALUES ( %(Pos_1)s, %(Pos_2)s, %(Pos_3)s, %(Pos_4)s, %(Pos_5)s, %(Pos_6)s, %(Pos_7)s, %(Pos_8)s, %(Pos_9)s, %(Pos_10)s, %(Pos_11)s, %(Pos_12)s, %(Pos_13)s, %(Pos_14)s, %(Pos_15)s, %(Pos_16)s, %(Pos_17)s, %(Pos_18)s, %(Pos_19)s, %(Pos_20)s, %(Pos_21)s, %(Pos_22)s, %(Pos_23)s, %(Pos_24)s, %(Pos_25)s, %(Pos_26)s, %(Pos_27)s, %(id_lista_bebidas)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -81,15 +80,6 @@ class posicion_bebidas:
             result = cls(result[0])
         return result
     
-    @classmethod
-    def get_by_name(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE nombre = %(nombre)s;"
-        result = connectToMySQL(cls.db_name).query_db(query,data)
-        if len(result) == 0:
-            result = []
-        else:
-            result = cls(result[0])
-        return result
     
     @classmethod
     def delete_by_id(cls, data):
@@ -97,23 +87,18 @@ class posicion_bebidas:
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
-    @classmethod
-    def delete_by_name(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE nombre = %(nombre)s;"
-        result = connectToMySQL(cls.db_name).query_db(query,data)
-        return result
+    
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s,id_lista_bebidas = %(id_lista_bebidas)s"+" WHERE id_posicion_bebidas = %(id_posicion_bebidas)s;"
+        query  = "UPDATE "+ table_name +" SET Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s,id_lista_bebidas = %(id_lista_bebidas)s"+" WHERE id_posicion_bebidas = %(id_posicion_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
     @classmethod
-    def update_by_name(cls, data):
-        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s,id_lista_bebidas = %(id_lista_bebidas)s"+" WHERE nombre = %(nombre)s;"
+    def update_by_id_lista_bebidas(cls, data):
+        query  = "UPDATE "+ table_name +" SET Pos_1 = %(Pos_1)s,Pos_2 = %(Pos_2)s,Pos_3 = %(Pos_3)s,Pos_4 = %(Pos_4)s,Pos_5 = %(Pos_5)s,Pos_6 = %(Pos_6)s,Pos_7 = %(Pos_7)s,Pos_8 = %(Pos_8)s,Pos_9 = %(Pos_9)s,Pos_10 = %(Pos_10)s,Pos_11 = %(Pos_11)s,Pos_12 = %(Pos_12)s,Pos_13 = %(Pos_13)s,Pos_14 = %(Pos_14)s,Pos_15 = %(Pos_15)s,Pos_16 = %(Pos_16)s,Pos_17 = %(Pos_17)s,Pos_18 = %(Pos_18)s,Pos_19 = %(Pos_19)s,Pos_20 = %(Pos_20)s,Pos_21 = %(Pos_21)s,Pos_22 = %(Pos_22)s,Pos_23 = %(Pos_23)s,Pos_24 = %(Pos_24)s,Pos_25 = %(Pos_25)s,Pos_26 = %(Pos_26)s,Pos_27 = %(Pos_27)s"+" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
-    
     
     def asdict(self):
 
@@ -146,7 +131,6 @@ class posicion_bebidas:
             'Pos_25': self.Pos_25  ,
             'Pos_26': self.Pos_26  ,
             'Pos_27': self.Pos_27  ,
-            'nombre': self.nombre ,
             'id_lista_bebidas': self.id_lista_bebidas   
 
         }

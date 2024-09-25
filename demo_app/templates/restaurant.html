@@ -25,6 +25,7 @@
     <!-- Site CSS -->
     <link rel="stylesheet" href="../static/css/style.css">
 
+
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="../static/css/responsive.css">
     <!-- color -->
@@ -39,14 +40,32 @@
     <!-- Modernizer -->
     <script src="../static/js/modernizer.js"></script>
 
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+>
 
 </head>
 
 <body>
+
+    <div class="popup_error" id="errorPopup">
+        <div class="popup_error-content">
+            <span class="close-btn" id="closeBtn">&times;</span>
+            <h2>Error</h2>
+            <!-- Usamos Jinja2 para mostrar el mensaje flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if category == 'error' %}
+                            <p>{{ message }}</p>
+                            
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+
+        </div>
+    </div>
+
     <div id="loader">
         <div id="status"></div>
     </div>
@@ -77,15 +96,15 @@
 
                                     <li><a href="#menu">Menu</a></li>
 
-                                    <li><a href="#gallery">Gallery</a></li>
+                                    <!-- <li><a href="#gallery">Gallery</a></li> -->
 
-                                    <li><a href="#pricing">pricing</a></li>
+                                    <!-- <li><a href="#pricing">pricing</a></li> -->
 
                                     <li><a href="/bebida">Bebidas</a></li>
                                     
                                     <li><a href="/pedido">Pedidos</a></li>
                                    
-                                    <li><a href="#about">About us</a></li>
+                                    <!-- <li><a href="#about">About us</a></li> -->
                                     <!--
                                     <li><a href="#footer">Contact us</a></li>
                                     -->
@@ -143,8 +162,7 @@
                         <h2 class="block-title text-center">
                             Menú
                         </h2>
-                        <p class="title-caption text-center">Este es el menu de todas las recetas disponibles para la
-                            distribucion de bebidas seleccionada</p>
+                        <p class="title-caption text-center">Este es el menu de todas las recetas disponibles.</p>
                     </div>
 
 
@@ -215,62 +233,11 @@
                                 <p> <i class="fi fi-rs-beer" style="font-size: 50px;"></i> </p>
                             </div>
 
-                            <!-- <div class="tab-title-menu">
-                                <h2>CÓCTELES FUERTES</h2>
-                                <p> <i class="fi fi-ts-martini-glass-citrus" style="font-size: 50px;"></i> </p>
-                            </div>
 
-                            <div class="tab-title-menu">
-                                <h2>NO ALCOHÓLICAS</h2>
-                                <p> <i class="fi fi-tr-drink-alt" style="font-size: 50px;"></i> </p>
-                            </div> -->
                         </div>
 
                         <div class="slider slider-single">
-                            <!--
-                            <div class="items-menu">
-                                <h1>Seleccionar Bebida</h1>
-                                <form action="/receta/generar-posiciones" method="POST" class="data">
-    
-                                    <div class="form-group">
-                                        <label for="nombre" class="to-selector">
-                                            <select name="nombre" class="select-css">
-                                                {% for o in recetas %}
-                                                <option value="{{ o }}">{{ o }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <input type="submit" value="Enviar" class="botonera-normal">
-                                </form>
-                            </div>
-                            -->
-
-                            <!--
-
-                            <div class="items-menu">
-                                <h2 class="block-title text-center">Selecciona una Bebida</h2>
-                            
-                                <form action="/receta/generar-posiciones" method="POST" class="data">
-                                    <div class="bebidas-contenedor">
-
-
-                                        {% for o in recetas %}
-                                        <div class="bebida-item">
-                                            <button class="hvr-underline-from-center" onclick="openPopup('Mojito')">Pedir aquí</button>
-                                            <h2 class="block-title text-center">{{ o }}</h2>
-                                  
-                                            <!-- Si necesitas enviar la selección de una bebida al backend, puedes usar un input hidden 
-                                            <input type="radio" name="nombre" value="{{ o }}"> Seleccionar --
-                                            
-                                        </div>
-                                        {% endfor %}
-                                        
-                                    </div>
-                                    <input type="submit" value="Enviar" class="botonera-normal">
-                                </form>
-                            </div>
-                            -->
+ 
 
                             <div class="items-menu">
                                 <h2 class="block-title text-center">Selecciona una Bebida</h2>
@@ -288,54 +255,7 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="items-menu">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-
-                                </div>
-
-                                <!-- end col
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                    <div class="offer-item">
-                                        <img src="../static/images/daiquiri.jpg" alt="" class="img-responsive">
-                                        <div>
-                                            <h3>DAIQUIRI</h3>
-                                            <h2>
-                                                Ron blanco, jugo de limón, jarabe de azucar
-                                            </h2>
-                                        </div>
-                                        <button class="offer-price" onclick="openPopup('DAIQUIRI')">Pedir aquí</button>
-                                    </div>
-                                </div>
-                                <!-- end col 
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                    <div class="offer-item">
-                                        <img src="../static/images/pina-colada.jpg" alt="" class="img-responsive">
-                                        <div>
-                                            <h3>PIÑA COLADA</h3>
-                                            <h2>
-                                                Ron blanco, jugo de piña, crema de coco
-                                            </h2>
-                                        </div>
-                                        <button class="offer-price" onclick="openPopup('PIÑA COLADA')">Pedir
-                                            aquí</button>
-                                    </div>
-                                </div>
-                                <!-- end col 
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                    <div class="offer-item">
-                                        <img src="../static/images/caipirinha.jpg" alt="" class="img-responsive">
-                                        <div>
-                                            <h3>CAIPIRINHA</h3>
-                                            <h2>
-                                                Cachaça, jugo de limón, jarabe de azucar
-                                            </h2>
-                                        </div>
-                                        <button class="offer-price" onclick="openPopup('CAIPIRINHA')">Pedir
-                                            aquí</button>
-                                    </div>
-                                </div>
-                                <!-- end col 
-                            </div> -->
+                          
                             <div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                                     <div class="offer-item">
@@ -498,456 +418,7 @@
 
 
 
-    <div id="gallery" class="gallery-main pad-top-100 pad-bottom-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                        <h2 class="block-title text-center">
-                            Our Gallery
-                        </h2>
-                        <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum
-                            available </p>
-                    </div>
-                    <div class="gal-container clearfix">
-                        <div class="col-md-8 col-sm-12 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#1">
-                                    <img src="../static/images/foto1.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="1" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/foto1.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 1 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#2">
-                                    <img src="../static/images/gallery_02.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="2" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_02.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 2 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#3">
-                                    <img src="../static/images/gallery_03.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="3" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_03.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 3 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#4">
-                                    <img src="../static/images/gallery_04.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="4" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_04.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 4 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#5">
-                                    <img src="../static/images/gallery_05.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="5" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_05.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 5 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#9">
-                                    <img src="../static/images/gallery_06.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="9" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_06.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 6 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-sm-12 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#10">
-                                    <img src="../static/images/gallery_07.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="10" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_07.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 7 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#11">
-                                    <img src="../static/images/gallery_08.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="11" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_08.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 8 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#12">
-                                    <img src="../static/images/gallery_09.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="12" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_09.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 9 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                            <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#13">
-                                    <img src="../static/images/gallery_10.jpg" alt="" />
-                                </a>
-                                <div class="modal fade" id="13" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <div class="modal-body">
-                                                <img src="../static/images/gallery_10.jpg" alt="" />
-                                            </div>
-                                            <div class="col-md-12 description">
-                                                <h4>This is the 10 one on my Gallery</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end gal-container -->
-                </div>
-                <!-- end col -->
-            </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
-    </div>
-    <!-- end gallery-main -->
-
-
-    <div id="pricing" class="pricing-main pad-top-100 pad-bottom-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h2 class="block-title text-center">
-                        KUKITAS-BAR
-                    </h2>
-                    <p> consectetur adipiscing elit. Sed ut orci varius, elementum lectus nec, aliquam lectus. Duis
-                        neque augue, maximus in sapien ut, porta pharetra odio.</p>
-                </div>
-                <div class="panel-pricing-in">
-                    <!-- item -->
-                    <div class="col-md-4 col-sm-4 text-center">
-                        <div class="panel panel-pricing">
-                            <div class="panel-heading">
-                                <div class="pric-icon">
-                                    <img src="../static/images/store.png" alt="" />
-                                </div>
-                                <h3>Basic</h3>
-                            </div>
-                            <div class="panel-body text-center">
-                                <p><strong>$30/<span>Month</span></strong></p>
-                            </div>
-                            <ul class="list-group text-center">
-                                <li class="list-group-item"><i class="fa fa-check"></i> One Website</li>
-                                <li class="list-group-item"><i class="fa fa-check"></i> One User</li>
-                                <li class="list-group-item"><i class="fa fa-check"></i> 10 GB Bandwidth</li>
-                                <li class="list-group-item"><i class="fa fa-times"></i> 2GB Storage</li>
-                                <li class="list-group-item"><i class="fa fa-times"></i> Offline work</li>
-                                <li class="list-group-item"><i class="fa fa-check"></i> 24x7 Support</li>
-                            </ul>
-                            <div class="panel-footer">
-                                <a class="btn btn-lg btn-block hvr-underline-from-center" href="#">Purchase Now!</a>
-                            </div>
-                            <!--
-                            
-                            
-                            
-                            
-                            <h1>Datos Recibidos desde Node-RED</h1>
-                            <p id="data-display">Esperando datos...</p>
-
-                            <script>
-                                // Conectar al WebSocket en Node-RED
-                                const ws = new WebSocket('http://192.168.0.241:1880/ws/data');
-
-                                // Manejar mensajes recibidos desde Node-RED
-                                ws.onmessage = function(event) {
-                                    // Mostrar el mensaje recibido en la página web
-                                    document.getElementById('data-display').innerText = event.data;
-                                };
-
-                                // Manejar errores de conexión
-                                ws.onerror = function(error) {
-                                    console.error('WebSocket Error: ', error);
-                                };
-                            </script>
-                            -->
-                            <h1>Enviar Datos a Node-RED</h1>
-                            <input type="text" id="input-data" placeholder="Escribe algo...">
-                            <button onclick="enviarDatos()">Enviar</button>
-
-                            <p id="response">Esperando respuesta...</p>
-
-
-                        </div>
-                    </div>
-                    <!-- /item -->
-
-
-                </div>
-            </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
-    </div>
-    <!-- end pricing-main -->
-
-    <!--
-
-    <div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
-        <div class="container">
-            <div class="row">
-                <div class="form-reservations-box">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                            <h2 class="block-title text-center">
-						Reservations			
-					</h2>
-                        </div>
-                        <h4 class="form-title">BOOKING FORM</h4>
-                        <p>PLEASE FILL OUT ALL REQUIRED* FIELDS. THANKS!</p>
-
-                        <form id="contact-form" method="post" class="reservations-box" name="contactform" action="mail.php">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="form_name" id="form_name" placeholder="Name" required="required" data-error="Firstname is required.">
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="email" name="email" id="email" placeholder="E-Mail ID" required="required" data-error="E-mail id is required.">
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="phone" id="phone" placeholder="contact no.">
-                                </div>
-                            </div>
-                           
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <select name="no_of_persons" id="no_of_persons" class="selectpicker">
-                                        <option selected disabled>No. Of persons</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select>
-                                </div>
-                            </div>
-                           
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="date-picker" id="date-picker" placeholder="Date" required="required" data-error="Date is required." />
-                                </div>
-                            </div>
-                           
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <input type="text" name="time-picker" id="time-picker" placeholder="Time" required="required" data-error="Time is required." />
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <select name="preferred_food" id="preferred_food" class="selectpicker">
-                                        <option selected disabled>preferred food</option>
-                                        <option>Indian</option>
-                                        <option>Continental</option>
-                                        <option>Mexican</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-box">
-                                    <select name="occasion" id="occasion" class="selectpicker">
-                                        <option selected disabled>Occasion</option>
-                                        <option>Wedding</option>
-                                        <option>Birthday</option>
-                                        <option>Anniversary</option>
-                                    </select>
-                                </div>
-                            </div>
-                           
-
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="reserve-book-btn text-center">
-                                    <button class="hvr-underline-from-center" type="submit" value="SEND" id="submit">BOOK MY TABLE </button>
-                                </div>
-                            </div>
-                            
-                        </form>
-                       
-                    </div>
-                    
-                </div>
-               
-            </div>
-          
-        </div>
-        
-    </div>
-    end reservations-main -->
-
-
-
-    <div id="about" class="about-main pad-top-100 pad-bottom-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                        <h2 class="block-title"> About Us </h2>
-                        <h3>IT STARTED, QUITE SIMPLY, LIKE THIS...</h3>
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusm incididunt ut labore
-                            et dolore magna aliqua. Ut enim ad minim venia, nostrud exercitation ullamco. </p>
-
-                        <p> Aenean commodo ligula eget dolor aenean massa. Cum sociis nat penatibu set magnis dis
-                            parturient montes, nascetur ridiculus mus. quam felisorat, ultricies nec, Aenean commodo
-                            ligula eget dolor penatibu set magnis is parturient montes, nascetur ridiculus mus. quam
-                            felisorat, ultricies nec, pellentesque eu, pretium quis, sem. quat massa quis enim. Donec
-                            vitae sapien ut libero venenatis fauci Nullam quis ante. Etiam sit amet rci eget eros. </p>
-
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusm incididunt ut labore
-                            et dolore magna aliqua. Ut enim ad minim venia, nostrud exercitation ullamco. </p>
-                    </div>
-                </div>
-                <!-- end col -->
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                        <div class="about-images">
-                            <img class="about-main" src="../static/images/about-main.jpg" alt="About Main Image">
-                            <img class="about-inset" src="../static/images/about-inset.jpg" alt="About Inset Image">
-                        </div>
-                    </div>
-                </div>
-                <!-- end col -->
-            </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
-    </div>
-
-
+    
     <!-- end footer-news -->
     <div class="footer-box pad-top-70">
         <div class="container">
@@ -1185,6 +656,28 @@
 
             // Deshabilitar el botón de ORDENAR nuevamente
             orderBtn.disabled = true;
+        }
+    </script>
+    <script>
+        const popupA = document.getElementById('errorPopup');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Verifica si hay un mensaje flash y muestra el popup
+        {% if get_flashed_messages() %}
+            console.log('Mensaje flash');
+            popupA.style.display = 'flex';
+            popupA.classList.add('fade-in');
+        {% endif %}
+
+        // Cerrar popup manualmente
+        closeBtn.onclick = function() {
+            popupA.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == popup) {
+                popupA.style.display = 'none';
+            }
         }
     </script>
     <!-- ALL PLUGINS -->

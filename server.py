@@ -2,7 +2,7 @@ from demo_app import app
 #from flask_cors import CORS
 import requests
 
-from demo_app.controllers import bebidas_ui, posicion_bebidas,lista_bebidas,recetas,tests,pedidos
+from demo_app.controllers import bebidas_ui, posicion_bebidas,lista_bebidas,recetas,pedidos
 
 
 

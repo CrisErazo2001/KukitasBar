@@ -63,16 +63,15 @@ def reducir_cantidades(dic,id_cantidad):
     cantidad.update_by_id(data)
 
 
-def generar_posicion_receta(id_receta):
+def generar_posicion_receta(id_receta,id_lista_bebidas):
     
-    pedidos = pedido.get_all()
-    
+        
     data_pbeb = {
-        'id_lista_bebidas': pedidos[0].id_lista_bebidas
+        'id_lista_bebidas': id_lista_bebidas
     }
 
     data_bebida = {
-        'id_receta' : pedidos[0].id_receta
+        'id_receta' : id_receta
     }
 
     bebida = receta.get_by_id(data_bebida)
@@ -97,7 +96,7 @@ def generar_posicion_receta(id_receta):
         y = 'cant_'+str(i+1)
         
         try:
-            pos = aux.index(bebida[x])
+            pos = aux.index(bebida[x])+1
         except ValueError as ve:
             return {},0
         
@@ -108,13 +107,13 @@ def generar_posicion_receta(id_receta):
         while c > cant[z]:
             aux[pos] = 'Siguiente'
             try:
-                pos = aux.index(bebida[x])
+                pos = aux.index(bebida[x])+1
             except ValueError as ve:
                 return {},0
             
             z = 'cant_'+str(pos)
 
-        print('aux: ',aux)
+        
 
         if bebida[x] == '':
             posiciones.append(0)
@@ -140,9 +139,6 @@ def webSocket_connection():
         
 
 
-bcrypt = Bcrypt(app)
-app.secret_key = 'keep it secret, keep it safe'
-
 
 @app.route('/pedido/create',methods=['POST'])
 def create_pedido():
@@ -163,7 +159,7 @@ def create_pedido():
             continue
     
     search_pedidos = pedido.get_all()
-    tiempo = 0
+    tiempo = result.tiempo_prep
     for y in search_pedidos:
         sol = {
             'id_receta': y.id_receta
@@ -178,102 +174,18 @@ def create_pedido():
         'ready_at': datetime.now() + timedelta(minutes=tiempo),
         'status': '0'
     }
-          
+
+    pos, id_cant = generar_posicion_receta(result.id_receta,bebidas_id)
+    if pos == {}:
+        flash('No tienes la bebida suficiente', 'error')
+        return redirect('/')
 
       
     pedido.save(data)
     f.close()
     return redirect('/')
 
-@app.route('/pedido/get-all')
-def get_all_pedido():
-       
-    data = pedido.get_all()
-    pedidos = []
-    for ped in data:
-        pedidos.append(ped.asdict())
-    print(pedidos)
-    
-    return jsonify(pedidos)
 
-
-
-@app.route('/pedido/get/id')
-def get_pedido_by_id():
-    
-    print(request.args)
-    data = {
-        'id_receta': request.args["id_receta"]
-    }
-    result = pedido.get_by_id(data)
-    result = result.asdict()
-    return jsonify(result)
-
-@app.route('/pedido/get/id_receta')
-def get_pedido_by_id_receta():
-       
-    data = {
-        'id_receta': request.args["id_receta"]
-    }
-    result = pedido.get_by_id_receta(data)
-    pedidos = []
-    for ped in result:
-        pedidos.append(ped.asdict())
-    print(pedidos)
-    
-    return jsonify(pedidos)
-
-@app.route('/pedido/get/name')
-def get_pedido_by_name():
-       
-    data = {
-        'nombre_cliente': request.args["nombre_cliente"]
-    }
-    result = pedido.get_by_name(data)
-    pedidos = []
-    for ped in result:
-        pedidos.append(ped.asdict())
-    print(pedidos)
-    
-    return jsonify(pedidos)
-
-@app.route('/pedido/delete/id',methods=['POST'])
-def delete_pedido_by_id():
-       
-    data = {
-        'id_pedidos': request.form["id_pedidos"]
-    }
-    result = pedido.delete_by_id(data)
-    print(result)
-    return redirect('/pedido/delete')
-
-@app.route('/pedido/delete/all')
-def delete_pedido_all():
-     
-    result = pedido.delete_all()
-    print(result)
-    return redirect('/pedido/delete')
-
-@app.route('/pedido/modify/id',methods=['POST'])
-def update_pedido_by_id():
-
-    date_str = request.form["ready_at"]
-    date_format = '%H:%M:%S'
-
-    date_obj = datetime.strptime(date_str, date_format)
-       
-    data = {
-            
-            'id_pedidos': request.form['id_pedidos'], 
-            'nombre_cliente': request.form['nombre_cliente'],  
-            'id_bebidas': request.form['id_bebidas'], 
-            'id_receta': request.form['id_receta'],  
-            'ready_at': date_obj
-            
-        }
-    result = pedido.update_by_id(data)
-    print(result)
-    return redirect('/pedido')
 
 
 
@@ -404,10 +316,10 @@ def send_receta():
     pedido_actual.change_status()
     aux_pedido = pedido_actual.asdict()
     pedido.update_by_id(aux_pedido)
-    receta_envio, aux_id_cantidades = generar_posicion_receta(pedidos[0].id_pedidos)
+    receta_envio, aux_id_cantidades = generar_posicion_receta(pedido_actual.id_receta,pedido_actual.id_lista_bebidas)
     if receta_envio == {}:
         
-        return jsonify(error=400, text='No dispones de la bebida suficiente'), 400
+        return jsonify(error=101, text='No dispones de la bebida suficiente'), 101
     return jsonify(receta_envio)
 
 @app.route('/pedido/status')

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botones de Selección</title>
+    <link rel="stylesheet" href="../static/css/styles_botellas.css">
+</head>
+
+<body>
+
+    <div class="popup_error" id="errorPopup">
+        <div class="popup_error-content">
+            <span class="close-btn" id="closeBtn">&times;</span>
+            <h2>Error</h2>
+            <!-- Usamos Jinja2 para mostrar el mensaje flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'error' %}
+            <p>{{ message }}</p>
+
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+
+        </div>
+    </div>
+
+
+
+
+    <div class="box-principal">
+
+        <div class="tabs">
+            <div class="tab-container">
+                <div id="tab2" class="tab">
+                    <a href="/bebida">Regresar</a>
+                </div>
+
+                <div id="tab1" class="tab">
+                    <a href="#tab3">Modificar Bebidas</a>
+                    <div class="tab-content">
+                        <div class="tab-dos">
+
+                        </div>
+
+
+                        <h1>Receta: {{receta.nombre}}</h1>
+
+
+
+
+                        <form action="/receta/modificar" method="post" class="data">
+
+                            
+
+
+                            <div class="box-general">
+                                <div class="box-interna">
+                                    <h3>Selecciona los Ingredientes</h3>
+                                    <div class="form-group">
+                                        <label for="bebida_1" class="to-selector">
+                                            <select name="bebida_1" class="select-css-2">
+                                                <option value="">{{receta.bebida_1}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bebida_2" class="to-selector">
+                                            <select name="bebida_2" class="select-css-2">
+                                                <option value="">{{receta.bebida_2}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bebida_3" class="to-selector">
+                                            <select name="bebida_3" class="select-css-2">
+                                                <option value="">{{receta.bebida_3}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bebida_4" class="to-selector">
+                                            <select name="bebida_4" class="select-css-2">
+                                                <option value="">{{receta.bebida_4}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bebida_5" class="to-selector">
+                                            <select name="bebida_5" class="select-css-2">
+                                                <option value="">{{receta.bebida_5}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bebida_6" class="to-selector">
+                                            <select name="bebida_6" class="select-css-2">
+                                                <option value="">{{receta.bebida_6}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="bebida_7" class="to-selector">
+                                            <select name="bebida_7" class="select-css-2">
+                                                <option value="">{{receta.bebida_7}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="bebida_8" class="to-selector">
+                                            <select name="bebida_8" class="select-css-2">
+                                                <option value="">{{receta.bebida_8}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="bebida_9" class="to-selector">
+                                            <select name="bebida_9" class="select-css-2">
+                                                <option value="">{{receta.bebida_9}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bebida_10" class="to-selector">
+                                            <select name="bebida_10" class="select-css-2">
+                                                <option value="">{{receta.bebida_10}}</option>
+                                                {% for o in bebidas %}
+                                                <option value="{{ o }}">{{ o }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <!-- Fin Ingredientes -->
+
+                                </div> <!-- Fin box-interna1 -->
+
+
+                                <div class="box-interna">
+                                    <h3>Selecciona el numero de onzas (numeros enteros) </h3>
+                                    <div class="form-group">
+                                        <label for="cant_1" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_1}} class="input-css"
+                                                name="cant_1" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_2" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_2}} class="input-css"
+                                                name="cant_2" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_3" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_3}} class="input-css"
+                                                name="cant_3" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_4" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_4}} class="input-css"
+                                                name="cant_4" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_5" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_5}} class="input-css"
+                                                name="cant_5" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_6" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_6}} class="input-css"
+                                                name="cant_6" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_7" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_7}} class="input-css"
+                                                name="cant_7" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_8" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_8}} class="input-css"
+                                                name="cant_8" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_9" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_9}} class="input-css"
+                                                name="cant_9" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cant_10" class="to-selector">
+                                            <input type="text" placeholder={{receta.cant_10}} class="input-css"
+                                                name="cant_10" aria-describedby="text">
+                                        </label>
+                                    </div>
+                                    <!-- Fin Cantidades -->
+
+                                </div> <!-- Fin box-interna2 -->
+
+
+                            </div> <!-- Fin box-general -->
+
+
+                            <h3>Especifica un tiempo de espera</h3>
+                            <div class="form-group">
+                                <label for="tiempo_prep" class="to-selector">
+                                    <input type="text" placeholder={{receta.tiempo_prep}} class="input-css"
+                                        name="tiempo_prep" aria-describedby="text">
+                                </label>
+                            </div>
+
+                            <input type="submit" value="Guardar Receta" class="botonera-normal">
+
+                        </form>
+
+                        <a href="/receta/delete">
+                            <button class="botonera-normal"> Eliminar Receta </button>
+                        </a>
+
+                    </div>
+                </div>
+
+
+                <!-- End tab-content -->
+            </div>
+            <!-- End tab-container -->
+        </div>
+        <!-- End tabs -->
+    </div><!-- End box-principal -->
+
+
+
+    <script>
+        let popup = document.getElementById("popup");
+
+        function openPopup(drinkName) {
+            document.getElementById('drink-name').textContent = drinkName;
+            popup.classList.add("open-popup");
+        }
+
+        function closePopup() {
+            popup.classList.remove("open-popup");
+        }
+    </script>
+
+    <script>
+        let popupB = document.getElementById("popup-cb");
+
+        function openPopupB(nameDrink) {
+            document.getElementById('name-drink').textContent = nameDrink;
+            popupB.classList.add("open-popup");
+        }
+
+        function closePopupB() {
+            popupB.classList.remove("open-popup");
+        }
+    </script>
+    <script>
+        const popupA = document.getElementById('errorPopup');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Verifica si hay un mensaje flash y muestra el popup
+        {
+            %
+            if get_flashed_messages() %
+        }
+        console.log('Mensaje flash');
+        popupA.style.display = 'flex';
+        popupA.classList.add('fade-in'); {
+            %
+            endif %
+        }
+
+        // Cerrar popup manualmente
+        closeBtn.onclick = function () {
+            popupA.style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            if (event.target == popup) {
+                popupA.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

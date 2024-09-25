@@ -25,9 +25,9 @@ def create_bebida_pos():
     id_lista_bebidas = {
         'id_lista_bebidas': bebidas_id
     }
-
+    print('----------------------Validando errores------------------------------')
     lleno = False
-    for i in range(12):
+    for i in range(24):
         aux = 'Pos_'+str(i+1)
         if request.form[aux] != '':
             lleno = True
@@ -35,6 +35,7 @@ def create_bebida_pos():
         else:
             continue
     if not lleno:
+        print('----------------------No se han ingresado bebidas------------------------------')
         flash('No has ingresado ninguna bebida', 'error')
         return redirect('/bebida#tab2')
     
@@ -70,9 +71,11 @@ def create_bebida_pos():
         aux_list_cant = request.form[aux_cant]
         if aux_list_pos != '' and aux_list_cant != '':
             if not aux_list_cant.isnumeric():
+                print('----------------------Una cantidad no es un numero------------------------------')
                 flash('Una cantidad no es un numero', 'error')
                 return redirect('/bebida#tab2')
             elif aux_list_cant == '0':
+                print('----------------------La cantidad no puede ser 0------------------------------')
                 flash('La cantidad no puede ser 0', 'error')
                 return redirect('/bebida#tab2')
             else:
@@ -82,9 +85,11 @@ def create_bebida_pos():
             posiciones.append('') 
             cantidades.append(0)
         elif aux_list_pos != '' and aux_list_cant == '':
+            print('----------------------Existe una bebida sin cantidad------------------------------')
             flash('Existe una bebida sin cantidad', 'error')
             return redirect('/bebida#tab2')
         elif aux_list_pos == '' and aux_list_cant != '':
+            print('----------------------Existe una cantidad sin bebida------------------------------')
             flash('Existe una cantidad sin bebida', 'error')
             return redirect('/bebida#tab2')
         
@@ -93,9 +98,12 @@ def create_bebida_pos():
         try:
             posiciones.index(i)
         except ValueError:
+            print('----------------------Debe utilizar al menos una vez todas las bebidas------------------------------')
             flash('Debe utilizar al menos una vez todas las bebidas', 'error')
             return redirect('/bebida#tab2')
-        
+
+    print('----------------------No hubieron errores------------------------------')
+
     data1 = {
         'Pos_1': posiciones[0],
         'Pos_2': posiciones[1],
@@ -124,22 +132,25 @@ def create_bebida_pos():
         'Pos_25': '',
         'Pos_26': '',
         'Pos_27': '',
-        'nombre': '',
         'id_lista_bebidas': bebidas_id
 
     }
     
     sv_data = posicion_bebidas.get_all()
+    existe = False
     for beb in sv_data:
         if beb.id_lista_bebidas == data1['id_lista_bebidas']:
-            return jsonify(error=400, text='Estas repitiendo id_lista_bebidas'), 400
+            print('----------------------Actualizando posicion------------------------------')
+            posicion_bebidas.update_by_id_lista_bebidas(data1)
+            id = beb
+            existe = True
+            break
         else: 
             continue
-    
-    posicion_bebidas.save(data1)
-
-    id = posicion_bebidas.get_all()
-    id = id[len(id)-1]
+    if not existe:
+        posicion_bebidas.save(data1)
+        id = posicion_bebidas.get_all()
+        id = id[len(id)-1]
 
 
     data2 = {
@@ -175,13 +186,18 @@ def create_bebida_pos():
     }
     
     sv_data2 = cantidad.get_all()
+    existe = False
     for cant in sv_data2:
         if cant.id_posicion_bebidas == data2['id_posicion_bebidas']:
-            flash('Se esta repitiendo la lista de bebida', 'error')
-            return redirect('/bebida#tab2')
+            print('----------------------Actualizando cantidad------------------------------')
+            cantidad.update_by_id_posicion_bebidas(data2)
+            existe = True
+            break
         else: 
             continue
-    cantidad.save(data2)
+
+    if not existe:
+        cantidad.save(data2)
     f.close()
     return redirect('/bebida#tab2')
 
