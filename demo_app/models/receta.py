@@ -59,7 +59,11 @@ class receta:
     def get_by_id(cls, data):
         query  = "SELECT * FROM "+ table_name +" WHERE id_receta = %(id_receta)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        return cls(result[0])
+        if len(result) == 0:
+            result = []
+        else:
+            result = cls(result[0])
+        return result
     @classmethod
     def get_by_id_lista_bebidas(cls, data):
         query  = "SELECT * FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"

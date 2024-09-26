@@ -60,7 +60,10 @@
                             <div class="form-group">
                                 <label for="nombre" class="to-selector">
                                     <input type="text" placeholder="Nombre de receta" class="input-css" name="nombre"
-                                        aria-describedby="textHelp">
+                                        aria-describedby="textHelp"
+                                        {% if receta.nombre != '' %}
+                                            value = {{receta.nombre}}
+                                        {% endif %}>
                                 </label>
                             </div>
 
@@ -71,7 +74,11 @@
                                     <div class="form-group">
                                         <label for="bebida_1" class="to-selector">
                                             <select name="bebida_1" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_1 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_1}}">{{receta.bebida_1}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -81,7 +88,11 @@
                                     <div class="form-group">
                                         <label for="bebida_2" class="to-selector">
                                             <select name="bebida_2" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_2 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_2}}">{{receta.bebida_2}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -91,7 +102,11 @@
                                     <div class="form-group">
                                         <label for="bebida_3" class="to-selector">
                                             <select name="bebida_3" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_3 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_3}}">{{receta.bebida_3}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -101,7 +116,11 @@
                                     <div class="form-group">
                                         <label for="bebida_4" class="to-selector">
                                             <select name="bebida_4" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_4 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_4}}">{{receta.bebida_4}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -111,7 +130,11 @@
                                     <div class="form-group">
                                         <label for="bebida_5" class="to-selector">
                                             <select name="bebida_5" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_5 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_5}}">{{receta.bebida_5}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -121,7 +144,11 @@
                                     <div class="form-group">
                                         <label for="bebida_6" class="to-selector">
                                             <select name="bebida_6" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_6 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_6}}">{{receta.bebida_6}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -132,7 +159,11 @@
                                     <div class="form-group">
                                         <label for="bebida_7" class="to-selector">
                                             <select name="bebida_7" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_7 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_7}}">{{receta.bebida_7}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -143,7 +174,11 @@
                                     <div class="form-group">
                                         <label for="bebida_8" class="to-selector">
                                             <select name="bebida_8" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_8 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_8}}">{{receta.bebida_8}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -154,7 +189,11 @@
                                     <div class="form-group">
                                         <label for="bebida_9" class="to-selector">
                                             <select name="bebida_9" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_9 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_9}}">{{receta.bebida_9}}</option>
+                                                {% endif %}
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -164,7 +203,12 @@
                                     <div class="form-group">
                                         <label for="bebida_10" class="to-selector">
                                             <select name="bebida_10" class="select-css-2">
-                                                <option value="">Selecciona un ingrediente:</option>
+                                                {% if receta.bebida_10 == '' %}
+                                                    <option value="">Selecciona un ingrediente:</option>
+                                                {% else %}
+                                                    <option value="{{receta.bebida_10}}">{{receta.bebida_10}}</option>
+                                                {% endif %}
+                                                
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
                                                 {% endfor %}
@@ -181,61 +225,92 @@
                                     <div class="form-group">
                                         <label for="cant_1" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 1" class="input-css"
-                                                name="cant_1" aria-describedby="text">
+                                                name="cant_1" aria-describedby="text"
+                                                {% if receta.cant_1 > 0 %}
+                                                    value = {{receta.cant_1}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_2" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 2" class="input-css"
-                                                name="cant_2" aria-describedby="text">
+                                                name="cant_2" aria-describedby="text"
+                                                {% if receta.cant_2 > 0 %}
+                                                    value = {{receta.cant_2}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_3" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 3" class="input-css"
-                                                name="cant_3" aria-describedby="text">
+                                                name="cant_3" aria-describedby="text"
+                                                {% if receta.cant_3 > 0 %}
+                                                    value = {{receta.cant_3}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_4" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 4" class="input-css"
-                                                name="cant_4" aria-describedby="text">
+                                                name="cant_4" aria-describedby="text"
+                                                {% if receta.cant_4 > 0 %}
+                                                    value = {{receta.cant_4}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_5" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 5" class="input-css"
-                                                name="cant_5" aria-describedby="text">
+                                                name="cant_5" aria-describedby="text"
+                                                {% if receta.cant_5 > 0 %}
+                                                    value = {{receta.cant_5}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_6" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 6" class="input-css"
-                                                name="cant_6" aria-describedby="text">
+                                                name="cant_6" aria-describedby="text"
+                                                {% if receta.cant_6 > 0 %}
+                                                    value = {{receta.cant_6}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_7" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 7" class="input-css"
-                                                name="cant_7" aria-describedby="text">
+                                                name="cant_7" aria-describedby="text"
+                                                {% if receta.cant_7 > 0 %}
+                                                    value = {{receta.cant_7}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_8" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 8" class="input-css"
-                                                name="cant_8" aria-describedby="text">
+                                                name="cant_8" aria-describedby="text"
+                                                {% if receta.cant_8 > 0 %}
+                                                    value = {{receta.cant_8}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_9" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 9" class="input-css"
-                                                name="cant_9" aria-describedby="text">
+                                                name="cant_9" aria-describedby="text"
+                                                {% if receta.cant_9 > 0 %}
+                                                    value = {{receta.cant_9}}
+                                                {% endif %}
+                                                >
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="cant_10" class="to-selector">
                                             <input type="text" placeholder="Cantidad Bebida 10" class="input-css"
-                                                name="cant_10" aria-describedby="text">
+                                                name="cant_10" aria-describedby="text"
+                                                {% if receta.cant_10 > 0 %}
+                                                    value = {{receta.cant_10}}
+                                                {% endif %}>
                                         </label>
                                     </div>
                                     <!-- Fin Cantidades -->
@@ -250,13 +325,24 @@
                             <div class="form-group">
                                 <label for="tiempo_prep" class="to-selector">
                                     <input type="text" placeholder="Tiempo de Preparacion" class="input-css"
-                                        name="tiempo_prep" aria-describedby="text">
+                                        name="tiempo_prep" aria-describedby="text"
+                                        {% if receta.tiempo_prep > 0 %}
+                                            value = {{receta.tiempo_prep}}
+                                        {% endif %}
+
+                                        >
                                 </label>
                             </div>
 
                             <input type="submit" value="Guardar Receta" class="botonera-normal">
 
                         </form>
+
+                        {% if receta.nombre != '' %}
+                            <a href="/receta/delete">
+                                <button class="botonera-normal">Eliminar bebida</button>
+                            </a>
+                        {% endif %}
                         
                         <h3>Seleccionar una receta para modificar</h3>
                         <form action="/receta/seleccionar" method="POST" class="data">
@@ -264,9 +350,11 @@
                             <div class="form-group">
                                 <label for="nombre" class="to-selector">
                                     <select name="nombre" class="select-css">
+                                        <option value="" disabled selected>Selecciona una bebida:</option>
                                         {% for o in recetas %}
                                         <option value="{{ o }}">{{ o }}</option>
                                         {% endfor %}
+                                        <option value="">- ninguna -</option>
                                     </select>
                                 </label>
                             </div>
@@ -985,9 +1073,11 @@
                             <div class="form-group">
                                 <label for="nombre" class="to-selector">
                                     <select name="nombre" class="select-css">
+                                        <option value="" > Selecciona una lista de bebidas:</option>
                                         {% for o in lista_bebidas %}
                                         <option value="{{ o }}">{{ o }}</option>
                                         {% endfor %}
+                                        <option value=""> - ninguna - </option>
                                     </select>
                                 </label>
                             </div>

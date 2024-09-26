@@ -20,6 +20,9 @@ def create_bebida():
     if nombre == '':
         flash('No ingresaste un nombre', 'error')
         return redirect('/bebida')
+    if(nombre.find(" ")!=-1):
+        flash('El nombre no puede contener espacios', 'error')
+        return redirect('/bebida')
     lleno = False
     for i in range(12):
         aux = 'bebida_'+str(i+1)
@@ -61,9 +64,6 @@ def create_bebida():
     
     return redirect('/bebida')
 
-
-
-
 @app.route('/bebida/define-lista-global',methods=['POST'])
 def define_bebida_list():
     f = open("bebida_id.txt", "w")
@@ -73,12 +73,18 @@ def define_bebida_list():
       
         'nombre': request.form['nombre']
     }
-    lista = lista_bebidas.get_by_name(data)
-    bebidas_id = lista.id_lista_bebidas
-    print('Bebidas ID: ', bebidas_id)
-    f.write(str(bebidas_id))
-    f.close()
-    return redirect('/bebida')
+    if data['nombre'] != '':
+        lista = lista_bebidas.get_by_name(data)
+        bebidas_id = lista.id_lista_bebidas
+        print('Bebidas ID: ', bebidas_id)
+        
+        f.write(str(bebidas_id))
+        f.close()
+        return redirect('/bebida#tab2')
+    else:
+        f.write(str(0))
+        f.close()
+        return redirect('/bebida')
 
 @app.route('/bebida/define-lista-global/get')
 def get_bebida_list():
@@ -92,7 +98,6 @@ def get_bebida_list():
 
 @app.route('/bebida')
 def addbebidas():
-         
         f = open("bebida_id.txt", "r")
         bebidas_id = f.read()
         
@@ -100,6 +105,75 @@ def addbebidas():
             bebidas_id = 0
         else:
             bebidas_id = int(bebidas_id)
+
+        f2 = open('receta_id.txt','r')
+        receta_id = f2.read()
+        if receta_id == '' or receta_id == '0':
+            receta_id = 0
+        else:
+            receta_id = int(receta_id)
+        f2.close()
+        data_receta = {
+            'id_receta': receta_id
+        }
+        if receta_id > 0 and bebidas_id > 0:
+            result_receta = receta.get_by_id(data_receta)
+            if result_receta != []:
+                result_receta = result_receta.asdict()
+            else:
+                result_receta = {
+                    'nombre': '', 
+                    'bebida_1':'', 
+                    'bebida_2': '', 
+                    'bebida_3':'', 
+                    'bebida_4': '', 
+                    'bebida_5': '', 
+                    'bebida_6': '',
+                    'bebida_7': '',
+                    'bebida_8': '' ,
+                    'bebida_9': '',
+                    'bebida_10': '',
+                    'cant_1': 0, 
+                    'cant_2': 0, 
+                    'cant_3': 0, 
+                    'cant_4': 0, 
+                    'cant_5': 0, 
+                    'cant_6': 0,
+                    'cant_7': 0,
+                    'cant_8': 0,
+                    'cant_9': 0,
+                    'cant_10': 0 ,
+                    'tiempo_prep': 0
+                    
+                }
+        else:
+            result_receta = {
+                'nombre': '', 
+                'bebida_1':'', 
+                'bebida_2': '', 
+                'bebida_3':'', 
+                'bebida_4': '', 
+                'bebida_5': '', 
+                'bebida_6': '',
+                'bebida_7': '',
+                'bebida_8': '' ,
+                'bebida_9': '',
+                'bebida_10': '',
+                'cant_1': 0, 
+                'cant_2': 0, 
+                'cant_3': 0, 
+                'cant_4': 0, 
+                'cant_5': 0, 
+                'cant_6': 0,
+                'cant_7': 0,
+                'cant_8': 0,
+                'cant_9': 0,
+                'cant_10': 0 ,
+                'tiempo_prep': 0
+                
+            }
+
+        
         
         sv_data = lista_bebidas.get_all()
         
@@ -114,7 +188,80 @@ def addbebidas():
         }
         
         
-        if bebidas_id != 0:
+        if bebidas_id == 0:
+            bebidas = []
+            lista_bebidas_nombre = ''
+            bebidas_total = []
+            recetas_total = []
+            posiciones_bebidas = {
+                'id_posicion_bebidas': 0,  
+                'Pos_1': '', 
+                'Pos_2': '', 
+                'Pos_3': '',  
+                'Pos_4':  '',  
+                'Pos_5':  '',  
+                'Pos_6': '', 
+                'Pos_7': '', 
+                'Pos_8': '', 
+                'Pos_9': '', 
+                'Pos_10': '', 
+                'Pos_11': '', 
+                'Pos_12': '', 
+                'Pos_13': '', 
+                'Pos_14': '', 
+                'Pos_15': '', 
+                'Pos_16': '', 
+                'Pos_17': '', 
+                'Pos_18': '', 
+                'Pos_19': '', 
+                'Pos_20': '', 
+                'Pos_21': '', 
+                'Pos_22': '', 
+                'Pos_23': '', 
+                'Pos_24': '', 
+                'Pos_25': '', 
+                'Pos_26': '', 
+                'Pos_27': '', 
+                'id_lista_bebidas': 0   
+
+            }
+            cantidades_bebidas = {
+                'id_cantidad': 0, 
+                'id_posicion_bebidas': 0,  
+                'cant_1': 0,
+                'cant_2': 0,
+                'cant_3': 0, 
+                'cant_4':  0, 
+                'cant_5':  0,
+                'cant_6': 0,
+                'cant_7': 0,
+                'cant_8': 0,
+                'cant_9': 0,
+                'cant_10': 0,
+                'cant_11': 0,
+                'cant_12': 0,
+                'cant_13': 0,
+                'cant_14': 0,
+                'cant_15': 0,
+                'cant_16': 0,
+                'cant_17': 0,
+                'cant_18': 0,
+                'cant_19': 0,
+                'cant_20': 0,
+                'cant_21': 0,
+                'cant_22': 0,
+                'cant_23': 0,
+                'cant_24': 0,
+                'cant_25': 0,
+                'cant_26': 0,
+                'cant_27': 0, 
+
+            }
+        
+        
+            
+        else:
+            
             if lista_bebidas.get_by_id(data) != []:
                 sv_data2 = lista_bebidas.get_by_id(data)
                 lista_bebidas_nombre = sv_data2.nombre
@@ -122,36 +269,96 @@ def addbebidas():
             else:
                 
                 bebidas = []
-        else:
-                bebidas = []
-        bebidas_total = []
-        for x in bebidas:
-            if x != '':
-                bebidas_total.append(x)
-            else:
-                continue
+            bebidas_total = []
+            for x in bebidas:
+                if x != '':
+                    bebidas_total.append(x)
+                else:
+                    continue
 
-        recetas = receta.get_by_id_lista_bebidas(data)
-        recetas_total = []
-        for rec in recetas:
-            recetas_total.append(rec.asdict()['nombre'])
-        
-        
-        posiciones_bebidas = posicion_bebidas.get_by_id_lista_bebidas(data)
-         
-        if posiciones_bebidas == []:
-            posiciones_bebidas = {}
-            cantidades_bebidas = {}
-        else:
-            solicitud = {
-                'id_posicion_bebidas':posiciones_bebidas.id_posicion_bebidas
-            }
-            cantidades_bebidas = cantidad.get_by_id_posicion_bebidas(solicitud)
-            cantidades_bebidas = cantidades_bebidas.asdict()
-            posiciones_bebidas = posiciones_bebidas.asdict()
-        
-        
+            recetas = receta.get_by_id_lista_bebidas(data)
+            recetas_total = []
+            for rec in recetas:
+                recetas_total.append(rec.asdict()['nombre'])
+            
+            
+            posiciones_bebidas = posicion_bebidas.get_by_id_lista_bebidas(data)
+            
+            if posiciones_bebidas == []:
+                posiciones_bebidas = {
+                    'id_posicion_bebidas': 0,  
+                    'Pos_1': '', 
+                    'Pos_2': '', 
+                    'Pos_3': '',  
+                    'Pos_4':  '',  
+                    'Pos_5':  '',  
+                    'Pos_6': '', 
+                    'Pos_7': '', 
+                    'Pos_8': '', 
+                    'Pos_9': '', 
+                    'Pos_10': '', 
+                    'Pos_11': '', 
+                    'Pos_12': '', 
+                    'Pos_13': '', 
+                    'Pos_14': '', 
+                    'Pos_15': '', 
+                    'Pos_16': '', 
+                    'Pos_17': '', 
+                    'Pos_18': '', 
+                    'Pos_19': '', 
+                    'Pos_20': '', 
+                    'Pos_21': '', 
+                    'Pos_22': '', 
+                    'Pos_23': '', 
+                    'Pos_24': '', 
+                    'Pos_25': '', 
+                    'Pos_26': '', 
+                    'Pos_27': '', 
+                    'id_lista_bebidas': 0   
+
+                }
+                cantidades_bebidas = {
+                    'id_cantidad': 0, 
+                    'id_posicion_bebidas': 0,  
+                    'cant_1': 0,
+                    'cant_2': 0,
+                    'cant_3': 0, 
+                    'cant_4':  0, 
+                    'cant_5':  0,
+                    'cant_6': 0,
+                    'cant_7': 0,
+                    'cant_8': 0,
+                    'cant_9': 0,
+                    'cant_10': 0,
+                    'cant_11': 0,
+                    'cant_12': 0,
+                    'cant_13': 0,
+                    'cant_14': 0,
+                    'cant_15': 0,
+                    'cant_16': 0,
+                    'cant_17': 0,
+                    'cant_18': 0,
+                    'cant_19': 0,
+                    'cant_20': 0,
+                    'cant_21': 0,
+                    'cant_22': 0,
+                    'cant_23': 0,
+                    'cant_24': 0,
+                    'cant_25': 0,
+                    'cant_26': 0,
+                    'cant_27': 0, 
+
+                }
+            else:
+                solicitud = {
+                    'id_posicion_bebidas':posiciones_bebidas.id_posicion_bebidas
+                }
+                cantidades_bebidas = cantidad.get_by_id_posicion_bebidas(solicitud)
+                cantidades_bebidas = cantidades_bebidas.asdict()
+                posiciones_bebidas = posiciones_bebidas.asdict()
+            
+            
         f.close()
         
         
-        return render_template("disposicion_botellas_2.html",lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total, posicion_bebidas = posiciones_bebidas,cantidades_bebidas = cantidades_bebidas,lista_bebidas_nombre = lista_bebidas_nombre)
+        return render_template("disposicion_botellas_2.html",lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total, posicion_bebidas = posiciones_bebidas,cantidades_bebidas = cantidades_bebidas,lista_bebidas_nombre = lista_bebidas_nombre, receta = result_receta)

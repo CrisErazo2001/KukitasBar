@@ -67,6 +67,7 @@ def index():
         
         
         f.close()
+        
         return render_template('restaurant.html',lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total)
 
 

@@ -96,7 +96,7 @@ def generar_posicion_receta(id_receta,id_lista_bebidas):
         y = 'cant_'+str(i+1)
         
         try:
-            pos = aux.index(bebida[x])+1
+            pos = aux.index(bebida[x])
         except ValueError as ve:
             return {},0
         
@@ -107,11 +107,12 @@ def generar_posicion_receta(id_receta,id_lista_bebidas):
         while c > cant[z]:
             aux[pos] = 'Siguiente'
             try:
-                pos = aux.index(bebida[x])+1
+                pos = aux.index(bebida[x])
             except ValueError as ve:
                 return {},0
             
             z = 'cant_'+str(pos)
+            
 
         
 
@@ -137,8 +138,6 @@ def webSocket_connection():
         
         websocket.send('1')
         
-
-
 
 @app.route('/pedido/create',methods=['POST'])
 def create_pedido():
@@ -174,8 +173,9 @@ def create_pedido():
         'ready_at': datetime.now() + timedelta(minutes=tiempo),
         'status': '0'
     }
-
+    
     pos, id_cant = generar_posicion_receta(result.id_receta,bebidas_id)
+    print('pos: ', pos)
     if pos == {}:
         flash('No tienes la bebida suficiente', 'error')
         return redirect('/')
@@ -184,11 +184,6 @@ def create_pedido():
     pedido.save(data)
     f.close()
     return redirect('/')
-
-
-
-
-
 
 
 @app.route('/pedido',methods=['GET'])
@@ -293,11 +288,11 @@ def fin_receta():
         }
         pedido.delete_by_id(data)
         reducir_cantidades(receta_envio,id_cantidades)
-        return redirect('/pedido/send')
+        return jsonify({'status_end': True})
     # webSocket_connection()
     # return 200
     else:
-        return redirect('/pedido/send')
+        return jsonify({'status_end': False})
 
 
 @app.route('/pedido/send')
@@ -312,14 +307,17 @@ def send_receta():
             'posiciones':[],
             'cantidades':[]
         })
-    pedido_actual = pedidos[0]
-    pedido_actual.change_status()
-    aux_pedido = pedido_actual.asdict()
-    pedido.update_by_id(aux_pedido)
-    receta_envio, aux_id_cantidades = generar_posicion_receta(pedido_actual.id_receta,pedido_actual.id_lista_bebidas)
-    if receta_envio == {}:
-        
-        return jsonify(error=101, text='No dispones de la bebida suficiente'), 101
+    else:
+        pedido_actual = pedidos[0]
+        if pedido_actual.status == 1:
+            receta_envio, aux_id_cantidades = generar_posicion_receta(pedido_actual.id_receta,pedido_actual.id_lista_bebidas)
+        else:
+            pedido_actual.change_status()
+            aux_pedido = pedido_actual.asdict()
+            pedido.update_by_id(aux_pedido)
+            receta_envio, aux_id_cantidades = generar_posicion_receta(pedido_actual.id_receta,pedido_actual.id_lista_bebidas)
+        if receta_envio == {}:
+            return jsonify(error=101, text='No dispones de la bebida suficiente'), 101
     return jsonify(receta_envio)
 
 @app.route('/pedido/status')
