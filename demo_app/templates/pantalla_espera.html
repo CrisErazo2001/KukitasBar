@@ -87,6 +87,39 @@
         const wsPercent = new WebSocket('http://192.168.0.241:1880/ws/porcentaje');
         const wsName = new WebSocket('http://192.168.0.241:1880/ws/name');
         const wsEstadoProceso = new WebSocket('http://192.168.0.241:1880/ws/estadoproceso');
+        const refresh = new WebSocket('http://192.168.0.241:1880/ws/refresh');
+
+
+
+        //Inicio WS refresh
+
+        refresh.onmessage = function(event) {
+            console.log('Mensaje recibido desde Node-RED:', event.data);
+            // Si el mensaje es 'refresh', se recarga la página
+            location.reload(); // Recarga la página
+            // if (event.data === 'true') {
+            //     location.reload(); // Recarga la página
+            // }
+        };
+
+
+        // Manejar la apertura de la conexión
+        refresh.onopen = function() {
+            console.log('WebSocket conectado');
+        };
+
+        // Manejar errores de la conexión
+        refresh.onerror = function(error) {
+            console.log('WebSocket Error:', error);
+        };
+
+        // Manejar el cierre de la conexión
+        refresh.onclose = function() {
+            console.log('WebSocket desconectado');
+        };
+
+        //Fin WS Refresh
+
 
         // Manejar mensajes recibidos desde Node-RED
         wsPercent.onmessage = function (event) {

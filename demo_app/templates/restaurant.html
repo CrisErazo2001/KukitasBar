@@ -94,7 +94,7 @@
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="active"><a href="#banner">Home</a></li>
 
-                                    <li><a href="#menu">Menu</a></li>
+                                    <li><a href="#menu">Meddnu</a></li>
 
                                     <!-- <li><a href="#gallery">Gallery</a></li> -->
 
@@ -572,32 +572,7 @@
             console.error('WebSocket Error: ', error);
         };
 
-        //Inicio WS refresh
-
-        refresh.onmessage = function (event) {
-            console.log('Mensaje recibido desde Node-RED:', event.data);
-            // Si el mensaje es 'refresh', se recarga la página
-            if (event.data === 'true') {
-                location.reload(); // Recarga la página
-            }
-        };
-
-        // Manejar la apertura de la conexión
-        refresh.onopen = function () {
-            console.log('WebSocket conectado');
-        };
-
-        // Manejar errores de la conexión
-        refresh.onerror = function (error) {
-            console.log('WebSocket Error:', error);
-        };
-
-        // Manejar el cierre de la conexión
-        refresh.onclose = function () {
-            console.log('WebSocket desconectado');
-        };
-
-        //Fin WS Refresh
+        
 
         let popup = document.getElementById("popup");
         let selectedDrink = "";
