@@ -229,7 +229,7 @@ def delete_receta():
                         return redirect('/bebida#tab3')
             else:
                 receta.delete_by_id(data_receta)
-                return redirect('/bebida#tab3')
+                return redirect('/bebida#tab3') 
         else:
             flash('No se encontro la receta','error')
             return redirect('/bebida#tab3')

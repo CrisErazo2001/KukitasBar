@@ -5,6 +5,7 @@ from demo_app.models.pedido import pedido
 from demo_app.models.posicion_bebidas import posicion_bebidas
 from demo_app.models.receta import receta
 from demo_app.models.cantidad_bebidas import cantidad
+from demo_app.models.historico_pedido import historico_pedido
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 
@@ -286,7 +287,16 @@ def fin_receta():
         data = {
             'id_pedidos': result[0].id_pedidos
         }
+        data2={
+            'nombre_cliente': result[0].nombre_cliente,  
+            'id_receta': result[0].id_receta, 
+            'id_lista_bebidas': result[0].id_lista_bebidas,
+            'create_at': result[0].create_at , 
+            
+        }
+
         pedido.delete_by_id(data)
+        historico_pedido.save(data2)
         reducir_cantidades(receta_envio,id_cantidades)
         return jsonify({'status_end': True})
     # webSocket_connection()
@@ -335,3 +345,9 @@ def send_status_pedidos():
         }
     
     return jsonify(result)
+
+
+@app.route('/pedido/historial/delete-all')
+def delete_all_historial():
+    historico_pedido.delete_all()
+    return redirect('/statics')
