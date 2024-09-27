@@ -10,8 +10,14 @@ import requests
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
+
 @app.route('/')
 def index():
+    
+     return render_template('login.html')
+
+@app.route('/home')
+def home():
         f = open("bebida_id.txt", "r+")
         bebidas_id = f.read()
         

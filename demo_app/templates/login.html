@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/styles_login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Login</title>
+</head>
+<body>
+    <div class="popup_error" id="errorPopup">
+        <div class="popup_error-content">
+            <span class="close-btn" id="closeBtn">&times;</span>
+            <h2>Error</h2>
+            <!-- Usamos Jinja2 para mostrar el mensaje flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'error' %}
+            <p>{{ message }}</p>
+
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+
+        </div>
+    </div>
+
+    <div class="container login">
+        <div class="logo">
+            <div class="logo-child">
+                <img src="../static/images/Shakes.gif" width="350" height="420" alt="Logo">
+            </div>
+        </div>
+        <div class="form-information">
+            <div class="form-information-child">
+                <h2>Iniciar Sesión</h2>
+                <form action="/login" method="post" class="data">
+                    <div class="form-group">
+                        <label for="user" class="form-label">
+                            <input type="text" name="user" placeholder="Usuario" class="form-control">
+                        </label>
+                        
+                            <!-- aria-describedby="emailHelp"> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label" >
+                            <input type="password" name="password" class="form-control" placeholder="Contraseña">    
+                        </label>
+                    </div>
+                    <input type="submit" id='submit_btn2' value="Ingresar"
+>
+                    <!-- <a href="/register">
+                        <input type="button" value="Registrarse" id="sing-up">
+                    </a> -->
+                    <a href="/home">
+                        <input type="button" value="Menu Principal" id="home">
+                    </a>
+                    <a href="/pedido">
+                        <input type="button" value="Lista de Pedidos" id="lista-pedidas">
+                    </a>
+                    <!-- <a href="/register">
+                        <input type="button" value="Registrar Nuevo Usuario" id="sing-up">
+                    </a> -->
+            </div>
+            
+        </div>
+    </div>
+    <!-- <script src="../static/code/script.js"></script> -->
+    <script>
+        const popupA = document.getElementById('errorPopup');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Verifica si hay un mensaje flash y muestra el popup
+        {% if get_flashed_messages() %}
+            console.log('Mensaje flash');
+            popupA.style.display = 'flex';
+            popupA.classList.add('fade-in');
+        {% endif %}
+
+        // Cerrar popup manualmente
+        closeBtn.onclick = function() {
+            popupA.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == popup) {
+                popupA.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>
