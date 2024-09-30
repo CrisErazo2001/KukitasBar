@@ -94,7 +94,7 @@
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="active"><a href="#banner">Home</a></li>
 
-                                    <li><a href="#menu">Meddnu</a></li>
+                                    <li><a href="#menu">Menu</a></li>
 
                                     <!-- <li><a href="#gallery">Gallery</a></li> -->
 
@@ -554,7 +554,7 @@
     <script>
         // Conectar al WebSocket en Node-RED
         const ws = new WebSocket('http://192.168.0.241:1880/ws/data');
-        const refresh = new WebSocket('http://192.168.0.241:1880/ws/refresh');
+        const refresh = new WebSocket('http://192.168.0.241:1880/ws/n-refresh');
 
         // Enviar datos a Node-RED
         function enviarDatos() {
@@ -612,6 +612,7 @@
                 let orderDetails = `${selectedDrink}-${name}`;
                 popup.classList.remove("open-popup");
                 ws.send(orderDetails); // Enviar bebida y nombre por WebSocket
+                refresh.send("1");
                 console.log(orderDetails);
                 document.getElementById('order-form').submit(); // Enviar el formulario
 
