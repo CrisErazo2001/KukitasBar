@@ -16,51 +16,55 @@ app.secret_key = 'keep it secret, keep it safe'
 
 @app.route('/admin')
 def dashboard():
-     historial = historico_pedido.get_all()
-     data = []
-     for historico in historial:
-          aux = historico.asdict()
-          
-          search_bebida = {
-               'id_receta': aux['id_receta']
-          }
-          bebida = receta.get_by_id(search_bebida)
-          if bebida == []:
-               aux['id_receta'] = 'No existe en base de datos'
-          else:
-               aux['id_receta'] = bebida.nombre
+    historial = historico_pedido.get_all()
+    data = []
+    for historico in historial:
+        aux = historico.asdict()
 
-          data.append(aux)
-     
-     lista_pedidos = []
-     pedidos = pedido.get_all()
-     if pedidos != []:
-          for ped in pedidos:
-               aux1 = ped.asdict()
-               search_bebida = {
-                    'id_receta': aux1['id_receta']
-               }
-               bebida = receta.get_by_id(search_bebida)
-               if bebida == []:
-                    aux1['id_receta'] = 'No existe en base de datos'
-               else:
-                    aux1['id_receta'] = bebida.nombre
-               lista_pedidos.append(aux1)
+        search_bebida = {
+            'id_receta': aux['id_receta']
+        }
+        bebida = receta.get_by_id(search_bebida)
+        if bebida == []:
+            aux['id_receta'] = 'No existe en base de datos'
+        else:
+            aux['id_receta'] = bebida.nombre
 
-     return render_template('dashboard.html',data=data, lista_pedidos = lista_pedidos)
+        data.append(aux)
+
+    lista_pedidos = []
+    pedidos = pedido.get_all()
+    if pedidos != []:
+        for ped in pedidos:
+            if ped.status == 1:
+                continue
+            aux1 = ped.asdict()
+            search_bebida = {
+                'id_receta': aux1['id_receta']
+            }
+            bebida = receta.get_by_id(search_bebida)
+            if bebida == []:
+                aux1['id_receta'] = 'No existe en base de datos'
+            else:
+                aux1['id_receta'] = bebida.nombre
+            lista_pedidos.append(aux1)
+
+    return render_template('dashboard.html', data=data, lista_pedidos=lista_pedidos)
+
 
 @app.route('/admin/user-modify')
 def user_modify():
     users_aux = User.get_all()
     users = []
     for user in users_aux:
-         aux = user.user
-         users.append(aux)
-         
-    return render_template('user_modify.html',users = users)
+        aux = user.user
+        users.append(aux)
+
+    return render_template('user_modify.html', users=users)
+
 
 @app.route('/admin/history-delete')
 def history_delete():
     historico_pedido.delete_all()
-         
+
     return redirect('/admin')
