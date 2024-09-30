@@ -73,9 +73,9 @@ class historico_pedido:
     
        
     @classmethod
-    def delete_all(cls, data):
+    def delete_all(cls):
         query  = "DELETE FROM "+ table_name + ";"
-        result = connectToMySQL(cls.db_name).query_db(query,data)
+        result = connectToMySQL(cls.db_name).query_db(query)
         return result
 
 

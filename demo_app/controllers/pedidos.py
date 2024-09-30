@@ -129,16 +129,6 @@ def generar_posicion_receta(id_receta, id_lista_bebidas):
     return receta_envio, id_cantidades
 
 
-def webSocket_connection():
-    with connect("ws://192.168.0.241:1880/ws/pedido-refresh") as websocket1:
-
-        websocket1.send('1')
-
-
-def webSocket_connection_3():
-    with connect("ws://192.168.0.241:1880/ws/refresh") as websocket3:
-
-        websocket3.send('1')
 
 
 def webSocket_connection_2():
@@ -147,10 +137,7 @@ def webSocket_connection_2():
         websocket2.send('1')
 
 
-@app.route('/pedido/ws')
-def ws():
-    webSocket_connection_3()
-    return jsonify({'text': 'si'})
+
 
 
 @app.route('/pedido/create', methods=['POST'])
@@ -201,7 +188,7 @@ def create_pedido():
 
     pedido.save(data)
 
-    webSocket_connection()
+    
     if lista_vacia:
         webSocket_connection_2()
 
@@ -377,3 +364,10 @@ def send_status_pedidos():
 def delete_all_historial():
     historico_pedido.delete_all()
     return redirect('/statics')
+
+
+@app.route('/pedido/eliminar-by-id', methods=['POST'])
+def pedido_delete():
+    pedido.delete_by_id(request.form)
+         
+    return redirect('/admin')

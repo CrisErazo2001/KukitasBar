@@ -41,7 +41,7 @@ def home():
                 sv_data2 = lista_bebidas.get_by_id(data)
                 bebidas = [sv_data2.bebida_1,sv_data2.bebida_2,sv_data2.bebida_3,sv_data2.bebida_4,sv_data2.bebida_5,sv_data2.bebida_6,sv_data2.bebida_7,sv_data2.bebida_8,sv_data2.bebida_9,sv_data2.bebida_10,sv_data2.bebida_11,sv_data2.bebida_12]
             else:
-                f.write('0')
+                
                 bebidas = []
         else:
                 bebidas = []
