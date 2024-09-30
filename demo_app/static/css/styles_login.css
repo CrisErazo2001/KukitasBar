@@ -65,7 +65,12 @@ body {
     object-fit: cover;
 }
 
-
+.checkbox-container {
+    display: flex;
+    align-items: left;  /* Alinea verticalmente el checkbox y el texto */
+    justify-content: flex-start; /* Alinea el checkbox a la izquierda */
+    
+}
 .popup_error {
     display: none;
     position: fixed;

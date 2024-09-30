@@ -11,10 +11,7 @@ app.secret_key = 'keep it secret, keep it safe'
 @app.route('/login',methods=['POST'])
 def login():
     user = User.user_by_nombre(request.form)
-    print('-------------REQUEST FORM---------------')
-    print(request.form)
-    print('-------------USER---------------')
-    print(user)
+    
     if not user:
         flash('Usuario Incorrecto o no existe','error')
         return redirect('/')
@@ -24,9 +21,9 @@ def login():
         return redirect('/')
     session['user_id'] = user.id_usuario
     print("tengo usuario? ",user)
-    if user.user == "admin":
+    if user.tipo == "admin":
         return redirect('/admin')
-    if user.user == "operator":
+    if user.tipo == "operator":
         return redirect('/bebida')
 
     return redirect('/')
@@ -38,16 +35,37 @@ def login():
 
 @app.route('/register')
 def register():
+    if 'user_id' not in session:
+        flash('Ingresa con una cuenta','error')
+        return redirect('/logout')
+    id_usuario ={
+        'id_usuario': session['user_id']
+    }
+    user = User.get_by_id(id_usuario)
+    if user.tipo != 'admin':
+        flash('No tienes acceso a esta funcion','error')
+        return redirect('/logout')
+
+
     print("cambiando de html a registro")
     return render_template("register.html")
 
 
 @app.route('/user/create',methods=['POST'])
 def create_user():
-    print("creando usuarios espero lol")
+    
+    user_class = ''
+    aux_request = ''
+    try:
+        aux_request = request.form["admin"]
+    except:
+        user_class = 'operator'
+    if aux_request == 'on':
+        user_class = 'admin'
     data = {
         "user": request.form["user"],
-        "password": bcrypt.generate_password_hash(request.form['password'])
+        "password": bcrypt.generate_password_hash(request.form['password']),
+        'tipo': user_class
         #"password": request.form['password']
     }
     print("Data: ", data)  
@@ -56,10 +74,10 @@ def create_user():
         if user.user == data['user']:
             flash('ya existe un usuario con este nombre','error')
             return redirect('/register')
-    id = User.save(data)
-    session['user_id'] = id
+    User.save(data)
+    
 
-    return redirect('/')
+    return redirect('/admin')
 
 @app.route('/user/modify',methods=['POST'])
 def modify_user():

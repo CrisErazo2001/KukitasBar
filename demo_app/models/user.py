@@ -14,6 +14,7 @@ class User:
         self.user = data['user']
         self.password = data['password']
         self.created_at = data['created_at']
+        self.tipo = data['tipo']
         
     @classmethod
     def get_all(cls):
@@ -27,7 +28,7 @@ class User:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO usuarios ( user, password ) VALUES ( %(user)s, %(password)s );"
+        query = "INSERT INTO usuarios ( user, password, tipo ) VALUES ( %(user)s, %(password)s , %(tipo)s );"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod

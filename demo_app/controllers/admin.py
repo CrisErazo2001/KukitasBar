@@ -16,6 +16,19 @@ app.secret_key = 'keep it secret, keep it safe'
 
 @app.route('/admin')
 def dashboard():
+
+    if 'user_id' not in session:
+        flash('Ingresa con una cuenta','error')
+        return redirect('/')
+    id_usuario ={
+        'id_usuario': session['user_id']
+    }
+    user = User.get_by_id(id_usuario)
+    if user.tipo != 'admin':
+        session.clear()
+        flash('No tienes acceso a esta funcion','error')
+        return redirect('/')
+
     historial = historico_pedido.get_all()
     data = []
     for historico in historial:
