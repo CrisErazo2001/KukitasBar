@@ -325,8 +325,8 @@ def send_receta():
     pedidos = pedido.get_all()
     if pedidos == []:
         return jsonify({
-            'posiciones': [],
-            'cantidades': []
+            'posiciones': [0,0,0,0,0,0,0,0,0,0],
+            'cantidades': [0,0,0,0,0,0,0,0,0,0]
         })
     else:
         pedido_actual = pedidos[0]
@@ -352,6 +352,15 @@ def send_status_pedidos():
         result = {
             'status': False
         }
+    elif len(pedidos)==1:
+        if pedidos[0].status == 0:
+            result = {
+                'status': True
+            }
+        else:
+            result = {
+                'status': False
+            }
     else:
         result = {
             'status': True
