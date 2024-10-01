@@ -49,7 +49,13 @@ class User:
         query  = "SELECT * FROM usuarios WHERE user = %(user)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
-
+    
+    @classmethod
+    def delete_by_id(cls, data):
+        query  = "DELETE FROM usuarios WHERE id_usuario = %(id_usuario)s;"
+        result = connectToMySQL(cls.db_name).query_db(query,data)
+        return result
+    
     @staticmethod
     def validate_register(user):
         

@@ -6,6 +6,7 @@ from demo_app.models.posicion_bebidas import posicion_bebidas
 from demo_app.models.receta import receta
 from demo_app.models.cantidad_bebidas import cantidad
 from demo_app.models.historico_pedido import historico_pedido
+from demo_app.models.lista_bebidas import lista_bebidas
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 
@@ -298,10 +299,31 @@ def fin_receta():
         data = {
             'id_pedidos': result[0].id_pedidos
         }
+
+        search_bebida = {
+            'id_receta': result[0].id_receta
+        }
+        search_lista = {
+            'id_lista_bebidas': result[0].id_lista_bebidas
+        }
+        bebida = receta.get_by_id(search_bebida)
+        lista = lista_bebidas.get_by_id(search_lista)
+
+        if bebida == []:
+            aux_receta = 'No existe en base de datos'
+        else:
+            aux_receta = bebida.nombre
+
+        if lista == []:
+            aux_lista = 'No existe en base de datos'
+        else:
+            aux_lista = lista.nombre
+
+
         data2 = {
             'nombre_cliente': result[0].nombre_cliente,
-            'id_receta': result[0].id_receta,
-            'id_lista_bebidas': result[0].id_lista_bebidas,
+            'receta': aux_receta,
+            'lista': aux_lista,
             'create_at': result[0].create_at,
 
         }

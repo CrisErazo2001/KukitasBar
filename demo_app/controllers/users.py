@@ -99,7 +99,24 @@ def modify_user():
 
     return redirect('/admin/user-modify')
 
+@app.route('/user/delete',methods=['POST'])
+def delete_user():
+    print("modificando usuarios espero lol")
+    data = {
+        "user": request.form["user"],
+    }
+    
+    if data['user'] != '':
+        user_aux = User.user_by_nombre(data)
+        data = {
+            "id_usuario": user_aux.id_usuario,
+            
+        }
+        user_aux.delete_by_id(data)
+    else: 
+        return redirect('/admin/user-modify')
 
+    return redirect('/admin/user-modify')
 
 @app.route('/logout')
 def logout():

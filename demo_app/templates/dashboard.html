@@ -138,9 +138,7 @@
                                         <thead class="text-dark fs-4">
                                             
                                             <tr>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Id</h6>
-                                                </th>
+                                                
                                                 <th class="border-bottom-0">
                                                     <h6 class="fw-semibold mb-0">Nombre del Cliente</h6>
                                                 </th>
@@ -158,9 +156,7 @@
                                         <tbody>
                                             {% for item in data %}
                                             <tr>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">{{ item.id_historial }}</h6>
-                                                </td>
+                                                
                                                 <td class="border-bottom-0">
                                                     <h6 class="fw-semibold mb-1">{{ item.nombre_cliente }}</h6>
                                                     <!-- <span class="fw-normal">Web Designer</span> -->
@@ -172,7 +168,7 @@
                                                     <p class="mb-0 fw-normal">{{ item.ready_at }}</p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0 fs-4">{{ item.id_receta }}</h6>
+                                                    <h6 class="fw-semibold mb-0 fs-4">{{ item.receta }}</h6>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -186,9 +182,7 @@
                                         <thead class="text-dark fs-4">
                                             
                                             <tr>
-                                                <th class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">Id</h6>
-                                                </th>
+                                                
                                                 <th class="border-bottom-0">
                                                     <h6 class="fw-semibold mb-0">Nombre del Cliente</h6>
                                                 </th>
@@ -207,9 +201,7 @@
                                         <tbody>
                                             {% for item in lista_pedidos %}
                                             <tr>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0">{{ item.id_pedidos }}</h6>
-                                                </td>
+                                                
                                                 <td class="border-bottom-0">
                                                     <h6 class="fw-semibold mb-1">{{ item.nombre_cliente }}</h6>
                                                     <!-- <span class="fw-normal">Web Designer</span> -->
