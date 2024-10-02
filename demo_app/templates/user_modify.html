@@ -125,7 +125,7 @@
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title fw-semibold mb-4">Modificar Usuario</h5>
+                            <h5 class="card-title fw-semibold mb-4">Modificar Contraseña de Usuario</h5>
                             <div class="card">
                                 <div class="card-body">
                                     <form action="/user/modify" method="post" class="data">
@@ -151,6 +151,31 @@
                                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                             <label class="form-check-label" for="exampleCheck1">Check me out</label>
                                         </div> -->
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-semibold mb-4">Eliminar Usuario</h5>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="/user/delete" method="post" class="data">
+                                        <div class="mb-3">
+                                            <label for="user" class="form-label">
+                                                <select name="user" class="form-select">
+                                                    <option value=''>Seleccione un usuario a eliminar:</option>
+                                                    
+                                                    {% for o in users %}
+                                                    <option value="{{ o }}">{{ o }}</option>
+                                                    {% endfor %}
+                                                    <option value=''> - Ninguno - </option>
+                                                </select>
+                                            </label>
+                                            
+                                        </div>
+                                        
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>

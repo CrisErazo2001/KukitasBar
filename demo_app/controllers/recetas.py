@@ -1,3 +1,12 @@
+'''
+
+Este script cuenta con todas las rutas para crear y modificar las recetas de bebidas. Incluye todas las validaciones:
+No poder ingresar letras donde van cantidades, no poder ingresar 0 como cantidad, solo poder utilizar un maximo de 10 onzas en
+total de cantidades, no poder repetir nombres por lista de bebidas disponibles e ingresar un tiempo de preparacion apropiado.
+
+'''
+
+
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
@@ -8,8 +17,6 @@ from demo_app.models.pedido import pedido
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import requests
-
-
 
 
 @app.route('/receta/create',methods=['POST'])

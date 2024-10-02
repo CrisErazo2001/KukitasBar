@@ -1,3 +1,10 @@
+'''
+Este es el script donde se crea la clase User para poder crear, modificar y eliminar filas en la tabla de 
+la base de datos en MySql llamada 'usuarios'
+
+'''
+
+
 from demo_app.config.mysqlconnection import connectToMySQL
 import re	# the regex module
 # create a regular expression object that we'll use later   
@@ -49,7 +56,13 @@ class User:
         query  = "SELECT * FROM usuarios WHERE user = %(user)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
-
+    
+    @classmethod
+    def delete_by_id(cls, data):
+        query  = "DELETE FROM usuarios WHERE id_usuario = %(id_usuario)s;"
+        result = connectToMySQL(cls.db_name).query_db(query,data)
+        return result
+    
     @staticmethod
     def validate_register(user):
         

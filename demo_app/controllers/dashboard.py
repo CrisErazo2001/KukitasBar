@@ -1,3 +1,17 @@
+'''
+
+Este script contiene las rutas de las paginas de la seccion de administracion. 
+
+La ruta /admin contiene la pagina donde se muestran las tablas del historico y tambien se ve la lista de pedidos 
+en cola y permite eliminar pedidos
+
+La ruta /admin/user-modify te dirige a la pagina de administracion de usuarios donde se permite cambiar la contraseña de usuarios
+y eliminar usuarios
+
+La ruta /admin/history-delete es la funcion que permite eliminar el historial de pedidos
+
+'''
+
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
@@ -28,23 +42,17 @@ def dashboard():
         session.clear()
         flash('No tienes acceso a esta funcion','error')
         return redirect('/')
-
+#historial de bebidas
     historial = historico_pedido.get_all()
+
     data = []
     for historico in historial:
         aux = historico.asdict()
 
-        search_bebida = {
-            'id_receta': aux['id_receta']
-        }
-        bebida = receta.get_by_id(search_bebida)
-        if bebida == []:
-            aux['id_receta'] = 'No existe en base de datos'
-        else:
-            aux['id_receta'] = bebida.nombre
+        aux['receta'] = f'{aux['receta']} - {aux['lista']} '
 
         data.append(aux)
-
+#lista de bebidas pendientes
     lista_pedidos = []
     pedidos = pedido.get_all()
     if pedidos != []:
@@ -55,11 +63,16 @@ def dashboard():
             search_bebida = {
                 'id_receta': aux1['id_receta']
             }
+            search_lista = {
+                'id_lista_bebidas': aux1['id_lista_bebidas']
+            }
             bebida = receta.get_by_id(search_bebida)
-            if bebida == []:
+            lista = lista_bebidas.get_by_id(search_lista)
+            if bebida == [] or lista == []:
                 aux1['id_receta'] = 'No existe en base de datos'
             else:
-                aux1['id_receta'] = bebida.nombre
+                aux1['id_receta'] = f'{bebida.nombre} - {lista.nombre} ' 
+
             lista_pedidos.append(aux1)
 
     return render_template('dashboard.html', data=data, lista_pedidos=lista_pedidos)

@@ -1,3 +1,10 @@
+'''
+Este es el script donde se crea la clase lista_bebidas para poder crear, modificar y eliminar filas en la tabla de 
+la base de datos en MySql llamada 'bebidas'
+
+'''
+
+
 from demo_app.config.mysqlconnection import connectToMySQL
 import re	# the regex module
 # create a regular expression object that we'll use later   
@@ -68,16 +75,11 @@ class lista_bebidas:
     
     @classmethod
     def delete_by_id(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE id_receta = %(id_receta)s;"
+        query  = "DELETE FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
       
-    @classmethod
-    def delete_by_id_bebidas(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
-        result = connectToMySQL(cls.db_name).query_db(query,data)
-        return result
     
     @classmethod
     def delete_by_name(cls, data):

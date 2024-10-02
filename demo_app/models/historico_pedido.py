@@ -1,3 +1,9 @@
+'''
+Este es el script donde se crea la clase historico_pedido para poder crear, modificar y eliminar filas en la tabla de 
+la base de datos en MySql llamada 'historial'
+
+'''
+
 from demo_app.config.mysqlconnection import connectToMySQL
 import re	# the regex module
 # create a regular expression object that we'll use later   
@@ -15,8 +21,8 @@ class historico_pedido:
     def __init__( self , data ):
         self.id_historial  =  data['id_historial']
         self.nombre_cliente  =  data['nombre_cliente']
-        self.id_lista_bebidas = data['id_lista_bebidas']
-        self.id_receta  =  data['id_receta']
+        self.lista = data['lista']
+        self.receta  =  data['receta']
         self.create_at  =  data['create_at']
         self.ready_at  =  data['ready_at']
         
@@ -36,7 +42,7 @@ class historico_pedido:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( nombre_cliente,id_receta,create_at,id_lista_bebidas) VALUES ( %(nombre_cliente)s, %(id_receta)s, %(create_at)s,%(id_lista_bebidas)s);"
+        query = "INSERT INTO "+ table_name +" ( nombre_cliente,receta,create_at,lista) VALUES ( %(nombre_cliente)s, %(receta)s, %(create_at)s,%(lista)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -49,8 +55,8 @@ class historico_pedido:
             result = cls(result[0])
         return result
     @classmethod
-    def get_by_id_receta(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE id_receta = %(id_receta)s;"
+    def get_by_receta(cls, data):
+        query  = "SELECT * FROM "+ table_name +" WHERE receta = %(receta)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         pedidos = []
         for ped in result:
@@ -81,7 +87,7 @@ class historico_pedido:
 
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET id_lista_bebidas = %(id_lista_bebidas)s, nombre_cliente = %(nombre_cliente)s, id_receta = %(id_receta)s, ready_at = %(ready_at)s"+" WHERE id_historial = %(id_historial)s;"
+        query  = "UPDATE "+ table_name +" SET lista = %(lista)s, nombre_cliente = %(nombre_cliente)s, receta = %(receta)s, ready_at = %(ready_at)s"+" WHERE id_historial = %(id_historial)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -92,8 +98,8 @@ class historico_pedido:
         dict = {
             'id_historial': self.id_historial, 
             'nombre_cliente': self.nombre_cliente,  
-            'id_receta': self.id_receta, 
-            'id_lista_bebidas': self.id_lista_bebidas,
+            'receta': self.receta, 
+            'lista': self.lista,
             'create_at': self.create_at , 
             'ready_at': self.ready_at,
             
