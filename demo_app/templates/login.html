@@ -21,21 +21,16 @@
             {% for category, message in messages %}
             {% if category == 'error' %}
             <p>{{ message }}</p>
-
             {% endif %}
             {% endfor %}
             {% endif %}
             {% endwith %}
-
-
         </div>
     </div>
 
     <div class="container login">
         <div class="logo">
-            <div class="logo-child">
-                <img src="../static/images/Shakes.gif" width="350" height="420" alt="Logo">
-            </div>
+            <img src="../static/images/Saludo.gif" height="300px" alt="Logo" style="margin-right: 500px;">
         </div>
         <div class="form-information">
             <div class="form-information-child">
@@ -53,20 +48,24 @@
                             <input type="password" name="password" class="form-control" placeholder="Contraseña">    
                         </label>
                     </div>
-                    <input type="submit" id='submit_btn2' value="Ingresar"
->
-                    <!-- <a href="/register">
-                        <input type="button" value="Registrarse" id="sing-up">
-                    </a> -->
-                    <a href="/home">
-                        <input type="button" value="Menu Principal" id="home">
-                    </a>
-                    <a href="/pedido">
-                        <input type="button" value="Lista de Pedidos" id="lista-pedidas">
-                    </a>
-                    <!-- <a href="/register">
-                        <input type="button" value="Registrar Nuevo Usuario" id="sing-up">
-                    </a> -->
+                    <div class="botonera">
+                        <a>
+                            <input class="button-login" type="submit" id='submit_btn2' value="Ingresar">      
+                        </a> 
+                        <!-- <a href="/register">
+                            <input type="button" value="Registrarse" id="sing-up">
+                        </a> -->
+                        <h1 style="margin-top: 15px;">Sitio Web</h1>
+                        <a href="/home">
+                            <input class="button-login" type="button" value="Menu Principal" id="home">
+                        </a>
+                        <a href="/pedido">
+                            <input class="button-login" type="button" value="Lista de Pedidos" id="lista-pedidas">
+                        </a>
+                        <!-- <a href="/register">
+                            <input type="button" value="Registrar Nuevo Usuario" id="sing-up">
+                        </a> -->
+                    </div>
             </div>
             
         </div>
