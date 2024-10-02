@@ -32,27 +32,27 @@ app.secret_key = 'keep it secret, keep it safe'
 def dashboard():
 
     if 'user_id' not in session:
-        flash('Ingresa con una cuenta','error')
+        flash('Ingresa con una cuenta', 'error')
         return redirect('/')
-    id_usuario ={
+    id_usuario = {
         'id_usuario': session['user_id']
     }
     user = User.get_by_id(id_usuario)
     if user.tipo != 'admin':
         session.clear()
-        flash('No tienes acceso a esta funcion','error')
+        flash('No tienes acceso a esta funcion', 'error')
         return redirect('/')
-#historial de bebidas
+# historial de bebidas
     historial = historico_pedido.get_all()
 
     data = []
     for historico in historial:
         aux = historico.asdict()
 
-        aux['receta'] = f'{aux['receta']} - {aux['lista']} '
+        aux['receta'] = aux['receta'] + ' - ' + aux['lista']
 
         data.append(aux)
-#lista de bebidas pendientes
+# lista de bebidas pendientes
     lista_pedidos = []
     pedidos = pedido.get_all()
     if pedidos != []:
@@ -71,7 +71,7 @@ def dashboard():
             if bebida == [] or lista == []:
                 aux1['id_receta'] = 'No existe en base de datos'
             else:
-                aux1['id_receta'] = f'{bebida.nombre} - {lista.nombre} ' 
+                aux1['id_receta'] = f'{bebida.nombre} - {lista.nombre} '
 
             lista_pedidos.append(aux1)
 
