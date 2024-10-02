@@ -55,7 +55,10 @@ class User:
     def user_by_nombre(cls, data):
         query  = "SELECT * FROM usuarios WHERE user = %(user)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        return cls(result[0])
+        if len(result) == 0:
+            return False
+        else:
+            return cls(result[0])
     
     @classmethod
     def delete_by_id(cls, data):

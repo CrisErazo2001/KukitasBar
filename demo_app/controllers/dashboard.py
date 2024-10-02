@@ -49,7 +49,7 @@ def dashboard():
     for historico in historial:
         aux = historico.asdict()
 
-        aux['receta'] = f'{aux['receta']} - {aux['lista']} '
+        aux['receta'] = aux['receta'] + ' - ' + aux['lista']
 
         data.append(aux)
 #lista de bebidas pendientes
