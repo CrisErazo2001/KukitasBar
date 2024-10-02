@@ -1,3 +1,17 @@
+'''
+
+Este script contiene las rutas de las paginas de la seccion de administracion. 
+
+La ruta /admin contiene la pagina donde se muestran las tablas del historico y tambien se ve la lista de pedidos 
+en cola y permite eliminar pedidos
+
+La ruta /admin/user-modify te dirige a la pagina de administracion de usuarios donde se permite cambiar la contraseña de usuarios
+y eliminar usuarios
+
+La ruta /admin/history-delete es la funcion que permite eliminar el historial de pedidos
+
+'''
+
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app

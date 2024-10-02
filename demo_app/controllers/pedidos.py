@@ -1,3 +1,35 @@
+'''
+
+Este script contiene las funciones y rutas necesarias para el manejo de los pedidos. 
+
+La funcion reducir_cantidades sirve para que al momento de crear un pedido, la cantidad que exiten en las botellas seleccionadas para 
+el robot, se reduzcan segun las cantidades estipuladas por la receta de la bebida.
+
+La funcion generar_posicion_receta genera las posiciones de las botellas a las cuales el robot debe acceder para seguir una receta. 
+Estas posiciones se designan segun la cantidad de bebida disponible en cada botella y manda un error si no se cuenta con la cantidad
+minima necesaria. 
+
+La funcion webSocket_connection_2 crea una conexion con el websocket dentro de node-red para poder dar indicativo al robot de que 
+se ha comenzado a realizar pedidos.
+
+La ruta /pedido/create crea un pedido y lo pone en lista de espera
+
+La ruta /pedido dirige a la pantalla html donde se muestra la lista de espera de pedidos y si hay pedidos en produccion
+
+La ruta /pedido/send envia al robot las posiciones y cantidades que necesita para seguir una receta
+
+La ruta /pedido/end da a conocer al servidor que un pedido ha sido finalizado, por lo que se procede a eliminar el pedido de la lista
+de pedidos y se agrega a la lista del historico de pedidos.
+
+La ruta /pedido/status entrega un true o un false dependiendo si existen pedidos en cola de espera o no
+
+La ruta /pedido/historial/delete-all elimina todo el historico de pedidos
+
+La ruta /pedido/eliminar-by-id elimina un pedido individual
+
+'''
+
+
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
@@ -130,15 +162,10 @@ def generar_posicion_receta(id_receta, id_lista_bebidas):
     return receta_envio, id_cantidades
 
 
-
-
 def webSocket_connection_2():
     with connect("ws://192.168.0.241:1880/ws/status-lista-pedidas") as websocket2:
 
         websocket2.send('1')
-
-
-
 
 
 @app.route('/pedido/create', methods=['POST'])

@@ -1,3 +1,12 @@
+'''
+
+Este script contiente la ruta /bebida/posicion/create que crea tanto las posicion de las bebidas en el soporte y la cantidad en onzas
+de cada botella. Tambien permite la modificacion de cada uno. Cuenta con las validaciones repectivas para no ingresar letras donde van
+numeros, ingresar la cantidad de botellas minimas y no poder ingresar 0 en cantidades.
+
+'''
+
+
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
@@ -12,7 +21,7 @@ app.secret_key = 'keep it secret, keep it safe'
 bebidas_id = 0
 
 @app.route('/bebida/posicion/create',methods=['POST'])
-def create_bebida_pos():
+def create_bebida_pos_cant():
     print("creando una lista de bebidas")
     f = open("bebida_id.txt", "r")
     bebidas_id = f.read()
