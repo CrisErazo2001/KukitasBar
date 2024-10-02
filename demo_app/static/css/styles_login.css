@@ -50,12 +50,13 @@ body {
 
 .logo {
     display: flex;
-    width: 40%;
+    width: 50%;
     align-items: center;
     text-align: center;
-    background-color: #EBF4F0;
+    background-color: #17538c;
     border-top-left-radius: 2rem;
     border-bottom-left-radius: 2rem;
+    
 }
 
 .logo-child {
@@ -122,13 +123,12 @@ body {
 }
 
 /* Parte derecha del contenedor */
-
 .form-information {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    width: 60%;
+    width: 50%;
     background-color: #3a80ac ;
     border-top-right-radius: 2rem;
     border-bottom-right-radius: 2rem;
@@ -174,9 +174,7 @@ body {
     cursor: pointer;
     border: none;
     font-weight: bold;
-    padding: 1rem 1.5rem;
-    margin-top: 1.2rem;
-    margin-right: 1rem;
+
     border-radius: 2rem;
 }
 
@@ -198,6 +196,19 @@ body {
 
 .data input[type="submit"]:hover {
     background: #DCDCDC;
+}
+
+.botonera{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-login{
+    width: 200px;
+    height: 50px;
+    background-color: #f44336;
 }
 
 
