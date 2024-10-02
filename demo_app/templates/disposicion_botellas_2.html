@@ -344,7 +344,7 @@
                                     <select name="nombre" class="select-css">
                                         <option value="" disabled selected>Selecciona una bebida:</option>
                                         {% for o in recetas %}
-                                        <option value="{{ o }}">{{ o }}</option>
+                                        <option value='{{ o }}'>{{ o }}</option>
                                         {% endfor %}
                                         <option value="">- ninguna -</option>
                                     </select>
@@ -420,7 +420,8 @@
                                     <div class="form-group">
                                         <label for="Pos_1" class="form-label">
                                             <select name="Pos_1" class="select-css-2" id="select-0">
-                                                <option value={{posicion_bebidas.Pos_1}}>A1: {{posicion_bebidas.Pos_1}}</option>
+                                                
+                                                <option value='{{posicion_bebidas.Pos_1}}'>A1: {{posicion_bebidas.Pos_1}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -431,7 +432,7 @@
                                     <div class="form-group">
                                         <label for="Pos_2" class="form-label">
                                             <select name="Pos_2" class="select-css-2" id="select-1" >
-                                                <option value={{posicion_bebidas.Pos_2}}>A2: {{posicion_bebidas.Pos_2}}</option>
+                                                <option value='{{posicion_bebidas.Pos_2}}'>A2: {{posicion_bebidas.Pos_2}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -442,7 +443,7 @@
                                     <div class="form-group">
                                         <label for="Pos_3" class="form-label">
                                             <select name="Pos_3" class="select-css-2" id="select-2">
-                                                <option value={{posicion_bebidas.Pos_3}}>A3: {{posicion_bebidas.Pos_3}}</option>
+                                                <option value='{{posicion_bebidas.Pos_3}}'>A3: {{posicion_bebidas.Pos_3}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -453,7 +454,7 @@
                                     <div class="form-group">
                                         <label for="Pos_4" class="form-label">
                                             <select name="Pos_4" class="select-css-2" id="select-3">
-                                                <option value={{posicion_bebidas.Pos_4}}>A4: {{posicion_bebidas.Pos_4}}</option>
+                                                <option value='{{posicion_bebidas.Pos_4}}'>A4: {{posicion_bebidas.Pos_4}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -464,7 +465,7 @@
                                     <div class="form-group">
                                         <label for="Pos_5" class="form-label">
                                             <select name="Pos_5" class="select-css-2" id="select-4">
-                                                <option value={{posicion_bebidas.Pos_5}}>A5: {{posicion_bebidas.Pos_5}}</option>
+                                                <option value='{{posicion_bebidas.Pos_5}}'>A5: {{posicion_bebidas.Pos_5}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -475,7 +476,7 @@
                                     <div class="form-group">
                                         <label for="Pos_6" class="form-label">
                                             <select name="Pos_6" class="select-css-2" id="select-5">
-                                                <option value={{posicion_bebidas.Pos_6}}>A6: {{posicion_bebidas.Pos_6}}</option>
+                                                <option value='{{posicion_bebidas.Pos_6}}'>A6: {{posicion_bebidas.Pos_6}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -487,7 +488,8 @@
                                     <div class="form-group">
                                         <label for="Pos_7" class="form-label">
                                             <select name="Pos_7" class="select-css-2" id="select-6">
-                                                <option value={{posicion_bebidas.Pos_7}}>B1: {{posicion_bebidas.Pos_7}}</option>
+                                                {}
+                                                <option value='{{posicion_bebidas.Pos_7}}'>B1: {{posicion_bebidas.Pos_7}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -499,7 +501,7 @@
                                     <div class="form-group">
                                         <label for="Pos_8" class="form-label">
                                             <select name="Pos_8" class="select-css-2" id="select-7">
-                                                <option value={{posicion_bebidas.Pos_8}}>B2: {{posicion_bebidas.Pos_8}}</option>
+                                                <option value='{{posicion_bebidas.Pos_8}}'>B2: {{posicion_bebidas.Pos_8}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -511,7 +513,7 @@
                                     <div class="form-group">
                                         <label for="Pos_9" class="form-label">
                                             <select name="Pos_9" class="select-css-2" id="select-8">
-                                                <option value={{posicion_bebidas.Pos_9}}>B3: {{posicion_bebidas.Pos_9}}</option>
+                                                <option value='{{posicion_bebidas.Pos_9}}'>B3: {{posicion_bebidas.Pos_9}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -522,7 +524,7 @@
                                     <div class="form-group">
                                         <label for="Pos_10" class="form-label">
                                             <select name="Pos_10" class="select-css-2" id="select-9">
-                                                <option value={{posicion_bebidas.Pos_10}}>B4: {{posicion_bebidas.Pos_10}}</option>
+                                                <option value='{{posicion_bebidas.Pos_10}}'>B4: {{posicion_bebidas.Pos_10}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -533,7 +535,7 @@
                                     <div class="form-group">
                                         <label for="Pos_11" class="form-label">
                                             <select name="Pos_11" class="select-css-2" id="select-10">
-                                                <option value={{posicion_bebidas.Pos_11}}>B5: {{posicion_bebidas.Pos_11}}</option>
+                                                <option value='{{posicion_bebidas.Pos_11}}'>B5: {{posicion_bebidas.Pos_11}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -544,7 +546,7 @@
                                     <div class="form-group">
                                         <label for="Pos_12" class="form-label">
                                             <select name="Pos_12" class="select-css-2" id="select-11">
-                                                <option value={{posicion_bebidas.Pos_12}}>B6: {{posicion_bebidas.Pos_12}}</option>
+                                                <option value='{{posicion_bebidas.Pos_12}}'>B6: {{posicion_bebidas.Pos_12}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -555,7 +557,7 @@
                                     <div class="form-group">
                                         <label for="Pos_13" class="form-label">
                                             <select name="Pos_13" class="select-css-2" id="select-12">
-                                                <option value={{posicion_bebidas.Pos_13}}>C1: {{posicion_bebidas.Pos_13}}</option>
+                                                <option value='{{posicion_bebidas.Pos_13}}'>C1: {{posicion_bebidas.Pos_13}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -566,7 +568,7 @@
                                     <div class="form-group">
                                         <label for="Pos_14" class="form-label">
                                             <select name="Pos_14" class="select-css-2" id="select-13">
-                                                <option value={{posicion_bebidas.Pos_14}}>C2: {{posicion_bebidas.Pos_14}}</option>
+                                                <option value='{{posicion_bebidas.Pos_14}}'>C2: {{posicion_bebidas.Pos_14}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -577,7 +579,7 @@
                                     <div class="form-group">
                                         <label for="Pos_15" class="form-label">
                                             <select name="Pos_15" class="select-css-2" id="select-14">
-                                                <option value={{posicion_bebidas.Pos_15}}>C3: {{posicion_bebidas.Pos_15}}</option>
+                                                <option value='{{posicion_bebidas.Pos_15}}'>C3: {{posicion_bebidas.Pos_15}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -588,7 +590,7 @@
                                     <div class="form-group">
                                         <label for="Pos_16" class="form-label">
                                             <select name="Pos_16" class="select-css-2" id="select-15">
-                                                <option value={{posicion_bebidas.Pos_16}}>C4: {{posicion_bebidas.Pos_16}}</option>
+                                                <option value='{{posicion_bebidas.Pos_16}}'>C4: {{posicion_bebidas.Pos_16}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -599,7 +601,7 @@
                                     <div class="form-group">
                                         <label for="Pos_17" class="form-label">
                                             <select name="Pos_17" class="select-css-2" id="select-16">
-                                                <option value={{posicion_bebidas.Pos_17}}>C5: {{posicion_bebidas.Pos_17}}</option>
+                                                <option value='{{posicion_bebidas.Pos_17}}'>C5: {{posicion_bebidas.Pos_17}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -610,7 +612,7 @@
                                     <div class="form-group">
                                         <label for="Pos_18" class="form-label">
                                             <select name="Pos_18" class="select-css-2" id="select-17">
-                                                <option value={{posicion_bebidas.Pos_18}}>C6: {{posicion_bebidas.Pos_18}}</option>
+                                                <option value='{{posicion_bebidas.Pos_18}}'>C6: {{posicion_bebidas.Pos_18}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -621,7 +623,7 @@
                                     <div class="form-group">
                                         <label for="Pos_19" class="form-label">
                                             <select name="Pos_19" class="select-css-2" id="select-18">
-                                                <option value={{posicion_bebidas.Pos_19}}>D1: {{posicion_bebidas.Pos_19}}</option>
+                                                <option value='{{posicion_bebidas.Pos_19}}'>D1: {{posicion_bebidas.Pos_19}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -632,7 +634,7 @@
                                     <div class="form-group">
                                         <label for="Pos_20" class="form-label">
                                             <select name="Pos_20" class="select-css-2" id="select-19">
-                                                <option value={{posicion_bebidas.Pos_20}}>D2: {{posicion_bebidas.Pos_20}}</option>
+                                                <option value='{{posicion_bebidas.Pos_20}}'>D2: {{posicion_bebidas.Pos_20}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -643,7 +645,7 @@
                                     <div class="form-group">
                                         <label for="Pos_21" class="form-label">
                                             <select name="Pos_21" class="select-css-2" id="select-20">
-                                                <option value={{posicion_bebidas.Pos_21}}>D3: {{posicion_bebidas.Pos_21}}</option>
+                                                <option value='{{posicion_bebidas.Pos_21}}'>D3: {{posicion_bebidas.Pos_21}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -654,7 +656,7 @@
                                     <div class="form-group">
                                         <label for="Pos_22" class="form-label">
                                             <select name="Pos_22" class="select-css-2" id="select-21">
-                                                <option value={{posicion_bebidas.Pos_22}}>D4: {{posicion_bebidas.Pos_22}}</option>
+                                                <option value='{{posicion_bebidas.Pos_22}}'>D4: {{posicion_bebidas.Pos_22}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -665,7 +667,7 @@
                                     <div class="form-group">
                                         <label for="Pos_23" class="form-label">
                                             <select name="Pos_23" class="select-css-2" id="select-22">
-                                                <option value={{posicion_bebidas.Pos_23}}>D5: {{posicion_bebidas.Pos_23}}</option>
+                                                <option value='{{posicion_bebidas.Pos_23}}'>D5: {{posicion_bebidas.Pos_23}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>
@@ -676,7 +678,7 @@
                                     <div class="form-group">
                                         <label for="Pos_24" class="form-label">
                                             <select name="Pos_24" class="select-css-2" id="select-23">
-                                                <option value={{posicion_bebidas.Pos_24}}>D6: {{posicion_bebidas.Pos_24}}</option>
+                                                <option value='{{posicion_bebidas.Pos_24}}'>D6: {{posicion_bebidas.Pos_24}}</option>
                                                 <option value=''> - Ninguna - </option>
                                                 {% for o in bebidas %}
                                                 <option value="{{ o }}">{{ o }}</option>

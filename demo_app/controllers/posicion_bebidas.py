@@ -22,6 +22,12 @@ bebidas_id = 0
 
 @app.route('/bebida/posicion/create',methods=['POST'])
 def create_bebida_pos_cant():
+    form_data = request.form.to_dict()  # Convierte a un diccionario modificable
+
+    # Aquí puedes recorrer el diccionario y procesar los valores
+    for key, value in form_data.items():
+        print(f"{key}: {value}")
+        
     print("creando una lista de bebidas")
     f = open("bebida_id.txt", "r")
     bebidas_id = f.read()
@@ -70,11 +76,12 @@ def create_bebida_pos_cant():
             bebidas_total.append(x)
         else:
             continue
-    
+    print('request form: ', request.form)
     for i in range(24):
         aux_pos = 'Pos_'+str(i+1)
         aux_cant = 'cant_'+str(i+1)
         aux_list_pos = request.form[aux_pos]
+        print('aux_list_pos: ', aux_list_pos)
         aux_list_cant = request.form[aux_cant]
         if aux_list_pos != '' and aux_list_cant != '':
             if not aux_list_cant.isnumeric():
@@ -103,8 +110,10 @@ def create_bebida_pos_cant():
     
     for i in bebidas_total:
         try:
+            print('posicion: ', posiciones)
             posiciones.index(i)
         except ValueError:
+            print('bebida de la lista: ', i)
             print('----------------------Debe utilizar al menos una vez todas las bebidas------------------------------')
             flash('Debe utilizar al menos una vez todas las bebidas', 'error')
             return redirect('/bebida#tab2')
