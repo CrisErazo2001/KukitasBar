@@ -384,9 +384,31 @@ def addbebidas():
         
         
     f.close()
+
+    lista_pedidos = []
+    pedidos = pedido.get_all()
+    if pedidos != []:
+        for ped in pedidos:
+            if ped.status == 1:
+                continue
+            aux1 = ped.asdict()
+            search_bebida = {
+                'id_receta': aux1['id_receta']
+            }
+            search_lista = {
+                'id_lista_bebidas': aux1['id_lista_bebidas']
+            }
+            bebida = receta.get_by_id(search_bebida)
+            lista = lista_bebidas.get_by_id(search_lista)
+            if bebida == [] or lista == []:
+                aux1['id_receta'] = 'No existe en base de datos'
+            else:
+                aux1['id_receta'] = f'{bebida.nombre} - {lista.nombre} '
+
+            lista_pedidos.append(aux1)
     
     
-    return render_template("disposicion_botellas_2.html",lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total, posicion_bebidas = posiciones_bebidas,cantidades_bebidas = cantidades_bebidas,lista_bebidas_nombre = lista_bebidas_nombre, receta = result_receta)
+    return render_template("disposicion_botellas_2.html",lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total, posicion_bebidas = posiciones_bebidas,cantidades_bebidas = cantidades_bebidas,lista_bebidas_nombre = lista_bebidas_nombre, receta = result_receta, lista_pedidos = lista_pedidos)
 
 @app.route('/lista/delete',methods=['POST'])
 def delete_lista():

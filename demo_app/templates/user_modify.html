@@ -61,6 +61,18 @@
                                 <span class="hide-menu">Register</span>
                             </a>
                         </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Operador</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/bebida" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-list-check"></i>
+                                </span>
+                                <span class="hide-menu">Modo Operador</span>
+                            </a>
+                        </li>
                     </ul>
 
                 </nav>
@@ -194,6 +206,14 @@
     <script src="../static/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="../static/libs/simplebar/dist/simplebar.js"></script>
     <script src="../static/js/dashboard.js"></script>
+    <script>
+        window.addEventListener('beforeunload', function () {
+            // Realiza una solicitud GET para cerrar la sesión cuando se cierra la pestaña
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/logout", true);
+            xhr.send();
+        });
+    </script>
 </body>
 
 </html>

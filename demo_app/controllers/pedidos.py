@@ -428,4 +428,8 @@ def delete_all_historial():
 def pedido_delete():
     pedido.delete_by_id(request.form)
          
-    return redirect('/admin')
+    if request.referrer:
+        return redirect(request.referrer)
+    else:
+        # Si no hay una página anterior, redirigir a una página por defecto
+        return redirect('/home')

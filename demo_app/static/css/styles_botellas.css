@@ -552,7 +552,10 @@ a {
 }
 
 .tab-dos{
-    width: 900px;
+    width: 960px;
+}
+.tabla-pedidos{
+    width: 960px;
 }
 
 .tab>a {
