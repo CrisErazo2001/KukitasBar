@@ -68,16 +68,11 @@ class lista_bebidas:
     
     @classmethod
     def delete_by_id(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE id_receta = %(id_receta)s;"
+        query  = "DELETE FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
       
-    @classmethod
-    def delete_by_id_bebidas(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE id_lista_bebidas = %(id_lista_bebidas)s;"
-        result = connectToMySQL(cls.db_name).query_db(query,data)
-        return result
     
     @classmethod
     def delete_by_name(cls, data):

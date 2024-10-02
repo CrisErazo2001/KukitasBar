@@ -1081,6 +1081,19 @@
                             <input type="submit" value="Seleccionar" class="botonera-normal">
                         </form>
 
+                        {% if lista_bebidas_nombre != '' %}
+                            <form action="/lista/delete" method="POST" class="data">
+                                <label for="lista_bebidas_nombre" class="to-selector">
+                                    <input type="hidden" value={{lista_bebidas_nombre}} name="lista_bebidas_nombre">
+                                </label>
+                                <input type="submit" class="botonera-normal" value="Eliminar lista de bebidas">
+
+                            </form>
+                            
+                                
+                        
+                        {% endif %}
+
                         <!-- End botonera -->
 
                     </div>

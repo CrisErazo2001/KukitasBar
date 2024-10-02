@@ -4,6 +4,7 @@ from demo_app import app
 from demo_app.models.lista_bebidas import lista_bebidas
 from demo_app.models.posicion_bebidas import posicion_bebidas
 from demo_app.models.cantidad_bebidas import cantidad
+from demo_app.models.pedido import pedido
 from demo_app.models.user import User
 from demo_app.models.receta import receta
 from flask_bcrypt import Bcrypt
@@ -185,6 +186,7 @@ def addbebidas():
     sv_data = lista_bebidas.get_all()
     
     listas = []
+    lista_bebidas_nombre = ''
     for lista in sv_data:
         nombre = lista.asdict()
         listas.append(nombre['nombre'])
@@ -369,3 +371,46 @@ def addbebidas():
     
     
     return render_template("disposicion_botellas_2.html",lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total, posicion_bebidas = posiciones_bebidas,cantidades_bebidas = cantidades_bebidas,lista_bebidas_nombre = lista_bebidas_nombre, receta = result_receta)
+
+
+@app.route('/lista/delete',methods=['POST'])
+def delete_lista():
+    pedidos = pedido.get_all()
+    if pedidos != []:
+        flash('No puede eliminar una lista con pedidos en la lista de espea', 'error')
+        return redirect('/bebida')
+    lista_bebidas_nombre = request.form['lista_bebidas_nombre']
+    search_lista = {
+        'nombre': lista_bebidas_nombre
+    }
+    lista = lista_bebidas.get_by_name(search_lista)
+    id_lista = lista.id_lista_bebidas
+    search_pos = {
+        'id_lista_bebidas': id_lista
+    }
+    pos = posicion_bebidas.get_by_id_lista_bebidas(search_pos)
+    search_cant = {
+        'id_posicion_bebidas': pos.id_posicion_bebidas
+    }
+    cant = cantidad.get_by_id_posicion_bebidas(search_cant)
+    recetas = receta.get_by_id_lista_bebidas(search_pos)
+    for rec in recetas:
+        id = {
+            'id_receta': rec.id_receta
+        }
+        receta.delete_by_id(id)
+
+    id_cant = {
+        'id_cantidad':cant.id_cantidad
+    }
+    cantidad.delete_by_id(id_cant)
+    id_pos = {
+        'id_posicion_bebidas': pos.id_posicion_bebidas
+    }
+    posicion_bebidas.delete_by_id(id_pos)
+    id_lista = {
+        'id_lista_bebidas': id_lista
+    }
+    lista_bebidas.delete_by_id(id_lista)
+
+    return redirect('/bebida')
