@@ -10,6 +10,8 @@ import re	# the regex module
 PASSWORD_REGEX = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,18}$")
 from flask import flash
 import json
+import math
+
 
 
 table_name = 'cantidad_bebidas'
@@ -115,32 +117,32 @@ class cantidad:
             'id_cantidad': self.id_cantidad, 
             'id_posicion_bebidas': self.id_posicion_bebidas,  
             'cant_1': self.cant_1, 
-            'cant_2': self.cant_2 , 
-            'cant_3': self.cant_3, 
-            'cant_4':  self.cant_4 , 
-            'cant_5':  self.cant_5 , 
-            'cant_6': self.cant_6  ,
-            'cant_7': self.cant_7  ,
-            'cant_8': self.cant_8  ,
-            'cant_9': self.cant_9  ,
-            'cant_10': self.cant_10 ,
-            'cant_11': self.cant_11  ,
-            'cant_12': self.cant_12  ,
-            'cant_13': self.cant_13  ,
-            'cant_14': self.cant_14 ,
-            'cant_15': self.cant_15 ,
-            'cant_16': self.cant_16  ,
-            'cant_17': self.cant_17  ,
-            'cant_18': self.cant_18  ,
-            'cant_19': self.cant_19  ,
-            'cant_20': self.cant_20 ,
-            'cant_21': self.cant_21  ,
-            'cant_22': self.cant_22  ,
-            'cant_23': self.cant_23  ,
-            'cant_24': self.cant_24  ,
-            'cant_25': self.cant_25  ,
-            'cant_26': self.cant_26  ,
-            'cant_27': self.cant_27  
+            'cant_2': self.cant_2, 
+            'cant_3': self.cant_3,
+            'cant_4':  self.cant_4,
+            'cant_5':  self.cant_5,
+            'cant_6': self.cant_6,
+            'cant_7': self.cant_7,
+            'cant_8': self.cant_8,
+            'cant_9': self.cant_9,
+            'cant_10': self.cant_10,
+            'cant_11': self.cant_11,
+            'cant_12': self.cant_12,
+            'cant_13': self.cant_13,
+            'cant_14': self.cant_14,
+            'cant_15': self.cant_15,
+            'cant_16': self.cant_16,
+            'cant_17': self.cant_17,
+            'cant_18': self.cant_18,
+            'cant_19': self.cant_19,
+            'cant_20': self.cant_20,
+            'cant_21': self.cant_21,
+            'cant_22': self.cant_22,
+            'cant_23': self.cant_23,
+            'cant_24': self.cant_24,
+            'cant_25': self.cant_25,
+            'cant_26': self.cant_26,
+            'cant_27': self.cant_27
 
         }
         

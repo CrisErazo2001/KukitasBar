@@ -347,14 +347,14 @@
                                 </div> <!-- Fin box-general -->
 
 
-                                <h3>Especifica un tiempo de espera</h3>
+                                <!-- <h3>Especifica un tiempo de espera</h3>
                                 <div class="form-group">
                                     <label for="tiempo_prep" class="to-selector">
                                         <input type="text" placeholder="Tiempo de Preparacion" class="input-css"
                                             name="tiempo_prep" aria-describedby="text" {% if receta.tiempo_prep > 0 %}
                                             value={{receta.tiempo_prep}} {% endif %}>
                                     </label>
-                                </div>
+                                </div> -->
 
                                 <input type="submit" value="Guardar Receta" class="botonera-normal">
 
@@ -1141,16 +1141,11 @@
         const closeBtn = document.getElementById('closeBtn');
 
         // Verifica si hay un mensaje flash y muestra el popup
-        {
-            %
-            if get_flashed_messages() %
-        }
+        {% if get_flashed_messages() %}
         console.log('Mensaje flash');
         popupA.style.display = 'flex';
-        popupA.classList.add('fade-in'); {
-            %
-            endif %
-        }
+        popupA.classList.add('fade-in'); 
+        {% endif %}
 
         // Cerrar popup manualmente
         closeBtn.onclick = function () {

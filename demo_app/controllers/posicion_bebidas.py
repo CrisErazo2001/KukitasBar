@@ -15,6 +15,15 @@ from demo_app.models.cantidad_bebidas import cantidad
 from demo_app.models.lista_bebidas import lista_bebidas
 from flask_bcrypt import Bcrypt
 import datetime
+import math
+
+def litros_a_onzas(litros):
+    onzas_por_litro = 33.814
+    onzas = int(litros) * onzas_por_litro
+    return math.floor(onzas)
+
+
+
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
@@ -22,16 +31,12 @@ bebidas_id = 0
 
 @app.route('/bebida/posicion/create',methods=['POST'])
 def create_bebida_pos_cant():
-    form_data = request.form.to_dict()  # Convierte a un diccionario modificable
-
-    # Aquí puedes recorrer el diccionario y procesar los valores
-    for key, value in form_data.items():
-        print(f"{key}: {value}")
+    
         
     print("creando una lista de bebidas")
     f = open("bebida_id.txt", "r")
     bebidas_id = f.read()
-    print(bebidas_id)
+    
     if bebidas_id == '' or bebidas_id == '0':
         bebidas_id = 0
     else:
@@ -76,26 +81,31 @@ def create_bebida_pos_cant():
             bebidas_total.append(x)
         else:
             continue
-    print('request form: ', request.form)
+    
     for i in range(24):
         aux_pos = 'Pos_'+str(i+1)
         aux_cant = 'cant_'+str(i+1)
         aux_list_pos = request.form[aux_pos]
-        print('aux_list_pos: ', aux_list_pos)
+        
         aux_list_cant = request.form[aux_cant]
+        
         if aux_list_pos != '' and aux_list_cant != '':
+            print('aux_list_pos: ', aux_list_pos)
+            print('aux_list_cant: ', aux_list_cant) 
             if not aux_list_cant.isnumeric():
                 print('----------------------Una cantidad no es un numero------------------------------')
                 flash('Una cantidad no es un numero', 'error')
                 return redirect('/bebida#tab2')
-            elif aux_list_cant == '0':
+            elif aux_list_cant == '0.0' or aux_list_cant == '0':
                 print('----------------------La cantidad no puede ser 0------------------------------')
                 flash('La cantidad no puede ser 0', 'error')
                 return redirect('/bebida#tab2')
             else:
+                print('............................................ guardando')
                 posiciones.append(aux_list_pos) 
                 cantidades.append(aux_list_cant)
         elif aux_list_pos == '' and aux_list_cant == '':
+            print('entre a vacio............................................')
             posiciones.append('') 
             cantidades.append(0)
         elif aux_list_pos != '' and aux_list_cant == '':
@@ -110,7 +120,8 @@ def create_bebida_pos_cant():
     
     for i in bebidas_total:
         try:
-            print('posicion: ', posiciones)
+            
+            print(i)
             posiciones.index(i)
         except ValueError:
             print('bebida de la lista: ', i)
@@ -168,32 +179,32 @@ def create_bebida_pos_cant():
         id = posicion_bebidas.get_all()
         id = id[len(id)-1]
 
-
+    print('...............cantidad:', type(cantidades[0]))
     data2 = {
-        'cant_1': cantidades[0],
-        'cant_2': cantidades[1],
-        'cant_3': cantidades[2],
-        'cant_4': cantidades[3],
-        'cant_5': cantidades[4],
-        'cant_6': cantidades[5],
-        'cant_7': cantidades[6],
-        'cant_8': cantidades[7],
-        'cant_9': cantidades[8],
-        'cant_10': cantidades[9],
-        'cant_11': cantidades[10],
-        'cant_12': cantidades[11],
-        'cant_13': cantidades[12],
-        'cant_14': cantidades[13],
-        'cant_15': cantidades[14],
-        'cant_16': cantidades[15],
-        'cant_17': cantidades[16],
-        'cant_18': cantidades[17],
-        'cant_19': cantidades[18],
-        'cant_20': cantidades[19],
-        'cant_21': cantidades[20],
-        'cant_22': cantidades[21],
-        'cant_23': cantidades[22],
-        'cant_24': cantidades[23],
+        'cant_1': (cantidades[0]),
+        'cant_2': (cantidades[1]),
+        'cant_3': (cantidades[2]),
+        'cant_4': (cantidades[3]),
+        'cant_5': (cantidades[4]),
+        'cant_6': (cantidades[5]),
+        'cant_7': (cantidades[6]),
+        'cant_8': (cantidades[7]),
+        'cant_9': (cantidades[8]),
+        'cant_10': (cantidades[9]),
+        'cant_11': (cantidades[10]),
+        'cant_12': (cantidades[11]),
+        'cant_13': (cantidades[12]),
+        'cant_14': (cantidades[13]),
+        'cant_15': (cantidades[14]),
+        'cant_16': (cantidades[15]),
+        'cant_17': (cantidades[16]),
+        'cant_18': (cantidades[17]),
+        'cant_19': (cantidades[18]),
+        'cant_20': (cantidades[19]),
+        'cant_21': (cantidades[20]),
+        'cant_22': (cantidades[21]),
+        'cant_23': (cantidades[22]),
+        'cant_24': (cantidades[23]),
         'cant_25': 0,
         'cant_26': 0,
         'cant_27': 0,
