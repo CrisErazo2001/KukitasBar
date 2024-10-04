@@ -81,15 +81,13 @@ def create_receta():
             flash('Existe una cantidad sin bebida', 'error')
             return redirect('/bebida#tab3')
     
+    sum = 0
+    for i in cantidades:
+        sum = sum + int(i)
     
     
-    tiempo_prep = request.form["tiempo_prep"]
-    if not tiempo_prep.isnumeric():
-        flash('No ha ingresado un tiempo de preparacion o no es un numero', 'error')
-        return redirect('/bebida#tab3')
-    elif tiempo_prep == '0':
-        flash('El tiempo de preparacion ingresado no puede ser 0', 'error')
-        return redirect('/bebida#tab3')
+    tiempo_prep = 1 + (sum * 10 * 1/60) # tiene que estar en minutos, entonces: cantidad de bebida x segundos por paso x 1/60 
+    tiempo_prep = int(round(tiempo_prep,0))
     
     total_cantidad = 0    
     for i in cantidades:
