@@ -17,6 +17,7 @@ from demo_app.models.pedido import pedido
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import requests
+import math
 
 
 @app.route('/receta/create',methods=['POST'])
@@ -87,7 +88,7 @@ def create_receta():
     
     
     tiempo_prep = 1 + (sum * 10 * 1/60) # tiene que estar en minutos, entonces: cantidad de bebida x segundos por paso x 1/60 
-    tiempo_prep = int(round(tiempo_prep,0))
+    tiempo_prep = int(math.ceil(tiempo_prep))
     
     total_cantidad = 0    
     for i in cantidades:
