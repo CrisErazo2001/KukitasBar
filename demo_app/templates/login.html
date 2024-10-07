@@ -30,15 +30,19 @@
 
     <div class="container login">
         <div class="logo">
-            <img src="../static/images/Saludo.gif" height="300px" alt="Logo" style="margin-right: 500px;">
+            <img src="../static/images/Saludo.gif" alt="Logo">
+            <!--
+            <img src="../static/images/Saludo.gif" height="300px" alt="Logo" style="margin-right: 500px;"> -->
         </div>
         <div class="form-information">
             <div class="form-information-child">
-                <h2>Iniciar Sesión</h2>
+                <h1>Iniciar Sesión</h1>
                 <form action="/login" method="post" class="data">
                     <div class="form-group">
                         <label for="user" class="form-label">
-                            <input type="text" name="user" placeholder="Usuario" class="form-control">
+                            <input type="text" name="user" placeholder="Usuario" class="form-control"
+                            value="{{ request.form['user'] if request.form.get('user') else '' }}"
+                            >
                         </label>
                         
                             <!-- aria-describedby="emailHelp"> -->
@@ -49,12 +53,14 @@
                         </label>
                     </div>
                     <div class="botonera">
+                    <!--
                         <a>
                             <input class="button-login" type="submit" id='submit_btn2' value="Ingresar">      
-                        </a> 
-                        <!-- <a href="/register">
-                            <input type="button" value="Registrarse" id="sing-up">
-                        </a> -->
+                        </a>
+                    --> 
+                        
+                        <input class="button-login" type="submit" id='submit_btn2' value="Ingresar">      
+                        
                         <h1 style="margin-top: 15px;">Sitio Web</h1>
                         <a href="/home">
                             <input class="button-login" type="button" value="Menu Principal" id="home">
@@ -62,9 +68,7 @@
                         <a href="/pedido">
                             <input class="button-login" type="button" value="Lista de Pedidos" id="lista-pedidas">
                         </a>
-                        <!-- <a href="/register">
-                            <input type="button" value="Registrar Nuevo Usuario" id="sing-up">
-                        </a> -->
+
                     </div>
             </div>
             

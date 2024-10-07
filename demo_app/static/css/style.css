@@ -984,160 +984,6 @@ color:#ffffff;
 
 }
 
-.popup{
-    position: relative;
-    width: 650px;
-    height: auto;
-    display:block;
-    align-items: center;
-    background-color: #f5f5f5;
-    
-    border-bottom: 8px solid #e75b1e;
-    border-radius: 9px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%) scale(0.1);
-    text-align: center ;
-    padding:  30px 0 30px 0;
-    font-family: 'nautilus_pompiliusregular';
-    box-shadow: 0 5px 6px rgb(255, 230, 220);
-    color: #e75b1e;
-    visibility: hidden;
-    transition: transform 0.4s, top 0.4s;
-    z-index: 9999; 
-    font-size: 50px;
-}
-
-.open-popup{
-    visibility: visible;
-    top: 50%;
-    transform: translate(-50%,-50%) scale(1);
-}
-
-.popup button{
-    cursor: pointer;
-    font-size: 25px;
-    font-weight: bold;
-    color: #f7f7f7;
-    font-family: "Roboto";
-    width: 50%;
-    background-color: #e96b41;
-    border-radius: 20px;
-    margin-top: 28px;
-    padding: 10px 0 10px 0;
-    border: 0;
-    outline: none;
-    box-shadow: 0 2px 2px rgb(255, 204, 164);
-}
-
-.cancel-btn {
-    background-color: red;
-    color: white;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.para-botones{
-    width: 100%;
-    
-    display: flex;
-    justify-content: space-between;
-}
-
-.pruban{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 0 15px 0;
-    
-}
-
-
-
-.input-wrapper {
-    position: relative;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-inline: auto;
-    max-width: 400px;
-    border: 2px solid #e2c8c8;
-    
-  }
-  
-.input {
-    font-size: 50px;
-    width: 100%;
-    padding: 8px;
-    padding-left: 30px; 
-    color: #bb2121;
-    border: none;
-    border-bottom: 5px solid #e9c5a1;
-    transition: border-color 250ms;
-    background-color: transparent;
-    text-transform: uppercase;
-
-    &:focus {
-        outline: none;
-        border-bottom-color: #1b1a1a;
-    }
-
-    &::placeholder {
-        color: transparent;
-    }
-
-    &::-webkit-contacts-auto-fill-button {
-        visibility: hidden;
-        pointer-events: none;
-        position: absolute;
-    }
-}
-  
-  .label {
-    position: absolute;
-    top: 28px;
-    left: 10px;
-    color: #e75b1e;
-    pointer-events: none;
-    transform-origin: left center;
-    transition: transform 250ms;
-    font-family: "Roboto";
-    font-size: 20px;
-  }
-  
-  .input:focus + .label,
-  .input:not(:placeholder-shown) + .label {
-    transform: translateY(-190%) scale(0.75);
-  }
-
-.cuadro-popup{
-    position: absolute;
-    top: 0;
-    width: 100%;
-    box-sizing: border-box; 
-    background-color: #e75b1e;
-    padding: 20px 0 15px 0;
-    color: #111;
-    
-}
-  
-.letras-popup {
-    color: #ffffff;
-    font-size: 29px;
-    font-family: 'Roboto';
-    
-}
-
-.letras-npopup {
-    color: #e75b1e;
-    font-size: 29px;
-    font-weight:lighter;
-}
-
-
-
-
-
 .offer-item div h3 {
     font-size: 30px;
     margin: 9px 0 0px;
@@ -2396,6 +2242,348 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
 	background:none;
     color: #e75b1e;
 }
+
+/*
+.popup{
+    position: relative;
+    width: 650px;
+    height: auto;
+    display:block;
+    align-items: center;
+    background-color: #f5f5f5;
+    
+    border-bottom: 8px solid #e75b1e;
+    border-radius: 9px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(0.1);
+    text-align: center ;
+    padding:  30px 0 30px 0;
+    font-family: 'nautilus_pompiliusregular';
+    box-shadow: 0 5px 6px rgb(255, 230, 220);
+    color: #e75b1e;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+    z-index: 9999; 
+    font-size: 50px;
+}
+
+.open-popup{
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(1);
+}
+
+.popup button{
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: bold;
+    color: #f7f7f7;
+    font-family: "Roboto";
+    width: 50%;
+    background-color: #e96b41;
+    border-radius: 20px;
+    margin-top: 28px;
+    padding: 10px 0 10px 0;
+    border: 0;
+    outline: none;
+    box-shadow: 0 2px 2px rgb(255, 204, 164);
+}
+
+.cuadro-popup{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box; 
+    background-color: #e75b1e;
+    padding: 20px 0 15px 0;
+    color: #111;
+    
+}
+  
+.letras-popup {
+    color: #ffffff;
+    font-size: 29px;
+    font-family: 'Roboto';
+    
+}
+
+.letras-npopup {
+    color: #e75b1e;
+    font-size: 29px;
+    font-weight:lighter;
+}
+
+.cancel-btn {
+    background-color: red;
+    color: white;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.para-botones{
+    width: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+}
+
+.pruban{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0 15px 0;
+    
+}
+
+.input-wrapper {
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-inline: auto;
+    max-width: 400px;
+    border: 2px solid #e2c8c8;
+    
+  }
+  
+.input {
+    font-size: 50px;
+    width: 100%;
+    padding: 8px;
+    padding-left: 30px; 
+    color: #bb2121;
+    border: none;
+    border-bottom: 5px solid #e9c5a1;
+    transition: border-color 250ms;
+    background-color: transparent;
+    text-transform: uppercase;
+
+    &:focus {
+        outline: none;
+        border-bottom-color: #1b1a1a;
+    }
+
+    &::placeholder {
+        color: transparent;
+    }
+
+    &::-webkit-contacts-auto-fill-button {
+        visibility: hidden;
+        pointer-events: none;
+        position: absolute;
+    }
+}
+*/
+
+/* General Popup Styles */
+.popup {
+    position: relative;
+    width: 90%;
+    max-width: 650px;
+    height: auto;
+    display: block;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-bottom: 8px solid #e75b1e;
+    border-radius: 9px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 30px 20px;
+    font-family: 'nautilus_pompiliusregular';
+    box-shadow: 0 5px 6px rgb(255, 230, 220);
+    color: #e75b1e;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+    z-index: 9999;
+    font-size: 24px; /* Tamaño de fuente base para pantallas grandes */
+}
+
+.open-popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Responsive button styles */
+.popup button {
+    cursor: pointer;
+    font-size: 16px; /* Tamaño de fuente base para botones */
+    font-weight: bold;
+    color: #f7f7f7;
+    font-family: "Roboto";
+    width: 100%;
+    max-width: 250px;
+    background-color: #e96b41;
+    border-radius: 20px;
+    margin-top: 20px;
+    padding: 10px 0;
+    border: 0;
+    outline: none;
+    box-shadow: 0 2px 2px rgb(255, 204, 164);
+}
+
+/* Styling for header of the popup */
+.cuadro-popup {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #e75b1e;
+    padding: 15px 0;
+    color: #111;
+}
+
+.letras-popup {
+    color: #ffffff;
+    font-size: 24px; /* Tamaño fijo para títulos */
+    font-family: 'Roboto';
+}
+
+.letras-npopup {
+    color: #e75b1e;
+    font-size: 20px; /* Tamaño fijo para subtítulos */
+    font-weight: lighter;
+}
+
+.cancel-btn {
+    background-color: red;
+    color: white;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.para-botones {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.pruban {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0;
+}
+
+/* Wrapper for the input field */
+.input-wrapper {
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-inline: auto;
+    width: 100%; /* Asegurar que el contenedor ocupe todo el ancho disponible */
+    max-width: 400px;
+    border: 2px solid #e2c8c8;
+    box-sizing: border-box; /* Incluir padding y borde en el ancho total */
+}
+
+/* Styling for the input field */
+.input {
+    width: 100%; /* Ocupar el 100% del ancho del contenedor */
+    font-family: 'Roboto';
+    font-size: 20px; /* Tamaño base para la entrada */
+    padding: 10px;
+    color: #bb2121;
+    border: none;
+    border-bottom: 5px solid #e9c5a1;
+    transition: border-color 250ms;
+    background-color: transparent;
+    text-transform: uppercase;
+    box-sizing: border-box; /* Asegura que el padding esté incluido dentro del ancho del input */
+}
+
+.input:focus {
+    outline: none;
+    border-bottom-color: #1b1a1a;
+}
+
+.para-input{
+    width: 100%;
+    height: 100%;
+}
+
+.input::placeholder {
+    color: #bb2121; /* Mostrar el placeholder con el mismo color del input */
+}
+
+/* Adjust the image */
+.popup img {
+    max-width: 70%; /* Reducir el tamaño máximo de la imagen al 70% del contenedor */
+    height: auto;
+    margin-top: 20px;
+    max-height: 300px; /* Limitar la altura máxima de la imagen */
+}
+
+/* Media Queries for Mobile Devices */
+@media (max-width: 768px) {
+    .popup {
+        font-size: 4vw; /* Escalar el tamaño de fuente en pantallas medianas */
+        padding: 20px 10px;
+    }
+
+    .popup button {
+        font-size: 4vw; /* Ajuste proporcional para botones en pantallas pequeñas */
+        max-width: 200px; /* Limitar el ancho de los botones */
+    }
+
+    .letras-popup {
+        font-size: 5vw; /* Ajustar para títulos en pantallas pequeñas */
+    }
+
+    .letras-npopup {
+        font-size: 4vw; /* Ajustar para subtítulos en pantallas pequeñas */
+    }
+
+    .input {
+        font-size: 4vw; /* Escalar el tamaño de fuente para la entrada */
+        width: 100%;
+    }
+
+    .input-wrapper {
+        max-width: 100%; /* Asegurarse de que la entrada ocupe todo el ancho disponible */
+    }
+
+    .popup img {
+        max-width: 90%; /* Imagen más grande en pantallas medianas pero aún controlada */
+        max-height: 200px; /* Reducir la altura máxima en pantallas medianas */
+    }
+}
+
+@media (max-width: 480px) {
+    .popup {
+        width: 95%;
+        padding: 15px 5px;
+        font-size: 5vw; /* Tamaño de fuente adecuado para móviles pequeños */
+    }
+
+    .input {
+        width: 100%;
+        font-size: 5vw; /* Ajustar para móviles más pequeños */
+        padding-left: 10px; /* Reducir padding para me
+
+/* fin responsive */
+
+.label {
+    position: absolute;
+    top: 28px;
+    left: 10px;
+    color: #e75b1e;
+    pointer-events: none;
+    transform-origin: left center;
+    transition: transform 250ms;
+    font-family: "Roboto";
+    font-size: 20px;
+  }
+  
+  .input:focus + .label,
+  .input:not(:placeholder-shown) + .label {
+    transform: translateY(-190%) scale(0.75);
+  }
 
 /* RESPONSIVE DESIGN */
 

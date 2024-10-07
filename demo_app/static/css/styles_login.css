@@ -1,3 +1,4 @@
+/*
 html {
     box-sizing: border-box;
     font-size: 62.5%;
@@ -26,7 +27,6 @@ body {
     animation: background-effect 10s ease infinite;
 }
 
-/**/
 
 @keyframes background-effect {
     0%{ background-position: 0 50%; }
@@ -34,7 +34,7 @@ body {
     100%{ background-position: 0 50%; }
 }
 
-/* Contenedor global */
+
 
 .container {
     display: flex;
@@ -46,7 +46,7 @@ body {
     box-shadow: 0 0.5rem 0.7rem rgba(0, 0, 0, .1);
 }
 
-/* Parte izquierda del contenedor */
+
 
 .logo {
     display: flex;
@@ -68,8 +68,8 @@ body {
 
 .checkbox-container {
     display: flex;
-    align-items: left;  /* Alinea verticalmente el checkbox y el texto */
-    justify-content: flex-start; /* Alinea el checkbox a la izquierda */
+    align-items: left;  
+    justify-content: flex-start;
     
 }
 .popup_error {
@@ -109,6 +109,13 @@ body {
     margin-bottom: 0;
 }
 
+.checkbox-container {
+    display: flex;
+    align-items: left;  
+    justify-content: flex-start; 
+    
+}
+
 .close-btn {
     position: absolute;
     top: 10px;
@@ -117,12 +124,12 @@ body {
     cursor: pointer;
 }
 
-/* Efectos de aparición */
+
 .fade-in {
     opacity: 1;
 }
 
-/* Parte derecha del contenedor */
+
 .form-information {
     display: flex;
     align-items: center;
@@ -212,7 +219,7 @@ body {
 }
 
 
-/* Responsive */
+
 
 @media screen and (max-width:57rem) {
 
@@ -286,5 +293,278 @@ body {
         padding: 2rem;
         border-bottom-left-radius: 2rem;
         border-top-right-radius: 0;
+    }
+}
+*/
+
+
+/* CSS base */
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    color: #fff;
+    background: linear-gradient(45deg, #35BBCA, #0191B4, #fcf5ef, #00ECC2, #D3DD18);
+    background-size: 400% 400%;
+    position: relative;
+    animation: background-effect 10s ease infinite;
+}
+
+@keyframes background-effect {
+    0% { background-position: 0 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    width: 90rem;
+    height: 50rem;
+    border-radius: 2rem;
+    transition: all 1s ease;
+    margin: 1rem;
+    box-shadow: 0 0.5rem 0.7rem rgba(0, 0, 0, .1);
+}
+
+/* Estilo del logo */
+.logo {
+    display: flex;
+    width: 70%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: #17538c;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+}
+
+.logo-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 3rem;
+    object-fit: cover;
+}
+
+/* Contenedor del popup de error */
+.popup_error {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+    opacity: 0;
+}
+
+.popup_error-content {
+    background-color: #f44336;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 300px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup_error-content h2 {
+    margin-top: 0;
+}
+
+.popup_error-content p {
+    margin-bottom: 0;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+/* Estilo del logo */
+.logo img {
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Estilos del formulario */
+.form-information {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 50%;
+    background-color: #3a80ac;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
+
+.form-information-child {
+    padding: 0 3rem;
+    width: 100%;
+}
+
+.form-information-child h2 {
+    color: #fff;
+    font-size: 5rem;
+}
+
+.data {
+    margin: 3rem 0 0 0;
+}
+
+.data label {
+    display: flex;
+    margin-bottom: 2rem;
+    padding: 0.3rem 0.8rem;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, .3);
+}
+
+.data label input {
+    width: 100%;
+    background-color: #3a80ac;
+    padding: 1rem;
+    border: none;
+    outline: none;
+    border-radius: 2rem;
+    color: #fff;
+}
+
+.data label input::placeholder {
+    color: #fff;
+}
+
+.data input[type="submit"],
+.data input[type="button"] {
+    background: #EBF4F0;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    border-radius: 2rem;
+    padding: 1rem 1.5rem;
+    margin-top: 1.2rem;
+}
+
+.data input[type="button"]:hover,
+.data input[type="submit"]:hover {
+    background: #DCDCDC;
+}
+
+.botonera {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-login {
+    width: 200px;
+    height: 50px;
+    background-color: #f44336;
+}
+
+/* Media queries para responsividad */
+@media screen and (max-width: 57rem) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .logo {
+        width: 100%;
+        padding: 2rem;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-information {
+        width: 100%;
+        padding: 2rem;
+        border-bottom-left-radius: 2rem;
+        border-top-right-radius: 0;
+    }
+
+    .form-information-child h2 {
+        font-size: 3rem; /* Reducir tamaño de fuente en pantallas más pequeñas */
+    }
+
+    .data label input {
+        padding: 0.8rem; /* Ajustar el padding del input */
+    }
+}
+
+@media screen and (max-width: 30rem) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+        padding: 1rem;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-information {
+        width: 100%;
+        padding: 2rem;
+        border-bottom-left-radius: 2rem;
+        border-top-right-radius: 0;
+    }
+
+    .form-information-child h2 {
+        font-size: 2.5rem; /* Reducir más el tamaño de fuente */
+    }
+
+    .data label input {
+        padding: 0.5rem; /* Ajustar padding aún más para móviles pequeños */
+    }
+
+    .data input[type="submit"],
+    .data input[type="button"] {
+        width: 100%; /* Botones ocupan todo el ancho */
     }
 }

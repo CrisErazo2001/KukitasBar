@@ -173,7 +173,10 @@
                             <h2 class="letras-popup">Tu <span id="drink-name"></span> estará lista en un par de
                                 minutos!!!</h2>
                         </div>
+                        <img src="../static/images/Saludo.gif">
+                    <!--    
                         <img src="../static/images/Saludo.gif" style="margin-top: 70px; height: 300px;">
+                    -->
                         <h2 class="letras-npopup">Cómo podemos llamarte?</h2>
 
                         <!-- Formulario que enviará la bebida seleccionada y el nombre -->
@@ -182,9 +185,9 @@
                             <div class="pruban">
                                 <div class="input-wrapper">
                                     
-                                    <label for="nombre_cliente">
+                                    <label class="para-input" for="nombre_cliente">
                                         <input autocomplete="off" class="input" type="text" id="nombre_cliente" name="nombre_cliente"
-                                        placeholder="Escribe tu nombre" oninput="validateInput()" />
+                                        placeholder="Escribe tu nombre aquí" oninput="validateInput()" />
                                        
                                     </label>
                                 </div>
@@ -193,21 +196,9 @@
                             <!-- Campo oculto para enviar el nombre de la bebida seleccionada -->
                             
                             <input type="hidden" id="selected-drink" name="nombre_bebida" value="">
-                            
-                            
-
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="reserve-book-btn text-center">
 
-                                    <!--
-                    <div class="para-botones">
-                        <button class="hvr-underline-from-center" id="order-btn" disabled
-                            onclick="closePopup()">ORDENAR </button>
-                        <button class="hvr-underline-from-center cancel-btn" type="button"
-                            onclick="cancelOrder()">CANCELAR</button>
-
-                    </div>
-                    -->
                                     <div class="para-botones">
                                         <!-- Botón de enviar que cierra el popup y envía el formulario -->
                                         <button class="hvr-underline-from-center" type="submit" value="Enviar"
