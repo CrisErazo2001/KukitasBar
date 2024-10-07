@@ -16,7 +16,7 @@
             </div>
             <div class="lista-espera-row">
 
-                <table border="0">
+                <table>
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -54,14 +54,12 @@
                 <h2><span id="estado-proceso" style="text-transform: uppercase;"></span></h2>
 
 
-                <img style="width: 70%; height: 50%;" src="../static/images/Batiendo.gif" alt="">
-                <div class="estado-container"
-                    style="position: relative; width: 300px; height: 50px; background-color: none; border: 4px solid #e75b1e; border-radius: 7px;">
+                <img src="../static/images/Batiendo.gif" alt="" class="gif-batido">
+                <div class="estado-container">
                     <div id="estado" class="estado-barra" style="width: 0%; height: 100%; background-color: #e75b1e;">
                     </div>
-                    <div
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                        <h2 style="margin: 0;">ESTADO</h2>
+                    <div class="estado-text">
+                        <h2 style="margin: 0;">PROCESO %</h2>
 
                     </div>
 
@@ -73,13 +71,13 @@
         <div class="info-bebida">
             <div class="info-bebida-column">
                 <div class="titulos">
-                    <h2>INFORMACIÓN DE</h2>
-                    <h2>LA BEBIDA</h2>
+                    <h3>INFORMACIÓN DE</h3>
+                    <h3>LA BEBIDA</h3>
                 </div>
                 <h2>{{nombre_bebida}}</h2>
-                <img style="width: 30%; height: 35%; margin-top: 40px;" src="../static/images/vaso4.png" alt="">
+                <img style="width: 30%; height: 5%; margin-top: 40px;" src="../static/images/vaso4.png" alt="">
                 <h2>Ingredientes:</h2>
-                <a>{{lista_ingredientes}}</a>
+                <p>{{lista_ingredientes}}</p>
             </div>
         </div>
 

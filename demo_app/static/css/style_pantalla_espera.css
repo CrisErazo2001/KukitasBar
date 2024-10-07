@@ -1,3 +1,5 @@
+/*
+
 .principal{
     background-color: rgb(218, 16, 16);
     display: flex;
@@ -105,7 +107,7 @@
 }
 
 
-/* spacing */
+//
 
 table {
     table-layout: fixed;
@@ -130,3 +132,157 @@ table {
   td {
     padding: 5px;
   }
+
+  */
+
+  .principal {
+    background-color: rgb(218, 16, 16);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+    color: aliceblue;
+}
+
+.lista-espera {
+    flex: 1;
+    background-color: rgb(11, 62, 75);
+    border-right: 5px solid #787878;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titulos {
+    border: 4px solid #e75b1e;
+    padding: 10px;
+    border-radius: 7px;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.lista-espera-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #e75b1e;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #fff;
+}
+
+.proceso {
+    flex: 1;
+    background-color: rgb(11, 62, 75);
+    border-right: 5px solid #787878;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.proceso-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.gif-batido {
+    width: 70%;
+    height: auto;
+    margin: 20px 0;
+}
+
+.estado-container {
+    position: relative;
+    width: 80%;
+    height: 50px;
+    background-color: transparent;
+    border: 4px solid #e75b1e;
+    border-radius: 7px;
+    margin: 20px 0;
+}
+
+.estado-barra {
+    width: 0%;
+    height: 100%;
+    background-color: #e75b1e;
+}
+
+.estado-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-bebida {
+    flex: 1;
+    background-color: rgb(11, 62, 75);
+}
+
+.info-bebida-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vaso-img {
+    width: 30%;
+    height: auto;
+    margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .principal {
+        flex-direction: column;
+    }
+
+    .lista-espera, .proceso, .info-bebida {
+        width: 100%;
+        border-right: none;
+    }
+
+    .gif-batido {
+        width: 90%;
+    }
+
+    .estado-container {
+        width: 90%;
+    }
+
+    .vaso-img {
+        width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulos h2 {
+        font-size: 1.5rem;
+    }
+
+    .titulos h1 {
+        font-size: 2rem;
+    }
+
+    th, td {
+        font-size: 0.8rem;
+    }
+}
