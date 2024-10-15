@@ -64,7 +64,7 @@ const Dashboard = () => {
             <Col xs={12} md={6}>
               <Widget className="widget-p-md">
                 <div className="d-flex justify-content-between">
-                  <div className="headline-3 d-flex align-items-center">Your meals</div>
+                  <div className="headline-3 d-flex align-items-center">Your meals xdd</div>
                   <UncontrolledDropdown>
                     <DropdownToggle caret>
                       &nbsp; Weekly &nbsp;
@@ -82,7 +82,7 @@ const Dashboard = () => {
                       <div className="d-flex">
                         <img className="img-fluid mr-2" src={meal} alt="..." />
                         <div className="d-flex flex-column">
-                          <p className="body-2">Salmon salad</p>
+                          <p className="body-2">Salmon salad ppii</p>
                           <p className="body-3 muted">300 g</p>
                         </div>
                       </div>
@@ -100,8 +100,8 @@ const Dashboard = () => {
               <Widget className="widget-p-none">
                 <div className="d-flex flex-wrap align-items-center justify-content-center">
                   <div className="d-flex flex-column align-items-center col-12 col-xl-6 p-sm-4">
-                    <p className="headline-1">Upgrade your plan</p>
-                    <p className="body-3">So how did the classical Latin become so </p>
+                    <p className="headline-1"> your f plan</p>
+                    <p className="body-3">So how did the classical Latighfhn become so </p>
                     <div className="d-flex justify-content-between my-4">
                       <Button className="rounded-pill mr-3" color="primary">Go Premium</Button>
                       <Button className="rounded-pill body-3" outline color="dark">Try for free</Button>

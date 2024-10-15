@@ -90,3 +90,23 @@
   }
 }
 
+// Botones nuevo estilo
+
+.button-log {
+  cursor: pointer;
+  top: 717px;
+  left: 509px;
+  width: 95%;
+  height: 47px;
+  padding: 0px 8px;
+  border: 0;
+  box-sizing: border-box;
+  border-radius: 24px;
+  background-color: #ff8b05;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: "Montserrat";
+  font-weight: 400;
+  line-height: 18px;
+  outline: none;
+}

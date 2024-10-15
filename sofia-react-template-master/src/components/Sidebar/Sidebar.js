@@ -67,6 +67,15 @@ const Sidebar = (props) => {
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
+          header="Tables"
+          isHeader
+          iconName={<i className={'eva eva-grid-outline'}/>}
+          link="/template/tables"
+          index="tables"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          activeItem={props.activeItem}
           header="Notifications"
           isHeader
           iconName={<i className={'eva eva-bell-outline'}/>}

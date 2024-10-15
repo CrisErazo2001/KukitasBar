@@ -17,12 +17,7 @@ import { loginUser } from "../../actions/auth";
 import hasToken from "../../services/authService";
 
 import loginImage from "../../assets/loginImage.svg";
-import SofiaLogo from "../../components/Icons/SofiaLogo.js";
-import GoogleIcon from "../../components/Icons/AuthIcons/GoogleIcon.js";
-import TwitterIcon from "../../components/Icons/AuthIcons/TwitterIcon.js";
-import FacebookIcon from "../../components/Icons/AuthIcons/FacebookIcon.js";
-import GithubIcon from "../../components/Icons/AuthIcons/GithubIcon.js";
-import LinkedinIcon from "../../components/Icons/AuthIcons/LinkedinIcon.js";
+import robotSaluda from "../../assets/Saludo.gif"
 
 const Login = (props) => {
 
@@ -49,21 +44,24 @@ const Login = (props) => {
 
   return (
     <div className="auth-page">
-      <Container className="col-12">
+      <Container className="col-1">
         <Row className="d-flex align-items-center">
           <Col xs={12} lg={6} className="left-column">
             <Widget className="widget-auth widget-p-lg">
-              <div className="d-flex align-items-center justify-content-between py-3">
-                <p className="auth-header mb-0">Login</p>
-                <div className="logo-block">
-                  <SofiaLogo />
-                  <p className="mb-0">SOFIA</p>
+
+              <div className="text-center py-3">
+                {/* Título KUKITAS, centrado */}
+                <p className="auth-header mb-0" style={{ fontSize: '3rem' }}>KUKITA'S</p>
+
+                {/* Login, alineado a la derecha */}
+                <div className="d-flex justify-content-end">
+                  <p className="auth-header mb-0" style={{ marginRight: '0', marginTop: '10px' }}>Login</p>
                 </div>
               </div>
-              <div className="auth-info my-2">
-                <p>This is a real app with Node.js backend - use <b>"admin@flatlogic.com / password"</b> to login!</p>
-              </div>
+
               <form onSubmit={(event) => doLogin(event)}>
+
+                {/*
                 <FormGroup className="my-3">
                   <FormText>Email</FormText>
                   <Input
@@ -77,10 +75,29 @@ const Login = (props) => {
                     placeholder="Email"
                   />
                 </FormGroup>
+                */}
+                <FormGroup className="my-3">
+
+                <FormText>Username</FormText>
+                  <Input
+                    id="username"
+                    className="input-transparent pl-3"
+                    value={state.username}  
+                    onChange={(event) => changeCreds(event)}
+                    type="text" 
+                    required
+                    name="username"
+                    placeholder="Username" 
+                  />
+                </FormGroup>
+
                 <FormGroup  className="my-3">
                   <div className="d-flex justify-content-between">
                     <FormText>Password</FormText>
+                    
+                    {/* 
                     <Link to="/error">Forgot password?</Link>
+                    */}
                   </div>
                   <Input
                     id="password"
@@ -94,28 +111,26 @@ const Login = (props) => {
                   />
                 </FormGroup>
                 <div className="bg-widget d-flex justify-content-center">
-                  <Button className="rounded-pill my-3" type="submit" color="secondary-red">Login</Button>
+                  <Button className="button-log my-3" type="submit" color="secondary-red">Login</Button>
                 </div>
-                <p className="dividing-line my-3">&#8195;Or&#8195;</p>
-                <div className="d-flex align-items-center my-3">
-                  <p className="social-label mb-0">Login with</p>
-                  <div className="socials">
-                    <a href="https://flatlogic.com/"><GoogleIcon /></a>
-                    <a href="https://flatlogic.com/"><TwitterIcon /></a>
-                    <a href="https://flatlogic.com/"><FacebookIcon /></a>
-                    <a href="https://flatlogic.com/"><GithubIcon /></a>
-                    <a href="https://flatlogic.com/"><LinkedinIcon /></a>
-                  </div>
+                <p className="dividing-line my-3">&#8195;&#8195;</p>
+                <div className="bg-widget d-flex justify-content-center flex-column align-items-center my-7">
+                  <Button className="button-log my-2" type="submit" color="secondary-red">Menú Principal</Button>
+                  <Button className="button-log my-1" type="submit" color="secondary-red">Listado de Bebidas</Button>
                 </div>
+                {/*
                 <Link to="/register">Don’t have an account? Sign Up here</Link>
-              </form>
+                */}
+                </form>
             </Widget>
           </Col>
-          <Col xs={0} lg={6} className="right-column">
+          {/*
+          <Col xs={1} lg={2} className="right-column">
             <div>
-              <img src={loginImage} alt="Error page" />
+              <img src={robotSaluda} alt="Error page" />
             </div>
           </Col>
+          */}
         </Row>
       </Container>
       <Footer />
