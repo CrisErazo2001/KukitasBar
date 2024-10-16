@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import Widget from "../../components/Widget/Widget.js";
 import TaskContainer from "./components/TaskContainer/TaskContainer.js";
+import TablaPedidos from "../../components/TablaPedidos/TablaPedidos.jsx"
 
 // import BootstrapTable from "react-bootstrap-table-next";
 // import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -87,6 +88,17 @@ const Tables = function () {
     )
   }
 
+  const [listaPedidos, setListaPedidos] = useState([
+    // Tus pedidos aquí, o puedes obtenerlos de una API
+    { id_pedidos: 1, nombre_cliente: "Juan", create_at: "2024-10-14", id_receta: "Coca Cola" },
+    { id_pedidos: 2, nombre_cliente: "Ana", create_at: "2024-10-14", id_receta: "Pepsi" },
+  ]);
+
+  const eliminarPedido = (id_pedidos) => {
+    const nuevaLista = listaPedidos.filter((pedido) => pedido.id_pedidos !== id_pedidos);
+    setListaPedidos(nuevaLista);
+  };
+
   return (
     <div>
       <Row>
@@ -94,6 +106,7 @@ const Tables = function () {
           <Row className="mb-4">
             <Col>
               <Widget>
+                
                 <div className={s.tableTitle}>
                   <div className="headline-2">States Colors</div>
                   <div className="d-flex">
@@ -150,6 +163,9 @@ const Tables = function () {
                       ))}
                     </tbody>
                   </Table>
+
+                  <TablaPedidos listaPedidos={listaPedidos} eliminarPedido={eliminarPedido} />
+
                   <Pagination className="pagination-borderless" aria-label="Page navigation example">
                     <PaginationItem disabled={firstTableCurrentPage <= 0}>
                       <PaginationLink

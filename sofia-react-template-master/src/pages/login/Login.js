@@ -110,6 +110,7 @@ const Login = (props) => {
                     placeholder="Password"
                   />
                 </FormGroup>
+
                 <div className="bg-widget d-flex justify-content-center">
                   <Button className="button-log my-3" type="submit" color="secondary-red">Login</Button>
                 </div>
