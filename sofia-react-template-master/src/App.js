@@ -12,6 +12,8 @@ import ErrorPage from "./pages/error/ErrorPage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 
+
+
 // -- Redux Actions
 import { logoutUser } from "./actions/auth";
 
@@ -42,6 +44,7 @@ const App = (props) => {
       <HashRouter>
         <Switch>
           <Route path="/" exact render={() => <Redirect to="/template/dashboard" />} />
+          
           <Route path="/template" exact render={() => <Redirect to="/template/dashboard"/>}/>
           <PrivateRoute path="/template" dispatch={props.dispatch} component={LayoutComponent} />
           <Route path="/login" exact component={Login} />

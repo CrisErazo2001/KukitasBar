@@ -131,7 +131,7 @@ const Tables = function () {
                           <label for="checkbox100"/>
                         </div>
                       </th>
-                      <th className="w-25">NAME</th>
+                      <th className="w-25">NAME of company</th>
                       <th className="w-25">COMPANY</th>
                       <th className="w-25">CITY</th>
                       <th className="w-25">STATE</th>
