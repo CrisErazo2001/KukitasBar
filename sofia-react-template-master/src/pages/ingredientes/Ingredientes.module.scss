@@ -1,0 +1,81 @@
+.nBotonRecetas {
+    cursor: pointer;
+    width: 40%;
+    height: 50px;
+    padding: 0px 8px;
+    border: 0;
+    margin-left: 15px;
+    box-sizing: border-box;
+    border-radius: 24px;
+    background-color: #ff8b05;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: "Montserrat";
+    font-weight: 700;
+    line-height: 16px;
+    outline: none;
+}
+
+.nBotonRecetas:hover{
+    background-color: #f4431f;
+}
+
+
+.searchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5; /* Fondo claro */
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+  
+  .searchInputGroup {
+    display: flex;
+    width: 0%; /* Ajusta el ancho del buscador */
+    max-width: 600px; /* Máximo ancho para pantallas grandes */
+    background-color: white; /* Fondo del input */
+    border-radius: 25px; /* Borde redondeado para el cuerpo del input */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  }
+  
+  .searchInput {
+    border: solid 1px;
+    background-color: #f4431f;
+    padding: 10px 15px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    flex: 1;
+  }
+  
+  .searchInput:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .searchIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: #3a1616; /* Color del ícono */
+    background-color: #ffffff; /* Fondo del área del ícono */
+    border: solid 1px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  
+  .input-group-no-border .input-group-addon {
+    border: none;
+  }
+  
+  .input-group-no-border input {
+    border: none;
+    box-shadow: none;
+  }
+  
+  .search-icon:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el cursor */
+    cursor: pointer;
+  }
+  
