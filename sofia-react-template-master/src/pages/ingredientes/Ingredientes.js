@@ -5,6 +5,7 @@ import Modal from 'react-modal'; // Para mostrar el popup de vista detallada
 import s from "./Ingredientes.module.scss";
 import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon"
 
+Modal.setAppElement('#root'); // Asegúrate de añadir esto
 
 
 const Ingredientes = () => {
@@ -13,6 +14,7 @@ const Ingredientes = () => {
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [busqueda, setBusqueda] = useState('');
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [modoEditar, setModoEditar] = useState(false); // **Nuevo**: Define si se está editando
 
   // Manejo de búsqueda de ingredientes
   const filtrarIngredientes = ingredientes.filter((ingrediente) =>
@@ -25,9 +27,23 @@ const Ingredientes = () => {
     setModalIsOpen(true);
   };
 
+  // Cerrar modal
   const cerrarModal = () => {
     setModalIsOpen(false);
     setIngredienteSeleccionado(null);
+  };
+
+  // **Nuevo**: Función para abrir el formulario de edición
+  const abrirFormularioEdicion = (ingrediente) => {
+    setModoEditar(true); // Activa el modo edición
+    setIngredienteSeleccionado(ingrediente); // Asigna el ingrediente a editar
+    setMostrarFormulario(true); // Muestra el formulario
+  };
+
+  // **Nuevo**: Función para eliminar un ingrediente
+  const eliminarIngrediente = (ingrediente) => {
+    const nuevosIngredientes = ingredientes.filter((ing) => ing !== ingrediente);
+    setIngredientes(nuevosIngredientes);
   };
 
   return (
@@ -63,6 +79,7 @@ const Ingredientes = () => {
                   placeholder="Buscar Ingrediente"
                   value={busqueda}
                   onChange={(e) => setBusqueda(e.target.value)}
+                  readonly
                   className={s.searchInput}
                 />
                 <InputGroupAddon addonType="prepend">
@@ -72,21 +89,43 @@ const Ingredientes = () => {
                 </InputGroupAddon>
               </InputGroup>
             </div>
+            <div>
+              {/*
+              <Button
+                className={s.nBotonRecetas} 
+                onClick={() => setMostrarFormulario(true)}>
+                Nuevo Ingrediente
+              </Button>
+              */}
+              <Button className={s.nBotonRecetas} onClick={() => {
+                setMostrarFormulario(true); // Mostrar formulario
+                setModoEditar(false); // **Nuevo**: No es edición, es creación
+                setIngredienteSeleccionado(null); // **Nuevo**: Limpia selección anterior
+              }}>
+                Crear Nuevo Ingrediente
+              </Button>
 
-            <Button 
-              className={s.nBotonRecetas}
-              onClick={() => setMostrarFormulario(true)}>
-              Nuevo Ingrediente
-            </Button>
-            
+            </div>
 
           </div>
         </Col>
       </Row>
 
-      {/* Formulario para crear nuevo ingrediente */}
+      {/* Formulario para crear nuevo ingrediente 
       {mostrarFormulario && (
         <NuevoIngrediente onClose={() => setMostrarFormulario(false)} setIngredientes={setIngredientes} />
+      )}
+      */}
+
+      {/* Formulario de creación/edición de ingrediente */}
+      {mostrarFormulario && (
+        <NuevoIngrediente
+          onClose={() => setMostrarFormulario(false)}
+          setIngredientes={setIngredientes}
+          ingredientes={ingredientes}
+          ingrediente={ingredienteSeleccionado} // **Nuevo**: Ingrediente seleccionado para edición
+          modoEditar={modoEditar} // **Nuevo**: Modo edición
+        />
       )}
 
       {/* Tabla de ingredientes */}
@@ -107,10 +146,28 @@ const Ingredientes = () => {
               <td>{ingrediente.tipo}</td>
               <td>{ingrediente.costo}</td>
               <td>{ingrediente.cantidad}</td>
+              {/*
               <td>
-                <Button color="info" onClick={() => abrirModal(ingrediente)}>Ver</Button>{' '}
-                <Button color="warning">Editar</Button>{' '}
-                <Button color="danger">Eliminar</Button>
+                <div className='d-flex flex-column'>
+                  <Button className={s.nBotonRecetas} color="info" onClick={() => abrirModal(ingrediente)}>Ver</Button>{' '}
+                  <div className='mb-3'></div>
+                  <Button className={s.nBotonRecetas} color="warning">Editar</Button>{' '}
+                  <div className='mb-3'></div>
+                  <Button className={s.nBotonRecetas} color="danger">Eliminar</Button>
+                </div>
+              </td>
+              */}
+              <td>
+                <div className='d-flex flex-column'>
+                  {/* Botón para ver detalles */}
+                  <Button className={s.nBotonRecetas} onClick={() => abrirModal(ingrediente)}>Ver</Button>{' '}
+                  <div className='mb-3'></div>
+                  {/* **Nuevo**: Botón para editar ingrediente */}
+                  <Button className={s.nBotonRecetas} onClick={() => abrirFormularioEdicion(ingrediente)}>Editar</Button>{' '}
+                  <div className='mb-3'></div>
+                  {/* **Nuevo**: Botón para eliminar ingrediente */}
+                  <Button className={s.nBotonRecetas} onClick={() => eliminarIngrediente(ingrediente)}>Eliminar</Button>
+                </div>
               </td>
             </tr>
           ))}
