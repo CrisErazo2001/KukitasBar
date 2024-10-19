@@ -16,7 +16,8 @@ import Typography from "../../pages/typography/Typography";
 import Notifications from "../../pages/notifications/Notifications";
 import Tables from "../../pages/tables/Tables";
 import Ingredientes from '../../pages/ingredientes/Ingredientes';
-import NuevoIngrediente from '../../pages/nuevoIngrediente/NuevoIngrediente';
+import Recetas from "../../pages/recetas/Recetas";
+import Distribucion from "../../pages/distribucion/Distribucion";
 
 import Charts from "../../pages/uielements/charts/Charts";
 import Icons from "../../pages/uielements/icons/IconsPage";
@@ -38,6 +39,9 @@ const Layout = (props) => {
             <Route path="/template/dashboard" exact component={Dashboard}/>
             <Route path="/template/typography" exact component={Typography} />
             <Route path="/template/tables" exact component={Tables} />
+            <Route path="/template/ingredientes" exact component={Ingredientes} />
+            <Route path="/template/recetas" exact component={Recetas} />
+            <Route path="/template/distribucion" exact component={Distribucion} />
             <Route path="/template/ingredientes" exact component={Ingredientes} />
             <Route path="/template/notifications" exact component={Notifications} />
             <Route path="/template/ui-elements" exact render={() => <Redirect to={"/template/ui-elements/charts"} />} />

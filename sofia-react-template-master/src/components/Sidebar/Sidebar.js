@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { logoutUser } from "../../actions/auth";
+import logoutIcon from "../../assets/navbarMenus/pfofileIcons/logoutBlack.svg";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button} from 'reactstrap';
@@ -28,6 +30,10 @@ const Sidebar = (props) => {
     }
   }, [props.sidebarOpened])
 
+  const doLogout = () => {
+    props.dispatch(logoutUser());
+  }
+
   return (
     <nav className={cn(s.root, {[s.sidebarOpen]: burgerSidebarOpen})} >
       <header className={s.logo}>
@@ -46,6 +52,7 @@ const Sidebar = (props) => {
           badge="9"
         />
         <h5 className={s.navTitle}>TEMPLATE</h5>
+        {/* 
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
@@ -55,23 +62,42 @@ const Sidebar = (props) => {
           link="/template/typography"
           index="typography"
         />
-        <LinksGroup
-          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
-          activeItem={props.activeItem}
-          header="Tables"
-          isHeader
-          iconName={<i className={'eva eva-grid-outline'}/>}
-          link="/template/tables"
-          index="tables"
-        />
+        */}
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
           header="Ingredientes"
           isHeader
-          iconName={<i className={'eva eva-list'}/>}
+          iconName={<i className={'eva eva-layers'}/>}
           link="/template/ingredientes"
           index="ingredientes"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          activeItem={props.activeItem}
+          header="Distribución"
+          isHeader
+          iconName={<i className={'eva eva-layout'}/>}
+          link="/template/distribucion"
+          index="ingredientes"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          activeItem={props.activeItem}
+          header="Recetas"
+          isHeader
+          iconName={<i className={'eva eva-list'}/>}
+          link="/template/recetas"
+          index="ingredientes"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          activeItem={props.activeItem}
+          header="Listado de Pedidos"
+          isHeader
+          iconName={<i className={'eva eva-grid-outline'}/>}
+          link="/template/tables"
+          index="tables"
         />
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
@@ -103,8 +129,13 @@ const Sidebar = (props) => {
           ]}
         />
       </ul>
-      <div className="bg-widget d-flex mt-auto ml-1">
-        <Button className="rounded-pill my-3 body-2 d-none d-md-block" type="submit" color="secondary-red">Unlock Full Version</Button>
+
+
+      <div className="bg-widget d-flex flex-row  mt-auto ml-1" onClick={() => doLogout()} href="#">
+        <button className={s.logout} type="submit">
+          <img className={s.logoutIcon} src={logoutIcon} alt="Logout" />
+          <span className="ml-1">Logout</span>
+        </button>
       </div>
     </nav>
   );

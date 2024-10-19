@@ -88,3 +88,33 @@
   text-transform: uppercase;
 }
 
+/* Estilo para la imagen del icono dentro del botón */
+.logoutIcon {
+  height: 30px; /* Controla la altura de la imagen */
+  width: auto; /* Mantiene las proporciones de la imagen */
+  vertical-align: middle; /* Alinea la imagen con el texto */
+  margin-right: 8px; /* Espacio entre la imagen y el texto */
+}
+
+/* Ajustes adicionales para el botón si lo necesitas */
+.logout {
+  display: flex; /* Para alinear el texto e imagen horizontalmente */
+  align-items: center; /* Centra verticalmente la imagen y el texto */
+  background-color: #ffffff; /* Color de fondo del botón */
+  color: black; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 10px 20px; /* Espacio interno */
+  cursor: pointer;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.logout:hover {
+  background-color: #ff8b05; /* Cambia el color de fondo al hacer hover */
+  color: #ffffff; /* Cambia el color del texto */
+  border: solid 1px #ff8b05; /* Añade borde en hover */
+}
+.logoutIcon:hover  {
+  color: #ffffff;
+}

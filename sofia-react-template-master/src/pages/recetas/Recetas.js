@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon} from 'reactstrap';
 import NuevoIngrediente from '../nuevoIngrediente/NuevoIngrediente'; // Importa el componente para agregar ingredientes
 import Modal from 'react-modal'; // Para mostrar el popup de vista detallada
-import s from "./Ingredientes.module.scss";
+import s from "./Recetas.module.scss";
 import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon"
 
 Modal.setAppElement('#root'); // Asegúrate de añadir esto
 
 
-const Ingredientes = () => {
+const Recetas = () => {
   const [ingredientes, setIngredientes] = useState([]); // Aquí deberás cargar la lista de ingredientes
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
@@ -102,7 +102,7 @@ const Ingredientes = () => {
                 setModoEditar(false); // **Nuevo**: No es edición, es creación
                 setIngredienteSeleccionado(null); // **Nuevo**: Limpia selección anterior
               }}>
-                Nuevo Ingrediente
+                Crear Nuevo Ingrediente
               </Button>
 
             </div>
@@ -160,13 +160,13 @@ const Ingredientes = () => {
               <td>
                 <div className='d-flex flex-column'>
                   {/* Botón para ver detalles */}
-                  <Button className={s.nBotonEdicion} onClick={() => abrirModal(ingrediente)}>Ver</Button>{' '}
+                  <Button className={s.nBotonRecetas} onClick={() => abrirModal(ingrediente)}>Ver</Button>{' '}
                   <div className='mb-3'></div>
                   {/* **Nuevo**: Botón para editar ingrediente */}
-                  <Button className={s.nBotonEdicion} onClick={() => abrirFormularioEdicion(ingrediente)}>Editar</Button>{' '}
+                  <Button className={s.nBotonRecetas} onClick={() => abrirFormularioEdicion(ingrediente)}>Editar</Button>{' '}
                   <div className='mb-3'></div>
                   {/* **Nuevo**: Botón para eliminar ingrediente */}
-                  <Button className={s.nBotonEdicion} onClick={() => eliminarIngrediente(ingrediente)}>Eliminar</Button>
+                  <Button className={s.nBotonRecetas} onClick={() => eliminarIngrediente(ingrediente)}>Eliminar</Button>
                 </div>
               </td>
             </tr>
@@ -191,4 +191,4 @@ const Ingredientes = () => {
   );
 };
 
-export default Ingredientes;
+export default Recetas;
