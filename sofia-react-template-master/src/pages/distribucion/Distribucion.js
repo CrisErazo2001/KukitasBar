@@ -21,6 +21,7 @@ const Distribucion = () => {
 
 // Opciones para el selector
 const ingredientesPorDefecto = [
+  { value: 'Vacío', label: 'Vacío' },
   { value: 'Ron', label: 'Ron' },
   { value: 'Tequila', label: 'Tequila' },
   { value: 'Vodka', label: 'Vodka' },
