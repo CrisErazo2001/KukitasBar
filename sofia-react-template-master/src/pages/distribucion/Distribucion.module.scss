@@ -1,86 +1,49 @@
-.nBotonRecetas {
-    cursor: pointer;
-    width: 300px;
-    height: 50px;
-    padding: 0px 8px;
-    border: 0;
-    margin-left: 15px;
-    border-radius: 24px;
-    background-color: #ff8b05;
-    color: #ffffff;
-    font-size: 14px;
-    font-family: "Montserrat";
-    outline: none;
+/* Distribucion.module.scss */
+.modalCustom {
+  max-width: 500px; /* Define un ancho máximo */
+  width: 90%; /* Ancho del modal (opcional) */
+  margin: auto; /* Centra el modal en la pantalla */
+  border-radius: 10px; /* Bordes redondeados */
+  background-color: white; /* Color de fondo */
+  padding: 20px; /* Espaciado interno */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
-.nBotonRecetas:hover{
-
-    background-color: #ffffff;
-    color: #ff8b05;
-    border: solid 1px #ff8b05;
+.modalBody {
+  max-height: 80vh; /* Alto máximo del modal */
+  overflow-y: auto; /* Añade scroll si el contenido excede el alto */
 }
 
+.modalHeader {
+  display: flex;
+  justify-content: space-between; /* Espacio entre el título y el botón de cerrar */
+  align-items: center; /* Centra verticalmente */
+}
 
-.searchContainer {
-    display: flex;
-    height: 80px;
-    justify-content: center;
-    width: 50%;
-    align-items: center;
-    background-color: #f5f5f5; /* Fondo claro */
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
+.modalTitle {
+  font-size: 1.5em; /* Ajusta el tamaño del título */
+}
+
+.modalInput {
+  width: 100%; /* Asegura que los inputs ocupen todo el ancho */
+}
+
+.modalButton {
+  margin: 0 5px; /* Espaciado entre botones */
+  flex: 1; /* Para que los botones ocupen espacio igual */
+}
+
+.modalButtonSecondary {
+  background-color: #007bff; /* Cambia el color de fondo del botón */
+  color: white; /* Color del texto */
+}
+
+@media (max-width: 768px) {
+  .modalCustom {
+      max-width: 90%; /* Reduce el ancho máximo en pantallas pequeñas */
   }
   
-  .searchInputGroup {
-    display: flex;
-    width: 60%; /* Ajusta el ancho del buscador */
-    max-width: 600px; /* Máximo ancho para pantallas grandes */
-    background-color: white; /* Fondo del input */
-    border-radius: 25px; /* Borde redondeado para el cuerpo del input */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  .modalTitle {
+      font-size: 1.2em; /* Ajusta el tamaño del título para pantallas más pequeñas */
   }
-  
-  .searchInput {
-    border: solid 1px;
-    background-color: #f4431f;
-    padding: 10px 15px;
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
-    flex: 1;
-  }
-  
-  .searchInput:focus {
-    outline: none;
-    box-shadow: none;
-  }
-  
-  .searchIcon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    color: #d1d1d1; /* Color del ícono */
-    background-color: #ffffff; /* Fondo del área del ícono */
-    
-    border-top: solid 1px;
-    border-right: solid 1px;
-    border-bottom: solid 1px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-  }
-  
-  .input-group-no-border .input-group-addon {
-    border: none;
-  }
-  
-  .input-group-no-border input {
-    border: none;
-    box-shadow: none;
-  }
-  
-  .search-icon:hover {
-    background-color: #e0e0e0; /* Color de fondo al pasar el cursor */
-    cursor: pointer;
-  }
-  
+}

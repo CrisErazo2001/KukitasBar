@@ -1,85 +1,65 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon} from 'reactstrap';
-import NuevoIngrediente from '../nuevoIngrediente/NuevoIngrediente'; // Importa el componente para agregar ingredientes
+import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import NuevaReceta from './NuevaReceta'; // Importa el componente para crear/editar recetas
 import Modal from 'react-modal'; // Para mostrar el popup de vista detallada
-import s from "./Recetas.module.scss";
-import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon"
+import s from "../ingredientes/Ingredientes.module.scss";
+import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon";
 
 Modal.setAppElement('#root'); // Asegúrate de añadir esto
 
-
 const Recetas = () => {
-  const [ingredientes, setIngredientes] = useState([]); // Aquí deberás cargar la lista de ingredientes
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
+  // Ingredientes predefinidos para que puedas usar en las recetas quemadas
+  const ingredientesPorDefecto = [
+    { nombre: 'Ron', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
+    { nombre: 'Vodka', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
+    { nombre: 'Tequila', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
+    { nombre: 'Whiskey', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
+    { nombre: 'Triple Sec', tipo: 'Alcohol', costo: '1.23', cantidad: '750' }
+  ];
+
+  // Recetas predeterminadas (quemadas)
+  const recetasPorDefecto = [
+    { nombre: 'Mojito', ingredientes: [ingredientesPorDefecto[0], ingredientesPorDefecto[1]] },
+    { nombre: 'Piña Colada', ingredientes: [ingredientesPorDefecto[3], ingredientesPorDefecto[2]] },
+  ];
+
+  const [recetas, setRecetas] = useState(recetasPorDefecto); // Inicia con recetas predeterminadas
   const [busqueda, setBusqueda] = useState('');
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const [modoEditar, setModoEditar] = useState(false); // **Nuevo**: Define si se está editando
+  const [recetaSeleccionada, setRecetaSeleccionada] = useState(null);
+  const [modoEditar, setModoEditar] = useState(false); // Modo para editar receta
 
-  // Manejo de búsqueda de ingredientes
-  const filtrarIngredientes = ingredientes.filter((ingrediente) =>
-    ingrediente.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  // Filtrar las recetas según la búsqueda
+  const filtrarRecetas = recetas.filter((receta) =>
+    receta.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  // Abrir el modal de visualización
-  const abrirModal = (ingrediente) => {
-    setIngredienteSeleccionado(ingrediente);
-    setModalIsOpen(true);
+  // Función para abrir el formulario de edición
+  const abrirFormularioEdicion = (receta) => {
+    setModoEditar(true);
+    setRecetaSeleccionada(receta);
+    setMostrarFormulario(true);
   };
 
-  // Cerrar modal
-  const cerrarModal = () => {
-    setModalIsOpen(false);
-    setIngredienteSeleccionado(null);
-  };
-
-  // **Nuevo**: Función para abrir el formulario de edición
-  const abrirFormularioEdicion = (ingrediente) => {
-    setModoEditar(true); // Activa el modo edición
-    setIngredienteSeleccionado(ingrediente); // Asigna el ingrediente a editar
-    setMostrarFormulario(true); // Muestra el formulario
-  };
-
-  // **Nuevo**: Función para eliminar un ingrediente
-  const eliminarIngrediente = (ingrediente) => {
-    const nuevosIngredientes = ingredientes.filter((ing) => ing !== ingrediente);
-    setIngredientes(nuevosIngredientes);
+  // Función para eliminar una receta
+  const eliminarReceta = (receta) => {
+    const nuevasRecetas = recetas.filter((rec) => rec !== receta);
+    setRecetas(nuevasRecetas);
   };
 
   return (
     <div>
       <Row>
         <Col className="mb-4" xs={12}>
-
-
           {/* Buscador y botón */}
-          <div className="d-flex align-items-center justify-content-end  ">
-            
-             {/* 
-            <InputGroup InputGroup className='input-group-no-border'>
-              <Input
-                type="text"
-                placeholder="Buscar Ingrediente"
-                value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
-              />
-              <InputGroupAddon addonType="prepend">
-                <span>
-                  <SearchBarIcon/>
-                </span>
-              </InputGroupAddon>
-            </InputGroup>
-
-            */}
-
+          <div className="d-flex align-items-center justify-content-end">
             <div className={s.searchContainer}>
               <InputGroup className="input-group-no-border search-input-group">
                 <Input
                   type="text"
-                  placeholder="Buscar Ingrediente"
+                  placeholder="Buscar Receta"
                   value={busqueda}
                   onChange={(e) => setBusqueda(e.target.value)}
-                  readonly
                   className={s.searchInput}
                 />
                 <InputGroupAddon addonType="prepend">
@@ -90,103 +70,61 @@ const Recetas = () => {
               </InputGroup>
             </div>
             <div>
-              {/*
-              <Button
-                className={s.nBotonRecetas} 
-                onClick={() => setMostrarFormulario(true)}>
-                Nuevo Ingrediente
-              </Button>
-              */}
               <Button className={s.nBotonRecetas} onClick={() => {
-                setMostrarFormulario(true); // Mostrar formulario
-                setModoEditar(false); // **Nuevo**: No es edición, es creación
-                setIngredienteSeleccionado(null); // **Nuevo**: Limpia selección anterior
+                setMostrarFormulario(true); // Mostrar formulario de creación de recetas
+                setModoEditar(false); // Modo crear, no editar
+                setRecetaSeleccionada(null); // Limpia selección anterior
               }}>
-                Crear Nuevo Ingrediente
+                Nueva Receta
               </Button>
-
             </div>
-
           </div>
         </Col>
       </Row>
 
-      {/* Formulario para crear nuevo ingrediente 
+      {/* Formulario de creación/edición de receta */}
       {mostrarFormulario && (
-        <NuevoIngrediente onClose={() => setMostrarFormulario(false)} setIngredientes={setIngredientes} />
-      )}
-      */}
-
-      {/* Formulario de creación/edición de ingrediente */}
-      {mostrarFormulario && (
-        <NuevoIngrediente
+        <NuevaReceta
           onClose={() => setMostrarFormulario(false)}
-          setIngredientes={setIngredientes}
-          ingredientes={ingredientes}
-          ingrediente={ingredienteSeleccionado} // **Nuevo**: Ingrediente seleccionado para edición
-          modoEditar={modoEditar} // **Nuevo**: Modo edición
+          setRecetas={setRecetas}
+          recetas={recetas}
+          ingredientes={ingredientesPorDefecto} // Ingredientes disponibles
+          receta={recetaSeleccionada} // Receta seleccionada para edición
+          modoEditar={modoEditar} // Modo edición
         />
       )}
 
-      {/* Tabla de ingredientes */}
+      {/* Tabla de recetas */}
       <Table responsive>
         <thead>
           <tr>
-            <th>Nombre del Ingrediente</th>
-            <th>Tipo de Ingrediente</th>
-            <th>Costo</th>
-            <th>Cantidad por Unidad</th>
+            <th>Nombre de la Receta</th>
+            <th>Ingredientes</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {filtrarIngredientes.map((ingrediente, index) => (
+          {filtrarRecetas.map((receta, index) => (
             <tr key={index}>
-              <td>{ingrediente.nombre}</td>
-              <td>{ingrediente.tipo}</td>
-              <td>{ingrediente.costo}</td>
-              <td>{ingrediente.cantidad}</td>
-              {/*
+              <td>{receta.nombre}</td>
               <td>
-                <div className='d-flex flex-column'>
-                  <Button className={s.nBotonRecetas} color="info" onClick={() => abrirModal(ingrediente)}>Ver</Button>{' '}
-                  <div className='mb-3'></div>
-                  <Button className={s.nBotonRecetas} color="warning">Editar</Button>{' '}
-                  <div className='mb-3'></div>
-                  <Button className={s.nBotonRecetas} color="danger">Eliminar</Button>
-                </div>
+                {receta.ingredientes.map((ing, idx) => (
+                  <span key={idx}>
+                    {ing.nombre}{idx < receta.ingredientes.length - 1 ? ', ' : ''}
+                  </span>
+                ))}
               </td>
-              */}
               <td>
                 <div className='d-flex flex-column'>
-                  {/* Botón para ver detalles */}
-                  <Button className={s.nBotonRecetas} onClick={() => abrirModal(ingrediente)}>Ver</Button>{' '}
+                  <Button className={s.nBotonEdicion} onClick={() => abrirFormularioEdicion(receta)}>Editar</Button>
                   <div className='mb-3'></div>
-                  {/* **Nuevo**: Botón para editar ingrediente */}
-                  <Button className={s.nBotonRecetas} onClick={() => abrirFormularioEdicion(ingrediente)}>Editar</Button>{' '}
-                  <div className='mb-3'></div>
-                  {/* **Nuevo**: Botón para eliminar ingrediente */}
-                  <Button className={s.nBotonRecetas} onClick={() => eliminarIngrediente(ingrediente)}>Eliminar</Button>
+                  <Button className={s.nBotonEdicion} onClick={() => eliminarReceta(receta)}>Eliminar</Button>
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
-
-      {/* Modal para ver detalles */}
-      <Modal isOpen={modalIsOpen} onRequestClose={cerrarModal}>
-        {ingredienteSeleccionado && (
-          <div>
-            <h2>{ingredienteSeleccionado.nombre}</h2>
-            <p>Tipo: {ingredienteSeleccionado.tipo}</p>
-            <p>Costo: {ingredienteSeleccionado.costo}</p>
-            <p>Cantidad por Unidad: {ingredienteSeleccionado.cantidad}</p>
-            <Button onClick={cerrarModal}>Cerrar</Button>
-          </div>
-        )}
-      </Modal>
-      
     </div>
   );
 };

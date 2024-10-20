@@ -1,5 +1,9 @@
 .nBotonRecetas {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   width: 90%; /* Usa el 100% del contenedor padre para que sea adaptable */
   max-width: 300px; /* Limita el ancho máximo a 300px */
   height: 50px;
@@ -24,18 +28,26 @@
 /* Media queries para pantallas más pequeñas */
 @media (max-width: 768px) {
   .nBotonRecetas {
-      font-size: 80px; /* Ajusta el tamaño del texto */
-      padding: 0px 6px;
-      height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 80px; /* Ajusta el tamaño del texto */
+    padding: 0px 6px;
+    height: 70px;
   }
 }
 
 /* Media queries para pantallas muy pequeñas (móviles) */
 @media (max-width: 480px) {
   .nBotonRecetas {
-      font-size: 50px; /* Ajusta aún más el tamaño del texto */
-      margin-left: 0; /* Elimina el margen izquierdo en pantallas muy pequeñas */
-      height: 60px; /* Ajusta la altura del botón */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 50px; /* Ajusta aún más el tamaño del texto */
+    margin-left: 0; /* Elimina el margen izquierdo en pantallas muy pequeñas */
+    height: 60px; /* Ajusta la altura del botón */
   }
 }
 .nBotonEdicion {

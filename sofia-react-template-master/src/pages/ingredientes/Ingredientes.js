@@ -9,7 +9,15 @@ Modal.setAppElement('#root'); // Asegúrate de añadir esto
 
 
 const Ingredientes = () => {
-  const [ingredientes, setIngredientes] = useState([]); // Aquí deberás cargar la lista de ingredientes
+
+  const ingredientesPorDefecto = [
+    { nombre: 'Ron', tipo: 'Alcohol', costo: '1.20', cantidad: '750' },
+    { nombre: 'Vodka', tipo: 'Alcohol', costo: '1.20', cantidad: '750' },
+    { nombre: 'Whiskey', tipo: 'Alcohol', costo: '1.20', cantidad: '750' }
+  ];
+
+  const [ingredientes, setIngredientes] = useState(ingredientesPorDefecto); // Inicia con ingredientes predeterminados
+  // const [ingredientes, setIngredientes] = useState([]); // Aquí deberás cargar la lista de ingredientes
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [busqueda, setBusqueda] = useState('');
