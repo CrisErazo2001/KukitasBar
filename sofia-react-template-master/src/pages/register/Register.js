@@ -47,11 +47,14 @@ const Register = (props) => {
 
   const { from } = props.location.state || { from: { pathname: '/template' } }
 
+  {/*
+
   if (hasToken(JSON.parse(localStorage.getItem('authenticated')))) {
     return (
       <Redirect to={from} />
     );
   }
+   */}
 
   return (
     <div className="auth-page">

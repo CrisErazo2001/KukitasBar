@@ -119,9 +119,9 @@ const Login = (props) => {
                   <Button className="button-log my-2" type="submit" color="secondary-red">Menú Principal</Button>
                   <Button className="button-log my-1" type="submit" color="secondary-red">Listado de Bebidas</Button>
                 </div>
-                {/*
+                
                 <Link to="/register">Don’t have an account? Sign Up here</Link>
-                */}
+                
                 </form>
             </Widget>
           </Col>

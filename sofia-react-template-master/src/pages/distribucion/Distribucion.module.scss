@@ -1,49 +1,166 @@
 /* Distribucion.module.scss */
 .modalCustom {
-  max-width: 500px; /* Define un ancho máximo */
-  width: 90%; /* Ancho del modal (opcional) */
-  margin: auto; /* Centra el modal en la pantalla */
-  border-radius: 10px; /* Bordes redondeados */
-  background-color: white; /* Color de fondo */
-  padding: 20px; /* Espaciado interno */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra */
+  max-width: 500px;
+  width: 90%;
+  margin: auto;
+  border-radius: 10px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .modalBody {
-  max-height: 80vh; /* Alto máximo del modal */
-  overflow-y: auto; /* Añade scroll si el contenido excede el alto */
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .modalHeader {
   display: flex;
-  justify-content: space-between; /* Espacio entre el título y el botón de cerrar */
-  align-items: center; /* Centra verticalmente */
+  justify-content: space-between;
+  align-items: center;
 }
 
 .modalTitle {
-  font-size: 1.5em; /* Ajusta el tamaño del título */
+  font-size: 1.5em;
 }
 
 .modalInput {
-  width: 100%; /* Asegura que los inputs ocupen todo el ancho */
+  width: 100%;
 }
 
 .modalButton {
-  margin: 0 5px; /* Espaciado entre botones */
-  flex: 1; /* Para que los botones ocupen espacio igual */
+  margin: 0 5px;
+  flex: 1;
 }
 
 .modalButtonSecondary {
-  background-color: #007bff; /* Cambia el color de fondo del botón */
-  color: white; /* Color del texto */
+  background-color: #007bff;
+  color: white;
 }
 
-@media (max-width: 768px) {
-  .modalCustom {
-      max-width: 90%; /* Reduce el ancho máximo en pantallas pequeñas */
+.botonera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 20px;
+  width: 100%;
+}
+
+.filaHorizontal {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap; /* Para que los botones se acomoden en pantallas pequeñas */
+}
+
+.separadorHorizontal {
+  width: 100%;
+  height: 5px;
+  background-color: black;
+  margin: 20px 0;
+}
+
+.separadorHorizontal {
+  width: 100%;
+  height: 5px;
+  background-color: black;
+  margin: 20px 0;
+}
+
+.filaVertical {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.columnaVertical {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+}
+
+.separadorVertical {
+  width: 5px;
+  height: 100%;
+  background-color: black;
+  margin: 0 10px;
+}
+
+.imagenSeparador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.imagenCentral {
+  max-width: 150px;
+  max-height: 200px;
+}
+
+/* Botones */
+.distribucionButton {
+  background-color: #ff8b05;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: solid 1px;
+  color: white;
+  margin: 5px;
+}
+
+.distribucionButton:hover {
+  background-color: white;
+  color: #ff8b05;
+}
+
+/* Media Queries para hacer el diseño responsive */
+
+/* Ajuste para pantallas pequeñas, como teléfonos */
+@media (max-width: 767px) {
+  .botonera {
+    padding: 10px;
   }
-  
+
+  .distribucionButton {
+    width: 40px;
+    height: 40px;
+  }
+
+  .imagenCentral {
+    max-width: 100px;
+    max-height: 150px;
+  }
+
   .modalTitle {
-      font-size: 1.2em; /* Ajusta el tamaño del título para pantallas más pequeñas */
+    font-size: 1.2em;
+  }
+}
+
+/* Ajuste para pantallas medianas, como tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .distribucionButton {
+    width: 45px;
+    height: 45px;
+  }
+
+  .imagenCentral {
+    max-width: 120px;
+    max-height: 170px;
+  }
+}
+
+/* Ajuste para pantallas grandes, como desktops */
+@media (min-width: 1025px) {
+  .distribucionButton {
+    width: 50px;
+    height: 50px;
+  }
+
+  .imagenCentral {
+    max-width: 150px;
+    max-height: 200px;
   }
 }

@@ -3,12 +3,13 @@ import { logoutUser } from "../../actions/auth";
 import logoutIcon from "../../assets/navbarMenus/pfofileIcons/logoutBlack.svg";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button} from 'reactstrap';
-import { withRouter } from 'react-router-dom';
+//import { Button} from 'reactstrap';
+import { withRouter, Link } from 'react-router-dom';
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup/LinksGroup.js";
 import { changeActiveSidebarItem } from "../../actions/navigation.js";
 import SofiaLogo from "../Icons/SofiaLogo.js";
+import NewUser from "../../assets/person-add.svg"
 import cn from "classnames";
 
 const Sidebar = (props) => {
@@ -51,6 +52,12 @@ const Sidebar = (props) => {
           index="dashboard"
           badge="9"
         />
+        <Link to="/register">
+          <div className={s.linkR}>
+            <img className={s.logoutIcon} src={NewUser} alt="Logout" />  
+            <h6 className='pt-2'>Crear Usuario</h6>
+          </div>
+        </Link>
         <h5 className={s.navTitle}>TEMPLATE</h5>
         {/* 
         <LinksGroup
@@ -99,6 +106,7 @@ const Sidebar = (props) => {
           link="/template/tables"
           index="tables"
         />
+        
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}

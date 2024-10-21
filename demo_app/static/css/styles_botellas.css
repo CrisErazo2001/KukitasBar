@@ -17,7 +17,7 @@
     
     width: 600px;
     height: auto;
-    background-image:url('../images/Frame_21.jpg'); /* Reemplaza 'tu-imagen.jpg' con la ruta de tu imagen */
+    background-image:url('../images/Frame_21.png'); /* Reemplaza 'tu-imagen.jpg' con la ruta de tu imagen */
     background-size: cover;
     background-position: center;
 }

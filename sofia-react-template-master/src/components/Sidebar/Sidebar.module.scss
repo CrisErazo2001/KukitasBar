@@ -37,6 +37,11 @@
     .navTitle {
       display: none;
     }
+    .linkR {
+
+      padding-left:27px;
+    }
+
   }
 }
 
@@ -90,10 +95,11 @@
 
 /* Estilo para la imagen del icono dentro del botón */
 .logoutIcon {
-  height: 30px; /* Controla la altura de la imagen */
+  height: 26px; /* Controla la altura de la imagen */
   width: auto; /* Mantiene las proporciones de la imagen */
   vertical-align: middle; /* Alinea la imagen con el texto */
   margin-right: 8px; /* Espacio entre la imagen y el texto */
+  color: #16365f;
 }
 
 /* Ajustes adicionales para el botón si lo necesitas */
@@ -101,7 +107,7 @@
   display: flex; /* Para alinear el texto e imagen horizontalmente */
   align-items: center; /* Centra verticalmente la imagen y el texto */
   background-color: #ffffff; /* Color de fondo del botón */
-  color: black; /* Color del texto */
+  color: #16365f; /* Color del texto */
   border: none; /* Sin borde */
   border-radius: 5px; /* Bordes redondeados */
   padding: 10px 20px; /* Espacio interno */
@@ -115,6 +121,24 @@
   color: #ffffff; /* Cambia el color del texto */
   border: solid 1px #ff8b05; /* Añade borde en hover */
 }
-.logoutIcon:hover  {
+svg.logoutIcon:hover  {
+  color: #ffffff;
+}
+
+.linkR {
+  width: 93%;
+  height: 50px;
+  padding-left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  text-align: center;
+  background-color: #ffffff;
+  color: #16365f;
+  border-radius: 4px;
+}
+
+.linkR:hover{
+  background-color: #ff8b05;
   color: #ffffff;
 }
