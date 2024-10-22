@@ -49,7 +49,9 @@ const App = (props) => {
           <PrivateRoute path="/template" dispatch={props.dispatch} component={LayoutComponent} />
           <Route path="/login" exact component={Login} />
           <Route path="/error" exact component={ErrorPage} />
+          {/*
           <Route path="/register" exact component={Register} />
+           */}
           <Route component={ErrorPage}/>
           <Route path='*' exact={true} render={() => <Redirect to="/error" />} />
         </Switch>

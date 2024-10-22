@@ -16,11 +16,15 @@
 
 .modalHeader {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .modalTitle {
+  display: flex;
+  justify-content: center;
+  text-align: center;
   font-size: 1.5em;
 }
 
@@ -39,60 +43,73 @@
 }
 
 .botonera {
+  position: relative;
+  background-image: url("../../assets/Frame 21.svg");
+  background-size: contain; /* La imagen se ajusta al contenedor y siempre se ve completa */
+  background-position: center; /* Centra la imagen dentro del contenedor */
+  background-repeat: no-repeat; /* No se repite la imagen */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: #f0f0f0;
+  align-items: center; /* Asegura que los elementos se centren horizontalmente */
   padding: 20px;
   width: 100%;
+  height: auto; /* Permite que el contenedor crezca según el contenido */
+  min-height: 500px; /* Altura mínima para mantener proporciones */
+}
+
+.filaHorizontal, .filaVertical {
+  position: relative; /* Los botones se posicionarán en relación con este contenedor */
 }
 
 .filaHorizontal {
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  margin-right: 50px;
   flex-wrap: wrap; /* Para que los botones se acomoden en pantallas pequeñas */
 }
 
-.separadorHorizontal {
-  width: 100%;
-  height: 5px;
-  background-color: black;
-  margin: 20px 0;
-}
 
 .separadorHorizontal {
-  width: 100%;
+  width: 90%;
   height: 5px;
   background-color: black;
-  margin: 20px 0;
+  margin: 5px 0;
 }
 
 .filaVertical {
+  width: 50%;
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
+  align-content: center;
   flex-direction: row;
+  
 }
 
 .columnaVertical {
   display: flex;
   flex-direction: column;
-  margin: 0 10px;
 }
 
 .separadorVertical {
   width: 5px;
-  height: 100%;
+  height: 400px;
   background-color: black;
-  margin: 0 10px;
+  margin: 0px 10px 0px 10px;
+}
+
+.caja{
+  background-color: #ff8b05;
+  width: 100px;
+  height: 100px;
 }
 
 .imagenSeparador {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px;
+  margin: 0 5px;
 }
 
 .imagenCentral {
@@ -116,17 +133,47 @@
   color: #ff8b05;
 }
 
+.nBotonRecetas {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 90%; /* Usa el 100% del contenedor padre para que sea adaptable */
+  max-width: 300px; /* Limita el ancho máximo a 300px */
+  height: 50px;
+  padding: 0px 8px;
+  border: 0;
+  border-radius: 24px;
+  background-color: #ff8b05;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: "Montserrat";
+  outline: none;
+  box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño del botón */
+}
+
+.nBotonRecetas:hover {
+  background-color: #ffffff;
+  color: #ff8b05;
+  border: solid 1px #ff8b05;
+}
+
+
 /* Media Queries para hacer el diseño responsive */
 
 /* Ajuste para pantallas pequeñas, como teléfonos */
-@media (max-width: 767px) {
+@media (max-width: 790px) {
   .botonera {
     padding: 10px;
   }
 
   .distribucionButton {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+    margin: 1px;
+    font-size: 10px;
+    margin: 2px;
   }
 
   .imagenCentral {
@@ -137,18 +184,27 @@
   .modalTitle {
     font-size: 1.2em;
   }
+
+  .filaVertical {
+    margin-right: 0px;
+    width: 100%;
+  }
 }
 
 /* Ajuste para pantallas medianas, como tablets */
 @media (min-width: 768px) and (max-width: 1024px) {
   .distribucionButton {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
   }
 
   .imagenCentral {
     max-width: 120px;
     max-height: 170px;
+  }
+  .filaVertical {
+    margin-right: 0px;
+    width: 100%;
   }
 }
 
@@ -162,5 +218,9 @@
   .imagenCentral {
     max-width: 150px;
     max-height: 200px;
+  }
+  .filaVertical {
+    margin-right: 0px;
+    width: 100%;
   }
 }

@@ -69,48 +69,54 @@ const Distribucion = () => {
       {/* Botonera */}
       <div className={s.botonera}>
 
-
-        
-        {/* Imagen de fondo entre las columnas C y D */}
-        <div className={s.imagenSeparador}>
-          <img src='../../assets/Frame_21.png' alt="Fondo" className={s.imagenCentral} />
-        </div>
-
         {/* Separador vertical con la imagen */}
         <div className={s.filaVertical}>
           <div className={s.columnaVertical}>
             {Array.from({ length: 7 }, (_, i) => (
               <Button
-                key={`C${7 - i}`} // C7 a C1
-                className={`${s.distribucionButton} m-2`}
-                onClick={() => abrirModal(`C${7 - i}`)}
-              >
-                {`C${7 - i}`}
-              </Button>
-            ))}
-          </div>
-
-          {/* Separador entre Fila A y Fila B */}
-          <div className={s.separadorVertical} />
-          <div className={s.columnaVertical}>
-            {Array.from({ length: 7 }, (_, i) => (
-              <Button
                 key={`D${7 - i}`} // D7 a D1
-                className={`${s.distribucionButton} m-2`}
+                className={`${s.distribucionButton}`}
                 onClick={() => abrirModal(`D${7 - i}`)}
               >
                 {`D${7 - i}`}
               </Button>
             ))}
           </div>
+          <div className={s.separadorVertical} />
+          <div className={s.columnaVertical}>
+            {Array.from({ length: 7 }, (_, i) => (
+              <Button
+                key={`C${7 - i}`} // C7 a C1
+                className={`${s.distribucionButton}`}
+                onClick={() => abrirModal(`C${7 - i}`)}
+              >
+                {`C${7 - i}`}
+              </Button>
+            ))}
+          </div>
+        
         </div>
-
+        {/* Fila B */}
+        <div className={s.filaHorizontal}>
+          {Array.from({ length: 7 }, (_, i) => (
+            <Button
+              key={`B${7 - i}`} // B7 a B1
+              className={`${s.distribucionButton}`}
+              onClick={() => abrirModal(`B${7 - i}`)}
+            >
+              {`B${7 - i}`}
+            </Button>
+          ))}
+        </div>
+        
+        {/* Separador entre Fila A y Fila B */}
+        <div className={s.separadorHorizontal} />
         {/* Fila A */}
         <div className={s.filaHorizontal}>
           {Array.from({ length: 7 }, (_, i) => (
             <Button
               key={`A${7 - i}`} // A7 a A1
-              className={`${s.distribucionButton} m-2`}
+              className={`${s.distribucionButton}`}
               onClick={() => abrirModal(`A${7 - i}`)}
             >
               {`A${7 - i}`}
@@ -118,21 +124,8 @@ const Distribucion = () => {
           ))}
         </div>
 
-        {/* Separador entre Fila A y Fila B */}
-        <div className={s.separadorHorizontal} />
 
-        {/* Fila B */}
-        <div className={s.filaHorizontal}>
-          {Array.from({ length: 7 }, (_, i) => (
-            <Button
-              key={`B${7 - i}`} // B7 a B1
-              className={`${s.distribucionButton} m-2`}
-              onClick={() => abrirModal(`B${7 - i}`)}
-            >
-              {`B${7 - i}`}
-            </Button>
-          ))}
-        </div>
+
 
       </div>
 
@@ -199,10 +192,10 @@ const Distribucion = () => {
           </Row>
 
           <div className="d-flex justify-content-center mt-4">
-            <Button className={`${s.modalButton}`} onClick={rellenarCantidad}>
+            <Button className={`${s.nBotonRecetas} mr-3`} onClick={rellenarCantidad}>
               Rellenar
             </Button>
-            <Button className={`${s.modalButton} ${s.modalButtonSecondary}`} onClick={guardarPosicion}>
+            <Button className={`${s.nBotonRecetas} `} onClick={guardarPosicion}>
               Guardar Posición
             </Button>
           </div>

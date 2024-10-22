@@ -38,7 +38,7 @@ const Sidebar = (props) => {
   return (
     <nav className={cn(s.root, {[s.sidebarOpen]: burgerSidebarOpen})} >
       <header className={s.logo}>
-        <SofiaLogo/>
+        <img src="../../assets/navbarMenus/pfofileIcons/logoutBlack.svg" className={s.imagenCentral} />
         <span className={s.title}>SOFIA</span>
       </header>
       <ul className={s.nav}>

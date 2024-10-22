@@ -54,40 +54,43 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
   };
 
   return (
-    <div>
-      <h2>{modoEditar ? 'Editar Receta' : 'Crear Nueva Receta'}</h2>
-      
-      <FormGroup>
-        <Label for="nombreReceta">Nombre de la Receta</Label>
-        <Input
-          type="text"
-          id="nombreReceta"
-          value={nombreReceta}
-          onChange={(e) => setNombreReceta(e.target.value)}
-          placeholder="Introduce el nombre de la receta"
-        />
-      </FormGroup>
+    <div className={s.total}>
+      <div className={s.cuadroGeneral}>
+        <h2>{modoEditar ? 'Editar Receta' : 'Crear Nueva Receta'}</h2>
+        
+        <FormGroup>
+          <Label for="nombreReceta">Nombre de la Receta</Label>
+          <Input
+            type="text"
+            id="nombreReceta"
+            value={nombreReceta}
+            onChange={(e) => setNombreReceta(e.target.value)}
+            placeholder="Introduce el nombre de la receta"
+          />
+        </FormGroup>
 
-      <Row>
-        {[...Array(10)].map((_, index) => (
-          <Col xs={12} key={index} className="mb-3">
-            <Label>Ingrediente {index + 1}</Label>
-            <Select
-              value={ingredientesSeleccionados[index] || { label: "Vacío", value: null }}
-              onChange={(ingrediente) => manejarCambioIngrediente(index, ingrediente)}
-              options={opcionesIngredientes}
-              isSearchable={true}
-              placeholder={`Selecciona ingrediente ${index + 1}`}
-            />
-          </Col>
-        ))}
-      </Row>
-      <div className='mb-5'></div>
-      <div className="d-flex justify-content-center">
-        <Button className={s.nBotonRecetas} onClick={guardarReceta}>Guardar Receta</Button>
-        <Button className={s.nBotonRecetas} onClick={onClose}>Cancelar</Button>
+        <Row>
+          {[...Array(10)].map((_, index) => (
+            <Col xs={12} key={index} className="mb-3">
+              <Label>Ingrediente {index + 1}</Label>
+              <Select
+                value={ingredientesSeleccionados[index] || { label: "Vacío", value: null }}
+                onChange={(ingrediente) => manejarCambioIngrediente(index, ingrediente)}
+                options={opcionesIngredientes}
+                isSearchable={true}
+                placeholder={`Selecciona ingrediente ${index + 1}`}
+              />
+            </Col>
+          ))}
+        </Row>
+        <div className='mb-5'></div>
+        <div className="d-flex justify-content-center">
+          <Button className={`${s.nBotonRecetas} mr-3`} onClick={guardarReceta}>Guardar Receta</Button>
+          <Button className={s.nBotonRecetas} onClick={onClose}>Cancelar</Button>
+        </div>
+        <div className='mb-5'></div>
+      
       </div>
-      <div className='mb-5'></div>
       <hr />
       <div className='mb-5'></div>
     </div>
