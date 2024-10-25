@@ -101,6 +101,14 @@
   margin-right: 8px; /* Espacio entre la imagen y el texto */
   color: #16365f;
 }
+/* Estilo para la imagen del icono dentro del botón */
+.klogo {
+  height: auto; /* Controla la altura de la imagen */
+  width: 100%; /* Mantiene las proporciones de la imagen */
+  vertical-align: middle; /* Alinea la imagen con el texto */
+  margin-right: 8px; /* Espacio entre la imagen y el texto */
+  color: #16365f;
+}
 
 /* Ajustes adicionales para el botón si lo necesitas */
 .logout {

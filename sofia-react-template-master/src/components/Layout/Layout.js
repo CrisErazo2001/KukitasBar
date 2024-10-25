@@ -18,6 +18,7 @@ import Tables from "../../pages/tables/Tables";
 import Ingredientes from '../../pages/ingredientes/Ingredientes';
 import Recetas from "../../pages/recetas/Recetas";
 import Distribucion from "../../pages/distribucion/Distribucion";
+import Register from '../../pages/register/Register'
 
 import Charts from "../../pages/uielements/charts/Charts";
 import Icons from "../../pages/uielements/icons/IconsPage";
@@ -37,6 +38,7 @@ const Layout = (props) => {
           <Switch>
             <Route path="/template" exact render={() => <Redirect to="template/dashboard"/>} />
             <Route path="/template/dashboard" exact component={Dashboard}/>
+            <Route path="/template/register" exact component={Register}/>
             <Route path="/template/typography" exact component={Typography} />
             <Route path="/template/tables" exact component={Tables} />
             <Route path="/template/ingredientes" exact component={Ingredientes} />
