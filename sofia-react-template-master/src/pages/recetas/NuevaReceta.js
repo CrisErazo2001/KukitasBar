@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Col, Row, FormGroup, Label, Input } from 'reactstrap';
+import { Button, FormGroup, Label, Input } from 'reactstrap';
 import Select from 'react-select'; // Select con buscador integrado
 import s from "../ingredientes/Ingredientes.module.scss";
 
 const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredientes }) => {
-  // Ingredientes quemados para evitar errores si no se pasan dinámicamente
   const ingredientesPorDefecto = ingredientes.length > 0 ? ingredientes : [
     { nombre: 'Ron', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
     { nombre: 'Vodka', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
@@ -13,26 +12,22 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
     { nombre: 'Triple Sec', tipo: 'Alcohol', costo: '1.23', cantidad: '750' }
   ];
 
-  // Valores quemados por defecto si no hay receta seleccionada
   const [nombreReceta, setNombreReceta] = useState(receta ? receta.nombre : '');
   const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(
     receta ? receta.ingredientes.map(ing => ({ label: ing.nombre, value: ing })) : []
   );
 
-  // Opciones del selector (con la opción "vacío" añadida)
   const opcionesIngredientes = [
     { label: "Vacío", value: null },
     ...ingredientesPorDefecto.map(ing => ({ label: ing.nombre, value: ing }))
   ];
 
-  // Manejar cambios en los selectores
   const manejarCambioIngrediente = (index, ingrediente) => {
     const nuevosIngredientes = [...ingredientesSeleccionados];
     nuevosIngredientes[index] = ingrediente;
     setIngredientesSeleccionados(nuevosIngredientes);
   };
 
-  // Manejar la creación/edición de la receta
   const guardarReceta = () => {
     const nuevaReceta = {
       nombre: nombreReceta,
@@ -40,17 +35,15 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
     };
 
     if (modoEditar) {
-      // Si estamos editando, reemplazamos la receta existente
       const recetasActualizadas = recetas.map(rec =>
         rec.nombre === receta.nombre ? nuevaReceta : rec
       );
       setRecetas(recetasActualizadas);
     } else {
-      // Si estamos creando, añadimos la nueva receta
       setRecetas([...recetas, nuevaReceta]);
     }
 
-    onClose(); // Cerrar el formulario
+    onClose();
   };
 
   return (
@@ -69,30 +62,31 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
           />
         </FormGroup>
 
-        <Row>
+        {/* Contenedor en una sola columna */}
+        <div className={s.ingredientesContainer}>
           {[...Array(10)].map((_, index) => (
-            <Col xs={12} key={index} className="mb-3">
-              <Label>Ingrediente {index + 1}</Label>
+            <div key={index} className={s.ingredienteFila}>
+              <Label className={s.nlabel}>Ingrediente {index + 1}</Label>
               <Select
-                value={ingredientesSeleccionados[index] || { label: "Vacío", value: null }}
+                className={s.ingredienteSelector}
+                value={ingredientesSeleccionados[index] || { nlabel: "Vacío", value: null }}
                 onChange={(ingrediente) => manejarCambioIngrediente(index, ingrediente)}
                 options={opcionesIngredientes}
                 isSearchable={true}
                 placeholder={`Selecciona ingrediente ${index + 1}`}
               />
-            </Col>
+            </div>
           ))}
-        </Row>
-        <div className='mb-5'></div>
-        <div className="d-flex justify-content-center">
+        </div>
+
+        <div className="d-flex justify-content-center mt-4">
           <Button className={`${s.nBotonRecetas} mr-3`} onClick={guardarReceta}>Guardar Receta</Button>
           <Button className={s.nBotonRecetas} onClick={onClose}>Cancelar</Button>
         </div>
         <div className='mb-5'></div>
-      
+        <hr></hr>
+        <div className='mb-4'></div>
       </div>
-      <hr />
-      <div className='mb-5'></div>
     </div>
   );
 };

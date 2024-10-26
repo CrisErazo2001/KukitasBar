@@ -130,7 +130,11 @@ const Distribucion = () => {
       </div>
 
       {/* Modal */}
-      <Modal isOpen={modalIsOpen} toggle={cerrarModal} centered className={s.modalCustom}>
+      <Modal isOpen={modalIsOpen} toggle={cerrarModal} centered className={`${s.modalCustom} overlayCustom`} 
+      
+      >
+
+      
         <ModalHeader className={s.modalHeader} toggle={cerrarModal}>
           <span className={s.modalTitle}>{botonSeleccionado}: {ingredienteSeleccionado?.label || 'Selecciona un ingrediente'}</span>
         </ModalHeader>

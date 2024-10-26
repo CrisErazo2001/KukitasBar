@@ -121,34 +121,54 @@ const Ingredientes = () => {
         isOpen={modalIsOpen} 
         onRequestClose={cerrarModal}
         style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)'
-          },
-          content: {
-            maxWidth: '500px',
-            margin: 'auto',
-            padding: '20px',
-            borderRadius: '10px',
-            textAlign: 'center'
-          }
+          overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
+          content: { maxWidth: '500px', margin: 'auto', padding: '20px', borderRadius: '10px', textAlign: 'left' }
         }}
       >
         {ingredienteSeleccionado && (
-          <div>
+          <div className={s.modalContent}>
+            {/* Botón de cierre en la esquina superior */}
+            <button className={s.closeButton} onClick={cerrarModal}>&times;</button>
 
-            <h2>Detalle de los ingredientes</h2>
-            <hr></hr>
-            <h2>{ingredienteSeleccionado.nombre}</h2>
-            <p><strong>Tipo:</strong> {ingredienteSeleccionado.tipo}</p>
-            <p><strong>Costo:</strong> {ingredienteSeleccionado.costo}</p>
-            <p><strong>Cantidad:</strong> {ingredienteSeleccionado.cantidad} cm³</p>
-            <p><strong>Stock Number:</strong> {ingredienteSeleccionado.stockNumber}</p>
-            <p><strong>Descripción:</strong> {ingredienteSeleccionado.descripcion}</p>
-            <p><strong>Proveedor:</strong> {ingredienteSeleccionado.proveedor}</p>
-            <Button onClick={cerrarModal}>Cerrar</Button>
+            {/* Título */}
+            <h4 className={s.modalTitle}>Detalle del Ingrediente</h4>
+            <hr />
+
+            {/* Contenedor estilo tabla para dos columnas */}
+            <div className={s.ingredienteTabla}>
+              <div className={s.ingredienteFila}>
+                <p className={s.label}>Ingrediente:</p>
+                <span className={s.infoBox}>{ingredienteSeleccionado.nombre}</span>
+              </div>
+              <div className={s.ingredienteFila}>
+                <p className={s.label}>Tipo:</p>
+                <span className={s.infoBox}>{ingredienteSeleccionado.tipo}</span>
+              </div>
+              <div className={s.ingredienteFila}>
+                <p className={s.label}>Costo:</p>
+                <span className={s.infoBox}>{ingredienteSeleccionado.costo}</span>
+              </div>
+              <div className={s.ingredienteFila}>
+                <p className={s.label}>Cantidad:</p>
+                <span className={s.infoBox}>{ingredienteSeleccionado.cantidad} cm³</span>
+              </div>
+              <div className={s.ingredienteFila}>
+                <p className={s.label}>Stock:</p>
+                <span className={s.infoBox}>{ingredienteSeleccionado.stockNumber}</span>
+              </div>
+              <div className={s.ingredienteFila}>
+                <p className={s.label}>Proveedor:</p>
+                <span className={s.infoBox}>{ingredienteSeleccionado.proveedor}</span>
+              </div>
+              <div className={s.ingredienteFila}>
+                <p className={s.label}>Descripción:</p>
+                <span className={`${s.infoBox} ${s.descriptionBox}`}>{ingredienteSeleccionado.descripcion}</span>
+              </div>
+            </div>
           </div>
         )}
       </Modal>
+
     </div>
   );
 };
