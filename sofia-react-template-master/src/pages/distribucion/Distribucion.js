@@ -237,7 +237,7 @@ const Distribucion = () => {
       </Modal>
 
       {/* Input y Botón para Guardar Disposición */}
-      <div style={{display:"flex", textAlign: 'center', margin: '20px 0' }}>
+      <div style={{display:"flex", justifyContent:"center", textAlign: 'center', margin: '20px 0' }}>
         <Input
           type="text"
           placeholder="Nombre de la disposición"
@@ -251,7 +251,7 @@ const Distribucion = () => {
       </div>
 
       {/* Botones para Borrar y Rellenar Todas las Botellas */}
-      <div style={{ display:"flex",  textAlign: 'center', margin: '10px 0' }}>
+      <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '10px 0' }}>
         <Button onClick={borrarDisposicion}  className={`${s.nBotonRecetas} mr-2`}>
           Borrar Disposición
         </Button>
