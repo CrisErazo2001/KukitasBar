@@ -98,32 +98,22 @@ const Distribucion = () => {
   return (
     <div>
       {/* Selector en la parte superior derecha */}
-      <div style={{ position: 'absolute', top: 20, right: 20 }}>
+      <div style={{width:"50%", position: 'absolute', top: 20, right: 20 }}>
         <Select options={ingredientesPorDefecto} placeholder="Seleccionar opción" />
       </div>
-
-      {/* Input y Botón para Guardar Disposición */}
-      <div style={{ textAlign: 'center', margin: '20px 0' }}>
-        <Input
-          type="text"
-          placeholder="Nombre de la disposición"
-          value={nombreDisposicion}
-          onChange={(e) => setNombreDisposicion(e.target.value)}
-          style={{ width: '300px', display: 'inline-block', marginRight: '10px' }}
-        />
-        <Button onClick={guardarDisposicion} color="primary">
-          Guardar Disposición
-        </Button>
-      </div>
-
-      {/* Botones para Borrar y Rellenar Todas las Botellas */}
-      <div style={{ textAlign: 'center', margin: '10px 0' }}>
-        <Button onClick={borrarDisposicion} color="danger" className="mr-2">
-          Borrar Disposición
-        </Button>
-        <Button onClick={rellenarTodasBotellas} color="success">
-          Rellenar Todas las Botellas
-        </Button>
+      <div className={s.leyendaContainer}>
+        <div className={s.leyendaItem}>
+          <span>Espacio sin utilizar</span>
+          <div className={s.circuloLeyenda} style={{ backgroundColor: "#d3d3d3" }}></div>
+        </div>
+        <div className={s.leyendaItem}>
+          <span>Espacio vacío</span>
+          <div className={s.circuloLeyenda} style={{ backgroundColor: "#FFFF00" }}></div>
+        </div>
+        <div className={s.leyendaItem}>
+          <span>Espacio utilizado</span>
+          <div className={s.circuloLeyenda} style={{ backgroundColor: "#ff8b05" }}></div>
+        </div>
       </div>
 
       {/* Botonera */}
@@ -245,6 +235,30 @@ const Distribucion = () => {
           </Button>
         </ModalBody>
       </Modal>
+
+      {/* Input y Botón para Guardar Disposición */}
+      <div style={{display:"flex", textAlign: 'center', margin: '20px 0' }}>
+        <Input
+          type="text"
+          placeholder="Nombre de la disposición"
+          value={nombreDisposicion}
+          onChange={(e) => setNombreDisposicion(e.target.value)}
+          style={{ width: '300px', display: 'inline-block', marginRight: '10px' }}
+        />
+        <Button className={s.nBotonRecetas} onClick={guardarDisposicion} color="primary">
+          Guardar Disposición
+        </Button>
+      </div>
+
+      {/* Botones para Borrar y Rellenar Todas las Botellas */}
+      <div style={{ display:"flex",  textAlign: 'center', margin: '10px 0' }}>
+        <Button onClick={borrarDisposicion}  className={`${s.nBotonRecetas} mr-2`}>
+          Borrar Disposición
+        </Button>
+        <Button className={s.nBotonRecetas} onClick={rellenarTodasBotellas} >
+          Rellenar Todas las Botellas
+        </Button>
+      </div>
     </div>
   );
 };
