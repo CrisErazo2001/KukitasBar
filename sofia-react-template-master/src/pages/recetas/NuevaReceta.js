@@ -63,12 +63,12 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
         </FormGroup>
 
         {/* Contenedor en una sola columna */}
-        <div className={s.ingredientesContainer}>
+        <div className={s.recetaContainer}>
           {[...Array(10)].map((_, index) => (
-            <div key={index} className={s.ingredienteFila}>
+            <div key={index} className={s.recetaFila}>
               <Label className={s.nlabel}>Ingrediente {index + 1}</Label>
               <Select
-                className={s.ingredienteSelector}
+                className={s.ingredienteRecetaSelector}
                 value={ingredientesSeleccionados[index] || { nlabel: "Vacío", value: null }}
                 onChange={(ingrediente) => manejarCambioIngrediente(index, ingrediente)}
                 options={opcionesIngredientes}

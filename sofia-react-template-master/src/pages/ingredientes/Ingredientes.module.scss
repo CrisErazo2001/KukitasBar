@@ -110,6 +110,11 @@
   .ingredienteSelector {
     width: 100px; /* Ancho fijo de los selectores */
   }
+  .modalTitle {
+    font-size: 15px;
+    margin-top: 17px;
+  }
+
 }
 .nBotonEdicion {
     cursor: pointer;
@@ -227,22 +232,23 @@
   
   .ingredienteTabla {
     display: grid;
-    //grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     row-gap: 10px;
   }
   
   .ingredienteFila {
     display: contents; /* Combina elementos en una fila simulando una tabla */
   }
+
   
   .label {
     display: flex;
-
     font-weight: normal;
     text-align: left;
     padding-right: 5px;
     align-items: center;
   }
+  
   
   .infoBox {
     display: inline-block;
@@ -264,7 +270,7 @@
 
   
 
-  .ingredientesContainer {
+  .recetaContainer {
     display: flex;
     flex-direction: column;
     gap: 10px; /* Espacio entre filas */
@@ -272,7 +278,7 @@
     align-items: center;
   }
   
-  .ingredienteFila {
+  .recetaFila {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -284,7 +290,7 @@
     margin-right: 10px;
   }
   
-  .ingredienteSelector {
+  .ingredienteRecetaSelector {
     flex: 1; /* Para ocupar el espacio restante en la fila */
     width: 250px; /* Ancho fijo de los selectores */
   }

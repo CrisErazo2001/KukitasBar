@@ -131,7 +131,7 @@ const Ingredientes = () => {
             <button className={s.closeButton} onClick={cerrarModal}>&times;</button>
 
             {/* Título */}
-            <h4 className={s.modalTitle}>Detalle del Ingrediente</h4>
+            <h3 className={s.modalTitle}>Detalle del Ingrediente</h3>
             <hr />
 
             {/* Contenedor estilo tabla para dos columnas */}
