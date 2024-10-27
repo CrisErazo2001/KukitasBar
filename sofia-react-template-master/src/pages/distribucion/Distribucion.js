@@ -227,12 +227,14 @@ const Distribucion = () => {
             </Col>
           </Row>
 
-          <Button color="success" className={s.modalButton} onClick={rellenarCantidad}>
-            Rellenar
-          </Button>
-          <Button color="primary" className={s.modalButton} onClick={guardarPosicion}>
-            Guardar
-          </Button>
+          <div style={{display:"flex", justifyContent:"center", textAlign: 'center', marginTop:"10px"}}> 
+            <Button color="success" className={`${s.nBotonRecetas} mr-2`} onClick={rellenarCantidad}>
+              Rellenar
+            </Button>
+            <Button color="primary" className={s.nBotonRecetas} onClick={guardarPosicion}>
+              Guardar
+            </Button>
+          </div>
         </ModalBody>
       </Modal>
 
