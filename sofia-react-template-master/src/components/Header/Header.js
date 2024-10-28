@@ -77,6 +77,7 @@ const Header = (props) => {
           <MenuIcon className={s.menuIcon} />
         </NavLink>
       </div>
+      {/*
       <Form className="d-none d-sm-block" inline>
         <FormGroup>
           <InputGroup className='input-group-no-border'>
@@ -89,6 +90,8 @@ const Header = (props) => {
           </InputGroup>
         </FormGroup>
       </Form>
+       */}
+
       <Nav className="ml-auto">
         <NavItem className="d-sm-none mr-4">
           <NavLink
