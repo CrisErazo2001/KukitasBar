@@ -13,19 +13,19 @@ from flask import flash
 import json
 
 
-table_name = 'pedidos'
+table_name = 'ingrediente'
 
 class pedido:
     
     db_name = 'greepo'
     
     def __init__( self , data ):
-        self.id_pedido  =  data['id_pedido']
-        self.nombre_cliente  =  data['nombre_cliente']
-        self.id_receta  =  data['id_receta']
-        self.create_at  =  data['create_at']
-        self.ready_at  =  data['ready_at']
-        self.status  =  data['status']
+        self.id_ingrediente  =  data['id_ingrediente']
+        self.nombre  =  data['nombre']
+        self.descripcion  =  data['descripcion']
+        self.precio_unitario  =  data['precio_unitario']
+        self.cantidad_unitaria  =  data['cantidad_unitaria']
+        self.categoria  =  data['categoria']
         
         
 
@@ -42,29 +42,22 @@ class pedido:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( nombre_cliente,id_receta,ready_at,status) VALUES ( %(nombre_cliente)s, %(id_receta)s, %(ready_at)s,%(status)s);"
+        query = "INSERT INTO "+ table_name +" ( id_ingrediente,nombre,descripcion,precio_unitario,cantidad_unitaria,categoria) VALUES ( %(id_ingrediente)s,%(nombre)s, %(descripcion)s, %(precio_unitario)s,%(cantidad_unitaria)s,%(categoria)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
     def get_by_id(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE id_pedido = %(id_pedido)s;"
+        query  = "SELECT * FROM "+ table_name +" WHERE id_ingrediente = %(id_ingrediente)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         if len(result) == 0:
             result = []
         else:
             result = cls(result[0])
         return result
-    @classmethod
-    def get_by_id_receta(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE id_receta = %(id_receta)s;"
-        result = connectToMySQL(cls.db_name).query_db(query,data)
-        pedidos = []
-        for ped in result:
-            pedidos.append( cls(ped) )
-        return pedidos
+
     
     def get_by_name(cls, data):
-        query  = "SELECT * FROM "+ table_name +" WHERE nombre_cliente = %(nombre_cliente)s;"
+        query  = "SELECT * FROM "+ table_name +" WHERE nombre = %(nombre)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         pedidos = []
         for ped in result:
@@ -73,7 +66,7 @@ class pedido:
     
     @classmethod
     def delete_by_id(cls, data):
-        query  = "DELETE FROM "+ table_name +" WHERE id_pedido = %(id_pedido)s;"
+        query  = "DELETE FROM "+ table_name +" WHERE id_ingrediente = %(id_ingrediente)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -87,7 +80,7 @@ class pedido:
 
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET nombre_cliente = %(nombre_cliente)s, id_receta = %(id_receta)s, ready_at = %(ready_at)s, status = %(status)s"+" WHERE id_pedido = %(id_pedido)s;"
+        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, descripcion = %(descripcion)s, precio_unitario = %(precio_unitario)s, cantidad_unitaria = %(cantidad_unitaria)s, categoria = %(categoria)s"+" WHERE id_ingrediente = %(id_ingrediente)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -96,17 +89,14 @@ class pedido:
     def asdict(self):
 
         dict = {
-            'id_pedido': self.id_pedido, 
-            'nombre_cliente': self.nombre_cliente,  
-            'id_receta': self.id_receta, 
-            'create_at': self.create_at , 
-            'ready_at': self.ready_at,
-            'status': self.status
+            'id_ingrediente': self.id_ingrediente,
+            'nombre': self.nombre,
+            'descripcion': self.descripcion  ,
+            'precio_unitario': self.precio_unitario ,
+            'cantidad_unitaria': self.cantidad_unitaria ,
+            'categoria': self.categoria  
 
         }
         
         return dict
     
-    def change_status(self):
-        self.status = 1
-        

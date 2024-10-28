@@ -12,9 +12,11 @@ PASSWORD_REGEX = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Z
 from flask import flash
 import json
 
+table_name = 'usuario'
+
 class User:
     
-    db_name = 'kukasbar'
+    db_name = 'greepo'
     
     def __init__( self , data ):
         self.id_usuario = data['id_usuario']
@@ -25,7 +27,7 @@ class User:
         
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM usuarios;"
+        query = "SELECT * FROM " + table_name +";"
         results = connectToMySQL(cls.db_name).query_db(query)
         usuarios = []
         
@@ -35,25 +37,25 @@ class User:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO usuarios ( user, password, tipo ) VALUES ( %(user)s, %(password)s , %(tipo)s );"
+        query = "INSERT INTO " + table_name +" ( user, password, tipo ) VALUES ( %(user)s, %(password)s , %(tipo)s );"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
     def get_by_id(cls, data):
-        query  = "SELECT * FROM usuarios WHERE id_usuario = %(id_usuario)s;"
+        query  = "SELECT * FROM " + table_name +" WHERE id_usuario = %(id_usuario)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return cls(result[0])
     
     @classmethod
     def change_password(cls, data):
-        query  = "UPDATE usuarios SET password = %(password)s WHERE id_usuario = %(id_usuario)s;"
+        query  = "UPDATE " + table_name +" SET password = %(password)s WHERE id_usuario = %(id_usuario)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
     
     @classmethod
     def user_by_nombre(cls, data):
-        query  = "SELECT * FROM usuarios WHERE user = %(user)s";
+        query  = "SELECT * FROM " + table_name +" WHERE user = %(user)s";
         result = connectToMySQL(cls.db_name).query_db(query,data)
         if len(result) == 0:
             return False
@@ -62,7 +64,7 @@ class User:
     
     @classmethod
     def delete_by_id(cls, data):
-        query  = "DELETE FROM usuarios WHERE id_usuario = %(id_usuario)s;"
+        query  = "DELETE FROM " + table_name +" WHERE id_usuario = %(id_usuario)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
