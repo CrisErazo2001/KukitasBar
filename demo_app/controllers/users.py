@@ -30,70 +30,87 @@ app.secret_key = 'keep it secret, keep it safe'
 
 @app.route('/login',methods=['POST'])
 def login():
+    is_valid = True
+    categoria = "login"
+    mensaje = "Exitoso"
+    status = 'ok'
+    code = 200
+    redirect = ''
+
     user = User.user_by_nombre(request.form)
     
-    if not user:
-        flash('Usuario Incorrecto o no existe','error')
-        return redirect('/')
-    if not bcrypt.check_password_hash(user.password, request.form['password']):
-    #if not user.password == request.form['password']:
-        flash('Contraseña incorrecta','error')
-        return redirect('/')
-    session['user_id'] = user.id_usuario
-    print("tengo usuario? ",user)
-    if user.tipo == "admin":
-        return redirect('/admin')
-    if user.tipo == "operator":
-        return redirect('/bebida')
+    if not user: #valida si existe el usuario
+        is_valid = False
+        mensaje = "Usuario incorrecto o no existente"
+        status = 'error'
+        code = 400
+    elif not bcrypt.check_password_hash(user.password, request.form['password']): #valida si la contrasena es corecta
+        is_valid = False
+        mensaje = "Contraseña incorrecta"
+        status = 'error'
+        code = 400
+    else:
+        session['user_id'] = user.id_usuario #crea una sesion de usuario para ingresar solo a las paginas correspondientes
+        
+        if user.tipo == "admin":
+            redirect = 'admin'
+        if user.tipo == "operator":
+            redirect = 'operator'
 
-    return redirect('/')
-
-
-@app.route('/register')
-def register():
-    if 'user_id' not in session:
-        flash('Ingresa con una cuenta','error')
-        return redirect('/logout')
-    id_usuario ={
-        'id_usuario': session['user_id']
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        'redirect': redirect
     }
-    user = User.get_by_id(id_usuario)
-    if user.tipo != 'admin':
-        flash('No tienes acceso a esta funcion','error')
-        return redirect('/logout')
+    return jsonify(value,status = code, mimetype='application/json')
 
 
-    print("cambiando de html a registro")
-    return render_template("register.html")
-
-
-@app.route('/user/create',methods=['POST'])
+@app.route('/register', methods=['POST'])
 def create_user():
+
+    is_valid = True
+    categoria = "register"
+    mensaje = "Todo mal pana"
+    status = 'ok'
+    code = 400
     
-    user_class = ''
-    aux_request = ''
-    try:
-        aux_request = request.form["admin"]
-    except:
-        user_class = 'operator'
-    if aux_request == 'on':
-        user_class = 'admin'
-    data = {
-        "user": request.form["user"],
-        "password": bcrypt.generate_password_hash(request.form['password']),
-        'tipo': user_class
-        #"password": request.form['password']
-    }
-    print("Data: ", data)  
-    usuarios = User.get_all()
-    for user in usuarios:
-        if user.user == data['user']:
-            flash('ya existe un usuario con este nombre','error')
-            return redirect('/register')
-    User.save(data)
+    data = request.json  # Obtener datos en formato JSON
+    
+    # user_class = ''
+    # aux_request = ''
+    # try:
+    #     aux_request = request.form["admin"]
+    # except:
+    #     user_class = 'operator'
+    # if aux_request == 'on':
+    #     user_class = 'admin'
+    # data = {
+    #     "user": request.form["user"],
+    #     "password": bcrypt.generate_password_hash(request.form['password']),
+    #     'tipo': user_class
+    #     #"password": request.form['password']
+    # }
+    # print("Data: ", data)  
+    # usuarios = User.get_all()
+    # for user in usuarios:
+    #     if user.user == data['user']:
+    #         flash('ya existe un usuario con este nombre','error')
+    #         return redirect('/register')
+    # User.save(data)
     
 
-    return redirect('/admin')
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code
+    }
+    return jsonify(value)
 
 @app.route('/user/modify',methods=['POST'])
 def modify_user():

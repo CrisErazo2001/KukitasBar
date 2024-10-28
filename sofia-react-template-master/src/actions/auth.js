@@ -40,7 +40,7 @@ export function logoutUser() {
 export function loginUser(creds) {
   return (dispatch) => {
     dispatch(receiveLogin());
-    if (creds.email.length > 0 && creds.password.length > 0) {
+    if (creds.email.length > 3 && creds.password.length > 3) {
       localStorage.setItem('authenticated', true)
     } else {
       dispatch(loginError('Something was wrong. Try again'));

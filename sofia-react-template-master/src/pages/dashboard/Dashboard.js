@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import { v4 as uuidv4 } from "uuid";
 import {
   Col,
@@ -28,7 +29,45 @@ import statsPie from "../../assets/dashboard/statsPie.svg";
 
 import s from "./Dashboard.module.scss";
 
+// Notificaciones
+import { toast } from "react-toastify";
+import Notification from "../../components/Notification/Notification.js";
+
 const Dashboard = () => {
+  //Config de Notificaciones
+  const options = {
+    autoClose: 3000,
+    closeButton: false,
+    hideProgressBar: true,
+    position: toast.POSITION.TOP_CENTER,
+  };
+
+  useEffect(()=>{
+    fetch('/api').then(res => {
+      return res.json()
+    }).then(response => console.log(response))
+  });
+
+  const blog ={
+    userid: 2,
+    title: 'Post example',
+    completed: 1
+  };
+  useEffect(()=>{
+    fetch('/api/data', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(blog)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Respuesta del servidor:', data))
+    .catch(error => console.error('Error:', error));
+  });
+
+
+
   const [checkboxes, setCheckboxes] = useState([true, false])
 
   const toggleCheckbox = (id) => {

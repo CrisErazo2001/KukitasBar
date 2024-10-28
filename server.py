@@ -12,14 +12,14 @@ donde {venv} es el nombre de su entorno virtual
 
 
 from demo_app import app
-# from flask_cors import CORS
+from flask_cors import CORS
 import requests
 
-from demo_app.controllers import bebidas_ui, dashboard, posicion_bebidas, lista_bebidas, recetas, pedidos, users
+from demo_app.controllers import test, users
 
 
 APP = app
-# CORS(APP)
+cors = CORS(APP, origins='*')
 
 
 if __name__ == "__main__":
