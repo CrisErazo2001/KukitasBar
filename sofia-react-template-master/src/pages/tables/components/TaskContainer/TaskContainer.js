@@ -10,6 +10,7 @@ const TaskContainer = (props) => {
           className={cx(`${s.taskBlock}`, { [s.completed]: task.completed })}
           key={task.id}
         >
+          <h2>sdkf;sdkf;sdk;fsd</h2>
           <div className={s.taskDescription}>
             <div
               className="checkbox checkbox-primary mr-1">
