@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
 import Select from 'react-select'; // Select con buscador integrado
 import s from "../ingredientes/Ingredientes.module.scss";
+// Notificaciones
+import { toast } from "react-toastify";
+import Notification from "../../components/Notification/Notification.js";
+
 
 const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredientes }) => {
+
+  //Config de Notificaciones
+  const options = {
+    autoClose: 3000,
+    closeButton: false,
+    hideProgressBar: true,
+    position: toast.POSITION.TOP_CENTER,
+  };
+
+  const [createRecStatus, setCreateRecStatus] = useState({});
+  const [modifyRecStatus, setModifyRecStatus] = useState({});
   const ingredientesPorDefecto = ingredientes.length > 0 ? ingredientes : [
     { nombre: 'Ron', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
     { nombre: 'Vodka', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
@@ -35,16 +50,100 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
     };
 
     if (modoEditar) {
-      const recetasActualizadas = recetas.map(rec =>
-        rec.nombre === receta.nombre ? nuevaReceta : rec
-      );
-      setRecetas(recetasActualizadas);
+      fetch('/receta/modificar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nuevaReceta)
+      })
+      .then(response => {
+          console.log('Respuesta del servidor:', response); // Log de la respuesta
+          return response.json();
+      })
+      .then(data => {
+          console.log('Datos recibidos:', data); // Log de los datos recibidos
+          setModifyRecStatus(data); // Guarda la respuesta en createIngStatus
+          onClose(); // Llamar a onClose() solo después de recibir la respuesta del servidor
+      })
+      .catch(error => console.error('Error:', error));
     } else {
-      setRecetas([...recetas, nuevaReceta]);
+      fetch('/receta/nuevo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nuevaReceta)
+      })
+      .then(response => {
+          console.log('Respuesta del servidor:', response); // Log de la respuesta
+          return response.json();
+      })
+      .then(data => {
+          console.log('Datos recibidos:', data); // Log de los datos recibidos
+          setCreateRecStatus(data); // Guarda la respuesta en createIngStatus
+          onClose(); // Llamar a onClose() solo después de recibir la respuesta del servidor
+      })
+      .catch(error => console.error('Error:', error));
     }
-
-    onClose();
+    
+    
   };
+
+  useEffect(() => {
+    console.log('Estado de modifyRecStatus:', modifyRecStatus);
+    
+    if (modifyRecStatus.code == 200){
+      
+      toast(
+        
+        <Notification 
+            type={'success'} 
+            errorMessage={modifyRecStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }else if (modifyRecStatus.code == 400){
+      toast(
+        
+        <Notification 
+            type={'error'} 
+            errorMessage={modifyRecStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+    } 
+  }, [modifyRecStatus]);
+  useEffect(() => {
+    console.log('Estado de createRecStatus:', createRecStatus);
+    
+    if (createRecStatus.code == 200){
+      
+      toast(
+        
+        <Notification 
+            type={'success'} 
+            errorMessage={createRecStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }else if (createRecStatus.code == 400){
+      toast(
+        
+        <Notification 
+            type={'error'} 
+            errorMessage={createRecStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+    } 
+  }, [createRecStatus]);
 
   return (
     <div className={s.total}>

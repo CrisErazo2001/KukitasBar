@@ -22,6 +22,12 @@ const Ingredientes = () => {
   };
 
   const [ingredientes, setIngredientes] = useState([]);
+  const [deleteIngStatus, setDeleteIngStatus] = useState({});
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
+  const [busqueda, setBusqueda] = useState('');
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [modoEditar, setModoEditar] = useState(false);
 
   const fetchIngredientes = async () => {
     try {
@@ -38,12 +44,7 @@ const Ingredientes = () => {
   };
 
   
-  const [deleteIngStatus, setDeleteIngStatus] = useState({});
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
-  const [busqueda, setBusqueda] = useState('');
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const [modoEditar, setModoEditar] = useState(false);
+  
 
   const filtrarIngredientes = ingredientes.filter((ingrediente) =>
     ingrediente.nombre.toLowerCase().includes(busqueda.toLowerCase())

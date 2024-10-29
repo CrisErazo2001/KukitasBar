@@ -4,11 +4,26 @@ import NuevaReceta from './NuevaReceta'; // Importa el componente para crear/edi
 import Modal from 'react-modal'; // Para mostrar el popup de vista detallada
 import s from "../ingredientes/Ingredientes.module.scss";
 import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon";
+// Notificaciones
+import { toast } from "react-toastify";
+import Notification from "../../components/Notification/Notification.js";
 
 Modal.setAppElement('#root'); // Asegúrate de añadir esto
 
 const Recetas = () => {
+  //Config de Notificaciones
+  const options = {
+    autoClose: 3000,
+    closeButton: false,
+    hideProgressBar: true,
+    position: toast.POSITION.TOP_CENTER,
+  };
   const [ingredientes, setIngredientes] = useState([]);
+  const [busqueda, setBusqueda] = useState('');
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [recetaSeleccionada, setRecetaSeleccionada] = useState(null);
+  const [modoEditar, setModoEditar] = useState(false); // Modo para editar receta
+  const [deleteRecStatus, setDeleteRecStatus] = useState({});
 
   const fetchIngredientes = async () => {
     try {
@@ -25,9 +40,6 @@ const Recetas = () => {
   };
 
   
-
-  
-
   const [recetas, setRecetas] = useState([]); // Inicia con recetas predeterminadas
 
   const fetchRecetas = async () => {
@@ -44,16 +56,10 @@ const Recetas = () => {
     }
   };
 
-  useEffect(() => {
-    fetchIngredientes();
-    fetchRecetas();
-  }, []);
+  
 
 
-  const [busqueda, setBusqueda] = useState('');
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const [recetaSeleccionada, setRecetaSeleccionada] = useState(null);
-  const [modoEditar, setModoEditar] = useState(false); // Modo para editar receta
+  
 
   // Filtrar las recetas según la búsqueda
   const filtrarRecetas = recetas.filter((receta) =>
@@ -69,9 +75,55 @@ const Recetas = () => {
 
   // Función para eliminar una receta
   const eliminarReceta = (receta) => {
-    const nuevasRecetas = recetas.filter((rec) => rec !== receta);
-    setRecetas(nuevasRecetas);
+    fetch('/receta/eliminar', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(receta)
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setDeleteRecStatus(data); // Guarda la respuesta en createIngStatus
+        // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoIngrediente]);
+    })
+    .catch(error => console.error('Error:', error));
   };
+  useEffect(() => {
+    console.log('Estado de deleteRecStatus:', deleteRecStatus);
+    
+    if (deleteRecStatus.code == 200){
+      
+      toast(
+        
+        <Notification 
+            type={'success'} 
+            errorMessage={deleteRecStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }else if (deleteRecStatus.code == 400){
+      toast(
+        
+        <Notification 
+            type={'error'} 
+            errorMessage={deleteRecStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+    } 
+  }, [deleteRecStatus]);
+  useEffect(() => {
+    fetchIngredientes();
+    fetchRecetas();
+  }, [mostrarFormulario,deleteRecStatus]);
 
   return (
     <div>
@@ -136,7 +188,7 @@ const Recetas = () => {
               <td>
                 {receta.ingredientes.map((ing, idx) => (
                   <span key={idx}>
-                    {ing}{idx < receta.ingredientes.length - 1 ? ', ' : ''}
+                    {ing.nombre}{idx < receta.ingredientes.length - 1 ? ', ' : ''}
                   </span>
                 ))}
               </td>

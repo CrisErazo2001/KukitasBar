@@ -249,8 +249,10 @@ def get_list_recetas():
     status = 'ok'
     code = 200
     data = [
-    { 'nombre': 'Mojito', 'ingredientes': ['aaaaaa','aaaaaa'] },
-    { 'nombre': 'Piña Colada', 'ingredientes': ['bbbbbb','bbbbbb'] },
+    { 'nombre': 'Mojito', 'ingredientes': [{ 'nombre': 'Ron', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 123, 'descripcion': 'Aged Rum', 'proveedor': 'ABC Suppliers' },
+                                           { 'nombre': 'Vodka', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 124, 'descripcion': 'Premium Vodka', 'proveedor': 'XYZ Distributors' }] },
+    { 'nombre': 'Piña Colada', 'ingredientes': [{ 'nombre': 'Ron', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 123, 'descripcion': 'Aged Rum', 'proveedor': 'ABC Suppliers' },
+                                           { 'nombre': 'Vodka', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 124, 'descripcion': 'Premium Vodka', 'proveedor': 'XYZ Distributors' }] }
      ] 
     
     
@@ -307,7 +309,7 @@ def modificar_recetas():
     }
     return jsonify(value)  
 
-@app.route('/recetas/eliminar', methods=['POST'])
+@app.route('/receta/eliminar', methods=['POST'])
 def eliminar_recetas():
     is_valid = True
     categoria = "eliminar recetas"
