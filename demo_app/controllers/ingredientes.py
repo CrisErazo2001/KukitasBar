@@ -17,7 +17,7 @@ import requests
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
-
+'''
 @app.route('/')
 def index():
     
@@ -85,7 +85,7 @@ def home():
     f.close()
     
     return render_template('restaurant.html',lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total)
-
+'''
 
 @app.route('/ingredientes', methods=['GET'])
 def get_list_ingredientes():
@@ -108,5 +108,70 @@ def get_list_ingredientes():
         "status": status,
         "code": code,
         "data": data
+    }
+    return jsonify(value)
+
+@app.route('/ingrediente/nuevo', methods=['POST'])
+def crear_ingredientes():
+    is_valid = True
+    categoria = "crear ingredientes"
+    mensaje = "Exitoso"
+    status = 'ok'
+    code = 200
+    data = request.json
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        'data': data 
+
+    }
+    return jsonify(value)
+
+
+@app.route('/ingrediente/modificar', methods=['POST'])
+def modificar_ingredientes():
+    is_valid = True
+    categoria = "modificar ingredientes"
+    mensaje = "La cagaste"
+    status = 'ok'
+    code = 400
+    data = request.json
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        'data': data 
+
+    }
+    return jsonify(value)
+
+
+@app.route('/ingrediente/eliminar', methods=['POST'])
+def eliminar_ingredientes():
+    is_valid = True
+    categoria = "eliminar ingredientes"
+    mensaje = "La cagaste"
+    status = 'ok'
+    code = 400
+    data = request.json
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        'data': data 
+
     }
     return jsonify(value)

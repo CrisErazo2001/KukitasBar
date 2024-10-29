@@ -8,7 +8,6 @@ const Distribucion = () => {
   const [botonSeleccionado, setBotonSeleccionado] = useState('');
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [nombreDisposicion, setNombreDisposicion] = useState('');
-  const [ingredientes, setIngredientes] = useState([]);
   const [ingredientesNombres, setIngredientesNombres] = useState([]);
   const [distribucionNombres, setDistribucionNombres] = useState([]);
   const [cantidades, setCantidades] = useState(
@@ -32,7 +31,13 @@ const Distribucion = () => {
       }
       const list = await response.json();
       console.log('Fetched Ingredients:', list.data); // Mostrar en consola la lista obtenida
-      setIngredientes(list.data); // Guardar la lista en el estado
+      const ingredientes = list.data
+      const nombresFormateados = ingredientes.map((ingrediente) => ({
+        value: ingrediente.nombre,
+        label: ingrediente.nombre
+      }));
+      setIngredientesNombres(nombresFormateados);
+      console.log('nombresFormateados',nombresFormateados);
     } catch (error) {
       console.error('Fetch error:', error);
     }
@@ -65,17 +70,7 @@ const Distribucion = () => {
   };
 
   
-  useEffect(() => {
-    fetchIngredientes();
-    fetchDistribucion();
-    fetchCantidades();
-    const nombresFormateados = ingredientes.map((ingrediente) => ({
-      value: ingrediente.nombre,
-      label: ingrediente.nombre
-    }));
-    setIngredientesNombres(nombresFormateados);
-    console.log(nombresFormateados)
-  }, []);
+  
 
 
   const abrirModal = (boton) => {
@@ -138,16 +133,36 @@ const Distribucion = () => {
   };
 
   const obtenerColorBoton = (boton) => {
-    const ingrediente  = distribucionNombres[boton];
+    
+    const ingrediente  = distribucionNombres[boton-1];
+    
     if (!ingrediente) return '#d3d3d3'; // Gris cuando no hay selección
     if (ingrediente.value === '') return '#ffd700'; // Amarillo cuando está vacío
     return '#ff8b05'; // Naranja para los demás ingredientes
   };
+  
+  const obtenerPosicion = (boton) => {
+    
+    const ingrediente  = distribucionNombres[boton-1];
+  
+    return ingrediente; 
+  };
+  
+
+  useEffect(() => {
+    fetchIngredientes();
+    fetchDistribucion();
+    fetchCantidades();
+    
+  }, []);
 
   return (
     <div>
       {/* Selector en la parte superior derecha */}
+      
       <div style={{width:"50%", position: 'absolute', top: 20, right: 20 }}>
+        {console.log('ingredientesNombres ',ingredientesNombres)}
+        
         <Select options={ingredientesNombres} placeholder="Seleccionar opción" />
       </div>
       <div className={s.leyendaContainer}>
@@ -173,7 +188,7 @@ const Distribucion = () => {
             {Array.from({ length: 7 }, (_, i) => (
               <Button
                 key={`D${7 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(`D${7 - i}`) }}
+                style={{ backgroundColor: obtenerColorBoton(21 + 7 - i) }}
                 onClick={() => abrirModal(`D${7 - i}`)}
                 className={`${s.distribucionButton}`}
               >
@@ -186,7 +201,7 @@ const Distribucion = () => {
             {Array.from({ length: 7 }, (_, i) => (
               <Button
                 key={`C${7 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(`C${7 - i}`) }}
+                style={{ backgroundColor: obtenerColorBoton(14 + 7 - i) }}
                 onClick={() => abrirModal(`C${7 - i}`)}
                 className={`${s.distribucionButton}`}
               >
@@ -201,7 +216,7 @@ const Distribucion = () => {
           {Array.from({ length: 7 }, (_, i) => (
             <Button
               key={`B${7 - i}`}
-              style={{ backgroundColor: obtenerColorBoton(`B${7 - i}`) }}
+              style={{ backgroundColor: obtenerColorBoton(7 + 7 - i) }}
               onClick={() => abrirModal(`B${7 - i}`)}
               className={`${s.distribucionButton}`}
             >
@@ -216,7 +231,7 @@ const Distribucion = () => {
           {Array.from({ length: 7 }, (_, i) => (
             <Button
               key={`A${7 - i}`}
-              style={{ backgroundColor: obtenerColorBoton(`A${7 - i}`) }}
+              style={{ backgroundColor: obtenerColorBoton(7 - i) }}
               onClick={() => abrirModal(`A${7 - i}`)}
               className={`${s.distribucionButton}`}
             >
@@ -317,161 +332,3 @@ const Distribucion = () => {
 export default Distribucion;
 
 
-{/* 
-import React, { useState } from 'react';
-import { Modal, ModalHeader, ModalBody, Button, Row, Col, Input, FormGroup, Label } from 'reactstrap';
-import Select from 'react-select'; // Asegúrate de tener esta librería instalada
-import s from './Distribucion.module.scss'; // Importa los estilos del modal
-
-const Distribucion = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [botonSeleccionado, setBotonSeleccionado] = useState('');
-  const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
-  
-  // Estado para cantidades actuales y usadas para cada botón
-  const [cantidades, setCantidades] = useState({
-    A1: { cantidadActual: 750, cantidadUsada: 0, ingrediente: null },
-    A2: { cantidadActual: 750, cantidadUsada: 0, ingrediente: null },
-    A3: { cantidadActual: 750, cantidadUsada: 0, ingrediente: null },
-    A4: { cantidadActual: 750, cantidadUsada: 0, ingrediente: null },
-    A5: { cantidadActual: 750, cantidadUsada: 0, ingrediente: null },
-    A6: { cantidadActual: 750, cantidadUsada: 0, ingrediente: null },
-    A7: { cantidadActual: 750, cantidadUsada: 0, ingrediente: null },
-  });
-
-// Opciones para el selector
-const ingredientes = [
-  { value: 'Vacío', label: 'Vacío' },
-  { value: 'Ron', label: 'Ron' },
-  { value: 'Tequila', label: 'Tequila' },
-  { value: 'Vodka', label: 'Vodka' },
-  { value: 'Triple Sec', label: 'Triple Sec' }
-  ];
-
-  // Maneja la apertura del modal
-  const abrirModal = (boton) => {
-    setBotonSeleccionado(boton);
-    setIngredienteSeleccionado(cantidades[boton].ingrediente); // Carga el ingrediente guardado
-    setModalIsOpen(true);
-  };
-
-  const cerrarModal = () => {
-    setModalIsOpen(false);
-  };
-
-  // Actualiza el ingrediente seleccionado
-  const manejarCambioIngrediente = (ingrediente) => {
-    setIngredienteSeleccionado(ingrediente);
-  };
-
-  // Función para rellenar la cantidad usada con la cantidad actual
-  const rellenarCantidad = () => {
-    setCantidades((prev) => ({
-      ...prev,
-      [botonSeleccionado]: {
-        ...prev[botonSeleccionado],
-        cantidadUsada: prev[botonSeleccionado].cantidadActual
-      }
-    }));
-  };
-
-  // Función para guardar la posición
-  const guardarPosicion = () => {
-    setCantidades((prev) => ({
-      ...prev,
-      [botonSeleccionado]: {
-        ...prev[botonSeleccionado],
-        ingrediente: ingredienteSeleccionado, // Guarda el ingrediente seleccionado
-      }
-    }));
-    cerrarModal();
-  };
-
-  return (
-    <div>
-   
-      <div className={s.botonera}>
-        {['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7'].map((boton, index) => (
-          <Button key={index} className={`${s.distribucionButton} m-2`} onClick={() => abrirModal(boton)}>
-            {boton}
-          </Button>
-        ))}
-      </div>
-
-      <Modal isOpen={modalIsOpen} toggle={cerrarModal} centered className={s.modalCustom}>
-        <ModalHeader className={s.modalHeader} toggle={cerrarModal}>
-          <span className={s.modalTitle}>{botonSeleccionado}: {ingredienteSeleccionado?.label || 'Selecciona un ingrediente'}</span>
-        </ModalHeader>
-        <ModalBody className={s.modalBody}>
-          <FormGroup>
-            <Label for="ingredienteSelect">Nombre del Ingrediente</Label>
-            <Select
-              id="ingredienteSelect"
-              value={ingredienteSeleccionado}
-              onChange={manejarCambioIngrediente}
-              options={ingredientes}
-              isSearchable
-              placeholder="Selecciona un ingrediente"
-              className={s.modalInput}
-            />
-          </FormGroup>
-
-          <Row>
-            <Col xs={6}>
-              <FormGroup>
-                <Label for="cantidadActual">Cantidad Actual</Label>
-                <Input
-                  type="number"
-                  id="cantidadActual"
-                  value={cantidades[botonSeleccionado]?.cantidadActual || 0}
-                  onChange={(e) => 
-                    setCantidades((prev) => ({
-                      ...prev,
-                      [botonSeleccionado]: {
-                        ...prev[botonSeleccionado],
-                        cantidadActual: Number(e.target.value)
-                      }
-                    }))
-                  }
-                  className={s.modalInput}
-                />
-              </FormGroup>
-            </Col>
-            <Col xs={6}>
-              <FormGroup>
-                <Label for="cantidadUsada">Cantidad Usada</Label>
-                <Input
-                  type="number"
-                  id="cantidadUsada"
-                  value={cantidades[botonSeleccionado]?.cantidadUsada || 0}
-                  onChange={(e) => 
-                    setCantidades((prev) => ({
-                      ...prev,
-                      [botonSeleccionado]: {
-                        ...prev[botonSeleccionado],
-                        cantidadUsada: Number(e.target.value)
-                      }
-                    }))
-                  }
-                  className={s.modalInput}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
-
-          <div className="d-flex justify-content-center mt-4">
-            <Button className={`${s.modalButton}`} onClick={rellenarCantidad}>
-              Rellenar
-            </Button>
-            <Button className={`${s.modalButton} ${s.modalButtonSecondary}`} onClick={guardarPosicion}>
-              Guardar Posición
-            </Button>
-          </div>
-        </ModalBody>
-      </Modal>
-    </div>
-  );
-};
-
-export default Distribucion;
-*/}

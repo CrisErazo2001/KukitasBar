@@ -24,7 +24,7 @@ def get_cantidades():
     status = 'ok'
     code = 200
     data = []
-    for i in range(24):
+    for i in range(28):
         datosIniciales = { 'cantidadActual': 750, 'cantidadUsada': 0}
         data.append(datosIniciales)
       

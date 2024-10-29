@@ -238,7 +238,7 @@ def get_posiciones():
     data = []
 
     numero = 'Ron'
-    data = [numero for _ in range(24)]
+    data = [numero for _ in range(28)]
         
     
     value = {   #valor de salida de la api

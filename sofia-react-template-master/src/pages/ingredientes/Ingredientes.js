@@ -4,10 +4,23 @@ import NuevoIngrediente from '../nuevoIngrediente/NuevoIngrediente';
 import Modal from 'react-modal';
 import s from "./Ingredientes.module.scss";
 import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon";
+// Notificaciones
+import { toast } from "react-toastify";
+import Notification from "../../components/Notification/Notification.js";
+
+
 
 Modal.setAppElement('#root');
 
 const Ingredientes = () => {
+  //Config de Notificaciones
+  const options = {
+    autoClose: 3000,
+    closeButton: false,
+    hideProgressBar: true,
+    position: toast.POSITION.TOP_CENTER,
+  };
+
   const [ingredientes, setIngredientes] = useState([]);
 
   const fetchIngredientes = async () => {
@@ -24,11 +37,8 @@ const Ingredientes = () => {
     }
   };
 
-  useEffect(() => {
-    fetchIngredientes();
-  }, []);
-
   
+  const [deleteIngStatus, setDeleteIngStatus] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [busqueda, setBusqueda] = useState('');
@@ -56,9 +66,57 @@ const Ingredientes = () => {
   };
 
   const eliminarIngrediente = (ingrediente) => {
-    const nuevosIngredientes = ingredientes.filter((ing) => ing !== ingrediente);
-    setIngredientes(nuevosIngredientes);
+    fetch('/ingrediente/eliminar', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(ingrediente)
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setDeleteIngStatus(data); // Guarda la respuesta en createIngStatus
+        // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoIngrediente]);
+    })
+    .catch(error => console.error('Error:', error));
   };
+
+  useEffect(() => {
+    fetchIngredientes();
+  }, [mostrarFormulario]);
+
+
+  useEffect(() => {
+    console.log('Estado de deleteIngStatus:', deleteIngStatus);
+    
+    if (deleteIngStatus.code == 200){
+      
+      toast(
+        
+        <Notification 
+            type={'success'} 
+            errorMessage={deleteIngStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }else if (deleteIngStatus.code == 400){
+      toast(
+        
+        <Notification 
+            type={'error'} 
+            errorMessage={deleteIngStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+    } 
+  }, [deleteIngStatus]);
 
   return (
     <div>
