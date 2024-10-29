@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import NuevoIngrediente from '../nuevoIngrediente/NuevoIngrediente';
 import Modal from 'react-modal';
@@ -8,13 +8,27 @@ import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon";
 Modal.setAppElement('#root');
 
 const Ingredientes = () => {
-  const ingredientesPorDefecto = [
-    { nombre: 'Ron', tipo: 'Alcohol', costo: '1.20', cantidad: '750', stockNumber: 123, descripcion: 'Aged Rum', proveedor: 'ABC Suppliers' },
-    { nombre: 'Vodka', tipo: 'Alcohol', costo: '1.20', cantidad: '750', stockNumber: 124, descripcion: 'Premium Vodka', proveedor: 'XYZ Distributors' },
-    { nombre: 'Whiskey', tipo: 'Alcohol', costo: '1.20', cantidad: '750', stockNumber: 125, descripcion: 'Fine Whiskey', proveedor: 'Whiskey World' }
-  ];
+  const [ingredientes, setIngredientes] = useState([]);
 
-  const [ingredientes, setIngredientes] = useState(ingredientesPorDefecto);
+  const fetchIngredientes = async () => {
+    try {
+      const response = await fetch('/ingredientes'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched Ingredients:', list.data); // Mostrar en consola la lista obtenida
+      setIngredientes(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchIngredientes();
+  }, []);
+
+  
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [busqueda, setBusqueda] = useState('');

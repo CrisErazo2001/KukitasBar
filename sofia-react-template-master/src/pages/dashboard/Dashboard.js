@@ -45,7 +45,7 @@ const Dashboard = () => {
   useEffect(()=>{
     fetch('/api').then(res => {
       return res.json()
-    }).then(response => console.log(response))
+    }).then(response => console.log(response));
   });
 
   const blog ={
@@ -53,18 +53,18 @@ const Dashboard = () => {
     title: 'Post example',
     completed: 1
   };
-  useEffect(()=>{
-    fetch('/api/data', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(blog)
-    })
-    .then(response => response.json())
-    .then(data => console.log('Respuesta del servidor:', data))
-    .catch(error => console.error('Error:', error));
-  });
+    useEffect(()=>{
+      fetch('/api/post', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(blog)
+      })
+      .then(response => response.json())
+      .then(data => console.log('Respuesta del servidor:', data))
+      .catch(error => console.error('Error:', error));
+    });
 
 
 

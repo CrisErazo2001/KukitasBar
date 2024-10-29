@@ -11,8 +11,6 @@ from flask import render_template, redirect, session, request, flash, jsonify, m
 import json
 from demo_app import app
 from demo_app.models.receta import receta
-from demo_app.models.posicion_bebidas import posicion_bebidas
-from demo_app.models.cantidad_bebidas import cantidad
 from demo_app.models.pedido import pedido
 from flask_bcrypt import Bcrypt
 from datetime import datetime
@@ -243,4 +241,25 @@ def delete_receta():
         flash('No se encontro la receta','error')
         return redirect('/bebida#tab3')
     
+@app.route('/recetas', methods=['GET'])
+def get_list_recetas():
+    is_valid = True
+    categoria = "recetas"
+    mensaje = "Exitoso"
+    status = 'ok'
+    code = 200
+    data = [
+    { 'nombre': 'Mojito', 'ingredientes': [] },
+    { 'nombre': 'Piña Colada', 'ingredientes': [] },
+     ] 
     
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)   

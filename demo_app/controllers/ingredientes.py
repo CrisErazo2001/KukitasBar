@@ -9,8 +9,6 @@ la cual nos dirige al menu restaurante donde podemos realizar los pedidos de las
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
-from demo_app.models.lista_bebidas import lista_bebidas
-from demo_app.models.posicion_bebidas import posicion_bebidas
 from demo_app.models.user import User
 from demo_app.models.receta import receta
 from flask_bcrypt import Bcrypt
@@ -89,3 +87,26 @@ def home():
     return render_template('restaurant.html',lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total)
 
 
+@app.route('/ingredientes', methods=['GET'])
+def get_list_ingredientes():
+    is_valid = True
+    categoria = "ingredientes"
+    mensaje = "Exitoso"
+    status = 'ok'
+    code = 200
+    data = [
+    { 'nombre': 'Ron', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 123, 'descripcion': 'Aged Rum', 'proveedor': 'ABC Suppliers' },
+    { 'nombre': 'Vodka', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 124, 'descripcion': 'Premium Vodka', 'proveedor': 'XYZ Distributors' },
+    { 'nombre': 'Whiskey', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 125, 'descripcion': 'Fine Whiskey', 'proveedor': 'Whiskey World' }
+     ]
+    
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)

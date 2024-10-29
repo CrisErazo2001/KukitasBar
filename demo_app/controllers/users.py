@@ -74,9 +74,9 @@ def create_user():
 
     is_valid = True
     categoria = "register"
-    mensaje = "Todo mal pana"
+    mensaje = "Exitoso"
     status = 'ok'
-    code = 400
+    code = 200
     
     data = request.json  # Obtener datos en formato JSON
     
@@ -150,6 +150,27 @@ def delete_user():
         return redirect('/admin/user-modify')
 
     return redirect('/admin/user-modify')
+
+
+
+@app.route('/user',methods=['GET'])
+def get_user():
+
+    is_valid = True
+    categoria = "User"
+    user = "Dorean"
+    status = 'ok'
+    code = 200
+    
+
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "user": user,
+        "category": categoria,
+        "status": status,
+        "code": code
+    }
+    return jsonify(value)
 
 @app.route('/logout')
 def logout():

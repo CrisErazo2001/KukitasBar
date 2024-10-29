@@ -80,9 +80,10 @@ const Register = (props) => {
         );
       }else if (registerValue.code == 400){
         toast(
+          
           <Notification 
               type={'error'} 
-              errorMessage={registerValue.status.message} 
+              errorMessage={registerValue.message} 
               withIcon 
           />, 
           options

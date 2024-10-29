@@ -42,6 +42,7 @@ const Sidebar = (props) => {
       <header className={s.logo}>
         <img className={s.klogo} src={logoKukitas} alt="Logout" />
       </header>
+      <h5 className={s.navTitle}>ADMINISTRACION</h5>
       <ul className={s.nav}>
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
@@ -51,7 +52,7 @@ const Sidebar = (props) => {
           iconName={<i className={'eva eva-home-outline'}/>}
           link="/template/dashboard"
           index="dashboard"
-          badge="9"
+          
         />
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
@@ -63,7 +64,7 @@ const Sidebar = (props) => {
           index="register"
         />
 
-        <h5 className={s.navTitle}>TEMPLATE</h5>
+        <h5 className={s.navTitle}>OPERACIONES</h5>
         {/* 
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
@@ -112,7 +113,7 @@ const Sidebar = (props) => {
           index="tables"
         />
         
-        <LinksGroup
+        {/* <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
           header="Notifications"
@@ -140,7 +141,7 @@ const Sidebar = (props) => {
               header: 'Google Maps', link: '/template/ui-elements/maps',
             },
           ]}
-        />
+        /> */}
       </ul>
 
 

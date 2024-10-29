@@ -15,7 +15,7 @@ from demo_app import app
 from flask_cors import CORS
 import requests
 
-from demo_app.controllers import test, users
+from demo_app.controllers import test, users, ingredientes, recetas
 
 
 APP = app

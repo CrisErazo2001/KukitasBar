@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import NuevaReceta from './NuevaReceta'; // Importa el componente para crear/editar recetas
 import Modal from 'react-modal'; // Para mostrar el popup de vista detallada
@@ -8,22 +8,48 @@ import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon";
 Modal.setAppElement('#root'); // Asegúrate de añadir esto
 
 const Recetas = () => {
-  // Ingredientes predefinidos para que puedas usar en las recetas quemadas
-  const ingredientesPorDefecto = [
-    { nombre: 'Ron', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
-    { nombre: 'Vodka', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
-    { nombre: 'Tequila', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
-    { nombre: 'Whiskey', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
-    { nombre: 'Triple Sec', tipo: 'Alcohol', costo: '1.23', cantidad: '750' }
-  ];
+  const [ingredientes, setIngredientes] = useState([]);
 
-  // Recetas predeterminadas (quemadas)
-  const recetasPorDefecto = [
-    { nombre: 'Mojito', ingredientes: [ingredientesPorDefecto[0], ingredientesPorDefecto[1]] },
-    { nombre: 'Piña Colada', ingredientes: [ingredientesPorDefecto[3], ingredientesPorDefecto[2]] },
-  ];
+  const fetchIngredientes = async () => {
+    try {
+      const response = await fetch('/ingredientes'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched Ingredients:', list.data); // Mostrar en consola la lista obtenida
+      setIngredientes(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
 
-  const [recetas, setRecetas] = useState(recetasPorDefecto); // Inicia con recetas predeterminadas
+  
+
+  
+
+  const [recetas, setRecetas] = useState([]); // Inicia con recetas predeterminadas
+
+  const fetchRecetas = async () => {
+    try {
+      const response = await fetch('/recetas'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched Recetas:', list.data); // Mostrar en consola la lista obtenida
+      setRecetas(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchIngredientes();
+    fetchRecetas();
+  }, []);
+
+
   const [busqueda, setBusqueda] = useState('');
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [recetaSeleccionada, setRecetaSeleccionada] = useState(null);
@@ -88,7 +114,7 @@ const Recetas = () => {
           onClose={() => setMostrarFormulario(false)}
           setRecetas={setRecetas}
           recetas={recetas}
-          ingredientes={ingredientesPorDefecto} // Ingredientes disponibles
+          ingredientes={ingredientes} // Ingredientes disponibles
           receta={recetaSeleccionada} // Receta seleccionada para edición
           modoEditar={modoEditar} // Modo edición
         />
