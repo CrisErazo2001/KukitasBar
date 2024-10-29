@@ -8,6 +8,7 @@ const Distribucion = () => {
   const [botonSeleccionado, setBotonSeleccionado] = useState('');
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [nombreDisposicion, setNombreDisposicion] = useState('');
+  const [ingredientes, setIngredientes] = useState([]);
   const [ingredientesNombres, setIngredientesNombres] = useState([]);
   const [distribucionNombres, setDistribucionNombres] = useState([]);
   const [cantidades, setCantidades] = useState(
@@ -22,7 +23,7 @@ const Distribucion = () => {
       return acc;
     }, {})
   );
-  
+
   const fetchIngredientes = async () => {
     try {
       const response = await fetch('/ingredientes'); // Reemplaza con tu URL de API
@@ -31,17 +32,12 @@ const Distribucion = () => {
       }
       const list = await response.json();
       console.log('Fetched Ingredients:', list.data); // Mostrar en consola la lista obtenida
-      const ingredientes = list.data
-      const nombresFormateados = ingredientes.map((ingrediente) => ({
-        value: ingrediente.nombre,
-        label: ingrediente.nombre
-      }));
-      setIngredientesNombres(nombresFormateados);
-      console.log('nombresFormateados',nombresFormateados);
+      setIngredientes(list.data); // Guardar la lista en el estado
     } catch (error) {
       console.error('Fetch error:', error);
     }
   };
+  
   const fetchDistribucion = async () => {
     try {
       const response = await fetch('/posiciones'); // Reemplaza con tu URL de API
@@ -55,6 +51,7 @@ const Distribucion = () => {
       console.error('Fetch error:', error);
     }
   };
+
   const fetchCantidades = async () => {
     try {
       const response = await fetch('/cantidades'); // Reemplaza con tu URL de API
@@ -69,9 +66,17 @@ const Distribucion = () => {
     }
   };
 
-  
-  
-
+  useEffect(() => {
+    fetchIngredientes();
+    fetchDistribucion();
+    fetchCantidades();
+    const nombresFormateados = ingredientes.map((ingrediente) => ({
+      value: ingrediente.nombre,
+      label: ingrediente.nombre
+    }));
+    setIngredientesNombres(nombresFormateados);
+    console.log(nombresFormateados)
+  }, []);
 
   const abrirModal = (boton) => {
     setBotonSeleccionado(boton);
@@ -108,12 +113,41 @@ const Distribucion = () => {
     cerrarModal();
   };
 
-  const guardarDisposicion = () => {
-    console.log("Guardando disposición:", {
+  const guardarDisposicion = async () => {
+    // Crear el array de disposición con las posiciones y cantidades
+    const disposicionData = Object.entries(cantidades).map(([posicion, { cantidadActual, cantidadUsada, ingrediente }]) => ({
+      posicion,
+      cantidadActual,
+      cantidadUsada,
+      ingrediente: ingrediente?.value || null, // Verifica si el ingrediente está seleccionado
+    }));
+
+    // Estructura el payload con el nombre y la disposición
+    const payload = {
       nombre: nombreDisposicion,
-      cantidades
-    });
-    // Aquí se podría agregar lógica para enviar la disposición a una API o almacenarla localmente.
+      disposicion: disposicionData,
+    };
+
+    console.log("Guardando disposición:", payload); // Verifica los datos en la consola
+
+    // Enviar la solicitud POST al backend
+    try {
+      const response = await fetch('/guardar-disposicion', { // Reemplaza con la URL de tu endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        console.log('Disposición guardada exitosamente');
+      } else {
+        console.error('Error al guardar la disposición');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+    }
   };
 
   const borrarDisposicion = () => {
@@ -133,36 +167,15 @@ const Distribucion = () => {
   };
 
   const obtenerColorBoton = (boton) => {
-    
-    const ingrediente  = distribucionNombres[boton-1];
-    
+    const ingrediente  = distribucionNombres[boton];
     if (!ingrediente) return '#d3d3d3'; // Gris cuando no hay selección
     if (ingrediente.value === '') return '#ffd700'; // Amarillo cuando está vacío
     return '#ff8b05'; // Naranja para los demás ingredientes
   };
-  
-  const obtenerPosicion = (boton) => {
-    
-    const ingrediente  = distribucionNombres[boton-1];
-  
-    return ingrediente; 
-  };
-  
-
-  useEffect(() => {
-    fetchIngredientes();
-    fetchDistribucion();
-    fetchCantidades();
-    
-  }, []);
 
   return (
     <div>
-      {/* Selector en la parte superior derecha */}
-      
       <div style={{width:"50%", position: 'absolute', top: 20, right: 20 }}>
-        {console.log('ingredientesNombres ',ingredientesNombres)}
-        
         <Select options={ingredientesNombres} placeholder="Seleccionar opción" />
       </div>
       <div className={s.leyendaContainer}>
@@ -188,7 +201,7 @@ const Distribucion = () => {
             {Array.from({ length: 7 }, (_, i) => (
               <Button
                 key={`D${7 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(21 + 7 - i) }}
+                style={{ backgroundColor: obtenerColorBoton(`D${7 - i}`) }}
                 onClick={() => abrirModal(`D${7 - i}`)}
                 className={`${s.distribucionButton}`}
               >
@@ -201,7 +214,7 @@ const Distribucion = () => {
             {Array.from({ length: 7 }, (_, i) => (
               <Button
                 key={`C${7 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(14 + 7 - i) }}
+                style={{ backgroundColor: obtenerColorBoton(`C${7 - i}`) }}
                 onClick={() => abrirModal(`C${7 - i}`)}
                 className={`${s.distribucionButton}`}
               >
@@ -210,13 +223,13 @@ const Distribucion = () => {
             ))}
           </div>
         </div>
-        
+
         {/* Fila B y A */}
         <div className={s.filaHorizontal}>
           {Array.from({ length: 7 }, (_, i) => (
             <Button
               key={`B${7 - i}`}
-              style={{ backgroundColor: obtenerColorBoton(7 + 7 - i) }}
+              style={{ backgroundColor: obtenerColorBoton(`B${7 - i}`) }}
               onClick={() => abrirModal(`B${7 - i}`)}
               className={`${s.distribucionButton}`}
             >
@@ -224,14 +237,12 @@ const Distribucion = () => {
             </Button>
           ))}
         </div>
-
         <div className={s.separadorHorizontal} />
-
         <div className={s.filaHorizontal}>
           {Array.from({ length: 7 }, (_, i) => (
             <Button
               key={`A${7 - i}`}
-              style={{ backgroundColor: obtenerColorBoton(7 - i) }}
+              style={{ backgroundColor: obtenerColorBoton(`A${7 - i}`) }}
               onClick={() => abrirModal(`A${7 - i}`)}
               className={`${s.distribucionButton}`}
             >
@@ -241,94 +252,59 @@ const Distribucion = () => {
         </div>
       </div>
 
-      {/* Modal */}
-      <Modal isOpen={modalIsOpen} toggle={cerrarModal} centered className={`${s.modalCustom} overlayCustom`}>
-        <ModalHeader className={s.modalHeader} toggle={cerrarModal}>
-          <span className={s.modalTitle}>{botonSeleccionado}: {ingredienteSeleccionado?.label || 'Selecciona un ingrediente'}</span>
-        </ModalHeader>
-        <ModalBody className={s.modalBody}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+        <Input
+          type="text"
+          value={nombreDisposicion}
+          onChange={(e) => setNombreDisposicion(e.target.value)}
+          placeholder="Nombre de la disposición"
+        />
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+        <Button className={s.nBotonRecetas} onClick={guardarDisposicion}>Guardar Disposición</Button>
+        <Button className={s.nBotonRecetas} onClick={rellenarTodasBotellas}>Rellenar Todo</Button>
+        <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Todo</Button>
+      </div>
+
+      <Modal isOpen={modalIsOpen} toggle={cerrarModal}>
+        <ModalHeader toggle={cerrarModal}>Configurar {botonSeleccionado}</ModalHeader>
+        <ModalBody>
           <FormGroup>
-            <Label for="ingredienteSelect">Nombre del Ingrediente</Label>
+            <Label for="ingrediente">Ingrediente</Label>
             <Select
-              id="ingredienteSelect"
+              id="ingrediente"
+              options={ingredientesNombres}
               value={ingredienteSeleccionado}
               onChange={manejarCambioIngrediente}
-              options={ingredientesNombres}
-              isSearchable
-              placeholder="Selecciona un ingrediente"
-              className={s.modalInput}
+              placeholder="Seleccione un ingrediente"
             />
           </FormGroup>
+          <FormGroup>
+            <Label for="cantidad">Cantidad Usada</Label>
+            <Input
+              type="number"
+              id="cantidad"
+              value={cantidades[botonSeleccionado]?.cantidadUsada || 0}
+              onChange={(e) => setCantidades((prev) => ({
+                ...prev,
+                [botonSeleccionado]: {
+                  ...prev[botonSeleccionado],
+                  cantidadUsada: parseFloat(e.target.value) || 0
+                }
+              }))}
+            />
 
-          <Row>
-            <Col xs={6}>
-              <FormGroup>
-                <Label for="cantidadActual">Cantidad Actual</Label>
-                <Input
-                  type="number"
-                  id="cantidadActual"
-                  value={cantidades[botonSeleccionado]?.cantidadActual || 0}
-                  readOnly
-                />
-              </FormGroup>
-            </Col>
-            <Col xs={6}>
-              <FormGroup>
-                <Label for="cantidadUsada">Cantidad Usada</Label>
-                <Input
-                  type="number"
-                  id="cantidadUsada"
-                  value={cantidades[botonSeleccionado]?.cantidadUsada || 0}
-                  onChange={(e) => setCantidades((prev) => ({
-                    ...prev,
-                    [botonSeleccionado]: {
-                      ...prev[botonSeleccionado],
-                      cantidadUsada: parseFloat(e.target.value)
-                    }
-                  }))}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
-
-          <div style={{display:"flex", justifyContent:"center", textAlign: 'center', marginTop:"10px"}}> 
-            <Button color="success" className={`${s.nBotonRecetas} mr-2`} onClick={rellenarCantidad}>
-              Rellenar
-            </Button>
-            <Button color="primary" className={s.nBotonRecetas} onClick={guardarPosicion}>
-              Guardar
-            </Button>
+            <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '30px 0' }}>
+              <Button className={s.nBotonRecetas} onClick={rellenarCantidad}>Rellenar</Button>
+            </div>
+          </FormGroup>
+          <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '10px 0' }}>
+            <Button className={s.nBotonRecetas} onClick={guardarPosicion}>Guardar Posición</Button>
           </div>
         </ModalBody>
       </Modal>
-
-      {/* Input y Botón para Guardar Disposición */}
-      <div style={{display:"flex", justifyContent:"center", textAlign: 'center', margin: '20px 0' }}>
-        <Input
-          type="text"
-          placeholder="Nombre de la disposición"
-          value={nombreDisposicion}
-          onChange={(e) => setNombreDisposicion(e.target.value)}
-          style={{ width: '300px', display: 'inline-block', marginRight: '10px' }}
-        />
-        <Button className={s.nBotonRecetas} onClick={guardarDisposicion} color="primary">
-          Guardar Disposición
-        </Button>
-      </div>
-
-      {/* Botones para Borrar y Rellenar Todas las Botellas */}
-      <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '10px 0' }}>
-        <Button onClick={borrarDisposicion}  className={`${s.nBotonRecetas} mr-2`}>
-          Borrar Disposición
-        </Button>
-        <Button className={s.nBotonRecetas} onClick={rellenarTodasBotellas} >
-          Rellenar Todas las Botellas
-        </Button>
-      </div>
     </div>
   );
 };
 
 export default Distribucion;
-
-
