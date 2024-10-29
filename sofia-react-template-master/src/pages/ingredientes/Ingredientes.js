@@ -87,7 +87,7 @@ const Ingredientes = () => {
 
   useEffect(() => {
     fetchIngredientes();
-  }, [mostrarFormulario]);
+  }, [mostrarFormulario,deleteIngStatus]);
 
 
   useEffect(() => {

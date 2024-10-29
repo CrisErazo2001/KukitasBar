@@ -136,7 +136,7 @@ const Recetas = () => {
               <td>
                 {receta.ingredientes.map((ing, idx) => (
                   <span key={idx}>
-                    {ing.nombre}{idx < receta.ingredientes.length - 1 ? ', ' : ''}
+                    {ing}{idx < receta.ingredientes.length - 1 ? ', ' : ''}
                   </span>
                 ))}
               </td>

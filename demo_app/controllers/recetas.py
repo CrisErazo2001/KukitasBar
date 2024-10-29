@@ -249,8 +249,8 @@ def get_list_recetas():
     status = 'ok'
     code = 200
     data = [
-    { 'nombre': 'Mojito', 'ingredientes': [] },
-    { 'nombre': 'Piña Colada', 'ingredientes': [] },
+    { 'nombre': 'Mojito', 'ingredientes': ['aaaaaa','aaaaaa'] },
+    { 'nombre': 'Piña Colada', 'ingredientes': ['bbbbbb','bbbbbb'] },
      ] 
     
     
@@ -262,4 +262,68 @@ def get_list_recetas():
         "code": code,
         "data": data
     }
-    return jsonify(value)   
+    return jsonify(value) 
+
+@app.route('/receta/nuevo', methods=['POST'])
+def crear_recetas():
+    is_valid = True
+    categoria = "crear recetas"
+    mensaje = "Exitoso en recetas"
+    status = 'ok'
+    code = 200
+    data = request.json
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        'data': data 
+
+    }
+    return jsonify(value)
+
+
+@app.route('/receta/modificar', methods=['POST'])
+def modificar_recetas():
+    is_valid = True
+    categoria = "modificar recetas"
+    mensaje = "La cagaste en recetas"
+    status = 'ok'
+    code = 400
+    data = request.json
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        'data': data 
+
+    }
+    return jsonify(value)  
+
+@app.route('/recetas/eliminar', methods=['POST'])
+def eliminar_recetas():
+    is_valid = True
+    categoria = "eliminar recetas"
+    mensaje = "No deboraste en recetas"
+    status = 'ok'
+    code = 400
+    data = request.json
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        'data': data 
+
+    }
+    return jsonify(value)
