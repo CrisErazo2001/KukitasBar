@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Col,
   Row,
@@ -28,7 +28,28 @@ const Tables = () => {
   }));
 
   // Estado de la tabla
-  const [listaPedidos, setListaPedidos] = useState(datosIniciales);
+  const [listaPedidos, setListaPedidos] = useState([]);
+
+  const fetchPedidos = async () => {
+    try {
+      const response = await fetch('/pedidos'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched Recetas:', list.data); // Mostrar en consola la lista obtenida
+      setListaPedidos(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPedidos();
+    
+  }, []);
+
+
   const [busqueda, setBusqueda] = useState("");
   const [paginaActual, setPaginaActual] = useState(0);
   const tamanoPagina = 15;

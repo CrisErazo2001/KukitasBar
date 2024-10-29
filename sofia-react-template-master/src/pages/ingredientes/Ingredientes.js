@@ -107,8 +107,8 @@ const Ingredientes = () => {
           <tr>
             <th>Nombre del Ingrediente</th>
             <th>Tipo</th>
-            <th>Costo</th>
-            <th>Cantidad</th>
+            <th>Costo C/U</th>
+            <th>Cantidad C/U</th>
             <th>Acciones</th>
           </tr>
         </thead>

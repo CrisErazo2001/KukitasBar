@@ -10,13 +10,10 @@ numeros, ingresar la cantidad de botellas minimas y no poder ingresar 0 en canti
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
-from demo_app.models.posicion_bebidas import posicion_bebidas
-from demo_app.models.cantidad_bebidas import cantidad
-from demo_app.models.lista_bebidas import lista_bebidas
 from flask_bcrypt import Bcrypt
 import datetime
 import math
-
+'''
 def litros_a_onzas(litros):
     onzas_por_litro = 33.814
     onzas = int(litros) * onzas_por_litro
@@ -228,4 +225,29 @@ def create_bebida_pos_cant():
     f.close()
     return redirect('/bebida#tab2')
 
+'''
 
+@app.route('/posiciones',methods=['GET'])
+def get_posiciones():
+
+    is_valid = True
+    categoria = "ingredientes"
+    mensaje = "Exitoso"
+    status = 'ok'
+    code = 200
+    data = []
+
+    numero = 'Ron'
+    data = [numero for _ in range(24)]
+        
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+    

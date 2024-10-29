@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, Button, Row, Col, Input, FormGroup, Label } from 'reactstrap';
 import Select from 'react-select';
 import s from './Distribucion.module.scss';
@@ -8,6 +8,9 @@ const Distribucion = () => {
   const [botonSeleccionado, setBotonSeleccionado] = useState('');
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [nombreDisposicion, setNombreDisposicion] = useState('');
+  const [ingredientes, setIngredientes] = useState([]);
+  const [ingredientesNombres, setIngredientesNombres] = useState([]);
+  const [distribucionNombres, setDistribucionNombres] = useState([]);
   const [cantidades, setCantidades] = useState(
     Array.from({ length: 28 }, (_, i) => ({
       cantidadActual: 750,
@@ -20,18 +23,64 @@ const Distribucion = () => {
       return acc;
     }, {})
   );
+  
+  const fetchIngredientes = async () => {
+    try {
+      const response = await fetch('/ingredientes'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched Ingredients:', list.data); // Mostrar en consola la lista obtenida
+      setIngredientes(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+  const fetchDistribucion = async () => {
+    try {
+      const response = await fetch('/posiciones'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched Distribucion:', list.data); // Mostrar en consola la lista obtenida
+      setDistribucionNombres(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+  const fetchCantidades = async () => {
+    try {
+      const response = await fetch('/cantidades'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched Cantidades:', list.data); // Mostrar en consola la lista obtenida
+      setCantidades(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
 
-  const ingredientesPorDefecto = [
-    { value: 'Vacío', label: 'Vacío' },
-    { value: 'Ron', label: 'Ron' },
-    { value: 'Tequila', label: 'Tequila' },
-    { value: 'Vodka', label: 'Vodka' },
-    { value: 'Triple Sec', label: 'Triple Sec' }
-  ];
+  
+  useEffect(() => {
+    fetchIngredientes();
+    fetchDistribucion();
+    fetchCantidades();
+    const nombresFormateados = ingredientes.map((ingrediente) => ({
+      value: ingrediente.nombre,
+      label: ingrediente.nombre
+    }));
+    setIngredientesNombres(nombresFormateados);
+    console.log(nombresFormateados)
+  }, []);
+
 
   const abrirModal = (boton) => {
     setBotonSeleccionado(boton);
-    setIngredienteSeleccionado(cantidades[boton].ingrediente);
+    setIngredienteSeleccionado(distribucionNombres[boton]);
     setModalIsOpen(true);
   };
 
@@ -89,9 +138,9 @@ const Distribucion = () => {
   };
 
   const obtenerColorBoton = (boton) => {
-    const { ingrediente } = cantidades[boton];
+    const ingrediente  = distribucionNombres[boton];
     if (!ingrediente) return '#d3d3d3'; // Gris cuando no hay selección
-    if (ingrediente.value === 'Vacío') return '#ffd700'; // Amarillo cuando está vacío
+    if (ingrediente.value === '') return '#ffd700'; // Amarillo cuando está vacío
     return '#ff8b05'; // Naranja para los demás ingredientes
   };
 
@@ -99,7 +148,7 @@ const Distribucion = () => {
     <div>
       {/* Selector en la parte superior derecha */}
       <div style={{width:"50%", position: 'absolute', top: 20, right: 20 }}>
-        <Select options={ingredientesPorDefecto} placeholder="Seleccionar opción" />
+        <Select options={ingredientesNombres} placeholder="Seleccionar opción" />
       </div>
       <div className={s.leyendaContainer}>
         <div className={s.leyendaItem}>
@@ -189,7 +238,7 @@ const Distribucion = () => {
               id="ingredienteSelect"
               value={ingredienteSeleccionado}
               onChange={manejarCambioIngrediente}
-              options={ingredientesPorDefecto}
+              options={ingredientesNombres}
               isSearchable
               placeholder="Selecciona un ingrediente"
               className={s.modalInput}
@@ -291,7 +340,7 @@ const Distribucion = () => {
   });
 
 // Opciones para el selector
-const ingredientesPorDefecto = [
+const ingredientes = [
   { value: 'Vacío', label: 'Vacío' },
   { value: 'Ron', label: 'Ron' },
   { value: 'Tequila', label: 'Tequila' },
@@ -360,7 +409,7 @@ const ingredientesPorDefecto = [
               id="ingredienteSelect"
               value={ingredienteSeleccionado}
               onChange={manejarCambioIngrediente}
-              options={ingredientesPorDefecto}
+              options={ingredientes}
               isSearchable
               placeholder="Selecciona un ingrediente"
               className={s.modalInput}

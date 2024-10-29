@@ -17,18 +17,20 @@ La ruta /lista/delete elimina una lista de bebidas siembre y cuando no existan p
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
-from demo_app.models.lista_bebidas import lista_bebidas
-from demo_app.models.posicion_bebidas import posicion_bebidas
-from demo_app.models.cantidad_bebidas import cantidad
 from demo_app.models.pedido import pedido
 from demo_app.models.user import User
 from demo_app.models.receta import receta
 from flask_bcrypt import Bcrypt
 import datetime
+from random import randint
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
 bebidas_id = 0
+
+
+
+'''
 
 @app.route('/bebidas/create',methods=['POST'])
 def create_bebida():
@@ -451,3 +453,35 @@ def delete_lista():
     lista_bebidas.delete_by_id(id_lista)
 
     return redirect('/bebida')
+'''
+
+@app.route('/pedidos',methods=['GET'])
+def get_lista_pedidos():
+
+    is_valid = True
+    categoria = "ingredientes"
+    mensaje = "Exitoso"
+    status = 'ok'
+    code = 200
+    data = []
+    for i in range(40):
+        datosIniciales = {
+        'id_pedido': i,
+        'nombre_cliente': f'Cliente {i + 1}',
+        'id_bebida': randint(3, 9),
+        'create_at': "2024-10-14",
+        'deliver_at': "2024-10-15"
+        }
+        data.append(datosIniciales)
+        
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+    
