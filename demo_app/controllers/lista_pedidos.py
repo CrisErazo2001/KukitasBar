@@ -484,4 +484,26 @@ def get_lista_pedidos():
         "data": data
     }
     return jsonify(value)
+
+
+@app.route('/pedido/eliminar', methods=['POST'])
+def eliminar_pedidos():
+    is_valid = True
+    categoria = "eliminar pedido"
+    mensaje = "La cagaste"
+    status = 'ok'
+    code = 400
+    data = request.json
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        'data': data 
+
+    }
+    return jsonify(value)
     

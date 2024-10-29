@@ -16,17 +16,20 @@ import * as XLSX from 'xlsx';
 import searchIcon from "../../assets/tables/searchIcon.svg";
 import printerIcon from "../../assets/tables/printerIcon.svg";
 import s from "./Tables.module.scss";
+// Notificaciones
+import { toast } from "react-toastify";
+import Notification from "../../components/Notification/Notification.js";
+
 
 const Tables = () => {
-  // Datos iniciales quemados
-  const datosIniciales = Array.from({ length: 40 }, (_, i) => ({
-    id_pedido: uuidv4(),
-    nombre_cliente: `Cliente ${i + 1}`,
-    id_bebida: i % 2 === 0 ? "Mojito" : "Piña Colada",
-    create_at: "2024-10-14",
-    deliver_at: "2024-10-15",
-  }));
-
+  const [deleteListStatus, setDeleteListStatus] = useState({});
+  //Config de Notificaciones
+  const options = {
+    autoClose: 3000,
+    closeButton: false,
+    hideProgressBar: true,
+    position: toast.POSITION.TOP_CENTER,
+  };
   // Estado de la tabla
   const [listaPedidos, setListaPedidos] = useState([]);
 
@@ -37,17 +40,14 @@ const Tables = () => {
         throw new Error('Network response was not ok');
       }
       const list = await response.json();
-      console.log('Fetched Recetas:', list.data); // Mostrar en consola la lista obtenida
+      console.log('Fetched pedidos:', list.data); // Mostrar en consola la lista obtenida
       setListaPedidos(list.data); // Guardar la lista en el estado
     } catch (error) {
       console.error('Fetch error:', error);
     }
   };
 
-  useEffect(() => {
-    fetchPedidos();
-    
-  }, []);
+  
 
 
   const [busqueda, setBusqueda] = useState("");
@@ -60,8 +60,24 @@ const Tables = () => {
   );
 
   // Elimina un pedido de la lista
-  const eliminarPedido = (id_pedido) => {
-    setListaPedidos(listaPedidos.filter(pedido => pedido.id_pedido !== id_pedido));
+  const eliminarPedido = (pedido) => {
+    fetch('/pedido/eliminar', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(pedido)
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setDeleteListStatus(data); // Guarda la respuesta en createIngStatus
+        // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoIngrediente]);
+    })
+    .catch(error => console.error('Error:', error));
   };
 
   // Función para exportar a Excel
@@ -79,6 +95,40 @@ const Tables = () => {
     setPaginaActual(index);
   };
 
+  useEffect(() => {
+    console.log('Estado de deleteListStatus:', deleteListStatus);
+    
+    if (deleteListStatus.code == 200){
+      
+      toast(
+        
+        <Notification 
+            type={'success'} 
+            errorMessage={deleteListStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }else if (deleteListStatus.code == 400){
+      toast(
+        
+        <Notification 
+            type={'error'} 
+            errorMessage={deleteListStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+    } 
+  }, [deleteListStatus]);
+
+  useEffect(() => {
+    fetchPedidos();
+    
+  }, [deleteListStatus]);
+  
+
   return (
     <div>
       <Row>
@@ -88,16 +138,6 @@ const Tables = () => {
               <div className={s.tableTitle}>
                 <div className="headline-2">Tabla de pedidos</div>
                 <div className="d-flex align-items-center">
-                  {/*
-                  <Input
-                    type="text"
-                    placeholder="Buscar cliente..."
-                    value={busqueda}
-                    onChange={(e) => setBusqueda(e.target.value)}
-                    style={{ marginRight: "10px" }}
-                  />
-                  <button ><img src={searchIcon} alt="Buscar" /></button>
-                  */}
                   <div className={s.searchContainer}> 
                  
                     <InputGroup className="input-group-no-border search-input-group">
@@ -143,7 +183,7 @@ const Tables = () => {
                         <td>
                           <Button
                             className={s.nBotonEdicion}
-                            onClick={() => eliminarPedido(pedido.id_pedido)}
+                            onClick={() => eliminarPedido(pedido)}
                           >
                             Eliminar
                           </Button>
