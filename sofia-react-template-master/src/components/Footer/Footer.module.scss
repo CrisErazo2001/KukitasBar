@@ -1,12 +1,24 @@
 @import "../../styles/helpers";
 
-.footer {
-  position: absolute;
+.footTotal{
+  width: 100%;
+  height: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  
+}
+
+.footer {
+  width: auto;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   bottom: 24px;
-  right: 24px;
-  color: $base-dark-gray;
+  //color: $base-dark-gray;
   font-size: $font-size-sm;
 }
 

@@ -17,7 +17,7 @@ import Notifications from "../../pages/notifications/Notifications";
 import Tables from "../../pages/tables/Tables";
 import Ingredientes from '../../pages/ingredientes/Ingredientes';
 import Recetas from "../../pages/recetas/Recetas";
-import Distribucion from "../../pages/distribucion/Distribucion";
+import Distribución from "../../pages/distribucion/Distribucion";
 import Register from '../../pages/register/Register'
 
 import Charts from "../../pages/uielements/charts/Charts";
@@ -43,7 +43,7 @@ const Layout = (props) => {
             <Route path="/template/tables" exact component={Tables} />
             <Route path="/template/ingredientes" exact component={Ingredientes} />
             <Route path="/template/recetas" exact component={Recetas} />
-            <Route path="/template/distribucion" exact component={Distribucion} />
+            <Route path="/template/distribucion" exact component={Distribución} />
             <Route path="/template/ingredientes" exact component={Ingredientes} />
             <Route path="/template/notifications" exact component={Notifications} />
             <Route path="/template/ui-elements" exact render={() => <Redirect to={"/template/ui-elements/charts"} />} />

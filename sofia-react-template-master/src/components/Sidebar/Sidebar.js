@@ -91,7 +91,7 @@ const Sidebar = (props) => {
           isHeader
           iconName={<i className={'eva eva-layout'}/>}
           link="/template/distribucion"
-          index="ingredientes"
+          index="distribución"
         />
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
