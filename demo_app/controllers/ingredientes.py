@@ -96,8 +96,9 @@ def get_list_ingredientes():
     code = 200
     data = [
     { 'nombre': 'Ron', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 123, 'descripcion': 'Aged Rum', 'proveedor': 'ABC Suppliers' },
-    { 'nombre': 'Vodka', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 124, 'descripcion': 'Premium Vodka', 'proveedor': 'XYZ Distributors' }
-    ]
+    { 'nombre': 'Vodka', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 124, 'descripcion': 'Premium Vodka', 'proveedor': 'XYZ Distributors' },
+    { 'nombre': 'Whiskey', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 125, 'descripcion': 'Fine Whiskey', 'proveedor': 'Whiskey World' }
+     ]
     
     
     value = {   #valor de salida de la api
@@ -158,7 +159,7 @@ def modificar_ingredientes():
 def eliminar_ingredientes():
     is_valid = True
     categoria = "eliminar ingredientes"
-    mensaje = "No deboraste"
+    mensaje = "La cagaste"
     status = 'ok'
     code = 400
     data = request.json
