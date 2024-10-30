@@ -114,7 +114,7 @@ const Login = (props) => {
                 <div className="bg-widget d-flex justify-content-center">
                   <Button className="button-log my-3" type="submit" color="secondary-red">Login</Button>
                 </div>
-                <p className="dividing-line my-3">&#8195;&#8195;</p>
+                <p className="dividing-line my-3">&#8195; ir a &#8195;</p>
                 <div className="bg-widget d-flex justify-content-center flex-column align-items-center my-7">
                   <Button className="button-log my-2" type="submit" color="secondary-red">Menú Principal</Button>
                   <Button className="button-log my-1" type="submit" color="secondary-red">Listado de Bebidas</Button>

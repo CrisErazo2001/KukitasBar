@@ -197,7 +197,6 @@ const Register = (props) => {
            */}
         </Row>
       </Container>
-      <Footer />
     </div>
   )
 }
