@@ -61,21 +61,7 @@ const Login = (props) => {
 
               <form onSubmit={(event) => doLogin(event)}>
 
-                {/*
-                <FormGroup className="my-3">
-                  <FormText>Email</FormText>
-                  <Input
-                    id="email"
-                    className="input-transparent pl-3"
-                    value={state.email}
-                    onChange={(event) => changeCreds(event)}
-                    type="email"
-                    required
-                    name="email"
-                    placeholder="Email"
-                  />
-                </FormGroup>
-                */}
+                
                 <FormGroup className="my-3">
 
                 <FormText>Username</FormText>
@@ -114,16 +100,16 @@ const Login = (props) => {
                 <div className="bg-widget d-flex justify-content-center">
                   <Button className="button-log my-3" type="submit" color="secondary-red">Login</Button>
                 </div>
-                <p className="dividing-line my-3">&#8195; ir a &#8195;</p>
-                <div className="bg-widget d-flex justify-content-center flex-column align-items-center my-7">
-                  <Button className="button-log my-2" type="submit" color="secondary-red">Menú Principal</Button>
-                  <Button className="button-log my-1" type="submit" color="secondary-red">Listado de Bebidas</Button>
-                </div>
-                
+
                 {/*
                 <Link to="/register">Don’t have an account? Sign Up here</Link>
                 */}
                 </form>
+                <p className="dividing-line my-3">&#8195; ir a &#8195;</p>
+                <div className="bg-widget d-flex justify-content-center flex-column align-items-center my-7">
+                  <Button className="button-log my-2" href ='http://127.0.0.1:5000' color="secondary-red">Menú Principal</Button>
+                  <Button className="button-log my-1" href ='http://127.0.0.1:5000/lista-pedidos' color="secondary-red">Listado de Bebidas</Button>
+                </div>
             </Widget>
           </Col>
           {/*

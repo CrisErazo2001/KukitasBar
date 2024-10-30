@@ -74,8 +74,7 @@ class receta:
         if len(result) == 0:
             recetas = []
         else:
-            for rec in result:
-                recetas.append( cls(rec) )
+            recetas = cls(result[0]) 
         return recetas
     
     @classmethod
@@ -123,7 +122,7 @@ class receta:
     def asdict_front(self):
 
         dict = {
-             
+            'id_receta': self.id_receta,
             'nombre': self.nombre, 
             'ingredientes':[{ 'nombre': self.ing1},
                             { 'nombre': self.ing2},

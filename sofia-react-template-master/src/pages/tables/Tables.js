@@ -32,6 +32,8 @@ const Tables = () => {
   };
   // Estado de la tabla
   const [listaPedidos, setListaPedidos] = useState([]);
+  const [listaPedidosStatus, setListaPedidosStatus] = useState([]);
+
 
   const fetchPedidos = async () => {
     try {
@@ -41,6 +43,7 @@ const Tables = () => {
       }
       const list = await response.json();
       console.log('Fetched pedidos:', list.data); // Mostrar en consola la lista obtenida
+      setListaPedidosStatus(list);
       setListaPedidos(list.data); // Guardar la lista en el estado
     } catch (error) {
       console.error('Fetch error:', error);
@@ -96,36 +99,35 @@ const Tables = () => {
   };
 
   useEffect(() => {
-    console.log('Estado de deleteListStatus:', deleteListStatus);
+    fetchPedidos();
     
-    if (deleteListStatus.code == 200){
-      
-      toast(
-        
+    if (deleteListStatus.code > 0 ){
+      console.log('Estado de deleteListStatus:', deleteListStatus);
+      toast(  
         <Notification 
-            type={'success'} 
+            type={deleteListStatus.status} 
             errorMessage={deleteListStatus.message} 
             withIcon 
         />, 
         options
       );
       
-    }else if (deleteListStatus.code == 400){
-      toast(
-        
-        <Notification 
-            type={'error'} 
-            errorMessage={deleteListStatus.message} 
-            withIcon 
-        />, 
-        options
-      );
-    } 
+    }
   }, [deleteListStatus]);
 
   useEffect(() => {
-    fetchPedidos();
-    
+    if (listaPedidosStatus.code > 200 ){
+      console.log('Estado de listaPedidosStatus:', listaPedidosStatus);
+      toast(  
+        <Notification 
+            type={listaPedidosStatus.status} 
+            errorMessage={listaPedidosStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }
   }, [deleteListStatus]);
   
 

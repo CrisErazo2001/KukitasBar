@@ -94,29 +94,19 @@ const Ingredientes = () => {
   useEffect(() => {
     console.log('Estado de deleteIngStatus:', deleteIngStatus);
     
-    if (deleteIngStatus.code == 200){
+    if (deleteIngStatus.code > 0){
       
       toast(
         
         <Notification 
-            type={'success'} 
+            type={deleteIngStatus.status} 
             errorMessage={deleteIngStatus.message} 
             withIcon 
         />, 
         options
       );
       
-    }else if (deleteIngStatus.code == 400){
-      toast(
-        
-        <Notification 
-            type={'error'} 
-            errorMessage={deleteIngStatus.message} 
-            withIcon 
-        />, 
-        options
-      );
-    } 
+    }
   }, [deleteIngStatus]);
 
   return (

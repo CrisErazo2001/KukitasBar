@@ -102,8 +102,21 @@ class pedido:
             'id_receta': self.id_receta, 
             'create_at': self.create_at , 
             'ready_at': self.ready_at,
-            'status': self.status
+            'status': self.status,
+            'hielo': self.hielo
 
+        }
+        
+        return dict
+    
+    def asdict_front(self):
+
+        dict = {
+            'id_pedido': self.id_pedido, 
+            'nombre_cliente': self.nombre_cliente,  
+            'id_bebida': self.id_receta, 
+            'create_at': self.create_at , 
+            'deliver_at': self.ready_at
         }
         
         return dict

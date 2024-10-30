@@ -100,7 +100,7 @@
 
                                     <!-- <li><a href="#pricing">pricing</a></li> -->
 
-                                    <li><a href="/logout">Logout</a></li>
+                                    <li><a href="http://127.0.0.1:3000/">Logout</a></li>
                                     
                                     <!-- <li><a href="/pedido">Pedidos</a></li> -->
                                    
@@ -177,7 +177,7 @@
                         <h2 class="letras-npopup">Cómo podemos llamarte?</h2>
 
                         <!-- Formulario que enviará la bebida seleccionada y el nombre -->
-                        <form action="/pedido/create" method="POST" id="order-form">
+                        <form action="/pedido/nuevo" method="POST" id="order-form">
 
                             <div class="pruban">
                                 <div class="input-wrapper">
@@ -189,6 +189,15 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="='pruban">
+
+                                <label class = 'letras-npopup' for="hielo">
+                            
+                                    <input type="checkbox" class="form-check-input" name="hielo" checked> 
+                                    Bebida con hielo
+                                </label>
+
+                            </div>
 
                             <!-- Campo oculto para enviar el nombre de la bebida seleccionada -->
                             
@@ -199,15 +208,6 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="reserve-book-btn text-center">
 
-                                    <!--
-                    <div class="para-botones">
-                        <button class="hvr-underline-from-center" id="order-btn" disabled
-                            onclick="closePopup()">ORDENAR </button>
-                        <button class="hvr-underline-from-center cancel-btn" type="button"
-                            onclick="cancelOrder()">CANCELAR</button>
-
-                    </div>
-                    -->
                                     <div class="para-botones">
                                         <!-- Botón de enviar que cierra el popup y envía el formulario -->
                                         <button class="hvr-underline-from-center" type="submit" value="Enviar"

@@ -96,29 +96,19 @@ const Recetas = () => {
   useEffect(() => {
     console.log('Estado de deleteRecStatus:', deleteRecStatus);
     
-    if (deleteRecStatus.code == 200){
+    if (deleteRecStatus.code > 0){
       
       toast(
         
         <Notification 
-            type={'success'} 
+            type={deleteRecStatus.status} 
             errorMessage={deleteRecStatus.message} 
             withIcon 
         />, 
         options
       );
       
-    }else if (deleteRecStatus.code == 400){
-      toast(
-        
-        <Notification 
-            type={'error'} 
-            errorMessage={deleteRecStatus.message} 
-            withIcon 
-        />, 
-        options
-      );
-    } 
+    }
   }, [deleteRecStatus]);
   useEffect(() => {
     fetchIngredientes();

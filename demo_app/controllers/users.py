@@ -75,7 +75,7 @@ def login():
     is_valid = True
     categoria = "login"
     mensaje = "Exitoso"
-    status = 'ok'
+    status = 'success'
     code = 200
     redirect = ''
 
@@ -116,33 +116,25 @@ def create_user():
 
     is_valid = True
     categoria = "register"
-    mensaje = "Exitoso"
-    status = 'ok'
+    mensaje = "Usuario creado con exito"
+    status = 'success'
     code = 200
     
     data = request.json  # Obtener datos en formato JSON
+    if data['admin']:
+        user_class = 'admin'
+    else:
+        user_class = 'operator'
     
-    # user_class = ''
-    # aux_request = ''
-    # try:
-    #     aux_request = request.form["admin"]
-    # except:
-    #     user_class = 'operator'
-    # if aux_request == 'on':
-    #     user_class = 'admin'
-    # data = {
-    #     "user": request.form["user"],
-    #     "password": bcrypt.generate_password_hash(request.form['password']),
-    #     'tipo': user_class
-    #     #"password": request.form['password']
-    # }
-    # print("Data: ", data)  
-    # usuarios = User.get_all()
-    # for user in usuarios:
-    #     if user.user == data['user']:
-    #         flash('ya existe un usuario con este nombre','error')
-    #         return redirect('/register')
-    # User.save(data)
+    user = {
+        'user': data['username'],
+        'password': bcrypt.generate_password_hash(data['password']),
+        'tipo': user_class
+    }
+
+    User.save(user)
+    
+
     
 
     value = {   #valor de salida de la api
@@ -160,7 +152,7 @@ def get_user():
     is_valid = True
     categoria = "User"
     user = "Dorean"
-    status = 'ok'
+    status = 'success'
     code = 200
     
 

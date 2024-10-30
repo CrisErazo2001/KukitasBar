@@ -459,20 +459,20 @@ def delete_lista():
 def get_lista_pedidos():
 
     is_valid = True
-    categoria = "ingredientes"
+    categoria = "lista de pedidos"
     mensaje = "Exitoso"
-    status = 'ok'
+    status = 'success'
     code = 200
+    pedidos = pedido.get_all()
+    if pedidos == []:
+        is_valid = True
+        categoria = "lista de pedidos"
+        mensaje = "No hay pedidos en cola"
+        status = 'warning'
+        code = 300
     data = []
-    for i in range(40):
-        datosIniciales = {
-        'id_pedido': i,
-        'nombre_cliente': f'Cliente {i + 1}',
-        'id_bebida': randint(3, 9),
-        'create_at': "2024-10-14",
-        'deliver_at': "2024-10-15"
-        }
-        data.append(datosIniciales)
+    for ped in pedidos:
+        data.append(ped.asdict_front())
         
     
     value = {   #valor de salida de la api
@@ -483,6 +483,7 @@ def get_lista_pedidos():
         "code": code,
         "data": data
     }
+    
     return jsonify(value)
 
 
@@ -490,19 +491,27 @@ def get_lista_pedidos():
 def eliminar_pedidos():
     is_valid = True
     categoria = "eliminar pedido"
-    mensaje = "La cagaste"
-    status = 'ok'
-    code = 400
+    mensaje = "Pedido Eliminado Correctamente"
+    status = 'success'
+    code = 200
     data = request.json
     print(data)
-    
+    pedidoSelected = pedido.get_by_id({'id_pedido': data['id_pedido']})
+    if pedidoSelected.status == 1:
+        is_valid = False
+        categoria = "eliminar pedido"
+        mensaje = "No se puede eliminar un pedido en produccion"
+        status = 'error'
+        code = 400
+    if is_valid:
+        pedido.delete_by_id({'id_pedido': data['id_pedido']})
+
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
         "status": status,
-        "code": code,
-        'data': data 
+        "code": code
 
     }
     return jsonify(value)
