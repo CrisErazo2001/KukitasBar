@@ -166,6 +166,121 @@ def get_user():
     return jsonify(value)
 
 @app.route('/logout')
+
+
+@app.route('/usuarios',methods=['GET'])
+def get_usuarios():
+
+    is_valid = True
+    categoria = "User"
+    status = 'success'
+    code = 200
+    data = []
+    usuarios = User.get_all()
+    for u in usuarios:
+        data.append(u.asdict())
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+
+@app.route('/usuario/eliminar',methods=['POST'])
+def delete_usuario():
+
+    is_valid = True
+    categoria = "User"
+    status = 'success'
+    mensaje = "Usuario eliminado correctamente"
+    code = 200
+    data = request.json
+    
+    if is_valid:
+        usuarioDelete = User.delete_by_id({'id_usuario':data['id_usuario']})
+        
+
+
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "category": categoria,
+        "status": status,
+        'message': mensaje,
+        "code": code
+    }
+    return jsonify(value)
+
+@app.route('/usuario/modificar',methods=['POST'])
+def modify_usuario():
+
+    is_valid = True
+    categoria = "User"
+    status = 'success'
+    mensaje = "Usuario editado correctamente"
+    code = 200
+    data = request.json
+    usuarios = User.get_all()
+    usuarioSelected = User.get_by_id({'id_usuario':int(data['id_usuario'])})
+    #validaciones de modificacion de usuario
+    if data['user'] == '':
+        is_valid = False
+        categoria = "User"
+        status = 'error'
+        mensaje = "Ingrese un nombre de usuario"
+        code = 400
+    elif len(data['user']) > 45:
+        is_valid = False
+        categoria = "User"
+        status = 'error'
+        mensaje = "El nombre de usuario es muy largo "
+        code = 400
+    elif len(data['password']) > 200:
+        is_valid = False
+        categoria = "User"
+        status = 'error'
+        mensaje = "La contrasena es muy larga"
+        code = 400
+    elif data['tipo'] == '':
+        is_valid = False
+        categoria = "User"
+        status = 'error'
+        mensaje = "Ingrese un tipo de usuario"
+        code = 400
+    else:
+        for u in usuarios:
+            if u.user == data['user'] and usuarioSelected.user != data['user']:
+                is_valid = False
+                categoria = "User"
+                status = 'error'
+                mensaje = "No pueden haber usuarios con el mismo nombre"
+                code = 400
+
+    
+    if is_valid:
+        us = {
+            'id_usuario': data['id_usuario'],
+            'tipo': data['tipo'],
+            'user': data['user']
+        }
+        if  data['password'] != usuarioSelected.password:
+            User.change_password({'password': bcrypt.generate_password_hash(data['password'])})
+        User.update_user(us)
+
+
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "category": categoria,
+        "status": status,
+        'message': mensaje,
+        "code": code
+    }
+    return jsonify(value)
+
+
+
+@app.route('/logout')
 def logout():
     session.clear()
     return redirect('/')

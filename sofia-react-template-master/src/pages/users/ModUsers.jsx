@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Notification from "../../components/Notification/Notification.js";
 
 
-const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente, modoEditar }) => {
+const NuevoUsuario = ({ onClose, setUsuarios, usuarios, usuario, modoEditar }) => {
   //Config de Notificaciones
   const options = {
     autoClose: 3000,
@@ -14,49 +14,45 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
     hideProgressBar: true,
     position: toast.POSITION.TOP_CENTER,
   };
-  const [createIngStatus, setCreateIngStatus] = useState({});
-  const [modifyIngStatus, setModifyIngStatus] = useState({});
-  const [nuevoIngrediente, setNuevoIngrediente] = useState({
-    nombre: '',
+  
+  const [modifyUserStatus, setModifyUserStatus] = useState({});
+  const [nuevoUser, setNuevoUser] = useState({
+    id_usuario: 0,
     tipo: '',
-    stockNumber: 0,
-    descripcion: '',
-    cantidad: 750,
-    costo: 0,
-    proveedor: ''
+    user: '',
+    password: '',
+    created_at: ''
   });
 
   useEffect(() => {
-    if (modoEditar && ingrediente) {
-      setNuevoIngrediente(ingrediente);
+    if (modoEditar && usuario) {
+      setNuevoUser(usuario);
     } else {
-      setNuevoIngrediente({
-        nombre: '',
+      setNuevoUser({
+        id_usuario: 0,
         tipo: '',
-        stockNumber: 0,
-        descripcion: '',
-        cantidad: 750,
-        costo: 0,
-        proveedor: ''
+        user: '',
+        password: '',
+        created_at: ''
       });
     }
-  }, [ingrediente, modoEditar]);
+  }, [usuario, modoEditar]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNuevoIngrediente({ ...nuevoIngrediente, [name]: value });
+    setNuevoUser({ ...nuevoUser, [name]: value });
   };
 
   
 
   const handleSubmit = () => {
     if (modoEditar) {
-      fetch('/ingrediente/modificar', {
+      fetch('/usuario/modificar', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify(nuevoIngrediente)
+          body: JSON.stringify(nuevoUser)
       })
       .then(response => {
           console.log('Respuesta del servidor:', response); // Log de la respuesta
@@ -64,137 +60,87 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
       })
       .then(data => {
           console.log('Datos recibidos:', data); // Log de los datos recibidos
-          setModifyIngStatus(data); // Guarda la respuesta en createIngStatus
-          // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoIngrediente]);
+          setModifyUserStatus(data); // Guarda la respuesta en createIngStatus
+          // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoUser]);
           onClose(); // Llamar a onClose() solo después de recibir la respuesta del servidor
       })
       .catch(error => console.error('Error:', error));
       
-    } else {
-        fetch('/ingrediente/nuevo', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(nuevoIngrediente)
-        })
-        .then(response => {
-            console.log('Respuesta del servidor:', response); // Log de la respuesta
-            return response.json();
-        })
-        .then(data => {
-            console.log('Datos recibidos:', data); // Log de los datos recibidos
-            setCreateIngStatus(data); // Guarda la respuesta en createIngStatus
-            // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoIngrediente]);
-            onClose(); // Llamar a onClose() solo después de recibir la respuesta del servidor
-        })
-        .catch(error => console.error('Error:', error));
-    }
+    } 
   };
 
   useEffect(() => {
-      console.log('Estado de modifyIngStatus:', modifyIngStatus);
+      console.log('Estado de modifyUserStatus:', modifyUserStatus);
       
-      if (modifyIngStatus.code == 200){
+      if (modifyUserStatus.code == 200){
         
         toast(
           
           <Notification 
               type={'success'} 
-              errorMessage={modifyIngStatus.message} 
+              errorMessage={modifyUserStatus.message} 
               withIcon 
           />, 
           options
         );
         
-      }else if (modifyIngStatus.code == 400){
+      }else if (modifyUserStatus.code == 400){
         toast(
           
           <Notification 
               type={'error'} 
-              errorMessage={modifyIngStatus.message} 
+              errorMessage={modifyUserStatus.message} 
               withIcon 
           />, 
           options
         );
       } 
-  }, [modifyIngStatus]);
-  useEffect(() => {
-    console.log('Estado de createIngStatus:', createIngStatus);
-    
-    if (createIngStatus.code == 200){
-      
-      toast(
-        
-        <Notification 
-            type={'success'} 
-            errorMessage={createIngStatus.message} 
-            withIcon 
-        />, 
-        options
-      );
-      
-    }else if (createIngStatus.code == 400){
-      toast(
-        
-        <Notification 
-            type={'error'} 
-            errorMessage={createIngStatus.message} 
-            withIcon 
-        />, 
-        options
-      );
-    } 
-}, [createIngStatus]);
+  }, [modifyUserStatus]);
+;
 
   return (
     <div>
       <Row>
         <Col>
-          <h3>{modoEditar ? 'Editar Ingrediente' : 'Agregar Nuevo Ingrediente'}</h3>
+          <h3>{modoEditar ? 'Editar Usuario' : 'Agregar Nuevo Usuario'}</h3>
           <Row>
             <Col md={6}>
+              {modoEditar && (
+                <>
+                  <Label for="id_usuario">ID del usuario</Label>
+                  <Input
+                    type="text"
+                    id="id_usuario"
+                    value={nuevoUser.id_usuario}
+                    disabled={modoEditar}
+                  />
+                </>
+              )}
               <FormGroup>
-                <Label for="nombre">Nombre del Ingrediente</Label>
-                <Input type="text" name="nombre" value={nuevoIngrediente.nombre} onChange={handleInputChange} />
+                <Label for="user">Nombre del Usuario</Label>
+                <Input type="text" name="user" value={nuevoUser.user} onChange={handleInputChange} />
               </FormGroup>
-              <FormGroup>
-                <Label for="tipo">Categoría</Label>
-                <Input type="select" name="tipo" value={nuevoIngrediente.tipo} onChange={handleInputChange}>
-                  <option value="">Seleccione...</option>
-                  <option value="Alcohol">Alcohol</option>
-                  <option value="Soda">Soda</option>
-                  <option value="Cerveza">Cerveza</option>
-                </Input>
-              </FormGroup>
-              <FormGroup>
-                <Label for="stockNumber">Stock Number</Label>
-                <Input type="number" name="stockNumber" value={nuevoIngrediente.stockNumber} onChange={handleInputChange} />
-              </FormGroup>
-              <FormGroup>
-                <Label for="descripcion">Descripción</Label>
-                <Input type="textarea" name="descripcion" value={nuevoIngrediente.descripcion} onChange={handleInputChange} />
-              </FormGroup>
-              <FormGroup>
-                <Label for="cantidad">Cantidad en Stock (cm3)</Label>
-                <Input type="select" name="cantidad" value={nuevoIngrediente.cantidad} onChange={handleInputChange}>
-                  <option value={750}>750</option>
-                  <option value={1000}>1000</option>
-                  <option value={1500}>1500</option>
-                  <option value={2000}>2000</option>
-                </Input>
-              </FormGroup>
+              
+              
             </Col>
             <Col md={6}>
-              <FormGroup>
-                <Label for="costo">Costo por Unidad</Label>
-                <Input type="number" name="costo" step="0.01" value={nuevoIngrediente.costo} onChange={handleInputChange} />
+            <FormGroup>
+                <Label for="tipo">Categoría</Label>
+                <Input type="select" name="tipo" value={nuevoUser.tipo} onChange={handleInputChange}>
+                  <option value="">Seleccione...</option>
+                  <option value="admin">Administrador</option>
+                  <option value="operator">Operador</option>
+                  
+                </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="proveedor">Proveedor</Label>
-                <Input type="text" name="proveedor" value={nuevoIngrediente.proveedor} onChange={handleInputChange} />
+                <Label for="password">Contraseña</Label>
+                <Input type="text" name="password" placeholder='Ingrese una nueva contrasena' onChange={handleInputChange} />
               </FormGroup>
+
             </Col>
+
+            
           </Row>
           <div className="d-flex justify-content-center mt-4">
             <Button className={ `${s.nBotonRecetas} mr-2`} onClick={handleSubmit}>
@@ -211,6 +157,6 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
   );
 };
 
-export default NuevoIngrediente;
+export default NuevoUsuario;
 
   
