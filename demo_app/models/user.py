@@ -52,6 +52,12 @@ class User:
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
+    @classmethod
+    def update_user(cls, data):
+        query  = "UPDATE " + table_name +" SET user = %(user)s,tipo = %(tipo)s WHERE id_usuario = %(id_usuario)s;"
+        result = connectToMySQL(cls.db_name).query_db(query,data)
+        return result
+    
     
     @classmethod
     def user_by_nombre(cls, data):
@@ -119,3 +125,16 @@ class User:
         }
         
         return json.dumps(value)
+    
+
+    def asdict( self ):
+
+        dict = {
+            'id_usuario':self.id_usuario,
+            'user':self.user,
+            'password':self.password,
+            'created_at':self.created_at,
+            'tipo':self.tipo 
+        }
+        
+        return dict
