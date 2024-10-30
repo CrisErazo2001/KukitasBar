@@ -516,3 +516,16 @@ def eliminar_pedidos():
     }
     return jsonify(value)
     
+@app.route('/lista-pedidos', methods=['GET'])
+def show_pedidos():
+    data = []
+    pedidos = pedido.get_all()
+    for p in pedidos:
+        aux = p.asdict()
+        aux_receta = receta.get_by_id(aux)
+        
+        aux['id_receta'] = aux_receta.nombre
+       
+        data.append(aux)
+    
+    return render_template('pantalla_espera.html', data=data, nombre_cliente_actual='Juan', nombre_bebida='queti', lista_ingredientes=['a','b'])
