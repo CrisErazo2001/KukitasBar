@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-import NuevoIngrediente from './NuevoIngrediente';
+import NuevoIngrediente from './ModUsers.jsx';
 import Modal from 'react-modal';
-import s from "./Ingredientes.module.scss";
-import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon";
+import s from "./Users.module.scss";
+import SearchBarIcon from "../../components/Icons/HeaderIcons/SearchBarIcon.js";
 // Notificaciones
 import { toast } from "react-toastify";
 import Notification from "../../components/Notification/Notification.js";
@@ -12,7 +12,7 @@ import Notification from "../../components/Notification/Notification.js";
 
 Modal.setAppElement('#root');
 
-const Ingredientes = () => {
+const Users = () => {
   //Config de Notificaciones
   const options = {
     autoClose: 3000,
@@ -128,7 +128,7 @@ const Ingredientes = () => {
               <InputGroup className="input-group-no-border search-input-group">
                 <Input
                   type="text"
-                  placeholder="Buscar Ingrediente"
+                  placeholder="Buscar Usuario"
                   value={busqueda}
                   onChange={(e) => setBusqueda(e.target.value)}
                   className={s.searchInput}
@@ -140,13 +140,7 @@ const Ingredientes = () => {
                 </InputGroupAddon>
               </InputGroup>
             </div>
-            <Button className={s.nBotonRecetas} onClick={() => {
-              setMostrarFormulario(true);
-              setModoEditar(false);
-              setIngredienteSeleccionado(null);
-            }}>
-              Nuevo Ingrediente
-            </Button>
+            
           </div>
         </Col>
       </Row>
@@ -164,10 +158,9 @@ const Ingredientes = () => {
       <Table responsive>
         <thead>
           <tr>
-            <th>Nombre del Ingrediente</th>
+            <th>Nombre del Usuario</th>
             <th>Tipo</th>
-            <th>Costo C/U</th>
-            <th>Cantidad C/U</th>
+            <th>Creado el</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -177,10 +170,8 @@ const Ingredientes = () => {
               <td>{ingrediente.nombre}</td>
               <td>{ingrediente.tipo}</td>
               <td>{ingrediente.costo}</td>
-              <td>{ingrediente.cantidad}</td>
               <td>
                 <div className='d-flex flex-column'>
-                  <Button className={`${s.nBotonEdicion} mb-2`} onClick={() => abrirModal(ingrediente)}>Ver</Button>
                   <Button className={`${s.nBotonEdicion} mb-2`} onClick={() => abrirFormularioEdicion(ingrediente)}>Editar</Button>
                   <Button className={s.nBotonEdicion} onClick={() => eliminarIngrediente(ingrediente)}>Eliminar</Button>
                 </div>
@@ -190,60 +181,9 @@ const Ingredientes = () => {
         </tbody>
       </Table>
 
-      <Modal 
-        isOpen={modalIsOpen} 
-        onRequestClose={cerrarModal}
-        style={{
-          overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
-          content: { maxWidth: '500px', margin: 'auto', padding: '20px', borderRadius: '10px', textAlign: 'left' }
-        }}
-      >
-        {ingredienteSeleccionado && (
-          <div className={s.modalContent}>
-            {/* Botón de cierre en la esquina superior */}
-            <button className={s.closeButton} onClick={cerrarModal}>&times;</button>
-
-            {/* Título */}
-            <h3 className={s.modalTitle}>Detalle del Ingrediente</h3>
-            <hr />
-
-            {/* Contenedor estilo tabla para dos columnas */}
-            <div className={s.ingredienteTabla}>
-              <div className={s.ingredienteFila}>
-                <p className={s.label}>Ingrediente:</p>
-                <span className={s.infoBox}>{ingredienteSeleccionado.nombre}</span>
-              </div>
-              <div className={s.ingredienteFila}>
-                <p className={s.label}>Tipo:</p>
-                <span className={s.infoBox}>{ingredienteSeleccionado.tipo}</span>
-              </div>
-              <div className={s.ingredienteFila}>
-                <p className={s.label}>Costo:</p>
-                <span className={s.infoBox}>{ingredienteSeleccionado.costo}</span>
-              </div>
-              <div className={s.ingredienteFila}>
-                <p className={s.label}>Cantidad:</p>
-                <span className={s.infoBox}>{ingredienteSeleccionado.cantidad} cm³</span>
-              </div>
-              <div className={s.ingredienteFila}>
-                <p className={s.label}>Stock:</p>
-                <span className={s.infoBox}>{ingredienteSeleccionado.stockNumber}</span>
-              </div>
-              <div className={s.ingredienteFila}>
-                <p className={s.label}>Proveedor:</p>
-                <span className={s.infoBox}>{ingredienteSeleccionado.proveedor}</span>
-              </div>
-              <div className={s.ingredienteFila}>
-                <p className={s.label}>Descripción:</p>
-                <span className={`${s.infoBox} ${s.descriptionBox}`}>{ingredienteSeleccionado.descripcion}</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </Modal>
-
+      
     </div>
   );
 };
 
-export default Ingredientes;
+export default Users;

@@ -95,56 +95,36 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
   useEffect(() => {
       console.log('Estado de modifyIngStatus:', modifyIngStatus);
       
-      if (modifyIngStatus.code == 200){
+      if (modifyIngStatus.code > 0){
         
         toast(
           
           <Notification 
-              type={'success'} 
+              type={modifyIngStatus.status} 
               errorMessage={modifyIngStatus.message} 
               withIcon 
           />, 
           options
         );
         
-      }else if (modifyIngStatus.code == 400){
-        toast(
-          
-          <Notification 
-              type={'error'} 
-              errorMessage={modifyIngStatus.message} 
-              withIcon 
-          />, 
-          options
-        );
-      } 
+      }
   }, [modifyIngStatus]);
   useEffect(() => {
     console.log('Estado de createIngStatus:', createIngStatus);
     
-    if (createIngStatus.code == 200){
+    if (createIngStatus.code > 0){
       
       toast(
         
         <Notification 
-            type={'success'} 
+            type={createIngStatus.status} 
             errorMessage={createIngStatus.message} 
             withIcon 
         />, 
         options
       );
       
-    }else if (createIngStatus.code == 400){
-      toast(
-        
-        <Notification 
-            type={'error'} 
-            errorMessage={createIngStatus.message} 
-            withIcon 
-        />, 
-        options
-      );
-    } 
+    }
 }, [createIngStatus]);
 
   return (

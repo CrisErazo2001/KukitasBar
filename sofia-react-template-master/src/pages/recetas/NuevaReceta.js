@@ -26,7 +26,7 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
     { nombre: 'Whiskey', tipo: 'Alcohol', costo: '1.23', cantidad: '750' },
     { nombre: 'Triple Sec', tipo: 'Alcohol', costo: '1.23', cantidad: '750' }
   ];
-
+  const [idReceta, setIdReceta] = useState(receta ? receta.id_receta : '');
   const [nombreReceta, setNombreReceta] = useState(receta ? receta.nombre : '');
   const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(
     receta ? receta.ingredientes.map(ing => ({ label: ing.nombre, value: ing })) : []
@@ -45,6 +45,7 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
 
   const guardarReceta = () => {
     const nuevaReceta = {
+      id_receta: idReceta,
       nombre: nombreReceta,
       ingredientes: ingredientesSeleccionados.filter(ing => ing.value !== null).map(ing => ing.value)
     };
@@ -93,56 +94,36 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
   useEffect(() => {
     console.log('Estado de modifyRecStatus:', modifyRecStatus);
     
-    if (modifyRecStatus.code == 200){
+    if (modifyRecStatus.code > 0){
       
       toast(
         
         <Notification 
-            type={'success'} 
+            type={modifyRecStatus.status} 
             errorMessage={modifyRecStatus.message} 
             withIcon 
         />, 
         options
       );
       
-    }else if (modifyRecStatus.code == 400){
-      toast(
-        
-        <Notification 
-            type={'error'} 
-            errorMessage={modifyRecStatus.message} 
-            withIcon 
-        />, 
-        options
-      );
     } 
   }, [modifyRecStatus]);
   useEffect(() => {
     console.log('Estado de createRecStatus:', createRecStatus);
     
-    if (createRecStatus.code == 200){
+    if (createRecStatus.code > 0){
       
       toast(
         
         <Notification 
-            type={'success'} 
+            type={createRecStatus.status} 
             errorMessage={createRecStatus.message} 
             withIcon 
         />, 
         options
       );
       
-    }else if (createRecStatus.code == 400){
-      toast(
-        
-        <Notification 
-            type={'error'} 
-            errorMessage={createRecStatus.message} 
-            withIcon 
-        />, 
-        options
-      );
-    } 
+    }
   }, [createRecStatus]);
 
   return (
@@ -151,6 +132,17 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
         <h2>{modoEditar ? 'Editar Receta' : 'Crear Nueva Receta'}</h2>
         
         <FormGroup>
+          {modoEditar && (
+            <>
+              <Label for="id_receta">ID de la Receta</Label>
+              <Input
+                type="text"
+                id="id_receta"
+                value={idReceta}
+                disabled={modoEditar}
+              />
+            </>
+          )}
           <Label for="nombreReceta">Nombre de la Receta</Label>
           <Input
             type="text"
@@ -159,6 +151,7 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
             onChange={(e) => setNombreReceta(e.target.value)}
             placeholder="Introduce el nombre de la receta"
           />
+
         </FormGroup>
 
         {/* Contenedor en una sola columna */}

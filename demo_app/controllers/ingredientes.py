@@ -10,7 +10,7 @@ from flask import render_template, redirect, session, request, flash, jsonify, m
 import json
 from demo_app import app
 from demo_app.models.ingrediente import ingrediente
-from demo_app.models.user import User
+from demo_app.models.pedido import pedido
 from demo_app.models.receta import receta
 from flask_bcrypt import Bcrypt
 import datetime
@@ -93,7 +93,7 @@ def get_list_ingredientes():
     is_valid = True
     categoria = "ingredientes"
     mensaje = "Exitoso"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = []
 
@@ -121,7 +121,7 @@ def crear_ingredientes():
     is_valid = True
     categoria = "crear ingredientes"
     mensaje = "Ingrediente Creado"
-    status = 'ok'
+    status = 'success'
     code = 200
 
 
@@ -230,7 +230,7 @@ def modificar_ingredientes():
     is_valid = True
     categoria = "modificar ingredientes"
     mensaje = "Modificacion Exitosa"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = request.json
     aux_ingrediente = {
@@ -314,21 +314,26 @@ def eliminar_ingredientes():
     is_valid = True
     categoria = "eliminar ingredientes"
     mensaje = "Ingrediente eliminado"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = request.json
     aux_ingrediente = {
         'id_ingrediente': int(data['stockNumber'])
         
     }
-    deleteIngrediente = ingrediente.delete_by_id(aux_ingrediente)
-    # if deleteIngrediente == None:
-    #     is_valid = True
-    #     categoria = "eliminar ingredientes"
-    #     mensaje = "Error al eliminar ingrediente"
-    #     status = 'error'
-    #     code = 400
+    
+    pedidos = pedido.get_all()
+    
+    if pedidos != []:
+        is_valid = False
+        categoria = "eliminar ingredientes"
+        mensaje = "No se pueden eliminar ingredientes si hay pedidos en cola"
+        status = 'error'
+        code = 400
 
+
+    if is_valid:
+        deleteIngrediente = ingrediente.delete_by_id(aux_ingrediente)
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,

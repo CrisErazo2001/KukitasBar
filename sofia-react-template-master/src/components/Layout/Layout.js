@@ -15,7 +15,7 @@ import Breadcrumbs from "../Breadbrumbs/Breadcrumbs";
 import Dashboard from "../../pages/dashboard/Dashboard";
 import Typography from "../../pages/typography/Typography";
 import Notifications from "../../pages/notifications/Notifications";
-import Users from "../../pages/users/Ingredientes";
+import Users from "../../pages/users/Users";
 import Tables from "../../pages/tables/Tables";
 import Ingredientes from '../../pages/ingredientes/Ingredientes';
 import Recetas from "../../pages/recetas/Recetas";

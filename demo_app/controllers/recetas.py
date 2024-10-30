@@ -248,7 +248,7 @@ def get_list_recetas():
     is_valid = True
     categoria = "recetas"
     mensaje = "Exitoso"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = [] 
     aux_data = receta.get_all()
@@ -272,7 +272,7 @@ def crear_recetas():
     is_valid = True
     categoria = "crear recetas"
     mensaje = "Receta Creada con exito"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = request.json
     recetas = receta.get_all()
@@ -353,15 +353,16 @@ def modificar_recetas():
     is_valid = True
     categoria = "modificar recetas"
     mensaje = "Receta editada correctamente"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = request.json
+
+    print('data: ', data)
     recetas = receta.get_all()
     aux_receta = {
-        'nombre': data['nombre']
-        
+        'id_receta': data['id_receta']
     }
-    modReceta = receta.get_by_name(aux_receta)
+    modReceta = receta.get_by_id(aux_receta)
     
     if data['nombre'] == '':
         is_valid = False
@@ -383,7 +384,7 @@ def modificar_recetas():
         code = 400
     else:
         for rec in recetas:
-            if rec.nombre == data['nombre'] and modReceta[0].nombre != data['nombre']:
+            if rec.nombre == data['nombre'] and modReceta.nombre != data['nombre']:
                 is_valid = False
                 categoria = "crear recetas"
                 mensaje = "No puede crear recetas con el mismo nombre"
@@ -404,7 +405,7 @@ def modificar_recetas():
         tiempo_prep = int(math.ceil(tiempo_prep))
 
         dict = {
-            'id_receta': modReceta[0].id_receta,
+            'id_receta': modReceta.id_receta,
             'nombre': data['nombre'], 
             'ing1': ingredientes[0], 
             'ing2': ingredientes[1], 
@@ -437,22 +438,32 @@ def eliminar_recetas():
     is_valid = True
     categoria = "eliminar recetas"
     mensaje = "Receta eliminada"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = request.json
     aux_receta = {
         'nombre': data['nombre']
         
     }
-    eliminarReceta = receta.delete_by_name(aux_receta)
+    recetaSelected = receta.get_by_name(aux_receta)
+    pedidos = pedido.get_all()
+    #validar si no hay un pedido en cola con esta receta
+    for ped in pedidos:
+        if ped.id_receta == recetaSelected.id_receta:
+            is_valid = False
+            categoria = "eliminar recetas"
+            mensaje = "No puede eliminar una bebida que se encuentre en cola de pedidos"
+            status = 'error'
+            code = 400
+    if is_valid:
+        eliminarReceta = receta.delete_by_name(aux_receta)
     
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
         "status": status,
-        "code": code,
-        'data': data 
+        "code": code
 
     }
     return jsonify(value)
