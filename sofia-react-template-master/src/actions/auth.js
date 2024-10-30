@@ -33,10 +33,12 @@ export function logoutUser() {
   return (dispatch) => {
     dispatch(requestLogout());
     localStorage.removeItem('authenticated');
+    localStorage.removeItem('role'); // Asegúrate de eliminar el rol también
     dispatch(receiveLogout());
   };
 }
 
+{/*
 export function loginUser(creds) {
   return (dispatch) => {
     dispatch(receiveLogin());
@@ -47,4 +49,19 @@ export function loginUser(creds) {
     }
   }
 }
+ */}
 
+ // Nuevo C[odigo]
+// actions/auth.js
+
+export function loginUser(creds) {
+  return (dispatch) => {
+    dispatch(receiveLogin());
+    if (creds.email.length > 3 && creds.password.length > 3) {
+      localStorage.setItem('authenticated', true);
+      localStorage.setItem('user', JSON.stringify({ role: creds.role })); // Guarda el rol del usuario
+    } else {
+      dispatch(loginError('Something was wrong. Try again'));
+    }
+  }
+}

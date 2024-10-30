@@ -8,13 +8,13 @@ import s from "./ErrorPage.module.scss";
 import errorImage from "../../assets/errorImage.svg"
 import FooterIcon from "../../components/Icons/FooterIcon.js";
 
-const ErrorPage = () => {
+const Noautorizado = () => {
   return (
     <div className={s.pageContainer}>
       <div className={s.errorContainer}>
-        <h1 className={s.errorCode}>404</h1>
+        <h1 className={s.errorCode}>403</h1>
         <p className={s.errorInfo}>
-          Oops. Looks like the page you're looking for no longer exists
+          Oops. You don't have permission to access this page
         </p>
         <p className={s.errorHelp}>
           But we're here to bring you back to safety
@@ -33,4 +33,4 @@ const ErrorPage = () => {
   );
 }
 
-export default ErrorPage;
+export default Noautorizado;

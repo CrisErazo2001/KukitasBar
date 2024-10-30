@@ -36,6 +36,7 @@ const Sidebar = (props) => {
 
   const doLogout = () => {
     props.dispatch(logoutUser());
+    window.location.reload(); // Recarga la página
   }
 
   return (
