@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { withRouter, Redirect, Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { withRouter, Redirect } from "react-router-dom";
 import {
   Container,
   Row,
@@ -11,35 +10,34 @@ import {
   FormText,
   Input,
 } from "reactstrap";
+import { loginUser } from "../../services/authService";
+import { hasToken } from "../../services/authService";
+
+
 import Widget from "../../components/Widget/Widget";
 import Footer from "../../components/Footer/Footer";
-import { loginUser } from "../../actions/auth";
-import hasToken from "../../services/authService";
-
-import loginImage from "../../assets/loginImage.svg";
-import robotSaluda from "../../assets/Saludo.gif"
+//import { loginUser, hasToken, getUserRole } from "../../services/authService";
 
 const Login = (props) => {
-
-  const [state, setState] = useState({
-    email: 'admin@flatlogic.com',
-    password: 'password',
-  })
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirectTo, setRedirectTo] = useState(null);  // Nueva variable para gestionar la redirección
 
   const doLogin = (e) => {
     e.preventDefault();
-    props.dispatch(loginUser({ password: state.password, email: state.email }))
-  }
+    const role = loginUser(username, password);  // Usamos loginUser para verificar en mockUsers
+    if (role) {
+      // Si el usuario es autenticado, definimos la redirección
+      setRedirectTo(role === "admin" ? "/template/tables" : "/template/tables");
+      setRedirectTo(role === "operator" ? "/template/tables" : "/template/tables");
+    } else {
+      alert("Credenciales incorrectas");
+    }
+  };
 
-  const changeCreds = (event) => {
-    setState({ ...state, [event.target.name]: event.target.value })
-  }
-
-  const { from } = props.location.state || { from: { pathname: '/template' }};
-  if (hasToken(JSON.parse(localStorage.getItem('authenticated')))) {
-    return (
-      <Redirect to={from} />
-    )
+  // Redireccionar si ya está autenticado o si el usuario se logueó
+  if (hasToken() || redirectTo) {
+    return <Redirect to={redirectTo || "/template"} />;
   }
 
   return (
@@ -48,109 +46,76 @@ const Login = (props) => {
         <Row className="d-flex align-items-center">
           <Col xs={12} lg={6} className="left-column">
             <Widget className="widget-auth widget-p-lg">
-
               <div className="text-center py-3">
-                {/* Título KUKITAS, centrado */}
-                <p className="auth-header mb-0" style={{ fontSize: '3rem' }}>KUKITA'S</p>
-
-                {/* Login, alineado a la derecha */}
+                <p className="auth-header mb-0" style={{ fontSize: "3rem" }}>KUKITA'S</p>
                 <div className="d-flex justify-content-end">
-                  <p className="auth-header mb-0" style={{ marginRight: '0', marginTop: '10px' }}>Login</p>
+                  <p className="auth-header mb-0" style={{ marginRight: "0", marginTop: "10px" }}>Login</p>
                 </div>
               </div>
-
-              <form onSubmit={(event) => doLogin(event)}>
-
-                {/*
+              <form onSubmit={doLogin}>
                 <FormGroup className="my-3">
-                  <FormText>Email</FormText>
-                  <Input
-                    id="email"
-                    className="input-transparent pl-3"
-                    value={state.email}
-                    onChange={(event) => changeCreds(event)}
-                    type="email"
-                    required
-                    name="email"
-                    placeholder="Email"
-                  />
-                </FormGroup>
-                */}
-                <FormGroup className="my-3">
-
-                <FormText>Username</FormText>
+                  <FormText>Username</FormText>
                   <Input
                     id="username"
                     className="input-transparent pl-3"
-                    value={state.username}  
-                    onChange={(event) => changeCreds(event)}
-                    type="text" 
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    type="text"
                     required
                     name="username"
-                    placeholder="Username" 
+                    placeholder="Username"
                   />
                 </FormGroup>
-
-                <FormGroup  className="my-3">
-                  <div className="d-flex justify-content-between">
-                    <FormText>Password</FormText>
-                    
-                    {/* 
-                    <Link to="/error">Forgot password?</Link>
-                    */}
-                  </div>
+                <FormGroup className="my-3">
+                  <FormText>Password</FormText>
                   <Input
                     id="password"
                     className="input-transparent pl-3"
-                    value={state.password}
-                    onChange={(event) => changeCreds(event)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     required
                     name="password"
                     placeholder="Password"
                   />
                 </FormGroup>
-
                 <div className="bg-widget d-flex justify-content-center">
-                  <Button className="button-log my-3" type="submit" color="secondary-red">Login</Button>
+                  <Button className="button-log my-3" type="submit" color="secondary-red">
+                    Login
+                  </Button>
                 </div>
-                <p className="dividing-line my-3">&#8195; ir a &#8195;</p>
-                <div className="bg-widget d-flex justify-content-center flex-column align-items-center my-7">
-                  <Button className="button-log my-2" type="submit" color="secondary-red">Menú Principal</Button>
-                  <Button className="button-log my-1" type="submit" color="secondary-red">Listado de Bebidas</Button>
-                </div>
-                
-                {/*
-                <Link to="/register">Don’t have an account? Sign Up here</Link>
-                */}
-                </form>
+              </form>
             </Widget>
           </Col>
-          {/*
-          <Col xs={1} lg={2} className="right-column">
-            <div>
-              <img src={robotSaluda} alt="Error page" />
-            </div>
-          </Col>
-          */}
         </Row>
       </Container>
       <Footer />
     </div>
-  )
-}
-
+  );
+};
 
 Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
-}
+};
 
-function mapStateToProps(state) {
-  return {
-    isFetching: state.auth.isFetching,
-    isAuthenticated: state.auth.isAuthenticated,
-    errorMessage: state.auth.errorMessage,
-  };
-}
+export default withRouter(Login);
 
-export default withRouter(connect(mapStateToProps)(Login));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Switch, Route, withRouter, Redirect } from "react-router";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 // -- Third Party Libs
 import PropTypes from "prop-types";
@@ -37,9 +38,18 @@ const Layout = (props) => {
         <main className={s.content}>
           <Breadcrumbs url={props.location.pathname} />
           <Switch>
-            <Route path="/template" exact render={() => <Redirect to="template/dashboard"/>} />
+
+            <PrivateRoute path="/template/dashboard" requiredRole="admin" component={Dashboard} />
+            <PrivateRoute path="/template/users" requiredRole="admin" component={Users} />
+            <PrivateRoute path="/template/register" requiredRole="admin" component={Register} />
+
+            <Route path="/template" exact render={() => <Redirect to="template/tables"/>} />
+            
+            {/* 
             <Route path="/template/dashboard" exact component={Dashboard}/>
             <Route path="/template/register" exact component={Register}/>
+            <Route path="/template/users" exact component={Users} />
+*/}
             <Route path="/template/typography" exact component={Typography} />
             <Route path="/template/tables" exact component={Tables} />
             <Route path="/template/ingredientes" exact component={Ingredientes} />
@@ -47,7 +57,7 @@ const Layout = (props) => {
             <Route path="/template/distribucion" exact component={Distribución} />
             <Route path="/template/ingredientes" exact component={Ingredientes} />
             <Route path="/template/notifications" exact component={Notifications} />
-            <Route path="/template/users" exact component={Users} />
+            
             <Route path="/template/ui-elements" exact render={() => <Redirect to={"/template/ui-elements/charts"} />} />
             <Route path="/template/ui-elements/charts" exact component={Charts} />
             <Route path="/template/ui-elements/icons" exact component={Icons} />
