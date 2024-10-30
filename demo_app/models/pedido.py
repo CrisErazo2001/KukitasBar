@@ -26,6 +26,7 @@ class pedido:
         self.create_at  =  data['create_at']
         self.ready_at  =  data['ready_at']
         self.status  =  data['status']
+        self.hielo  =  data['hielo']
         
         
 
@@ -42,7 +43,7 @@ class pedido:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( nombre_cliente,id_receta,ready_at,status) VALUES ( %(nombre_cliente)s, %(id_receta)s, %(ready_at)s,%(status)s);"
+        query = "INSERT INTO "+ table_name +" ( nombre_cliente,id_receta,ready_at,status,hielo) VALUES ( %(nombre_cliente)s, %(id_receta)s, %(ready_at)s,%(status)s,%(hielo)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -87,7 +88,7 @@ class pedido:
 
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET nombre_cliente = %(nombre_cliente)s, id_receta = %(id_receta)s, ready_at = %(ready_at)s, status = %(status)s"+" WHERE id_pedido = %(id_pedido)s;"
+        query  = "UPDATE "+ table_name +" SET nombre_cliente = %(nombre_cliente)s, id_receta = %(id_receta)s, ready_at = %(ready_at)s, status = %(status)s, hielo = %(hielo)s"+" WHERE id_pedido = %(id_pedido)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     

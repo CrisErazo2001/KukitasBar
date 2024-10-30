@@ -9,6 +9,7 @@ la cual nos dirige al menu restaurante donde podemos realizar los pedidos de las
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
 import json
 from demo_app import app
+from demo_app.models.ingrediente import ingrediente
 from demo_app.models.user import User
 from demo_app.models.receta import receta
 from flask_bcrypt import Bcrypt
@@ -94,12 +95,11 @@ def get_list_ingredientes():
     mensaje = "Exitoso"
     status = 'ok'
     code = 200
-    data = [
-    { 'nombre': 'Ron', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 123, 'descripcion': 'Aged Rum', 'proveedor': 'ABC Suppliers' },
-    { 'nombre': 'Vodka', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 124, 'descripcion': 'Premium Vodka', 'proveedor': 'XYZ Distributors' },
-    { 'nombre': 'Whiskey', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 125, 'descripcion': 'Fine Whiskey', 'proveedor': 'Whiskey World' }
-     ]
-    
+    data = []
+
+    aux_data = ingrediente.get_all()
+    for ing in aux_data:
+        data.append(ing.asdict_front())
     
     value = {   #valor de salida de la api
         "valid": is_valid,
@@ -113,43 +113,197 @@ def get_list_ingredientes():
 
 @app.route('/ingrediente/nuevo', methods=['POST'])
 def crear_ingredientes():
+
+    #obtener todos los ingredientes existentes
+    ingredientes = ingrediente.get_all()
+
+
     is_valid = True
     categoria = "crear ingredientes"
-    mensaje = "Exitoso"
+    mensaje = "Ingrediente Creado"
     status = 'ok'
     code = 200
+
+
     data = request.json
-    print(data)
+    ingredienteNuevo = {
+        'id_ingrediente': int(data['stockNumber']),
+        'nombre': data['nombre'],
+        'descripcion': data['descripcion'],
+        'precio_unitario': float(data['costo']),
+        'cantidad_unitaria': int(data['cantidad']),
+        'categoria': data['tipo'],
+        'proveedor': data['proveedor']
+    }
+    #validaciones para ingresar nuevo ingrediente
+    
+    if ingredienteNuevo['id_ingrediente'] <= 0:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "El id no puede ser 0 o menor a 0"
+        status = 'error'
+        code = 400
+    elif ingredienteNuevo['nombre'] == '':
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "Por favor, ingrese un nombre"
+        status = 'error'
+        code = 400
+    elif len(ingredienteNuevo['nombre']) > 45:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "El nombre no puede superar los 45 caracteres"
+        status = 'error'
+        code = 400
+    elif len(ingredienteNuevo['descripcion']) >= 250:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "La descripcion no puede ser mayor a 250 caracteres"
+        status = 'error'
+        code = 400
+    elif ingredienteNuevo['categoria'] == '':
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "Por favor, ingrese una categoria"
+        status = 'error'
+        code = 400
+    elif ingredienteNuevo['proveedor'] == '':
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "Por favor, ingrese un proveedor"
+        status = 'error'
+        code = 400
+    elif len(ingredienteNuevo['proveedor']) > 45:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "El proveedor no puede superar los 45 caracteres"
+        status = 'error'
+        code = 400
+    elif ingredienteNuevo['precio_unitario'] <= 0:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "El costo no puede ser 0 o menor a 0"
+        status = 'error'
+        code = 400
+    elif ingredienteNuevo['cantidad_unitaria'] <= 0:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "La cantidad unitaria no puede ser 0 o menor a 0"
+        status = 'error'
+        code = 400
+    else:
+        for x in ingredientes:
+            if ingredienteNuevo['id_ingrediente'] == x.id_ingrediente:
+                is_valid = False
+                categoria = "crear ingredientes"
+                mensaje = "No pueden existir ingredientes con el mismo ID"
+                status = 'error'
+                code = 400
+                break
+            elif ingredienteNuevo['nombre'] == x.nombre:
+                is_valid = False
+                categoria = "crear ingredientes"
+                mensaje = "No pueden existir ingredientes con el mismo nombre"
+                status = 'error'
+                code = 400
+            break
+    
+    if is_valid:
+        ingrediente.save(ingredienteNuevo)
     
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
         "status": status,
-        "code": code,
-        'data': data 
-
+        "code": code 
     }
     return jsonify(value)
 
 
 @app.route('/ingrediente/modificar', methods=['POST'])
 def modificar_ingredientes():
+
+    #obtener todos los ingredientes existentes
+    ingredientes = ingrediente.get_all()
+
     is_valid = True
     categoria = "modificar ingredientes"
-    mensaje = "La cagaste"
+    mensaje = "Modificacion Exitosa"
     status = 'ok'
-    code = 400
+    code = 200
     data = request.json
-    print(data)
-    
+    aux_ingrediente = {
+        'id_ingrediente': int(data['stockNumber']),
+        'nombre': data['nombre'],
+        'descripcion': data['descripcion'],
+        'precio_unitario': float(data['costo']),
+        'cantidad_unitaria': int(data['cantidad']),
+        'categoria': data['tipo'],
+        'proveedor': data['proveedor']
+    }
+    modIngrediente = ingrediente.get_by_id(aux_ingrediente)
+    #validaciones para ingresar nuevo ingrediente
+    for x in ingredientes:
+        if aux_ingrediente['nombre'] == x.nombre and aux_ingrediente['nombre'] != modIngrediente.nombre:
+            is_valid = False
+            categoria = "crear ingredientes"
+            mensaje = "No pueden existir ingredientes con el mismo nombre"
+            status = 'error'
+            code = 400
+            break
+    if aux_ingrediente['id_ingrediente'] <= 0:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "El id no puede ser 0 o menor a 0"
+        status = 'error'
+        code = 400
+    elif aux_ingrediente['nombre'] == '':
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "Por favor, ingrese un nombre"
+        status = 'error'
+        code = 400
+    elif len(aux_ingrediente['descripcion']) >= 250:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "La descripcion no puede ser mayor a 250 caracteres"
+        status = 'error'
+        code = 400
+    elif aux_ingrediente['categoria'] == '':
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "Por favor, ingrese una categoria"
+        status = 'error'
+        code = 400
+    elif aux_ingrediente['proveedor'] == '':
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "Por favor, ingrese un proveedor"
+        status = 'error'
+        code = 400
+    elif aux_ingrediente['precio_unitario'] <= 0:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "El costo no puede ser 0 o menor a 0"
+        status = 'error'
+        code = 400
+    elif aux_ingrediente['cantidad_unitaria'] <= 0:
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "La cantidad unitaria no puede ser 0 o menor a 0"
+        status = 'error'
+        code = 400
+
+    if is_valid:
+        ingrediente.update_by_id(aux_ingrediente)
+
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
         "status": status,
-        "code": code,
-        'data': data 
+        "code": code 
 
     }
     return jsonify(value)
@@ -159,19 +313,27 @@ def modificar_ingredientes():
 def eliminar_ingredientes():
     is_valid = True
     categoria = "eliminar ingredientes"
-    mensaje = "La cagaste"
+    mensaje = "Ingrediente eliminado"
     status = 'ok'
-    code = 400
+    code = 200
     data = request.json
-    print(data)
-    
+    aux_ingrediente = {
+        'id_ingrediente': int(data['stockNumber'])
+        
+    }
+    deleteIngrediente = ingrediente.delete_by_id(aux_ingrediente)
+    # if deleteIngrediente == None:
+    #     is_valid = True
+    #     categoria = "eliminar ingredientes"
+    #     mensaje = "Error al eliminar ingrediente"
+    #     status = 'error'
+    #     code = 400
+
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
         "status": status,
-        "code": code,
-        'data': data 
-
+        "code": code 
     }
     return jsonify(value)

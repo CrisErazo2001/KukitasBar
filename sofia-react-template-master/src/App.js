@@ -12,6 +12,7 @@ import ErrorPage from "./pages/error/ErrorPage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 
+
 // -- Redux Actions
 import { logoutUser } from "./actions/auth";
 
@@ -53,6 +54,7 @@ const App = (props) => {
           
           {/* Ruta privada que requiere autenticación */}
           <PrivateRoute path="/template" dispatch={props.dispatch} component={LayoutComponent} />
+          
 
           {/* Ruta de Login */}
           <Route path="/login" exact component={Login} />

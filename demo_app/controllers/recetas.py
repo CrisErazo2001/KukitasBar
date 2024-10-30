@@ -17,7 +17,7 @@ from datetime import datetime
 import requests
 import math
 
-
+'''
 @app.route('/receta/create',methods=['POST'])
 def create_receta():
     
@@ -240,7 +240,9 @@ def delete_receta():
     else:
         flash('No se encontro la receta','error')
         return redirect('/bebida#tab3')
-    
+'''
+
+
 @app.route('/recetas', methods=['GET'])
 def get_list_recetas():
     is_valid = True
@@ -248,12 +250,11 @@ def get_list_recetas():
     mensaje = "Exitoso"
     status = 'ok'
     code = 200
-    data = [
-    { 'nombre': 'Mojito', 'ingredientes': [{ 'nombre': 'Ron', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 123, 'descripcion': 'Aged Rum', 'proveedor': 'ABC Suppliers' },
-                                           { 'nombre': 'Vodka', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 124, 'descripcion': 'Premium Vodka', 'proveedor': 'XYZ Distributors' }] },
-    { 'nombre': 'Piña Colada', 'ingredientes': [{ 'nombre': 'Ron', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 123, 'descripcion': 'Aged Rum', 'proveedor': 'ABC Suppliers' },
-                                           { 'nombre': 'Vodka', 'tipo': 'Alcohol', 'costo': '1.20', 'cantidad': '750', 'stockNumber': 124, 'descripcion': 'Premium Vodka', 'proveedor': 'XYZ Distributors' }] }
-     ] 
+    data = [] 
+    aux_data = receta.get_all()
+    print(aux_data)
+    for rec in aux_data:
+        data.append(rec.asdict_front())
     
     
     value = {   #valor de salida de la api
@@ -270,19 +271,78 @@ def get_list_recetas():
 def crear_recetas():
     is_valid = True
     categoria = "crear recetas"
-    mensaje = "Exitoso en recetas"
+    mensaje = "Receta Creada con exito"
     status = 'ok'
     code = 200
     data = request.json
-    print(data)
+    recetas = receta.get_all()
+    print('data: ',data)
+    if data['nombre'] == '':
+        is_valid = False
+        categoria = "crear recetas"
+        mensaje = "Por favor, ingrese un nombre"
+        status = 'error'
+        code = 400
+    elif len(data['nombre']) > 45:
+        is_valid = False
+        categoria = "crear recetas"
+        mensaje = "El nombre de la receta es muy largo"
+        status = 'error'
+        code = 400
+    elif data['ingredientes'] == []:
+        is_valid = False
+        categoria = "crear recetas"
+        mensaje = "Por favor, ingrese ingredientes"
+        status = 'error'
+        code = 400
+    else:
+        for rec in recetas:
+            if rec.nombre == data['nombre']:
+                is_valid = False
+                categoria = "crear recetas"
+                mensaje = "No puede crear recetas con el mismo nombre"
+                status = 'error'
+                code = 400
+
+
+    if is_valid:
+        cant = len(data['ingredientes'])
+        ingredientes = []
+        for i in data['ingredientes']:
+            ingredientes.append(i['nombre'])
+        
+        for x in range(10-cant):
+            ingredientes.append('')
     
+        tiempo_prep = 1 + (cant * 10 * 1/60) # tiene que estar en minutos, entonces: cantidad de bebida x segundos por paso x 1/60 
+        tiempo_prep = int(math.ceil(tiempo_prep))
+
+        dict = {
+        
+            'nombre': data['nombre'], 
+            'ing1': ingredientes[0], 
+            'ing2': ingredientes[1], 
+            'ing3': ingredientes[2], 
+            'ing4': ingredientes[3],
+            'ing5': ingredientes[4],
+            'ing6': ingredientes[5],
+            'ing7': ingredientes[6],
+            'ing8': ingredientes[7],
+            'ing9': ingredientes[8],
+            'ing10': ingredientes[9],
+            'tiempo_prep': tiempo_prep
+            
+        }
+        receta.save(dict)
+    
+
+
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
         "status": status,
-        "code": code,
-        'data': data 
+        "code": code
 
     }
     return jsonify(value)
@@ -292,12 +352,75 @@ def crear_recetas():
 def modificar_recetas():
     is_valid = True
     categoria = "modificar recetas"
-    mensaje = "La cagaste en recetas"
+    mensaje = "Receta editada correctamente"
     status = 'ok'
-    code = 400
+    code = 200
     data = request.json
-    print(data)
+    recetas = receta.get_all()
+    aux_receta = {
+        'nombre': data['nombre']
+        
+    }
+    modReceta = receta.get_by_name(aux_receta)
     
+    if data['nombre'] == '':
+        is_valid = False
+        categoria = "crear recetas"
+        mensaje = "Por favor, ingrese un nombre"
+        status = 'error'
+        code = 400
+    elif len(data['nombre']) > 45:
+        is_valid = False
+        categoria = "crear recetas"
+        mensaje = "El nombre de la receta es muy largo"
+        status = 'error'
+        code = 400
+    elif data['ingredientes'] == []:
+        is_valid = False
+        categoria = "crear recetas"
+        mensaje = "Por favor, ingrese ingredientes"
+        status = 'error'
+        code = 400
+    else:
+        for rec in recetas:
+            if rec.nombre == data['nombre'] and modReceta[0].nombre != data['nombre']:
+                is_valid = False
+                categoria = "crear recetas"
+                mensaje = "No puede crear recetas con el mismo nombre"
+                status = 'error'
+                code = 400
+
+
+    if is_valid:
+        cant = len(data['ingredientes'])
+        ingredientes = []
+        for i in data['ingredientes']:
+            ingredientes.append(i['nombre'])
+        
+        for x in range(10-cant):
+            ingredientes.append('')
+    
+        tiempo_prep = 1 + (cant * 10 * 1/60) # tiene que estar en minutos, entonces: cantidad de bebida x segundos por paso x 1/60 
+        tiempo_prep = int(math.ceil(tiempo_prep))
+
+        dict = {
+            'id_receta': modReceta[0].id_receta,
+            'nombre': data['nombre'], 
+            'ing1': ingredientes[0], 
+            'ing2': ingredientes[1], 
+            'ing3': ingredientes[2], 
+            'ing4': ingredientes[3],
+            'ing5': ingredientes[4],
+            'ing6': ingredientes[5],
+            'ing7': ingredientes[6],
+            'ing8': ingredientes[7],
+            'ing9': ingredientes[8],
+            'ing10': ingredientes[9],
+            'tiempo_prep': tiempo_prep
+            
+        }
+        receta.update_by_id(dict)
+        
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
@@ -313,11 +436,15 @@ def modificar_recetas():
 def eliminar_recetas():
     is_valid = True
     categoria = "eliminar recetas"
-    mensaje = "No deboraste en recetas"
+    mensaje = "Receta eliminada"
     status = 'ok'
-    code = 400
+    code = 200
     data = request.json
-    print(data)
+    aux_receta = {
+        'nombre': data['nombre']
+        
+    }
+    eliminarReceta = receta.delete_by_name(aux_receta)
     
     value = {   #valor de salida de la api
         "valid": is_valid,

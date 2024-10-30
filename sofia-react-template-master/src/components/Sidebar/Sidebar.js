@@ -11,6 +11,7 @@ import LinksGroup from "./LinksGroup/LinksGroup.js";
 import { changeActiveSidebarItem } from "../../actions/navigation.js";
 import SofiaLogo from "../Icons/SofiaLogo.js";
 import NewUser from "../../assets/person-add.svg"
+import UserIcon from "../../assets/user.svg"
 import cn from "classnames";
 
 
@@ -63,19 +64,17 @@ const Sidebar = (props) => {
           link="/template/register"
           index="register"
         />
-
-        <h5 className={s.navTitle}>OPERACIONES</h5>
-        {/* 
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
-          header="Typography"
+          header="Usuarios"
           isHeader
-          iconName={<i className={'eva eva-text-outline'}/>}
-          link="/template/typography"
-          index="typography"
+          iconName={<img className={s.logoutIcon} src={UserIcon}/>}
+          link="/template/users"
+          index="notifications"
         />
-        */}
+        <h5 className={s.navTitle}>OPERACIONES</h5>
+        
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
@@ -113,16 +112,8 @@ const Sidebar = (props) => {
           index="tables"
         />
         
+        
         {/* <LinksGroup
-          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
-          activeItem={props.activeItem}
-          header="Notifications"
-          isHeader
-          iconName={<i className={'eva eva-bell-outline'}/>}
-          link="/template/notifications"
-          index="notifications"
-        />
-        <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
           header="UI Elements"

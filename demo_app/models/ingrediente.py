@@ -15,7 +15,7 @@ import json
 
 table_name = 'ingrediente'
 
-class pedido:
+class ingrediente:
     
     db_name = 'greepo'
     
@@ -26,6 +26,7 @@ class pedido:
         self.precio_unitario  =  data['precio_unitario']
         self.cantidad_unitaria  =  data['cantidad_unitaria']
         self.categoria  =  data['categoria']
+        self.proveedor  =  data['proveedor']
         
         
 
@@ -42,7 +43,7 @@ class pedido:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( id_ingrediente,nombre,descripcion,precio_unitario,cantidad_unitaria,categoria) VALUES ( %(id_ingrediente)s,%(nombre)s, %(descripcion)s, %(precio_unitario)s,%(cantidad_unitaria)s,%(categoria)s);"
+        query = "INSERT INTO "+ table_name +" ( id_ingrediente,nombre,descripcion,precio_unitario,cantidad_unitaria,categoria,proveedor) VALUES ( %(id_ingrediente)s,%(nombre)s, %(descripcion)s, %(precio_unitario)s,%(cantidad_unitaria)s,%(categoria)s,%(proveedor)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -80,7 +81,7 @@ class pedido:
 
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, descripcion = %(descripcion)s, precio_unitario = %(precio_unitario)s, cantidad_unitaria = %(cantidad_unitaria)s, categoria = %(categoria)s"+" WHERE id_ingrediente = %(id_ingrediente)s;"
+        query  = "UPDATE "+ table_name +" SET nombre = %(nombre)s, descripcion = %(descripcion)s, precio_unitario = %(precio_unitario)s, cantidad_unitaria = %(cantidad_unitaria)s, categoria = %(categoria)s, proveedor = %(proveedor)s"+" WHERE id_ingrediente = %(id_ingrediente)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -94,8 +95,22 @@ class pedido:
             'descripcion': self.descripcion  ,
             'precio_unitario': self.precio_unitario ,
             'cantidad_unitaria': self.cantidad_unitaria ,
-            'categoria': self.categoria  
+            'categoria': self.categoria,
+            'proveedor': self.proveedor
+        }
+        
+        return dict
+    
+    def asdict_front(self):
 
+        dict = {
+            'stockNumber': self.id_ingrediente,
+            'nombre': self.nombre,
+            'descripcion': self.descripcion  ,
+            'costo': self.precio_unitario ,
+            'cantidad': self.cantidad_unitaria ,
+            'tipo': self.categoria,
+            'proveedor': self.proveedor
         }
         
         return dict

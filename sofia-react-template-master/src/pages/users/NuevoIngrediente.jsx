@@ -169,7 +169,7 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
               </FormGroup>
               <FormGroup>
                 <Label for="stockNumber">Stock Number</Label>
-                <Input type="number" name="stockNumber" value={nuevoIngrediente.stockNumber} onChange={handleInputChange} readOnly={modoEditar}/>
+                <Input type="number" name="stockNumber" value={nuevoIngrediente.stockNumber} onChange={handleInputChange} />
               </FormGroup>
               <FormGroup>
                 <Label for="descripcion">Descripción</Label>

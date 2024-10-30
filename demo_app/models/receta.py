@@ -52,7 +52,7 @@ class receta:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( nombre,ing1,ing2,ing3,ing4,ing5,ing6,ing7,ing8,ing9,ing10,tiempo_prep ) VALUES ( %(nombre)s, %(ing1)s, %(ing2)s, %(ing3)s, %(ing4)s, %(ing5)s, %(ing6)s, %(ing7)s, %(ing8)s, %(ing9)s, %(ing10)s,%(cant_1)s, %(cant_2)s, %(cant_3)s, %(cant_4)s, %(cant_5)s, %(cant_6)s, %(cant_7)s, %(cant_8)s, %(cant_9)s, %(cant_10)s, %(tiempo_prep)s);"
+        query = "INSERT INTO "+ table_name +" ( nombre,ing1,ing2,ing3,ing4,ing5,ing6,ing7,ing8,ing9,ing10,tiempo_prep ) VALUES ( %(nombre)s, %(ing1)s, %(ing2)s, %(ing3)s, %(ing4)s, %(ing5)s, %(ing6)s, %(ing7)s, %(ing8)s, %(ing9)s, %(ing10)s, %(tiempo_prep)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -83,7 +83,11 @@ class receta:
         query  = "DELETE FROM "+ table_name +" WHERE id_receta = %(id_receta)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
-    
+    @classmethod
+    def delete_by_name(cls, data):
+        query  = "DELETE FROM "+ table_name +" WHERE nombre = %(nombre)s;"
+        result = connectToMySQL(cls.db_name).query_db(query,data)
+        return result
     
 
 
@@ -116,3 +120,31 @@ class receta:
         
         return dict
     
+    def asdict_front(self):
+
+        dict = {
+             
+            'nombre': self.nombre, 
+            'ingredientes':[{ 'nombre': self.ing1},
+                            { 'nombre': self.ing2},
+                            { 'nombre': self.ing3},
+                            { 'nombre': self.ing4},
+                            { 'nombre': self.ing5},
+                            { 'nombre': self.ing6},
+                            { 'nombre': self.ing7},
+                            { 'nombre': self.ing8},
+                            { 'nombre': self.ing9},
+                            { 'nombre': self.ing10}
+                            ]
+            
+        }
+        
+        aux_ingredientes = []
+        for i in range(10):
+            aux = dict['ingredientes'][i]['nombre']
+            if aux != '':
+                aux_ingredientes.append(dict['ingredientes'][i])
+            
+        dict['ingredientes']=aux_ingredientes
+        
+        return dict
