@@ -1,9 +1,5 @@
 '''
 
-Este script contiente la ruta /bebida/posicion/create que crea tanto las posicion de las bebidas en el soporte y la cantidad en onzas
-de cada botella. Tambien permite la modificacion de cada uno. Cuenta con las validaciones repectivas para no ingresar letras donde van
-numeros, ingresar la cantidad de botellas minimas y no poder ingresar 0 en cantidades.
-
 '''
 
 
@@ -28,7 +24,8 @@ def get_cantidades():
         datosIniciales = { 'cantidadActual': 750, 'cantidadUsada': 0}
         data.append(datosIniciales)
       
-        
+    data[15] = { 'cantidadActual': 25, 'cantidadUsada': 0}
+    data[25] = { 'cantidadActual': 35, 'cantidadUsada': 0}
     
     value = {   #valor de salida de la api
         "valid": is_valid,

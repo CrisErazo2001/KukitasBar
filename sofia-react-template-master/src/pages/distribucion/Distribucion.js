@@ -9,30 +9,35 @@ const Distribucion = () => {
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [nombreDisposicion, setNombreDisposicion] = useState('');
   const [ingredientes, setIngredientes] = useState([]);
-  const [ingredientesNombres, setIngredientesNombres] = useState([]);
   const [distribucionNombres, setDistribucionNombres] = useState([]);
-  const [cantidades, setCantidades] = useState(
-    Array.from({ length: 28 }, (_, i) => ({
-      cantidadActual: 750,
-      cantidadUsada: 0,
-      ingrediente: null
-    })).reduce((acc, _, i) => {
-      const fila = String.fromCharCode(65 + Math.floor(i / 7));
-      const col = (i % 7) + 1;
-      acc[`${fila}${col}`] = { cantidadActual: 750, cantidadUsada: 0, ingrediente: null };
-      return acc;
-    }, {})
-  );
+  const [cantidades, setCantidades] = useState(Array.from({ length: 28 }, () => ({ cantidadActual: -1, cantidadUsada: 0 })));
+  const [cambioIngrediente, setCambioIngrediente] = useState(Array.from({ length: 28 }, () => (false)));
+  const [nombres, setNombres] = useState([]);
+  const [distribucion, setDistribucion] = useState('');
 
   const fetchIngredientes = async () => {
     try {
-      const response = await fetch('/ingredientes'); // Reemplaza con tu URL de API
+      const response = await fetch('/ingredientes/nombres'); // Reemplaza con tu URL de API
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const list = await response.json();
       console.log('Fetched Ingredients:', list.data); // Mostrar en consola la lista obtenida
       setIngredientes(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  const fetchDistribucionNombres = async () => {
+    try {
+      const response = await fetch('/posiciones/nombres'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched Distribucion Nombres:', list.data); // Mostrar en consola la lista obtenida
+      setNombres(list.data); // Guardar la lista en el estado
     } catch (error) {
       console.error('Fetch error:', error);
     }
@@ -66,18 +71,7 @@ const Distribucion = () => {
     }
   };
 
-  useEffect(() => {
-    fetchIngredientes();
-    fetchDistribucion();
-    fetchCantidades();
-    const nombresFormateados = ingredientes.map((ingrediente) => ({
-      value: ingrediente.nombre,
-      label: ingrediente.nombre
-    }));
-    setIngredientesNombres(nombresFormateados);
-    console.log(nombresFormateados)
-  }, []);
-
+  
   const abrirModal = (boton) => {
     setBotonSeleccionado(boton);
     setIngredienteSeleccionado(distribucionNombres[boton]);
@@ -89,94 +83,94 @@ const Distribucion = () => {
   };
 
   const manejarCambioIngrediente = (ingrediente) => {
+    console.log('ingrediente', ingrediente)
     setIngredienteSeleccionado(ingrediente);
   };
 
-  const rellenarCantidad = () => {
-    setCantidades((prev) => ({
-      ...prev,
-      [botonSeleccionado]: {
-        ...prev[botonSeleccionado],
-        cantidadUsada: prev[botonSeleccionado].cantidadActual
-      }
-    }));
+  const manejarCambioDistribucion = (distribucion) => {
+      setDistribucion(distribucion); 
   };
 
+  const rellenarCantidad = () => {
+    
+  };
+
+
   const guardarPosicion = () => {
-    setCantidades((prev) => ({
-      ...prev,
-      [botonSeleccionado]: {
-        ...prev[botonSeleccionado],
-        ingrediente: ingredienteSeleccionado
-      }
-    }));
+    setDistribucionNombres((prev) => {
+      const nuevaDistribucion = [...prev]; // Crear una copia de la lista anterior
+      nuevaDistribucion[botonSeleccionado] = ingredienteSeleccionado.value; // Actualizar solo el índice deseado
+      return nuevaDistribucion; // Retornar la lista actualizada
+    });
+    setCambioIngrediente((prev)=>{
+      const nuevoCambio = [...prev];
+      nuevoCambio[botonSeleccionado] = true;
+      return nuevoCambio;
+    })
     cerrarModal();
   };
 
-  const guardarDisposicion = async () => {
-    // Crear el array de disposición con las posiciones y cantidades
-    const disposicionData = Object.entries(cantidades).map(([posicion, { cantidadActual, cantidadUsada, ingrediente }]) => ({
-      posicion,
-      cantidadActual,
-      cantidadUsada,
-      ingrediente: ingrediente?.value || null, // Verifica si el ingrediente está seleccionado
-    }));
-
-    // Estructura el payload con el nombre y la disposición
-    const payload = {
-      nombre: nombreDisposicion,
-      disposicion: disposicionData,
-    };
-
-    console.log("Guardando disposición:", payload); // Verifica los datos en la consola
-
-    // Enviar la solicitud POST al backend
-    try {
-      const response = await fetch('/guardar-disposicion', { // Reemplaza con la URL de tu endpoint
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        console.log('Disposición guardada exitosamente');
-      } else {
-        console.error('Error al guardar la disposición');
-      }
-    } catch (error) {
-      console.error('Error en la solicitud:', error);
-    }
-  };
+  
 
   const borrarDisposicion = () => {
-    const cantidadesReseteadas = Object.keys(cantidades).reduce((acc, key) => {
-      acc[key] = { ...cantidades[key], ingrediente: null, cantidadUsada: 0 };
-      return acc;
-    }, {});
-    setCantidades(cantidadesReseteadas);
+    
   };
 
   const rellenarTodasBotellas = () => {
-    const cantidadesRellenadas = Object.keys(cantidades).reduce((acc, key) => {
-      acc[key] = { ...cantidades[key], cantidadUsada: cantidades[key].cantidadActual };
-      return acc;
-    }, {});
-    setCantidades(cantidadesRellenadas);
+    
   };
 
   const obtenerColorBoton = (boton) => {
+    // console.log('boton #:',boton);
     const ingrediente  = distribucionNombres[boton];
-    if (!ingrediente) return '#d3d3d3'; // Gris cuando no hay selección
-    if (ingrediente.value === '') return '#ffd700'; // Amarillo cuando está vacío
+    if (ingrediente == '') return '#d3d3d3'; // Gris cuando no hay selección
+    if (cantidades[boton].cantidadActual < 30 && cantidades[boton].cantidadActual != -1) return '#ffd700'; // Amarillo cuando está vacío
+    if (cambioIngrediente[boton] == true) return '#00FF28'; 
     return '#ff8b05'; // Naranja para los demás ingredientes
   };
+  useEffect(()=>{
+    
+    fetch('/posicion/set', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({nombre: distribucion})
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setNombreDistribStatus(data); // Guarda la respuesta en createIngStatus
+    })
+    .catch(error => console.error('Error:', error));
+
+
+  },[distribucion]);
+  
+
+  useEffect(() => {
+    fetchIngredientes();
+    fetchDistribucion();
+    fetchCantidades();
+    fetchDistribucionNombres();
+  }, []);
+
+  useEffect(()=>{
+    console.log('cantidades',cantidades);
+    console.log('posiciones',distribucionNombres);
+  },[modalIsOpen]);
 
   return (
     <div>
       <div style={{width:"50%", position: 'absolute', top: 20, right: 20 }}>
-        <Select options={ingredientesNombres} placeholder="Seleccionar opción" />
+        <Select 
+          options={nombres} 
+          placeholder="Seleccionar opción"
+          onChange={(e) => setDistribucion(e.target.value)}
+        />
       </div>
       <div className={s.leyendaContainer}>
         <div className={s.leyendaItem}>
@@ -191,6 +185,10 @@ const Distribucion = () => {
           <span>Espacio utilizado</span>
           <div className={s.circuloLeyenda} style={{ backgroundColor: "#ff8b05" }}></div>
         </div>
+        <div className={s.leyendaItem}>
+          <span>Espacio Modificado</span>
+          <div className={s.circuloLeyenda} style={{ backgroundColor: "#00ff28" }}></div>
+        </div>
       </div>
 
       {/* Botonera */}
@@ -201,8 +199,8 @@ const Distribucion = () => {
             {Array.from({ length: 7 }, (_, i) => (
               <Button
                 key={`D${7 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(`D${7 - i}`) }}
-                onClick={() => abrirModal(`D${7 - i}`)}
+                style={{ backgroundColor: obtenerColorBoton(27 - i) }}
+                onClick={() => abrirModal(27 - i)}
                 className={`${s.distribucionButton}`}
               >
                 {`D${7 - i}`}
@@ -214,8 +212,8 @@ const Distribucion = () => {
             {Array.from({ length: 7 }, (_, i) => (
               <Button
                 key={`C${7 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(`C${7 - i}`) }}
-                onClick={() => abrirModal(`C${7 - i}`)}
+                style={{ backgroundColor: obtenerColorBoton(20 - i) }}
+                onClick={() => abrirModal(20 - i)}
                 className={`${s.distribucionButton}`}
               >
                 {`C${7 - i}`}
@@ -229,8 +227,8 @@ const Distribucion = () => {
           {Array.from({ length: 7 }, (_, i) => (
             <Button
               key={`B${7 - i}`}
-              style={{ backgroundColor: obtenerColorBoton(`B${7 - i}`) }}
-              onClick={() => abrirModal(`B${7 - i}`)}
+              style={{ backgroundColor: obtenerColorBoton(13 - i) }}
+              onClick={() => abrirModal(13 - i)}
               className={`${s.distribucionButton}`}
             >
               {`B${7 - i}`}
@@ -242,8 +240,8 @@ const Distribucion = () => {
           {Array.from({ length: 7 }, (_, i) => (
             <Button
               key={`A${7 - i}`}
-              style={{ backgroundColor: obtenerColorBoton(`A${7 - i}`) }}
-              onClick={() => abrirModal(`A${7 - i}`)}
+              style={{ backgroundColor: obtenerColorBoton(6 - i) }}
+              onClick={() => abrirModal(6 - i)}
               className={`${s.distribucionButton}`}
             >
               {`A${7 - i}`}
@@ -269,14 +267,28 @@ const Distribucion = () => {
       <Modal isOpen={modalIsOpen} toggle={cerrarModal}>
         <ModalHeader toggle={cerrarModal}>Configurar {botonSeleccionado}</ModalHeader>
         <ModalBody>
-          <FormGroup>
+          
+        <FormGroup>
+            
             <Label for="ingrediente">Ingrediente</Label>
             <Select
               id="ingrediente"
-              options={ingredientesNombres}
+              options={ingredientes}
               value={ingredienteSeleccionado}
               onChange={manejarCambioIngrediente}
-              placeholder="Seleccione un ingrediente"
+              placeholder={distribucionNombres[botonSeleccionado] !== ''? distribucionNombres[botonSeleccionado]:"Seleccione un ingrediente"}
+            />
+          </FormGroup>
+          
+          
+          <FormGroup>
+            <Label for="cantidad">Cantidad Actual</Label>
+            <Input
+              type="number"
+              id="cantidad"
+              value={cantidades[botonSeleccionado]?.cantidadActual || 0}
+              
+              disabled = {true}
             />
           </FormGroup>
           <FormGroup>
@@ -284,20 +296,16 @@ const Distribucion = () => {
             <Input
               type="number"
               id="cantidad"
-              value={cantidades[botonSeleccionado]?.cantidadUsada || 0}
-              onChange={(e) => setCantidades((prev) => ({
-                ...prev,
-                [botonSeleccionado]: {
-                  ...prev[botonSeleccionado],
-                  cantidadUsada: parseFloat(e.target.value) || 0
-                }
-              }))}
+              value={cantidades[botonSeleccionado]?.cantidadUsada||0}
+              disabled = {true}
             />
-
-            <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '30px 0' }}>
-              <Button className={s.nBotonRecetas} onClick={rellenarCantidad}>Rellenar</Button>
-            </div>
           </FormGroup>
+            
+          
+          
+          <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '30px 0' }}>
+              <Button className={s.nBotonRecetas} onClick={rellenarCantidad}>Rellenar</Button>
+          </div>
           <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '10px 0' }}>
             <Button className={s.nBotonRecetas} onClick={guardarPosicion}>Guardar Posición</Button>
           </div>

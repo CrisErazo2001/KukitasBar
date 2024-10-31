@@ -28,48 +28,6 @@ bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
 
-
-'''
-@app.route('/user/modify',methods=['POST'])
-def modify_user():
-    print("modificando usuarios espero lol")
-    data = {
-        "user": request.form["user"],
-    }
-    print("Data: ", data)  
-    if data['user'] != '':
-        user_aux = User.user_by_nombre(data)
-        data = {
-            "id_usuario": user_aux.id_usuario,
-            "password": bcrypt.generate_password_hash(request.form['password'])
-            #"password": request.form['password']
-        }
-        user_aux.change_password(data)
-    else: 
-        return redirect('/admin/user-modify')
-
-    return redirect('/admin/user-modify')
-
-@app.route('/user/delete',methods=['POST'])
-def delete_user():
-    print("modificando usuarios espero lol")
-    data = {
-        "user": request.form["user"],
-    }
-    
-    if data['user'] != '':
-        user_aux = User.user_by_nombre(data)
-        data = {
-            "id_usuario": user_aux.id_usuario,
-            
-        }
-        user_aux.delete_by_id(data)
-    else: 
-        return redirect('/admin/user-modify')
-
-    return redirect('/admin/user-modify')
-'''
-
 @app.route('/login',methods=['POST'])
 def login():
     is_valid = True

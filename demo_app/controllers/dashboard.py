@@ -27,7 +27,7 @@ import requests
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
-
+'''
 @app.route('/admin')
 def dashboard():
 
@@ -94,3 +94,4 @@ def history_delete():
     historico_pedido.delete_all()
 
     return redirect('/admin')
+'''

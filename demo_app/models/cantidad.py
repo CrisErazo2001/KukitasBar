@@ -45,6 +45,11 @@ class cantidad:
         self.cant21  =  data['cant21']
         self.cant22  =  data['cant22']
         self.cant23  =  data['cant23']
+        self.cant24  =  data['cant24']
+        self.cant25  =  data['cant25']
+        self.cant26  =  data['cant26']
+        self.cant27  =  data['cant27']
+        self.cant28  =  data['cant28']
 
         
 
@@ -61,7 +66,7 @@ class cantidad:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( cant1,cant2,cant3,cant4,cant5,cant6,cant7,cant8,cant9,cant10,cant11,cant12,cant13,cant14,cant15,cant16,cant17,cant18,cant19,cant20,cant21,cant22,cant23,cant24 ) VALUES ( %(cant1)s, %(cant2)s, %(cant3)s, %(cant4)s, %(cant5)s, %(cant6)s, %(cant7)s, %(cant8)s, %(cant9)s, %(cant10)s, %(cant11)s, %(cant12)s, %(cant13)s, %(cant14)s, %(cant15)s, %(cant16)s, %(cant17)s, %(cant18)s, %(cant19)s, %(cant20)s, %(cant21)s, %(cant22)s, %(cant23)s, %(cant24)s);"
+        query = "INSERT INTO "+ table_name +" ( cant1,cant2,cant3,cant4,cant5,cant6,cant7,cant8,cant9,cant10,cant11,cant12,cant13,cant14,cant15,cant16,cant17,cant18,cant19,cant20,cant21,cant22,cant23,cant24,cant25,cant26,cant27,cant28 ) VALUES ( %(cant1)s, %(cant2)s, %(cant3)s, %(cant4)s, %(cant5)s, %(cant6)s, %(cant7)s, %(cant8)s, %(cant9)s, %(cant10)s, %(cant11)s, %(cant12)s, %(cant13)s, %(cant14)s, %(cant15)s, %(cant16)s, %(cant17)s, %(cant18)s, %(cant19)s, %(cant20)s, %(cant21)s, %(cant22)s, %(cant23)s, %(cant24)s, %(cant25)s, %(cant26)s, %(cant27)s, %(cant28)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -84,7 +89,7 @@ class cantidad:
   
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" cant1 = %(cant1)s,cant2 = %(cant2)s,cant3 = %(cant3)s,cant4 = %(cant4)s,cant5 = %(cant5)s,cant6 = %(cant6)s,cant7 = %(cant7)s,cant8 = %(cant8)s,cant9 = %(cant9)s,cant10 = %(cant10)s,cant11 = %(cant11)s,cant12 = %(cant12)s,cant13 = %(cant13)s,cant14 = %(cant14)s,cant15 = %(cant15)s,cant16 = %(cant16)s,cant17 = %(cant17)s,cant18 = %(cant18)s,cant19 = %(cant19)s,cant20 = %(cant20)s,cant21 = %(cant21)s,cant22 = %(cant22)s,cant23 = %(cant23)s,cant24 = %(cant24)s"+" WHERE id_cantidad = %(id_cantidad)s;"
+        query  = "UPDATE "+ table_name +" cant1 = %(cant1)s,cant2 = %(cant2)s,cant3 = %(cant3)s,cant4 = %(cant4)s,cant5 = %(cant5)s,cant6 = %(cant6)s,cant7 = %(cant7)s,cant8 = %(cant8)s,cant9 = %(cant9)s,cant10 = %(cant10)s,cant11 = %(cant11)s,cant12 = %(cant12)s,cant13 = %(cant13)s,cant14 = %(cant14)s,cant15 = %(cant15)s,cant16 = %(cant16)s,cant17 = %(cant17)s,cant18 = %(cant18)s,cant19 = %(cant19)s,cant20 = %(cant20)s,cant21 = %(cant21)s,cant22 = %(cant22)s,cant23 = %(cant23)s,cant24 = %(cant24)s,cant25 = %(cant25)s,cant26 = %(cant26)s,cant27 = %(cant27)s,cant28 = %(cant28)s"+" WHERE id_cantidad = %(id_cantidad)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -117,7 +122,12 @@ class cantidad:
             'cant20': self.cant20,
             'cant21': self.cant21,
             'cant22': self.cant22,
-            'cant23': self.cant23
+            'cant23': self.cant23,
+            'cant24': self.cant24,
+            'cant25': self.cant25,
+            'cant26': self.cant26,
+            'cant27': self.cant27,
+            'cant28': self.cant28
 
         }
         
@@ -148,7 +158,12 @@ class cantidad:
             self.cant20 ,
             self.cant21  ,
             self.cant22  ,
-            self.cant23 
+            self.cant23 ,
+            self.cant24 ,
+            self.cant25  ,
+            self.cant26  ,
+            self.cant27 ,
+            self.cant28
 
         ]
         

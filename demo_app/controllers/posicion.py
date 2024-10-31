@@ -231,14 +231,40 @@ def create_bebida_pos_cant():
 def get_posiciones():
 
     is_valid = True
-    categoria = "ingredientes"
+    categoria = "posiciones"
     mensaje = "Exitoso"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = []
 
     numero = 'Ron'
     data = [numero for _ in range(28)]
+        
+    data[12] = ''
+    data[22] = ''
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+
+
+@app.route('/posiciones/nombres',methods=['GET'])
+def get_name_posiciones():
+
+    is_valid = True
+    categoria = "posiciones"
+    mensaje = "Exitoso"
+    status = 'success'
+    code = 200
+    data = []
+
+    numero = 'Hola'
+    data = [{'value': numero, 'label': numero} for _ in range(3)]
         
     
     value = {   #valor de salida de la api

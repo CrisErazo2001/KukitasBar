@@ -18,75 +18,6 @@ import requests
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
-'''
-@app.route('/')
-def index():
-    
-     return render_template('login.html')
-
-@app.route('/home')
-def home():
-        
-    
-
-    f = open("bebida_id.txt", "r+")
-    bebidas_id = f.read()
-    
-    if bebidas_id == '' or bebidas_id == '0':
-        bebidas_id = 0
-    else:
-        bebidas_id = int(bebidas_id)
-    sv_data = lista_bebidas.get_all()
-    listas = []
-    for lista in sv_data:
-        nombre = lista.asdict()
-        listas.append(nombre['nombre'])
-
-    data = {
-    
-        'id_lista_bebidas': bebidas_id
-    }
-    
-    if bebidas_id != 0:
-        if lista_bebidas.get_by_id(data) != []:
-            sv_data2 = lista_bebidas.get_by_id(data)
-            bebidas = [sv_data2.bebida_1,sv_data2.bebida_2,sv_data2.bebida_3,sv_data2.bebida_4,sv_data2.bebida_5,sv_data2.bebida_6,sv_data2.bebida_7,sv_data2.bebida_8,sv_data2.bebida_9,sv_data2.bebida_10,sv_data2.bebida_11,sv_data2.bebida_12]
-        else:
-            
-            bebidas = []
-    else:
-            bebidas = []
-    bebidas_total = ['']
-    for x in bebidas:
-        if x != '':
-            bebidas_total.append(x)
-        else:
-            continue
-
-    recetas = receta.get_by_id_lista_bebidas(data)
-    recetas_total = []
-    for rec in recetas:
-        r = rec.asdict()
-        ingredientes = ''
-        for i in range(10):
-            aux_1 = 'bebida_'+str(i+1)
-            if r[aux_1] != '':
-                ingredientes=ingredientes + r[aux_1] + ', '
-            else:
-                continue
-        ingredientes = ingredientes[:-2]
-        aux = {
-                'nombre':r['nombre'],
-                'ingredientes': ingredientes
-        }
-        recetas_total.append(aux)
-    
-    
-    
-    f.close()
-    
-    return render_template('restaurant.html',lista_bebidas = listas,bebidas = bebidas_total, recetas = recetas_total)
-'''
 
 @app.route('/ingredientes', methods=['GET'])
 def get_list_ingredientes():
@@ -100,6 +31,29 @@ def get_list_ingredientes():
     aux_data = ingrediente.get_all()
     for ing in aux_data:
         data.append(ing.asdict_front())
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+
+@app.route('/ingredientes/nombres', methods=['GET'])
+def get_nombres_ingredientes():
+    is_valid = True
+    categoria = "ingredientes"
+    mensaje = "Exitoso"
+    status = 'success'
+    code = 200
+    data = []
+
+    aux_data = ingrediente.get_all()
+    for ing in aux_data:
+        data.append({'value': ing.nombre,'label':ing.nombre})
     
     value = {   #valor de salida de la api
         "valid": is_valid,
