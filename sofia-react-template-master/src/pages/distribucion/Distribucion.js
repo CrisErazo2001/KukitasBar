@@ -2,8 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, Button, Row, Col, Input, FormGroup, Label } from 'reactstrap';
 import Select from 'react-select';
 import s from './Distribucion.module.scss';
+// Notificaciones
+import { toast } from "react-toastify";
+import Notification from "../../components/Notification/Notification.js";
 
 const Distribucion = () => {
+
+  //Config de Notificaciones
+  const options = {
+    autoClose: 3000,
+    closeButton: false,
+    hideProgressBar: true,
+    position: toast.POSITION.TOP_CENTER,
+  };
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [botonSeleccionado, setBotonSeleccionado] = useState('');
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
@@ -14,6 +26,11 @@ const Distribucion = () => {
   const [cambioIngrediente, setCambioIngrediente] = useState(Array.from({ length: 28 }, () => (false)));
   const [nombres, setNombres] = useState([]);
   const [distribucion, setDistribucion] = useState('');
+  const [nombreDistribStatus, setNombreDistribStatus] = useState({}); //seleccion de una distrib
+  const [rellenarStatus,setRellenarStatus] = useState({});
+  const [rellenarTodoStatus,setRellenarTodoStatus] = useState({});
+  const [borrarStatus,setBorrarStatus] = useState({});
+  const [guardarStatus,setGuardarStatus] = useState({});
 
   const fetchIngredientes = async () => {
     try {
@@ -87,36 +104,120 @@ const Distribucion = () => {
     setIngredienteSeleccionado(ingrediente);
   };
 
-  const manejarCambioDistribucion = (distribucion) => {
-      setDistribucion(distribucion); 
+  const manejarCambioDistribucion = (dis) => {
+      console.log('distribucion',dis)
+      setDistribucion(dis); 
   };
 
   const rellenarCantidad = () => {
+    
+    fetch('/cantidad/rellenar', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({pos: botonSeleccionado})
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setRellenarStatus(data); // Guarda la respuesta 
+        
+    })
+    .catch(error => console.error('Error:', error));
+    
     
   };
 
 
   const guardarPosicion = () => {
-    setDistribucionNombres((prev) => {
-      const nuevaDistribucion = [...prev]; // Crear una copia de la lista anterior
-      nuevaDistribucion[botonSeleccionado] = ingredienteSeleccionado.value; // Actualizar solo el índice deseado
-      return nuevaDistribucion; // Retornar la lista actualizada
-    });
-    setCambioIngrediente((prev)=>{
-      const nuevoCambio = [...prev];
-      nuevoCambio[botonSeleccionado] = true;
-      return nuevoCambio;
-    })
+    
+    if (ingredienteSeleccionado.value != ingredientes[botonSeleccionado]) {
+      setDistribucionNombres((prev) => {
+        const nuevaDistribucion = [...prev]; // Crear una copia de la lista anterior
+        nuevaDistribucion[botonSeleccionado] = ingredienteSeleccionado.value; // Actualizar solo el índice deseado
+        return nuevaDistribucion; // Retornar la lista actualizada
+      });
+      setCambioIngrediente((prev)=>{
+        const nuevoCambio = [...prev];
+        nuevoCambio[botonSeleccionado] = true;
+        return nuevoCambio;
+      })
+    }
+    
     cerrarModal();
   };
 
+  const guardarDisposicion = () => {
+
+    fetch('/posicion/save-distribucion', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({nombreSeleccionado: distribucion,nuevoNombre: nombreDisposicion, posiciones: distribucionNombres})
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setGuardarStatus(data); // Guarda la respuesta 
+        
+    })
+    .catch(error => console.error('Error:', error));
+
+    setCambioIngrediente(Array.from({ length: 28 }, () => (false)));
+    setNombreDisposicion('');
+
+  }
   
 
   const borrarDisposicion = () => {
+
+    fetch('/posicion/borrar', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({nombreSeleccionado: distribucion,nuevoNombre: nombreDisposicion})
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setBorrarStatus(data); // Guarda la respuesta 
+        
+    })
+    .catch(error => console.error('Error:', error));
     
   };
 
   const rellenarTodasBotellas = () => {
+
+    fetch('/posicion/borrar', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({cantidades: cantidades})
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setRellenarTodoStatus(data); // Guarda la respuesta 
+        
+    })
+    .catch(error => console.error('Error:', error));
     
   };
 
@@ -143,7 +244,7 @@ const Distribucion = () => {
     })
     .then(data => {
         console.log('Datos recibidos:', data); // Log de los datos recibidos
-        setNombreDistribStatus(data); // Guarda la respuesta en createIngStatus
+        setNombreDistribStatus(data); // Guarda la respuesta 
     })
     .catch(error => console.error('Error:', error));
 
@@ -158,18 +259,119 @@ const Distribucion = () => {
     fetchDistribucionNombres();
   }, []);
 
+  useEffect(() => {
+
+    fetchCantidades();
+
+  }, [rellenarStatus]);
+
   useEffect(()=>{
     console.log('cantidades',cantidades);
     console.log('posiciones',distribucionNombres);
   },[modalIsOpen]);
 
+  //Notificaciones
+
+  useEffect(() => {
+    console.log('Estado de nombreDistribStatus:', nombreDistribStatus);
+    
+    if (nombreDistribStatus.code > 0){
+      
+      toast(
+        
+        <Notification 
+            type={nombreDistribStatus.status} 
+            errorMessage={nombreDistribStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }
+  }, [nombreDistribStatus]);
+
+  useEffect(() => {
+    console.log('Estado de rellenarStatus:', rellenarStatus);
+    
+    if (rellenarStatus.code > 0){
+      
+      toast(
+        
+        <Notification 
+            type={rellenarStatus.status} 
+            errorMessage={rellenarStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }
+  }, [rellenarStatus]);
+
+  useEffect(() => {
+    console.log('Estado de rellenarTodoStatus:', rellenarTodoStatus);
+    
+    if (rellenarTodoStatus.code > 0){
+      
+      toast(
+        
+        <Notification 
+            type={rellenarTodoStatus.status} 
+            errorMessage={rellenarTodoStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }
+  }, [rellenarTodoStatus]);
+
+  useEffect(() => {
+    console.log('Estado de borrarStatus:', borrarStatus);
+    
+    if (borrarStatus.code > 0){
+      
+      toast(
+        
+        <Notification 
+            type={borrarStatus.status} 
+            errorMessage={borrarStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }
+  }, [borrarStatus]);
+
+  useEffect(() => {
+    console.log('Estado de guardarStatus:', guardarStatus);
+    
+    if (guardarStatus.code > 0){
+      
+      toast(
+        
+        <Notification 
+            type={guardarStatus.status} 
+            errorMessage={guardarStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
+    }
+  }, [guardarStatus]);
+
   return (
     <div>
       <div style={{width:"50%", position: 'absolute', top: 20, right: 20 }}>
+        {console.log('distribucion front',distribucion)}
         <Select 
           options={nombres} 
           placeholder="Seleccionar opción"
-          onChange={(e) => setDistribucion(e.target.value)}
+          value = {distribucion}
+          onChange={manejarCambioDistribucion}
+          placeHolder = {distribucion == ''? 'Seleccione una opcion':distribucion}
         />
       </div>
       <div className={s.leyendaContainer}>
@@ -255,7 +457,7 @@ const Distribucion = () => {
           type="text"
           value={nombreDisposicion}
           onChange={(e) => setNombreDisposicion(e.target.value)}
-          placeholder="Nombre de la disposición"
+          placeholder={nombreDisposicion != ''?  nombreDisposicion : "Nombre de la disposición"}
         />
       </div>
       <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>

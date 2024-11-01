@@ -15,9 +15,9 @@ import math
 def get_cantidades():
 
     is_valid = True
-    categoria = "ingredientes"
+    categoria = "cantidades"
     mensaje = "Exitoso"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = []
     for i in range(28):
@@ -26,6 +26,50 @@ def get_cantidades():
       
     data[15] = { 'cantidadActual': 25, 'cantidadUsada': 0}
     data[25] = { 'cantidadActual': 35, 'cantidadUsada': 0}
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+
+@app.route('/cantidad/rellenar',methods=['POST'])
+def set_cantidades():
+
+    is_valid = True
+    categoria = "cantidades"
+    mensaje = "Exitoso rellenar 1"
+    status = 'success'
+    code = 200
+    data = request.json
+    
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+
+@app.route('/cantidad/rellenar-todo',methods=['POST'])
+def set_all_cantidades():
+
+    is_valid = True
+    categoria = "cantidades"
+    mensaje = "Exitoso rellenar todo"
+    status = 'success'
+    code = 200
+    data = request.json
+    
+    print(data)
     
     value = {   #valor de salida de la api
         "valid": is_valid,

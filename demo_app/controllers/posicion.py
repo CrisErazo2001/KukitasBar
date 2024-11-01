@@ -264,7 +264,7 @@ def get_name_posiciones():
     data = []
 
     numero = 'Hola'
-    data = [{'value': numero, 'label': numero} for _ in range(3)]
+    data = [{'value': numero, 'label': numero},{'value': numero + '1', 'label': numero+ '1'},{'value': numero+ '2', 'label': numero+ '2'} ]
         
     
     value = {   #valor de salida de la api
@@ -277,3 +277,69 @@ def get_name_posiciones():
     }
     return jsonify(value)
     
+
+@app.route('/posicion/set',methods=['POST'])
+def set_distribucion():
+
+    is_valid = True
+    categoria = "posiciones"
+    mensaje = "Exitoso set distribucion"
+    status = 'success'
+    code = 200
+    data = request.json
+    
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+
+@app.route('/posicion/save-distribucion',methods=['POST'])
+def save_distribucion():
+
+    is_valid = True
+    categoria = "posiciones"
+    mensaje = "Exitoso guardar distribucion"
+    status = 'success'
+    code = 200
+    data = request.json
+    
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
+
+@app.route('/posicion/borrar',methods=['POST'])
+def delete_distribucion():
+
+    is_valid = True
+    categoria = "posiciones"
+    mensaje = "Exitoso borrar todo"
+    status = 'success'
+    code = 200
+    data = request.json
+    
+    print(data)
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code,
+        "data": data
+    }
+    return jsonify(value)
