@@ -364,15 +364,17 @@ const Distribucion = () => {
 
   return (
     <div>
-      <div style={{width:"50%", position: 'absolute', top: 20, right: 20 }}>
-        {console.log('distribucion front',distribucion)}
-        <Select 
-          options={nombres} 
-          placeholder="Seleccionar opción"
-          value = {distribucion}
-          onChange={manejarCambioDistribucion}
-          placeHolder = {distribucion == ''? 'Seleccione una opcion':distribucion}
-        />
+      <div  style={{width:"100%", display:"flex", justifyContent:"center" }}>
+        <div className='mb-2' style={{width:"50%", top: 20, right: 20 }}>
+          {console.log('distribucion front',distribucion)}
+          <Select 
+            options={nombres} 
+            placeholder="Seleccionar opción"
+            value = {distribucion}
+            onChange={manejarCambioDistribucion}
+            placeHolder = {distribucion == ''? 'Seleccione una opcion':distribucion}
+          />
+        </div>
       </div>
       <div className={s.leyendaContainer}>
         <div className={s.leyendaItem}>
@@ -452,17 +454,19 @@ const Distribucion = () => {
         </div>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems:"center", marginTop: "20px" }}>
         <Input
           type="text"
           value={nombreDisposicion}
           onChange={(e) => setNombreDisposicion(e.target.value)}
           placeholder={nombreDisposicion != ''?  nombreDisposicion : "Nombre de la disposición"}
+          
         />
+        <Button className={`${s.nBotonRecetas} ml-2`} onClick={guardarDisposicion}>Guardar Disposición</Button>
       </div>
       <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-        <Button className={s.nBotonRecetas} onClick={guardarDisposicion}>Guardar Disposición</Button>
-        <Button className={s.nBotonRecetas} onClick={rellenarTodasBotellas}>Rellenar Todo</Button>
+        
+        <Button className={`${s.nBotonRecetas} mr-2`} onClick={rellenarTodasBotellas}>Rellenar Todo</Button>
         <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Todo</Button>
       </div>
 
