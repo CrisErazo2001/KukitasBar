@@ -179,7 +179,7 @@ const Tables = () => {
               <Table responsive striped className="table-borderless table-hover">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    
                     <th>Nombre de receta</th>
                     <th>Ingredientes</th>
                     <th>Hora de pedido</th>
@@ -193,7 +193,7 @@ const Tables = () => {
                     .slice(paginaActual * tamanoPagina, (paginaActual + 1) * tamanoPagina)
                     .map((pedido) => (
                       <tr key={pedido.id_historial}>
-                        <td>{pedido.id_historial}</td>
+                        
                         <td>{pedido.nombre_receta}</td>
                         <td>{pedido.ingredientes}</td>
                         <td>{pedido.create_at}</td>

@@ -438,6 +438,41 @@ def pedido_delete():
 
 '''
 
+def verificar_cantidades_suficientes(receta_id):
+    recetaSelected = receta.get_by_id({'id_receta': receta_id})
+    keys, values = get_ing(recetaSelected.asdict())
+    keys = keys[:-1]
+    values = values[:-1]
+    cantUsed = [x * 30 for x in values]  # Cantidad necesaria para cada ingrediente
+    f = open('posicion.txt', 'r')
+    id_aux = int(f.read())
+    f.close()
+    
+    pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
+    pos_list = pos.aslist()
+    cant = cantidad.get_by_id({'id_cantidad': id_aux})
+    cant_list = cant.asdict()
+    
+    for i, ingrediente in enumerate(keys):
+        ing_aux = ingrediente.get_by_name({'nombre': ingrediente})
+        cantidad_requerida = cantUsed[i]
+        
+        # Buscar en `pos_list` si existe suficiente cantidad para el ingrediente
+        encontrado = False
+        for j in range(len(pos_list)):
+            if pos_list[j] == ing_aux.id_ingrediente:
+                aux = 'cant' + str(j + 1)
+                if cant_list[aux] >= cantidad_requerida:
+                    encontrado = True
+                    break
+                
+        
+        if not encontrado:
+            return False  # Si no hay suficiente de algún ingrediente, retorna False
+    
+    return True  # Si todos los ingredientes tienen suficiente cantidad, retorna True
+
+
 def get_ing(receta):
     ingredientes = []
     for i in range(10):
@@ -471,125 +506,142 @@ def home():
 def crear_pedido():
     is_valid = True
     categoria = "crear recetas"
-    mensaje = "Receta Creada con exito"
+    mensaje = "Receta Creada con éxito"
     status = 'ok'
     code = 200
     data = request.form
-    searchReceta = {
-        'nombre': data['nombre_bebida']
-    }
+    searchReceta = {'nombre': data['nombre_bebida']}
     recetaSelected = receta.get_by_name(searchReceta)
 
+    # Validar si se pidió la bebida con hielo
+    hielo = 1 if 'hielo' in data and data['hielo'] == 'on' else 0
 
-    #validar si se pidio la bebida con hielo
-    try:
-        if data['hielo'] == 'on':
-            hielo = 1  
-    except :
-        hielo = 0 
-    
-    #ver cuantos pedidos estan en cola para hacer calculo del tiempo
-    pedidos = pedido.get_all()
-    tiempo = recetaSelected.tiempo_prep
-    
-    for ped in pedidos:
-        auxReceta = receta.get_by_id({'id_receta': ped.id_receta})
-        tiempo = tiempo + auxReceta.tiempo_prep
+    # Verificar si hay cantidades suficientes
+    if not verificar_cantidades_suficientes(recetaSelected.id_receta):
+        is_valid = False
+        mensaje = "No hay suficientes cantidades de ingredientes para crear el pedido."
+        status = 'error'
+        code = 400
+    else:
+        # Calcular el tiempo estimado basado en la cola de pedidos
+        pedidos = pedido.get_all()
+        tiempo = recetaSelected.tiempo_prep
+        
+        for ped in pedidos:
+            auxReceta = receta.get_by_id({'id_receta': ped.id_receta})
+            tiempo += auxReceta.tiempo_prep
 
-    print()
-    
-    dict = {
-     
-        'nombre_cliente': data['nombre_cliente'],  
-        'id_receta': recetaSelected.id_receta, 
-        'ready_at': datetime.now() + timedelta(minutes=tiempo),
-        'status': 0,
-        'hielo': hielo
+        dict_pedido = {
+            'nombre_cliente': data['nombre_cliente'],  
+            'id_receta': recetaSelected.id_receta, 
+            'ready_at': datetime.now() + timedelta(minutes=tiempo),
+            'status': 0,
+            'hielo': hielo
+        }
 
-    }
+        # Guardar el pedido si hay cantidades suficientes
+        pedido.save(dict_pedido)
 
-    pedido.save(dict)
-
-    value = {   #valor de salida de la api
+    response = {
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
         "status": status,
         "code": code
-
     }
-    return redirect('/')
+    if is_valid:
 
-@app.route('/pedido/send',methods=['GET'])
+        return redirect('/')
+    else:
+        flash(mensaje,'error')
+        return redirect('/')
+
+
+@app.route('/pedido/send', methods=['GET'])
 def send():
     is_valid = True
     is_valid_pos = True
+    is_valid_cant = True
     firstTime = False
     ing = receta.get_all()
-    f = open('posicion.txt','r')
+    f = open('posicion.txt', 'r')
     id_aux = int(f.read())
     f.close()
     pedidos = pedido.get_all()
-    if pedidos == []:
+    
+    if not pedidos:
         is_valid = False
     elif pedidos[0].status == 0:
         ped = pedidos[0]
-        # print(ped.asdict())
         ped.change_status()
-        # print(ped.asdict())
-        
         firstTime = True
     elif pedidos[0].status == 1:
         ped = pedidos[0]
-    
+
     if is_valid:
         rec_aux = ped.id_receta
-        rec = receta.get_by_id({'id_receta':rec_aux})
+        rec = receta.get_by_id({'id_receta': rec_aux})
         hielo = ped.hielo
-        keys,values = get_ing(rec.asdict())
+        keys, values = get_ing(rec.asdict())
         keys = keys[:-1]
         values = values[:-1]
         cantUsed = [x * 30 for x in values]
         pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
         pos_list = pos.aslist()
         posiciones = []
+        
         for x in keys:
             try:
-                ing_aux = ingrediente.get_by_name({'nombre':x})
+                ing_aux = ingrediente.get_by_name({'nombre': x})
                 indice = pos_list.index(ing_aux.id_ingrediente)
-                posiciones.append(indice+1)
+                posiciones.append(indice + 1)
             except ValueError:
                 is_valid_pos = False
                 break
-        
-    if  is_valid and is_valid_pos:
-        
-        if firstTime:
-            pedido.update_by_id(ped.asdict())
-            cant = cantidad.get_by_id({'id_cantidad': id_aux})
-            cant_list = cant.asdict()
-            z = 0
-            for p in posiciones:
-                aux='cant'+str(p)
-                cant_list[aux] = cant_list[aux] - cantUsed[z]
-                z=z+1
+
+    if is_valid and is_valid_pos:
+        pedido.update_by_id(ped.asdict())
+        cant = cantidad.get_by_id({'id_cantidad': id_aux})
+        cant_list = cant.asdict()
+        z = 0
+
+        for p in posiciones:
+            aux = 'cant' + str(p)
+            while cant_list[aux] < cantUsed[z]:  # Sigue buscando si la cantidad no es suficiente
+                try:
+                    # Busca el siguiente índice con el mismo ingrediente
+                    indice = pos_list.index(ing_aux.id_ingrediente, pos_list.index(ing_aux.id_ingrediente) + 1)
+                    p = indice + 1
+                    aux = 'cant' + str(p)
+                except ValueError:
+                    is_valid_cant = False
+                    break
+
+            if is_valid_cant and cant_list[aux] >= cantUsed[z]:  # Verifica si es suficiente ahora
+                cant_list[aux] -= cantUsed[z]
+            else:
+                is_valid_cant = False
+                break
+
+            z += 1
+
+        if firstTime and is_valid_cant:
             cantidad.update_by_id(cant_list)
 
-        for i in range(10-len(keys)):
+        for i in range(10 - len(keys)):
             posiciones.append(0)
             values.append(0)
 
-    if not is_valid or not is_valid_pos:
-        posiciones = []
-        values = []
-        for i in range(10):
-            posiciones.append(0)
-            values.append(0)
+    if not is_valid or not is_valid_pos or not is_valid_cant:
+        posiciones = [0] * 10
+        values = [0] * 10
         hielo = 0   
 
-    print('is_valid: ',is_valid)
-    print('is_valid_pos: ',is_valid_pos)
-    return jsonify({'posiciones':posiciones,'cantidades':values,'hielo':hielo})
+    print('is_valid: ', is_valid)
+    print('is_valid_pos: ', is_valid_pos)
+    print('is_valid_cant: ', is_valid_cant)
+    return jsonify({'posiciones': posiciones, 'cantidades': values, 'hielo': hielo})
+
 
 
 @app.route('/pedido/end',methods=['GET'])
