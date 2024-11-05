@@ -19,7 +19,7 @@ def get_historial():
     is_valid = True
     categoria = "historial"
     mensaje = "Historial recuperado con exito"
-    status = 'ok'
+    status = 'success'
     code = 200
     data = []
     
@@ -38,6 +38,28 @@ def get_historial():
         "status": status,
         "code": code,
         'data': data
+
+    }
+    return jsonify(value)
+
+
+@app.route('/historial/eliminar', methods=['GET'])
+def delete_historial():
+    is_valid = True
+    categoria = "historial"
+    mensaje = "Historial eliminado con exito"
+    status = 'success'
+    code = 200
+    
+    historial = historico_pedido.delete_all()
+
+ 
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code
 
     }
     return jsonify(value)

@@ -64,23 +64,20 @@ const Tables = () => {
     return matchesSearch && inDateRange;
   });
 
-  const eliminarPedido = (pedido) => {
-    fetch('/historial/eliminar', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(pedido)
-    })
-    .then(response => {
-        console.log('Respuesta del servidor:', response); // Log de la respuesta
-        return response.json();
-    })
-    .then(data => {
-        console.log('Datos recibidos:', data); // Log de los datos recibidos
-        setDeleteListStatus(data);
-    })
-    .catch(error => console.error('Error:', error));
+  const eliminarPedido = async (pedido) => {
+    try {
+      const response = await fetch('/historial/eliminar'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched historial delete:', list); // Mostrar en consola la lista obtenida
+      setDeleteListStatus(list);
+      
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+    
   };
 
   // Función para exportar a Excel
