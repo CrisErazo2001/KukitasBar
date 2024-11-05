@@ -453,8 +453,8 @@ def verificar_cantidades_suficientes(receta_id):
     cant = cantidad.get_by_id({'id_cantidad': id_aux})
     cant_list = cant.asdict()
     
-    for i, ingrediente in enumerate(keys):
-        ing_aux = ingrediente.get_by_name({'nombre': ingrediente})
+    for i, ingred in enumerate(keys):
+        ing_aux = ingrediente.get_by_name({'nombre': ingred})
         cantidad_requerida = cantUsed[i]
         
         # Buscar en `pos_list` si existe suficiente cantidad para el ingrediente
