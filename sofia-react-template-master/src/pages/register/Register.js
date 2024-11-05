@@ -175,11 +175,11 @@ const Register = (props) => {
                   Admin
                   </label>
 
-                  <p>Is "Admin" checked? {checked.toString()}</p>
+                  <p>This user will be "Admin"? {checked.toString()}</p>
                 </div>
 
                 <div className="bg-widget d-flex justify-content-center">
-                  <Button className="button-log my-3" type="submit" color="secondary-red">Sign Up</Button>
+                  <Button className="button-log my-3" type="submit" color="secondary-red">Create new User</Button>
                 </div>
                 <p className="dividing-line my-1">&#8195;</p>
     
