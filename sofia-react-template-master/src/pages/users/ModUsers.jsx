@@ -72,7 +72,7 @@ const NuevoUsuario = ({ onClose, setUsuarios, usuarios, usuario, modoEditar }) =
   useEffect(() => {
       console.log('Estado de modifyUserStatus:', modifyUserStatus);
       
-      if (modifyUserStatus.code == 200){
+      if (modifyUserStatus.code === 200){
         
         toast(
           
@@ -84,7 +84,7 @@ const NuevoUsuario = ({ onClose, setUsuarios, usuarios, usuario, modoEditar }) =
           options
         );
         
-      }else if (modifyUserStatus.code == 400){
+      }else if (modifyUserStatus.code === 400){
         toast(
           
           <Notification 

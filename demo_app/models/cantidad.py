@@ -14,11 +14,11 @@ import math
 
 
 
-table_name = 'cantidad_bebidas'
+table_name = 'cantidad'
 
 class cantidad:
     
-    db_name = 'kukasbar'
+    db_name = 'greepo'
     
     def __init__( self , data ):
         self.id_cantidad  =  data['id_cantidad']
@@ -66,7 +66,7 @@ class cantidad:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( cant1,cant2,cant3,cant4,cant5,cant6,cant7,cant8,cant9,cant10,cant11,cant12,cant13,cant14,cant15,cant16,cant17,cant18,cant19,cant20,cant21,cant22,cant23,cant24,cant25,cant26,cant27,cant28 ) VALUES ( %(cant1)s, %(cant2)s, %(cant3)s, %(cant4)s, %(cant5)s, %(cant6)s, %(cant7)s, %(cant8)s, %(cant9)s, %(cant10)s, %(cant11)s, %(cant12)s, %(cant13)s, %(cant14)s, %(cant15)s, %(cant16)s, %(cant17)s, %(cant18)s, %(cant19)s, %(cant20)s, %(cant21)s, %(cant22)s, %(cant23)s, %(cant24)s, %(cant25)s, %(cant26)s, %(cant27)s, %(cant28)s);"
+        query = "INSERT INTO "+ table_name +" (id_cantidad, cant1,cant2,cant3,cant4,cant5,cant6,cant7,cant8,cant9,cant10,cant11,cant12,cant13,cant14,cant15,cant16,cant17,cant18,cant19,cant20,cant21,cant22,cant23,cant24,cant25,cant26,cant27,cant28 ) VALUES ( %(id_cantidad)s,%(cant1)s, %(cant2)s, %(cant3)s, %(cant4)s, %(cant5)s, %(cant6)s, %(cant7)s, %(cant8)s, %(cant9)s, %(cant10)s, %(cant11)s, %(cant12)s, %(cant13)s, %(cant14)s, %(cant15)s, %(cant16)s, %(cant17)s, %(cant18)s, %(cant19)s, %(cant20)s, %(cant21)s, %(cant22)s, %(cant23)s, %(cant24)s, %(cant25)s, %(cant26)s, %(cant27)s, %(cant28)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
@@ -89,7 +89,7 @@ class cantidad:
   
     @classmethod
     def update_by_id(cls, data):
-        query  = "UPDATE "+ table_name +" cant1 = %(cant1)s,cant2 = %(cant2)s,cant3 = %(cant3)s,cant4 = %(cant4)s,cant5 = %(cant5)s,cant6 = %(cant6)s,cant7 = %(cant7)s,cant8 = %(cant8)s,cant9 = %(cant9)s,cant10 = %(cant10)s,cant11 = %(cant11)s,cant12 = %(cant12)s,cant13 = %(cant13)s,cant14 = %(cant14)s,cant15 = %(cant15)s,cant16 = %(cant16)s,cant17 = %(cant17)s,cant18 = %(cant18)s,cant19 = %(cant19)s,cant20 = %(cant20)s,cant21 = %(cant21)s,cant22 = %(cant22)s,cant23 = %(cant23)s,cant24 = %(cant24)s,cant25 = %(cant25)s,cant26 = %(cant26)s,cant27 = %(cant27)s,cant28 = %(cant28)s"+" WHERE id_cantidad = %(id_cantidad)s;"
+        query  = "UPDATE "+ table_name +" SET cant1 = %(cant1)s,cant2 = %(cant2)s,cant3 = %(cant3)s,cant4 = %(cant4)s,cant5 = %(cant5)s,cant6 = %(cant6)s,cant7 = %(cant7)s,cant8 = %(cant8)s,cant9 = %(cant9)s,cant10 = %(cant10)s,cant11 = %(cant11)s,cant12 = %(cant12)s,cant13 = %(cant13)s,cant14 = %(cant14)s,cant15 = %(cant15)s,cant16 = %(cant16)s,cant17 = %(cant17)s,cant18 = %(cant18)s,cant19 = %(cant19)s,cant20 = %(cant20)s,cant21 = %(cant21)s,cant22 = %(cant22)s,cant23 = %(cant23)s,cant24 = %(cant24)s,cant25 = %(cant25)s,cant26 = %(cant26)s,cant27 = %(cant27)s,cant28 = %(cant28)s"+" WHERE id_cantidad = %(id_cantidad)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
         return result
     
@@ -99,7 +99,6 @@ class cantidad:
 
         dict = {
             'id_cantidad': self.id_cantidad, 
-            'id_posicion_bebidas': self.id_posicion_bebidas,  
             'cant1': self.cant1, 
             'cant2': self.cant2, 
             'cant3': self.cant3,

@@ -12,6 +12,9 @@ from demo_app import app
 from demo_app.models.ingrediente import ingrediente
 from demo_app.models.pedido import pedido
 from demo_app.models.receta import receta
+from demo_app.models.cantidad import cantidad
+from demo_app.models.posicion import posicion_bebidas
+from demo_app.models.ingrediente import ingrediente
 from flask_bcrypt import Bcrypt
 import datetime
 import requests
@@ -49,7 +52,7 @@ def get_nombres_ingredientes():
     mensaje = "Exitoso"
     status = 'success'
     code = 200
-    data = []
+    data = [{'value': '','label':'Ninguna'}]
 
     aux_data = ingrediente.get_all()
     for ing in aux_data:
@@ -178,6 +181,12 @@ def crear_ingredientes():
 @app.route('/ingrediente/modificar', methods=['POST'])
 def modificar_ingredientes():
 
+    f = open('posicion.txt','r')
+    id_aux = int(f.read())
+    f.close()
+    pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
+    pos_list = pos.aslist()
+    
     #obtener todos los ingredientes existentes
     ingredientes = ingrediente.get_all()
 
@@ -248,6 +257,16 @@ def modificar_ingredientes():
         mensaje = "La cantidad unitaria no puede ser 0 o menor a 0"
         status = 'error'
         code = 400
+    
+    try:
+        indice = pos_list.index(aux_ingrediente['id_ingrediente'])
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "No se puede editar el ingrediente si se encuentra seleccionado en el set de distribucion"
+        status = 'error'
+        code = 400
+    except ValueError:
+        print(f"El ingrediente {aux_ingrediente['id_ingrediente']} no está en la lista.")
 
     if is_valid:
         ingrediente.update_by_id(aux_ingrediente)
@@ -265,6 +284,13 @@ def modificar_ingredientes():
 
 @app.route('/ingrediente/eliminar', methods=['POST'])
 def eliminar_ingredientes():
+
+    f = open('posicion.txt','r')
+    id_aux = int(f.read())
+    f.close()
+    pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
+    pos_list = pos.aslist()
+
     is_valid = True
     categoria = "eliminar ingredientes"
     mensaje = "Ingrediente eliminado"
@@ -284,7 +310,15 @@ def eliminar_ingredientes():
         mensaje = "No se pueden eliminar ingredientes si hay pedidos en cola"
         status = 'error'
         code = 400
-
+    try:
+        indice = pos_list.index(aux_ingrediente['id_ingrediente'])
+        is_valid = False
+        categoria = "crear ingredientes"
+        mensaje = "No se puede eliminar el ingrediente si se encuentra seleccionado en el set de distribucion"
+        status = 'error'
+        code = 400
+    except ValueError:
+        print(f"El ingrediente {aux_ingrediente['id_ingrediente']} no está en la lista.")
 
     if is_valid:
         deleteIngrediente = ingrediente.delete_by_id(aux_ingrediente)

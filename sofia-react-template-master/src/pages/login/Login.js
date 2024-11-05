@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withRouter, Redirect } from "react-router-dom";
 import {
@@ -17,29 +17,80 @@ import { hasToken } from "../../services/authService";
 import Widget from "../../components/Widget/Widget";
 import Footer from "../../components/Footer/Footer";
 //import { loginUser, hasToken, getUserRole } from "../../services/authService";
+// Notificaciones
+import { toast } from "react-toastify";
+import Notification from "../../components/Notification/Notification.js";
+
 
 const Login = (props) => {
+  //Config de Notificaciones
+  const options = {
+    autoClose: 3000,
+    closeButton: false,
+    hideProgressBar: true,
+    position: toast.POSITION.TOP_CENTER,
+  };
+  const [userStatus, setUserStatus] = useState({});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirectTo, setRedirectTo] = useState(null);  // Nueva variable para gestionar la redirección
 
   const doLogin = (e) => {
     e.preventDefault();
-    const role = loginUser(username, password);  // Usamos loginUser para verificar en mockUsers
-    if (role) {
+    // const role = loginUser(username, password);  
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: username, password:password})
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); 
+        setUserStatus(data); 
+        
+    })
+    .catch(error => console.error('Error:', error));
+    
+  };
+
+  useEffect(() => {
+    
+    
+    if (userStatus.code == 200){
+      console.log('userStauts',userStatus.code);
+      const role = loginUser(userStatus.code, userStatus.redirect);
       // Si el usuario es autenticado, definimos la redirección
       setRedirectTo(role === "admin" ? "/template/tables" : "/template/tables");
       setRedirectTo(role === "operator" ? "/template/tables" : "/template/tables");
-    } else {
-      alert("Credenciales incorrectas");
+    } 
+    if (userStatus.code > 0){
+      
+      toast(
+        
+        <Notification 
+            type={userStatus.status} 
+            errorMessage={userStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+      
     }
-  };
+    
+    
+  }, [userStatus]);
 
-  // Redireccionar si ya está autenticado o si el usuario se logueó
   if (hasToken() || redirectTo) {
     return <Redirect to={redirectTo || "/template"} />;
   }
-
+  
+  // Redireccionar si ya está autenticado o si el usuario se logueó
+  
   return (
     <div className="auth-page">
       <Container className="col-1">

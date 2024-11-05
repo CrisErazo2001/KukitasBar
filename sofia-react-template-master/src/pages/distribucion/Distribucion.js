@@ -20,7 +20,7 @@ const Distribucion = () => {
   const [botonSeleccionado, setBotonSeleccionado] = useState('');
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [nombreDisposicion, setNombreDisposicion] = useState('');
-  const [ingredientes, setIngredientes] = useState([]);
+  const [ingredientes, setIngredientes] = useState(['']);
   const [distribucionNombres, setDistribucionNombres] = useState([]);
   const [cantidades, setCantidades] = useState(Array.from({ length: 28 }, () => ({ cantidadActual: -1, cantidadUsada: 0 })));
   const [cambioIngrediente, setCambioIngrediente] = useState(Array.from({ length: 28 }, () => (false)));
@@ -31,6 +31,7 @@ const Distribucion = () => {
   const [rellenarTodoStatus,setRellenarTodoStatus] = useState({});
   const [borrarStatus,setBorrarStatus] = useState({});
   const [guardarStatus,setGuardarStatus] = useState({});
+  const [nombre,setNombre] = useState('');
 
   const fetchIngredientes = async () => {
     try {
@@ -69,6 +70,8 @@ const Distribucion = () => {
       const list = await response.json();
       console.log('Fetched Distribucion:', list.data); // Mostrar en consola la lista obtenida
       setDistribucionNombres(list.data); // Guardar la lista en el estado
+      setNombre(list.nombre);
+      // console.log('nombre', list.nombre)
     } catch (error) {
       console.error('Fetch error:', error);
     }
@@ -201,7 +204,7 @@ const Distribucion = () => {
 
   const rellenarTodasBotellas = () => {
 
-    fetch('/posicion/borrar', {
+    fetch('/cantidad/rellenar-todo', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -225,8 +228,9 @@ const Distribucion = () => {
     // console.log('boton #:',boton);
     const ingrediente  = distribucionNombres[boton];
     if (ingrediente == '') return '#d3d3d3'; // Gris cuando no hay selección
+    if (cambioIngrediente[boton] == true) return '#00FF28';
     if (cantidades[boton].cantidadActual < 30 && cantidades[boton].cantidadActual != -1) return '#ffd700'; // Amarillo cuando está vacío
-    if (cambioIngrediente[boton] == true) return '#00FF28'; 
+     
     return '#ff8b05'; // Naranja para los demás ingredientes
   };
   useEffect(()=>{
@@ -257,13 +261,9 @@ const Distribucion = () => {
     fetchDistribucion();
     fetchCantidades();
     fetchDistribucionNombres();
-  }, []);
+  }, [rellenarStatus,nombreDistribStatus,rellenarTodoStatus,borrarStatus,guardarStatus]);
 
-  useEffect(() => {
-
-    fetchCantidades();
-
-  }, [rellenarStatus]);
+  
 
   useEffect(()=>{
     console.log('cantidades',cantidades);
@@ -361,6 +361,10 @@ const Distribucion = () => {
       
     }
   }, [guardarStatus]);
+  useEffect(()=>{
+    console.log('nombre',nombre)
+  },[nombre]);
+  
 
   return (
     <div>
@@ -368,12 +372,17 @@ const Distribucion = () => {
         {console.log('distribucion front',distribucion)}
         <Select 
           options={nombres} 
-          placeholder="Seleccionar opción"
+          placeholder='Seleccione un set de posiciones'
           value = {distribucion}
           onChange={manejarCambioDistribucion}
-          placeHolder = {distribucion == ''? 'Seleccione una opcion':distribucion}
+          
         />
       </div>
+      <div className={s.leyendaContainer}>
+        <h3>Set de distribucion: {nombre}</h3>
+      
+      </div>
+      
       <div className={s.leyendaContainer}>
         <div className={s.leyendaItem}>
           <span>Espacio sin utilizar</span>
@@ -475,6 +484,7 @@ const Distribucion = () => {
             <Label for="ingrediente">Ingrediente</Label>
             <Select
               id="ingrediente"
+              
               options={ingredientes}
               value={ingredienteSeleccionado}
               onChange={manejarCambioIngrediente}

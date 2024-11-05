@@ -4,15 +4,12 @@ const hasToken = () => {
   return localStorage.getItem("authenticated") ? true : false;
 };
 
-export const loginUser = (username, password) => {
-  const user = mockUsers.find(
-    (user) => user.username === username && user.password === password
-  );
+export const loginUser = (auth,role) => {
 
-  if (user) {
+  if (auth===200) {
     localStorage.setItem("authenticated", true);
-    localStorage.setItem("role", user.role);
-    return user.role; // Retorna el rol para pruebas
+    localStorage.setItem("role", role);
+    return role; // Retorna el rol para pruebas
   } else {
     return null;
   }

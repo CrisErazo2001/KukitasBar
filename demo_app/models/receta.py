@@ -119,6 +119,22 @@ class receta:
         
         return dict
     
+    def ingredientes(self):
+
+        ing = [
+            self.ing1,
+             self.ing2,
+             self.ing3,
+            self.ing4,
+             self.ing5,
+             self.ing6,
+            self.ing7,
+             self.ing8,
+             self.ing9,
+             self.ing10
+            ]
+        return ing
+    
     def asdict_front(self):
 
         dict = {

@@ -14,73 +14,30 @@ from websockets.sync.client import connect
 
 
 
-@app.route('/')
-def home():
-    recetas = []    
-    aux_data = receta.get_all()
-    print(aux_data)
-    
-    for rec in aux_data:
-        aux = rec.asdict_front()
-        ingredientes = '' 
-        for ing in aux['ingredientes']:
-            ingredientes = ingredientes + ' ' + ing['nombre']
-        aux['ingredientes'] = ingredientes
-        recetas.append(aux)
-
-      
-    
-    return render_template('restaurant.html', recetas = recetas)
-
-@app.route('/pedido/nuevo', methods=['POST'])
-def crear_pedido():
+@app.route('/historial', methods=['GET'])
+def get_historial():
     is_valid = True
-    categoria = "crear recetas"
-    mensaje = "Receta Creada con exito"
+    categoria = "historial"
+    mensaje = "Historial recuperado con exito"
     status = 'ok'
     code = 200
-    data = request.form
-    searchReceta = {
-        'nombre': data['nombre_bebida']
-    }
-    recetaSelected = receta.get_by_name(searchReceta)
-
-
-    #validar si se pidio la bebida con hielo
-    try:
-        if data['hielo'] == 'on':
-            hielo = 1  
-    except :
-        hielo = 0 
+    data = []
     
-    #ver cuantos pedidos estan en cola para hacer calculo del tiempo
-    pedidos = pedido.get_all()
-    tiempo = recetaSelected.tiempo_prep
-    
-    for ped in pedidos:
-        auxReceta = receta.get_by_id({'id_receta': ped.id_receta})
-        tiempo = tiempo + auxReceta.tiempo_prep
+    historial = historico_pedido.get_all()
 
-    print()
-    
-    dict = {
-     
-        'nombre_cliente': data['nombre_cliente'],  
-        'id_receta': recetaSelected.id_receta, 
-        'ready_at': datetime.now() + timedelta(minutes=tiempo),
-        'status': 0,
-        'hielo': hielo
+    for i in historial:
+        data.append(i.asdict())
 
-    }
 
-    pedido.save(dict)
+    print(data)
 
     value = {   #valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
         "status": status,
-        "code": code
+        "code": code,
+        'data': data
 
     }
-    return redirect('/')
+    return jsonify(value)

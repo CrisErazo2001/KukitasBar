@@ -1,39 +1,28 @@
 import React, { useState, useEffect } from "react";
-
-import { v4 as uuidv4 } from "uuid";
 import {
   Col,
   Row,
-  Progress,
+  Table,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
   Button,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown
+  Input,
+  InputGroup,
+  InputGroupAddon
 } from "reactstrap";
-import Widget from "../../components/Widget/Widget.js";
-import ApexActivityChart from "./components/ActivityChart.js";
-
-import meal1 from "../../assets/dashboard/meal-1.svg";
-import meal2 from "../../assets/dashboard/meal-2.svg";
-import meal3 from "../../assets/dashboard/meal-3.svg";
-import upgradeImage from "../../assets/dashboard/upgradeImage.svg";
-import heartRed from "../../assets/dashboard/heartRed.svg";
-import heartTeal from "../../assets/dashboard/heartTeal.svg";
-import heartViolet from "../../assets/dashboard/heartViolet.svg";
-import heartYellow from "../../assets/dashboard/heartYellow.svg";
-import gymIcon from "../../assets/dashboard/gymIcon.svg";
-import therapyIcon from "../../assets/dashboard/therapyIcon.svg";
-import user from "../../assets/user.svg";
-import statsPie from "../../assets/dashboard/statsPie.svg";
-
-import s from "./Dashboard.module.scss";
-
+import { v4 as uuidv4 } from "uuid";
+import * as XLSX from 'xlsx';
+import searchIcon from "../../assets/tables/searchIcon.svg";
+import printerIcon from "../../assets/tables/printerIcon.svg";
+import equisSymbol from "../../assets/tables/x-symbol-svgrepo-com.svg";
+import s from "./Tables.module.scss";
 // Notificaciones
 import { toast } from "react-toastify";
 import Notification from "../../components/Notification/Notification.js";
 
-const Dashboard = () => {
+const Tables = () => {
+  const [deleteListStatus, setDeleteListStatus] = useState({});
   //Config de Notificaciones
   const options = {
     autoClose: 3000,
@@ -41,299 +30,213 @@ const Dashboard = () => {
     hideProgressBar: true,
     position: toast.POSITION.TOP_CENTER,
   };
+  // Estado de la tabla
+  const [listaPedidos, setListaPedidos] = useState([]);
+  const [listaPedidosStatus, setListaPedidosStatus] = useState([]);
+  const [busqueda, setBusqueda] = useState("");
+  const [paginaActual, setPaginaActual] = useState(0);
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
+  const tamanoPagina = 15;
 
-  useEffect(()=>{
-    fetch('/api').then(res => {
-      return res.json()
-    }).then(response => console.log(response));
+  const fetchPedidos = async () => {
+    try {
+      const response = await fetch('/historial'); // Reemplaza con tu URL de API
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const list = await response.json();
+      console.log('Fetched historial:', list.data); // Mostrar en consola la lista obtenida
+      setListaPedidosStatus(list);
+      setListaPedidos(list.data); // Guardar la lista en el estado
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  // Filtra la lista de pedidos según la búsqueda y el rango de fechas
+  const pedidosFiltrados = listaPedidos.filter((pedido) => {
+    const readyAtDate = new Date(pedido.ready_at);
+    const startDate = fechaInicio ? new Date(fechaInicio) : null;
+    const endDate = fechaFin ? new Date(fechaFin) : null;
+    const inDateRange = (!startDate || readyAtDate >= startDate) && (!endDate || readyAtDate <= endDate);
+    const matchesSearch = pedido.nombre_receta.toLowerCase().includes(busqueda.toLowerCase());
+    return matchesSearch && inDateRange;
   });
 
-  const blog ={
-    userid: 2,
-    title: 'Post example',
-    completed: 1
+  const eliminarPedido = (pedido) => {
+    fetch('/historial/eliminar', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(pedido)
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setDeleteListStatus(data);
+    })
+    .catch(error => console.error('Error:', error));
   };
-    useEffect(()=>{
-      fetch('/api/post', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(blog)
-      })
-      .then(response => response.json())
-      .then(data => console.log('Respuesta del servidor:', data))
-      .catch(error => console.error('Error:', error));
-    });
 
+  // Función para exportar a Excel
+  const exportarExcel = () => {
+    const hoja = XLSX.utils.json_to_sheet(pedidosFiltrados);
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, "Pedidos");
+    XLSX.writeFile(libro, "Pedidos.xlsx");
+  };
 
+  // Control de la paginación
+  const cantidadPaginas = Math.ceil(pedidosFiltrados.length / tamanoPagina);
+  const cambiarPagina = (e, index) => {
+    e.preventDefault();
+    setPaginaActual(index);
+  };
 
-  const [checkboxes, setCheckboxes] = useState([true, false])
+  useEffect(() => {
+    fetchPedidos();
+    
+    if (deleteListStatus.code > 0 ){
+      console.log('Estado de deleteListStatus:', deleteListStatus);
+      toast(  
+        <Notification 
+            type={deleteListStatus.status} 
+            errorMessage={deleteListStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+    }
+  }, [deleteListStatus]);
 
-  const toggleCheckbox = (id) => {
-    setCheckboxes(checkboxes => checkboxes
-      .map((checkbox, index) => index === id ? !checkbox : checkbox ))
-  }
-
-  const meals = [meal1, meal2, meal3];
+  useEffect(() => {
+    if (listaPedidosStatus.code > 200 ){
+      console.log('Estado de listaPedidosStatus:', listaPedidosStatus);
+      toast(  
+        <Notification 
+            type={listaPedidosStatus.status} 
+            errorMessage={listaPedidosStatus.message} 
+            withIcon 
+        />, 
+        options
+      );
+    }
+  }, [deleteListStatus]);
+  
 
   return (
     <div>
       <Row>
-        <Col className="pr-grid-col" xs={12} lg={8}>
-          <Row className="gutter mb-4">
-            <Col className="mb-4 mb-md-0" xs={12} md={6}>
-              <Widget className="">
-                <div className="d-flex justify-content-between widget-p-md">
-                  <div className="headline-3 d-flex align-items-center">Your activity</div>
-                  <UncontrolledDropdown>
-                    <DropdownToggle caret>
-                      &nbsp; Weekly &nbsp;
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem>Daily</DropdownItem>
-                      <DropdownItem>Weekly</DropdownItem>
-                      <DropdownItem>Monthly</DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </div>
-                <ApexActivityChart className="pb-4"/>
-              </Widget>
-            </Col>
-            <Col xs={12} md={6}>
-              <Widget className="widget-p-md">
-                <div className="d-flex justify-content-between">
-                  <div className="headline-3 d-flex align-items-center">Your meals xdd</div>
-                  <UncontrolledDropdown>
-                    <DropdownToggle caret>
-                      &nbsp; Weekly &nbsp;
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem>Daily</DropdownItem>
-                      <DropdownItem>Weekly</DropdownItem>
-                      <DropdownItem>Monthly</DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </div>
-                {meals.map((meal) =>
-                  <div key={uuidv4()} className={`mt-4 ${s.widgetBlock}`}>
-                    <div className={s.widgetBody}>
-                      <div className="d-flex">
-                        <img className="img-fluid mr-2" src={meal} alt="..." />
-                        <div className="d-flex flex-column">
-                          <p className="body-2">Salmon salad ppii</p>
-                          <p className="body-3 muted">300 g</p>
-                        </div>
-                      </div>
-                      <div className="body-3 muted">
-                        175 cal
-                      </div>
-                    </div>
+        <Col>
+          <Row className="mb-4">
+            <Col>
+              <div className={s.tableTitle}>
+                <div className="headline-2">Historico de pedidos</div>
+                <div className="d-flex align-items-center">
+                  <div className={s.searchContainer}> 
+                    <InputGroup className="input-group-no-border search-input-group">
+                      <Input
+                        type="text"
+                        placeholder="Buscar Bebida"
+                        value={busqueda}
+                        onChange={(e) => setBusqueda(e.target.value)}
+                        className={s.searchInput}
+                      />
+                      <InputGroupAddon addonType="prepend">
+                        <span className={s.searchIcon}>
+                          <img src={searchIcon} alt="Buscar" />
+                        </span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </div>
-                )}
-              </Widget>
-            </Col>
-          </Row>
-          <Row className="gutter mb-4">
-            <Col xs={12}>
-              <Widget className="widget-p-none">
-                <div className="d-flex flex-wrap align-items-center justify-content-center">
-                  <div className="d-flex flex-column align-items-center col-12 col-xl-6 p-sm-4">
-                    <p className="headline-1"> your f plan</p>
-                    <p className="body-3">So how did the classical Latighfhn become so </p>
-                    <div className="d-flex justify-content-between my-4">
-                      <Button className="rounded-pill mr-3" color="primary">Go Premium</Button>
-                      <Button className="rounded-pill body-3" outline color="dark">Try for free</Button>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-center col-12 col-xl-6">
-                    <img className="p-1 img-fluid" src={upgradeImage} alt="..." />
-                  </div>
-                </div>
-              </Widget>
-            </Col>
-          </Row>
-          <Row className="gutter">
-            <Col className="mb-4 mb-xl-0" xs={6} sm={6} xl={3}>
-              <Widget className="widget-p-sm">
-                <div className={s.smallWidget}>
-                  <div className="d-flex mb-4">
-                    <img className="py-1 mr-2 img-fluid" src={heartRed} alt="..." />
-                    <div className="d-flex flex-column">
-                      <p className="headline-3">Text</p>
-                      <p className="body-2">Num<span className="body-3 muted">/ ber</span></p>
-                    </div>
-                  </div>
-                  <div>
-                    <Progress color="secondary-red" className={`progress-xs ${s.mutedPink}`} value="75" />
-                  </div>
-                </div>
-              </Widget>
-            </Col>
-            <Col className="mb-4 mb-xl-0" xs={6} sm={6} xl={3}>
-              <Widget className="widget-p-sm">
-                <div className={s.smallWidget}>
-                  <div className="d-flex mb-4">
-                    <img className="py-1 mr-2 img-fluid" src={heartYellow} alt="..." />
-                    <div className="d-flex flex-column">
-                      <p className="headline-3">Text</p>
-                      <p className="body-2">Num<span className="body-3 muted">/ ber</span></p>
-                    </div>
-                  </div>
-                  <div>
-                    <Progress color="secondary-yellow" className={`progress-xs ${s.mutedYellow}`} value="75" />
-                  </div>
-                </div>
-              </Widget>
-            </Col>
-            <Col xs={6} sm={6} xl={3}>
-              <Widget className="widget-p-sm">
-                <div className={s.smallWidget}>
-                  <div className="d-flex mb-4">
-                    <img className="py-1 mr-2 img-fluid" src={heartTeal} alt="..." />
-                    <div className="d-flex flex-column">
-                      <p className="headline-3">Text</p>
-                      <p className="body-2">Num<span className="body-3 muted">/ ber</span></p>
-                    </div>
-                  </div>
-                  <div>
-                    <Progress color="secondary-cyan" className={`progress-xs ${s.mutedTeal}`} value="75" />
-                  </div>
-                </div>
-              </Widget>
-            </Col>
-            <Col xs={6} sm={6} xl={3}>
-              <Widget className="widget-p-sm">
-                <div className={s.smallWidget}>
-                  <div className="d-flex mb-4">
-                    <img className="py-1 mr-2 img-fluid" src={heartViolet} alt="..." />
-                    <div className="d-flex flex-column">
-                      <p className="headline-3">Text</p>
-                      <p className="body-2">Num<span className="body-3 muted">/ ber</span></p>
-                    </div>
-                  </div>
-                  <div>
-                    <Progress color="violet" className={`progress-xs ${s.mutedViolet}`} value="75" />
-                  </div>
-                </div>
-              </Widget>
-            </Col>
-          </Row>
-        </Col>
-        <Col className="mt-4 mt-lg-0 pl-grid-col" xs={12} lg={4}>
-          <Widget className="widget-p-lg">
-            <div className="d-flex">
-              <img className={s.image} src={user} alt="..." />
-              <div className={s.userInfo}>
-                <p className="headline-3">Christina Karey</p>
-                <p className="body-3 muted">Brasil</p>
-              </div>
-            </div>
-            <div className={s.userParams}>
-              <div className="d-flex flex-column">
-                <p className="headline-3">63 kg</p>
-                <p className="body-3 muted">Weight</p>
-              </div>
-              <div className="d-flex flex-column">
-                <p className="headline-3">175 sm</p>
-                <p className="body-3 muted">Height</p>
-              </div>
-              <div className="d-flex flex-column">
-                <p className="headline-3">28 y.</p>
-                <p className="body-3 muted">Age</p>
-              </div>
-            </div>
-            <div className={s.goals}>
-              <div className={s.goalsTitle}>
-                <p className="headline-3">Your Goals</p>
-                <UncontrolledDropdown>
-                  <DropdownToggle caret>
-                    &nbsp; Weekly &nbsp;
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem>Daily</DropdownItem>
-                    <DropdownItem>Weekly</DropdownItem>
-                    <DropdownItem>Monthly</DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </div>
-              <div className="d-flex flex-column mt-3">
-                <div className={s.activity}>
-                  <p className="body-2">Sleep</p>
-                  <p className="body-2">92<span className="body-3 muted"> / 160</span></p>
-                </div>
-                <Progress color="secondary-red" className="progress-xs" value={60} />
-              </div>
-              <div className="d-flex flex-column mt-3">
-                <div className={s.activity}>
-                  <p className="body-2">Sport</p>
-                  <p className="body-2">40<span className="body-3 muted"> / 50</span></p>
-                </div>
-                <Progress color="secondary-yellow" className="progress-xs" value={80} />
-              </div>
-              <div className="d-flex flex-column mt-3">
-                <div className={s.activity}>
-                  <p className="body-2">Water</p>
-                  <p className="body-2">25<span className="body-3 muted"> / 40</span></p>
-                </div>
-                <Progress color="secondary-cyan" className="progress-xs" value={40} />
-              </div>
-            </div>
-            <p className="headline-3">Appointments</p>
-            <div className={`mt-3 ${s.widgetBlock}`}>
-              <div className={s.widgetBody}>
-                <div className="d-flex">
-                  <img className="img-fluid mr-2" src={gymIcon} alt="..." />
-                  <div className="d-flex flex-column">
-                    <p className="body-2">02.11 , 12:00 - 13:00</p>
-                    <p className="body-3 muted">Yoga, Airplace Gym</p>
-                  </div>
-                </div>
-                <div className="checkbox checkbox-primary">
-                  <input
-                    id="checkbox0"
-                    type="checkbox"
-                    className="styled"
-                    checked={checkboxes[0]}
-                    onChange={() => toggleCheckbox(0)}
+
+                  <Input
+                    type="date"
+                    placeholder="Fecha inicio"
+                    value={fechaInicio}
+                    onChange={(e) => setFechaInicio(e.target.value)}
+                    className={s.dateInput}
                   />
-                  <label htmlFor="checkbox0" />
-                </div>
-              </div>
-            </div>
-            <div className={`mt-3 ${s.widgetBlock}`}>
-              <div className={s.widgetBody}>
-                <div className="d-flex">
-                  <img className="img-fluid mr-2" src={therapyIcon} alt="..." />
-                  <div className="d-flex flex-column">
-                    <p className="body-2">03.11 , 16:00 - 17:30</p>
-                    <p className="body-3 muted">Therapy</p>
-                  </div>
-                </div>
-                <div className="checkbox checkbox-primary">
-                  <input
-                    id="checkbox1"
-                    type="checkbox"
-                    className="styled"
-                    checked={checkboxes[1]}
-                    onChange={() => toggleCheckbox(1)}
+                  <Input
+                    type="date"
+                    placeholder="Fecha fin"
+                    value={fechaFin}
+                    onChange={(e) => setFechaFin(e.target.value)}
+                    className={s.dateInput}
                   />
-                  <label htmlFor="checkbox1" />
+
+                  <button className={s.print} onClick={exportarExcel}>
+                    <img src={printerIcon} alt="Imprimir" />
+                  </button>
+
+                  <button className={s.print} onClick={eliminarPedido}>
+                    <p>DEL</p>
+                  </button>
                 </div>
               </div>
-            </div>
-            <a className={`btn-secondary-red ${s.statsBtn}`} href="#top" role="button">
-              <img className={s.pieImg}  src={statsPie} alt="..." />
-              <div>
-                <p className="headline-2">STATISTIC</p>
-                <p className="body-3">Download your activity</p>
-              </div>
-            </a>
-          </Widget>
+              <Table responsive striped className="table-borderless table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre de receta</th>
+                    <th>Ingredientes</th>
+                    <th>Hora de pedido</th>
+                    <th>Hora de entrega</th>
+                    <th>Hielo</th>
+                    <th>Costo Bebida</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pedidosFiltrados
+                    .slice(paginaActual * tamanoPagina, (paginaActual + 1) * tamanoPagina)
+                    .map((pedido) => (
+                      <tr key={pedido.id_historial}>
+                        <td>{pedido.id_historial}</td>
+                        <td>{pedido.nombre_receta}</td>
+                        <td>{pedido.ingredientes}</td>
+                        <td>{pedido.create_at}</td>
+                        <td>{pedido.ready_at}</td>
+                        <td>{pedido.hielo}</td>
+                        <td>{pedido.costoBebida}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+
+              <Pagination className="pagination-borderless">
+                <PaginationItem disabled={paginaActual <= 0}>
+                  <PaginationLink
+                    onClick={(e) => cambiarPagina(e, paginaActual - 1)}
+                    previous
+                    href="#top"
+                  />
+                </PaginationItem>
+                {[...Array(cantidadPaginas)].map((_, i) => (
+                  <PaginationItem active={i === paginaActual} key={i}>
+                    <PaginationLink onClick={(e) => cambiarPagina(e, i)} href="#top">
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem disabled={paginaActual >= cantidadPaginas - 1}>
+                  <PaginationLink
+                    onClick={(e) => cambiarPagina(e, paginaActual + 1)}
+                    next
+                    href="#top"
+                  />
+                </PaginationItem>
+              </Pagination>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard;
+export default Tables;

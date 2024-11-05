@@ -30,25 +30,32 @@ app.secret_key = 'keep it secret, keep it safe'
 
 @app.route('/login',methods=['POST'])
 def login():
-    is_valid = True
+    is_valid = False
     categoria = "login"
-    mensaje = "Exitoso"
+    mensaje = "Usuario Correcto"
     status = 'success'
     code = 200
     redirect = ''
 
-    user = User.user_by_nombre(request.form)
+    
+    data = request.json
+    print(data)
+
+    user = User.user_by_nombre({'user': data['username']})
+
     
     if not user: #valida si existe el usuario
         is_valid = False
         mensaje = "Usuario incorrecto o no existente"
         status = 'error'
         code = 400
-    elif not bcrypt.check_password_hash(user.password, request.form['password']): #valida si la contrasena es corecta
+        redirect = ''
+    elif not bcrypt.check_password_hash(user.password, data['password']): #valida si la contrasena es corecta
         is_valid = False
         mensaje = "Contraseña incorrecta"
         status = 'error'
         code = 400
+        redirect = ''
     else:
         session['user_id'] = user.id_usuario #crea una sesion de usuario para ingresar solo a las paginas correspondientes
         
@@ -113,10 +120,12 @@ def get_user():
     status = 'success'
     code = 200
     
+    print('user: ',session['user_id'])
+    usuario = User.get_by_id({'id_usuario': session['user_id']})
 
     value = {   #valor de salida de la api
         "valid": is_valid,
-        "user": user,
+        "user": usuario.user,
         "category": categoria,
         "status": status,
         "code": code
@@ -223,7 +232,8 @@ def modify_usuario():
             'user': data['user']
         }
         if  data['password'] != usuarioSelected.password:
-            User.change_password({'password': bcrypt.generate_password_hash(data['password'])})
+            print('cambiando contrasena')
+            User.change_password({'id_usuario': data['id_usuario'],'password': bcrypt.generate_password_hash(data['password'])})
         User.update_user(us)
 
 

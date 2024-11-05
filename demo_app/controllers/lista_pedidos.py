@@ -92,9 +92,26 @@ def eliminar_pedidos():
     
 @app.route('/lista-pedidos', methods=['GET'])
 def show_pedidos():
+    nombre_cliente_actual = ''
+    nombre_bebida = ''
+    lista_ingredientes = ''
     data = []
     pedidos = pedido.get_all()
+    if pedidos != []:
+        if pedidos[0].status == 1:
+            nombre_cliente_actual = pedidos[0].nombre_cliente
+            rec = receta.get_by_id({'id_receta':pedidos[0].id_receta})
+            lista = rec.ingredientes()
+            for i in lista:
+                if i == '':
+                    break
+                lista_ingredientes = lista_ingredientes + ' - ' + i
+
+            nombre_bebida = rec.nombre
+    
     for p in pedidos:
+        if p.status == 1:
+            continue
         aux = p.asdict()
         aux_receta = receta.get_by_id(aux)
         
@@ -102,4 +119,4 @@ def show_pedidos():
        
         data.append(aux)
     
-    return render_template('pantalla_espera.html', data=data, nombre_cliente_actual='Juan', nombre_bebida='queti', lista_ingredientes=['a','b'])
+    return render_template('pantalla_espera.html', data=data, nombre_cliente_actual=nombre_cliente_actual, nombre_bebida=nombre_bebida, lista_ingredientes=lista_ingredientes)

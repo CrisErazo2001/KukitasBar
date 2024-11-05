@@ -56,13 +56,16 @@ class ingrediente:
             result = cls(result[0])
         return result
 
-    
+    @classmethod
     def get_by_name(cls, data):
         query  = "SELECT * FROM "+ table_name +" WHERE nombre = %(nombre)s;"
         result = connectToMySQL(cls.db_name).query_db(query,data)
-        pedidos = []
-        for ped in result:
-            pedidos.append( cls(ped) )
+        
+        if len(result) == 0:
+            pedidos = False
+        else:
+            pedidos= cls(result[0])
+            
         return pedidos
     
     @classmethod

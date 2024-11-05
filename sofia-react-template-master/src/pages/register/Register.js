@@ -69,7 +69,7 @@ const Register = (props) => {
   // Monitorea cambios en registerValue, muestra su valor en la consola e indica si han existido errores al crear usuarios
   useEffect(() => {
       console.log("RegisterValue (useEffect):", registerValue);
-      if (registerValue.code == 200){
+      if (registerValue.code === 200){
         toast(
           <Notification 
               type={'success'} 
@@ -78,7 +78,7 @@ const Register = (props) => {
           />, 
           options
         );
-      }else if (registerValue.code == 400){
+      }else if (registerValue.code === 400){
         toast(
           
           <Notification 
