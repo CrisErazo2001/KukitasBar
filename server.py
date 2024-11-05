@@ -15,7 +15,7 @@ from demo_app import app
 from flask_cors import CORS
 import requests
 
-from demo_app.controllers import test, users, ingredientes, recetas,lista_pedidos,posicion,cantidad, pedidos,historial
+from demo_app.controllers import test, users, ingredientes, recetas, lista_pedidos, posicion, cantidad, pedidos, historial
 
 
 APP = app
@@ -24,4 +24,5 @@ cors = CORS(APP, origins='*')
 
 if __name__ == "__main__":
     APP.run(debug=True)
-    # APP.run(debug=True,host='000.000.000.000') descomentar esta linea para arrancar el sistema desde la red y no solo en local asi se puede acceder desde cualquier punto de la red, cambiar host con la ip del servidor
+    # descomentar esta linea para arrancar el sistema desde la red y no solo en local asi se puede acceder desde cualquier punto de la red, cambiar host con la ip del servidor
+    # APP.run(debug=True, host='192.168.0.226')
