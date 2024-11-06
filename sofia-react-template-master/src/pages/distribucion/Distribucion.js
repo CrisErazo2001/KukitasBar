@@ -397,7 +397,7 @@ const Distribucion = () => {
           <div className={s.circuloLeyenda} style={{ backgroundColor: "#ff8b05" }}></div>
         </div>
         <div className={s.leyendaItem}>
-          <span>Espacio Modificado</span>
+          <span>Espacio Modificado/Sin Guardar</span>
           <div className={s.circuloLeyenda} style={{ backgroundColor: "#00ff28" }}></div>
         </div>
       </div>
@@ -471,9 +471,12 @@ const Distribucion = () => {
       </div>
       <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
         <Button className={s.nBotonRecetas} onClick={guardarDisposicion}>Guardar Disposición</Button>
+        
+        {/*
         <Button className={s.nBotonRecetas} onClick={rellenarTodasBotellas}>Rellenar Todo</Button>
         <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Todo</Button>
-      </div>
+       */}
+        </div>
 
       <Modal isOpen={modalIsOpen} toggle={cerrarModal}>
         <ModalHeader toggle={cerrarModal}>Configurar {botonSeleccionado}</ModalHeader>
@@ -492,34 +495,32 @@ const Distribucion = () => {
             />
           </FormGroup>
           
-          
-          <FormGroup>
-            <Label for="cantidad">Cantidad Actual</Label>
-            <Input
-              type="number"
-              id="cantidad"
-              value={cantidades[botonSeleccionado]?.cantidadActual || 0}
-              
-              disabled = {true}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="cantidad">Cantidad Usada</Label>
-            <Input
-              type="number"
-              id="cantidad"
-              value={cantidades[botonSeleccionado]?.cantidadUsada||0}
-              disabled = {true}
-            />
-          </FormGroup>
-            
-          
-          
+          <div className='d-flex'>
+            <FormGroup>
+              <Label for="cantidad">Contenido de la Botella</Label>
+              <Input
+                type="number"
+                id="cantidad"
+                value={cantidades[botonSeleccionado]?.cantidadActual || 0}
+                
+                disabled = {true}
+              />
+            </FormGroup>
+            <FormGroup className='ml-2'>
+              <Label for="cantidad">Cantidad Usada</Label>
+              <Input
+                type="number"
+                id="cantidad"
+                value={cantidades[botonSeleccionado]?.cantidadUsada||0}
+                disabled = {true}
+              />
+            </FormGroup>
+          </div>
           <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '30px 0' }}>
               <Button className={s.nBotonRecetas} onClick={rellenarCantidad}>Rellenar</Button>
           </div>
           <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '10px 0' }}>
-            <Button className={s.nBotonRecetas} onClick={guardarPosicion}>Guardar Posición</Button>
+            <Button className={s.nBotonRecetas} onClick={guardarPosicion}>Ok</Button>
           </div>
         </ModalBody>
       </Modal>

@@ -294,3 +294,12 @@
     flex: 1; /* Para ocupar el espacio restante en la fila */
     width: 250px; /* Ancho fijo de los selectores */
   }
+
+  .boxbuscador{
+    width: 100%;
+    height: auto;
+    border-top: solid 1px #c4cbcf;
+    border-bottom: solid 1px #c4cbcf;
+    display: flex;
+    justify-content: center;
+  }

@@ -28,20 +28,35 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
   ];
   const [idReceta, setIdReceta] = useState(receta ? receta.id_receta : '');
   const [nombreReceta, setNombreReceta] = useState(receta ? receta.nombre : '');
+  
+  {/*
   const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(
     receta ? receta.ingredientes.map(ing => ({ label: ing.nombre, value: ing })) : []
   );
-
+ */}
   const opcionesIngredientes = [
     { label: "Vacío", value: null },
     ...ingredientesPorDefecto.map(ing => ({ label: ing.nombre, value: ing }))
   ];
 
+  const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(
+    receta
+      ? receta.ingredientes.map(ing => ({ label: ing.nombre, value: ing }))
+      : Array(10).fill({ label: "Vacío", value: null })
+  );
+  
+  const manejarCambioIngrediente = (index, ingrediente) => {
+    const nuevosIngredientes = [...ingredientesSeleccionados];
+    nuevosIngredientes[index] = ingrediente || { label: "Vacío", value: null };
+    setIngredientesSeleccionados(nuevosIngredientes);
+  };
+  {/*
   const manejarCambioIngrediente = (index, ingrediente) => {
     const nuevosIngredientes = [...ingredientesSeleccionados];
     nuevosIngredientes[index] = ingrediente;
     setIngredientesSeleccionados(nuevosIngredientes);
   };
+   */}
 
   const guardarReceta = () => {
     const nuevaReceta = {
@@ -99,9 +114,9 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
       toast(
         
         <Notification 
-            type={modifyRecStatus.status} 
-            errorMessage={modifyRecStatus.message} 
-            withIcon 
+          type={modifyRecStatus.status} 
+          errorMessage={modifyRecStatus.message} 
+          withIcon 
         />, 
         options
       );
@@ -161,12 +176,13 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
               <Label className={s.nlabel}>Ingrediente {index + 1}</Label>
               <Select
                 className={s.ingredienteRecetaSelector}
-                value={ingredientesSeleccionados[index] || { nlabel: "Vacío", value: null }}
+                value={ingredientesSeleccionados[index] || { label: "Vacío", value: null }}
                 onChange={(ingrediente) => manejarCambioIngrediente(index, ingrediente)}
                 options={opcionesIngredientes}
                 isSearchable={true}
                 placeholder={`Selecciona ingrediente ${index + 1}`}
               />
+
             </div>
           ))}
         </div>

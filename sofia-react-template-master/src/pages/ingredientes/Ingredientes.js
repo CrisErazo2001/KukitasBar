@@ -122,23 +122,9 @@ const Ingredientes = () => {
             modoEditar={modoEditar}
           />
           )}
-          <div className="d-flex align-items-center justify-content-end">
-            <div className={s.searchContainer}>
-              <InputGroup className="input-group-no-border search-input-group">
-                <Input
-                  type="text"
-                  placeholder="Buscar Ingrediente"
-                  value={busqueda}
-                  onChange={(e) => setBusqueda(e.target.value)}
-                  className={s.searchInput}
-                />
-                <InputGroupAddon addonType="prepend">
-                  <span className={s.searchIcon}>
-                    <SearchBarIcon />
-                  </span>
-                </InputGroupAddon>
-              </InputGroup>
-            </div>
+   
+          <div className="d-flex flex-column align-items-center justify-content-space-between">
+            <h5 className='mr-4'>Crear Nuevo Ingrediente</h5>
             <Button className={s.nBotonRecetas} onClick={() => {
               setMostrarFormulario(true);
               setModoEditar(false);
@@ -147,10 +133,31 @@ const Ingredientes = () => {
               Nuevo Ingrediente
             </Button>
           </div>
+          
         </Col>
       </Row>
+      <div className={s.boxbuscador}>
+        <div className={s.searchContainer}>
+          <InputGroup className="input-group-no-border search-input-group">
+            <Input
+              type="text"
+              placeholder="Buscar Ingrediente"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              className={s.searchInput}
+            />
+            <InputGroupAddon addonType="prepend">
+              <span className={s.searchIcon}>
+                <SearchBarIcon />
+              </span>
+            </InputGroupAddon>
+          </InputGroup>
+        </div>
+      </div>
 
       <Table responsive>
+
+
         <thead>
           <tr>
             <th>Nombre del Ingrediente</th>

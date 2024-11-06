@@ -103,7 +103,7 @@ const Users = () => {
     <div>
       <Row>
         <Col className="mb-4" xs={12}>
-          <div className="d-flex align-items-center justify-content-end">
+          <div className={s.boxbuscador}>
             <div className={s.searchContainer}>
               <InputGroup className="input-group-no-border search-input-group">
                 <Input

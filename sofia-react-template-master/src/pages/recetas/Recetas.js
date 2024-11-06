@@ -130,35 +130,37 @@ const Recetas = () => {
           />
         )}
         <Col className="mb-4" xs={12}>
-          {/* Buscador y botón */}
-          <div className="d-flex align-items-center justify-content-end">
-            <div className={s.searchContainer}>
-              <InputGroup className="input-group-no-border search-input-group">
-                <Input
-                  type="text"
-                  placeholder="Buscar Receta"
-                  value={busqueda}
-                  onChange={(e) => setBusqueda(e.target.value)}
-                  className={s.searchInput}
-                />
-                <InputGroupAddon addonType="prepend">
-                  <span className={s.searchIcon}>
-                    <SearchBarIcon />
-                  </span>
-                </InputGroupAddon>
-              </InputGroup>
-            </div>
-            <div>
-              <Button className={s.nBotonRecetas} onClick={() => {
-                setMostrarFormulario(true); // Mostrar formulario de creación de recetas
-                setModoEditar(false); // Modo crear, no editar
-                setRecetaSeleccionada(null); // Limpia selección anterior
-              }}>
-                Nueva Receta
-              </Button>
-            </div>
+
+          <div className='d-flex flex-column justify-content-sm-center align-items-center'>
+            <h5>Crear Nueva Receta</h5>
+            <Button className={s.nBotonRecetas} onClick={() => {
+              setMostrarFormulario(true); // Mostrar formulario de creación de recetas
+              setModoEditar(false); // Modo crear, no editar
+              setRecetaSeleccionada(null); // Limpia selección anterior
+            }}>
+              Crear Nueva Receta
+            </Button>
           </div>
         </Col>
+        {/* Buscador y botón */}
+        <div className={s.boxbuscador}>
+          <div className={s.searchContainer}>
+            <InputGroup className="input-group-no-border search-input-group">
+              <Input
+                type="text"
+                placeholder="Buscar Receta"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                className={s.searchInput}
+              />
+              <InputGroupAddon addonType="prepend">
+                <span className={s.searchIcon}>
+                  <SearchBarIcon />
+                </span>
+              </InputGroupAddon>
+            </InputGroup>
+          </div>
+        </div>
       </Row>
 
       {/* Tabla de recetas */}

@@ -21,6 +21,8 @@
 }
 
 
+
+
 .searchContainer {
     display: flex;
     height: 80px;
@@ -89,4 +91,13 @@
     width: 100%;
     height: auto;
     background-color: #f4431f;
+  }
+
+  .boxbuscador{
+    width: 100%;
+    height: auto;
+    border-top: solid 1px #c4cbcf;
+    border-bottom: solid 1px #c4cbcf;
+    display: flex;
+    justify-content: center;
   }

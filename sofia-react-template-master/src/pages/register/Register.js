@@ -123,7 +123,7 @@ const Register = (props) => {
 
                 {/* Login, alineado a la derecha */}
                 <div className="d-flex justify-content-end">
-                  <p className="auth-header mb-0" style={{ marginRight: '0', marginTop: '10px' }}>Register</p>
+                  <p className="auth-header mb-0" style={{ marginRight: '0', marginTop: '10px' }}>Nuevo Usuario</p>
                 </div>
               </div>
 
@@ -132,7 +132,7 @@ const Register = (props) => {
                 
                 <FormGroup className="my-3">
 
-                <FormText>Username</FormText>
+                <FormText>Usuario</FormText>
                   <Input
                     id="username"
                     className="input-transparent pl-3"
@@ -141,13 +141,13 @@ const Register = (props) => {
                     type="text" 
                     required
                     name="username"
-                    placeholder="Username" 
+                    placeholder="Usuario" 
                   />
                 </FormGroup>
 
                 <FormGroup  className="my-3">
                   <div className="d-flex justify-content-between">
-                    <FormText>Password</FormText>
+                    <FormText>Contraseña</FormText>
                     
                     {/* 
                     <Link to="/error">Forgot password?</Link>
@@ -161,7 +161,7 @@ const Register = (props) => {
                     type="password"
                     required
                     name="password"
-                    placeholder="Password"
+                    placeholder="Contraseña"
                   />
                 </FormGroup>
 
@@ -175,15 +175,17 @@ const Register = (props) => {
                   Admin
                   </label>
 
-                  <p>This user will be "Admin"? {checked.toString()}</p>
+ 
+                  <p>Quiere que este usuario sea "Admin"? </p>
+                  <p>{checked ? "Sí" : "No"}</p>
                 </div>
 
                 <div className="bg-widget d-flex justify-content-center">
-                  <Button className="button-log my-3" type="submit" color="secondary-red">Create new User</Button>
+                  <Button className="button-log my-3" type="submit" color="secondary-red">Crear Nuevo Usuario</Button>
                 </div>
                 <p className="dividing-line my-1">&#8195;</p>
     
-                <Link to="/login">Cancel</Link>
+                <Link to="/login">Cancelar</Link>
               </form>
             </Widget>
           </Col>

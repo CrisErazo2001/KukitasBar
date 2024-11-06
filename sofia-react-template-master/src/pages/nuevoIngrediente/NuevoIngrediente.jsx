@@ -184,7 +184,7 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
           </div>
           <div className='mb-5'></div>
           <hr></hr>
-          <div className='mb-4'></div>
+          <div className='mb-5'></div>
         </Col>
       </Row>
     </div>
