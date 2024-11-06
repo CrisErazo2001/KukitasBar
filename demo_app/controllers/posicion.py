@@ -261,18 +261,32 @@ def save_distribucion():
         f = open('posicion.txt','r')
         posicionActualizar = int(f.read())
         pos_aux = posicion_bebidas.get_by_id({'id_posicion':posicionActualizar})
+        pos_aux = pos_aux.aslist()
+        cant_aux = cantidad.get_by_id({'id_cantidad':posicionActualizar})
 
         posiciones = []
         cantidades = []
+        z =0
         for pos in data['posiciones']:
                         
             if pos == '':
                 posiciones.append(0)
                 cantidades.append(0)
             else:
-                aux = ingrediente.get_by_name({'nombre': pos})
-                posiciones.append(aux.id_ingrediente)
-                cantidades.append(int(aux.cantidad_unitaria))
+                aux = ingrediente.get_by_id({'id_ingrediente':pos_aux[z]})
+                aux1 = ingrediente.get_by_name({'nombre': pos})
+                aux2= cant_aux.aslist()
+                posiciones.append(aux1.id_ingrediente)
+                print('pos_aux[z]: ',aux.nombre)
+                print('pos: ',pos)
+                if int(aux2[z]) == 0:
+                    cantidades.append(int(aux1.cantidad_unitaria))
+                elif aux.nombre != pos:
+                    cantidades.append(int(aux1.cantidad_unitaria))
+                else:
+                    cantidades.append(int(aux2[z]))
+                
+            z+=1
         print('cant 28: ',cantidades[27])
         dict = {
             'id_posicion': posicionActualizar,
