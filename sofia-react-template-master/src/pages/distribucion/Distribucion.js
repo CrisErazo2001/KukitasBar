@@ -407,27 +407,27 @@ const Distribucion = () => {
         {/* Fila D y C */}
         <div className={s.filaVertical}>
           <div className={s.columnaVertical}>
-            {Array.from({ length: 7 }, (_, i) => (
+            {Array.from({ length: 6 }, (_, i) => (
               <Button
-                key={`D${7 - i}`}
+                key={`D${6 - i}`}
                 style={{ backgroundColor: obtenerColorBoton(27 - i) }}
                 onClick={() => abrirModal(27 - i)}
                 className={`${s.distribucionButton}`}
               >
-                {`D${7 - i}`}
+                {`D${6 - i}`}
               </Button>
             ))}
           </div>
           <div className={s.separadorVertical} />
           <div className={s.columnaVertical}>
-            {Array.from({ length: 7 }, (_, i) => (
+            {Array.from({ length: 6 }, (_, i) => (
               <Button
-                key={`C${7 - i}`}
+                key={`C${6 - i}`}
                 style={{ backgroundColor: obtenerColorBoton(20 - i) }}
                 onClick={() => abrirModal(20 - i)}
                 className={`${s.distribucionButton}`}
               >
-                {`C${7 - i}`}
+                {`C${6 - i}`}
               </Button>
             ))}
           </div>
@@ -435,27 +435,27 @@ const Distribucion = () => {
 
         {/* Fila B y A */}
         <div className={s.filaHorizontal}>
-          {Array.from({ length: 7 }, (_, i) => (
+          {Array.from({ length: 6 }, (_, i) => (
             <Button
-              key={`B${7 - i}`}
+              key={`B${6 - i}`}
               style={{ backgroundColor: obtenerColorBoton(13 - i) }}
               onClick={() => abrirModal(13 - i)}
               className={`${s.distribucionButton}`}
             >
-              {`B${7 - i}`}
+              {`B${6 - i}`}
             </Button>
           ))}
         </div>
         <div className={s.separadorHorizontal} />
         <div className={s.filaHorizontal}>
-          {Array.from({ length: 7 }, (_, i) => (
+          {Array.from({ length: 6 }, (_, i) => (
             <Button
-              key={`A${7 - i}`}
+              key={`A${6 - i}`}
               style={{ backgroundColor: obtenerColorBoton(6 - i) }}
               onClick={() => abrirModal(6 - i)}
               className={`${s.distribucionButton}`}
             >
-              {`A${7 - i}`}
+              {`A${6 - i}`}
             </Button>
           ))}
         </div>

@@ -118,6 +118,17 @@ const Recetas = () => {
   return (
     <div>
       <Row>
+        {/* Formulario de creación/edición de receta */}
+        {mostrarFormulario && (
+          <NuevaReceta
+            onClose={() => setMostrarFormulario(false)}
+            setRecetas={setRecetas}
+            recetas={recetas}
+            ingredientes={ingredientes} // Ingredientes disponibles
+            receta={recetaSeleccionada} // Receta seleccionada para edición
+            modoEditar={modoEditar} // Modo edición
+          />
+        )}
         <Col className="mb-4" xs={12}>
           {/* Buscador y botón */}
           <div className="d-flex align-items-center justify-content-end">
@@ -149,18 +160,6 @@ const Recetas = () => {
           </div>
         </Col>
       </Row>
-
-      {/* Formulario de creación/edición de receta */}
-      {mostrarFormulario && (
-        <NuevaReceta
-          onClose={() => setMostrarFormulario(false)}
-          setRecetas={setRecetas}
-          recetas={recetas}
-          ingredientes={ingredientes} // Ingredientes disponibles
-          receta={recetaSeleccionada} // Receta seleccionada para edición
-          modoEditar={modoEditar} // Modo edición
-        />
-      )}
 
       {/* Tabla de recetas */}
       <Table responsive>

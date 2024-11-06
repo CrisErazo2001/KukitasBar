@@ -113,6 +113,15 @@ const Ingredientes = () => {
     <div>
       <Row>
         <Col className="mb-4" xs={12}>
+          {mostrarFormulario && (
+          <NuevoIngrediente
+            onClose={() => setMostrarFormulario(false)}
+            setIngredientes={setIngredientes}
+            ingredientes={ingredientes}
+            ingrediente={ingredienteSeleccionado}
+            modoEditar={modoEditar}
+          />
+          )}
           <div className="d-flex align-items-center justify-content-end">
             <div className={s.searchContainer}>
               <InputGroup className="input-group-no-border search-input-group">
@@ -140,16 +149,6 @@ const Ingredientes = () => {
           </div>
         </Col>
       </Row>
-
-      {mostrarFormulario && (
-        <NuevoIngrediente
-          onClose={() => setMostrarFormulario(false)}
-          setIngredientes={setIngredientes}
-          ingredientes={ingredientes}
-          ingrediente={ingredienteSeleccionado}
-          modoEditar={modoEditar}
-        />
-      )}
 
       <Table responsive>
         <thead>

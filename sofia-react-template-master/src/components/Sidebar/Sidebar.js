@@ -49,7 +49,7 @@ const Sidebar = (props) => {
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
-          header="Dashboard"
+          header="Pestaña de Mando"
           isHeader
           iconName={<i className={'eva eva-home-outline'}/>}
           link="/template/dashboard"
