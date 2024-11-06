@@ -11,8 +11,13 @@ import {
   InputGroup,
   InputGroupAddon
 } from "reactstrap";
-import ApexChartPedidos from "./ApexChartPedidos";
+
 import ApexCharts from "react-apexcharts";
+
+
+import BebidasPorDiaChart from "./BebidasPorDiaChart .js"; // Asegúrate de la ruta correcta
+import dayjs from "dayjs";
+
 //import { v4 as uuidv4 } from "uuid";
 import * as XLSX from 'xlsx';
 import searchIcon from "../../assets/tables/searchIcon.svg";
@@ -306,6 +311,12 @@ const Tables = () => {
         <ApexCharts options={ingredientesChartSettings} series={ingredientesSeries} type="pie" height={300} />
       </Col>
       
+      {/* Gráfico de bebidas por día */}
+      <div style={{ marginTop:'20px', marginBottom: "20px" }}>
+        <h4>Registro de Bebidas Totales por Día</h4>
+        <BebidasPorDiaChart pedidosFiltrados={pedidosFiltrados} />
+      </div>
+
       <div style={{ marginTop:'50px', display:'flex', width:'100%', height:'50px', justifyContent:'center'}}>
         <button className={s.nBotonRecetas} onClick={eliminarPedido}>
           <p>Eliminar Toda la Tabla de Pedidos</p>
