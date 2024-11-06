@@ -11,7 +11,14 @@ import {
   InputGroup,
   InputGroupAddon
 } from "reactstrap";
-import { v4 as uuidv4 } from "uuid";
+
+import ApexCharts from "react-apexcharts";
+
+
+import BebidasPorDiaChart from "./BebidasPorDiaChart .js"; // Asegúrate de la ruta correcta
+import dayjs from "dayjs";
+
+//import { v4 as uuidv4 } from "uuid";
 import * as XLSX from 'xlsx';
 import searchIcon from "../../assets/tables/searchIcon.svg";
 import printerIcon from "../../assets/tables/printerIcon.svg";
@@ -124,7 +131,60 @@ const Tables = () => {
       );
     }
   }, [deleteListStatus]);
-  
+
+
+  /* Nuevo */
+  // Configuración para la gráfica de bebidas
+  const conteoBebidas = pedidosFiltrados.reduce((acc, pedido) => {
+    acc[pedido.nombre_receta] = (acc[pedido.nombre_receta] || 0) + 1;
+    return acc;
+  }, {});
+  const bebidasSeries = Object.values(conteoBebidas);
+  const bebidasLabels = Object.keys(conteoBebidas);
+  // Array de colores que se aplicarán a las barras, puedes modificar los colores aquí
+  const coloresBarras = ["#FF5733", "#31FF57", "#3357FF", "#FF33A1", "#FF8333", "#FF5733", "#33FFF5", "#5733FF"];
+
+  const bebidasChartSettings = {
+    chart: { 
+      type: 'bar', 
+      height: 300, 
+      toolbar: { show: false } 
+    },
+    plotOptions: { 
+      bar: { 
+        borderRadius: 4, 
+        horizontal: false, 
+        colors: {
+          ranges: bebidasLabels.map((_, index) => ({
+            from: index,
+            to: index,
+            color: coloresBarras[index % coloresBarras.length], // Aplica un color diferente para cada barra
+          }))
+        }
+      } 
+    },
+    xaxis: { 
+      categories: bebidasLabels 
+    }
+  };
+
+  // Configuración para la gráfica de ingredientes sin valores vacíos
+  const conteoIngredientes = pedidosFiltrados.reduce((acc, pedido) => {
+    pedido.ingredientes.split("-").forEach(ing => {
+      const ingrediente = ing.trim();
+      if (ingrediente) { // Evita valores vacíos
+        acc[ingrediente] = (acc[ingrediente] || 0) + 1;
+      }
+    });
+    return acc;
+  }, {});
+  const ingredientesSeries = Object.values(conteoIngredientes);
+  const ingredientesLabels = Object.keys(conteoIngredientes);
+
+  const ingredientesChartSettings = {
+    chart: { type: 'pie', height: 300, toolbar: { show: false } },
+    labels: ingredientesLabels
+  };
 
   return (
     <div>
@@ -132,59 +192,67 @@ const Tables = () => {
         <Col>
           <Row className="mb-4">
             <Col>
-              <div className={s.tableTitle}>
-                <div className="headline-2">Historico de pedidos</div>
-                <div className="d-flex align-items-center">
+            
+                <div className="mb-4" style={{ display:'flex', width:'100%',alignItems:'center', justifyContent:'space-between'}}>
+                  <div className="headline-2">Historico de pedidos</div>
                   <div className={s.searchContainer}> 
-                    <InputGroup className="input-group-no-border search-input-group">
-                      <Input
-                        type="text"
-                        placeholder="Buscar Bebida"
-                        value={busqueda}
-                        onChange={(e) => setBusqueda(e.target.value)}
-                        className={s.searchInput}
-                      />
-                      <InputGroupAddon addonType="prepend">
-                        <span className={s.searchIcon}>
-                          <img src={searchIcon} alt="Buscar" />
-                        </span>
-                      </InputGroupAddon>
-                    </InputGroup>
+                      <InputGroup className="input-group-no-border search-input-group">
+                        <Input
+                          type="text"
+                          placeholder="Buscar Bebida"
+                          value={busqueda}
+                          onChange={(e) => setBusqueda(e.target.value)}
+                          className={s.searchInput}
+                        />
+                        <InputGroupAddon addonType="prepend">
+                          <span className={s.searchIcon}>
+                            <img src={searchIcon} alt="Buscar" />
+                          </span>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </div>
+                </div>
+                <h5> Filtrar por fechas </h5>
+                <div className="mb-4" style={{ display:'flex', width:'100%', height:'50px',alignItems:'center', justifyContent:'center'}}>
+                  <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+                    <h7>Fecha Inicio</h7>
+                    <Input
+                      type="date"
+                      placeholder="Fecha inicio"
+                      value={fechaInicio}
+                      onChange={(e) => setFechaInicio(e.target.value)}
+                      className={`${s.dateInput} mr-3`}
+                    />
+                  </div>
+                  <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+                    <h7>Fecha Fin</h7>
+                    <Input
+                      type="date"
+                      placeholder="Fecha fin"
+                      value={fechaFin}
+                      onChange={(e) => setFechaFin(e.target.value)}
+                      className={s.dateInput}
+                    />
                   </div>
 
-                  <Input
-                    type="date"
-                    placeholder="Fecha inicio"
-                    value={fechaInicio}
-                    onChange={(e) => setFechaInicio(e.target.value)}
-                    className={s.dateInput}
-                  />
-                  <Input
-                    type="date"
-                    placeholder="Fecha fin"
-                    value={fechaFin}
-                    onChange={(e) => setFechaFin(e.target.value)}
-                    className={s.dateInput}
-                  />
-
+  
+                </div>
+                <div className="mb-4" style={{ display:'flex', width:'100%', height:'50px',alignItems:'center', justifyContent:'center'}}>
                   <button className={s.print} onClick={exportarExcel}>
                     <img src={printerIcon} alt="Imprimir" />
                   </button>
-
-                  <button className={s.print} onClick={eliminarPedido}>
-                    <p>DEL</p>
-                  </button>
                 </div>
-              </div>
+            
+              
               <Table responsive striped className="table-borderless table-hover">
                 <thead>
                   <tr>
                     
-                    <th>Nombre de receta</th>
+                    <th>Bebida</th>
                     <th>Ingredientes</th>
                     <th>Hora de pedido</th>
                     <th>Hora de entrega</th>
-                    <th>Hielo</th>
+                    <th>Hielo?</th>
                     <th>Costo Bebida</th>
                   </tr>
                 </thead>
@@ -198,7 +266,8 @@ const Tables = () => {
                         <td>{pedido.ingredientes}</td>
                         <td>{pedido.create_at}</td>
                         <td>{pedido.ready_at}</td>
-                        <td>{pedido.hielo}</td>
+                        {/*<td>{pedido.hielo}</td>*/}
+                        <td>{pedido.hielo === 1 ? "Sí" : "No"}</td>
                         <td>{pedido.costoBebida}</td>
                       </tr>
                     ))}
@@ -232,6 +301,28 @@ const Tables = () => {
           </Row>
         </Col>
       </Row>
+      
+      <Col>
+        <h5>Consumo de Bebidas</h5>
+        <ApexCharts options={bebidasChartSettings} series={[{ data: bebidasSeries }]} type="bar" height={300} />
+      </Col>
+      <Col>
+        <h5>Uso de Ingredientes</h5>
+        <ApexCharts options={ingredientesChartSettings} series={ingredientesSeries} type="pie" height={300} />
+      </Col>
+      
+      {/* Gráfico de bebidas por día */}
+      <div style={{ marginTop:'20px', marginBottom: "20px" }}>
+        <h4>Registro de Bebidas Totales por Día</h4>
+        <BebidasPorDiaChart pedidosFiltrados={pedidosFiltrados} />
+      </div>
+
+      <div style={{ marginTop:'50px', display:'flex', width:'100%', height:'50px', justifyContent:'center'}}>
+        <button className={s.nBotonRecetas} onClick={eliminarPedido}>
+          <p>Eliminar Toda la Tabla de Pedidos</p>
+        </button>
+      </div>
+      
     </div>
   );
 };
