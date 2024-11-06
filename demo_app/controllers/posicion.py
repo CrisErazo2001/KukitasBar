@@ -268,7 +268,7 @@ def save_distribucion():
         cantidades = []
         z =0
         for pos in data['posiciones']:
-                        
+            print('pos: ',pos)                
             if pos == '':
                 posiciones.append(0)
                 cantidades.append(0)
@@ -277,9 +277,9 @@ def save_distribucion():
                 aux1 = ingrediente.get_by_name({'nombre': pos})
                 aux2= cant_aux.aslist()
                 posiciones.append(aux1.id_ingrediente)
-                print('pos_aux[z]: ',aux.nombre)
-                print('pos: ',pos)
-                if int(aux2[z]) == 0:
+                
+                
+                if int(aux2[z]) == 0 or aux == []:
                     cantidades.append(int(aux1.cantidad_unitaria))
                 elif aux.nombre != pos:
                     cantidades.append(int(aux1.cantidad_unitaria))
