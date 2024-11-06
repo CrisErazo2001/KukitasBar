@@ -22,7 +22,7 @@ import dayjs from "dayjs";
 import * as XLSX from 'xlsx';
 import searchIcon from "../../assets/tables/searchIcon.svg";
 import printerIcon from "../../assets/tables/printerIcon.svg";
-import equisSymbol from "../../assets/tables/x-symbol-svgrepo-com.svg";
+
 import s from "./Tables.module.scss";
 // Notificaciones
 import { toast } from "react-toastify";

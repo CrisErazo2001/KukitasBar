@@ -96,7 +96,7 @@ def crear_pedido():
     data = request.form
     searchReceta = {'nombre': data['nombre_bebida']}
     recetaSelected = receta.get_by_name(searchReceta)
-    recetas = receta.get_all()
+    pedidos = pedido.get_all()
     
 
     # Validar si se pidió la bebida con hielo
@@ -128,7 +128,7 @@ def crear_pedido():
         # Guardar el pedido si hay cantidades suficientes
    
         pedido.save(dict_pedido)
-        if recetas == []:
+        if pedidos == []:
             webSocket_connection_2()
 
     response = {
