@@ -1,9 +1,3 @@
-'''
-
-Este script contiene la ruta principal de la pagina web que nos dirige al menu de login y la ruta de la pagina principal
-la cual nos dirige al menu restaurante donde podemos realizar los pedidos de las bebidas
-
-'''
 
 
 from flask import render_template, redirect, session, request, flash, jsonify, make_response

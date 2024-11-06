@@ -1,17 +1,3 @@
-'''
-
-Este script incluye las rutas necesarias para crear y eliminar las listas de bebidas. 
-
-La ruta /bebidas/create crea la lista de bebidas
-
-La ruta /bebida/define-lista-global selecciona una lista de bebidas para poder crear la distribucion de botellas y cantidades ademas
-de acceder a las recetas relacionadas con la lista de bebidas.
-
-La ruta /bebida/define-lista-global/get entrega el nombre de la lista de bebidas seleccionada en formato json
-
-La ruta /lista/delete elimina una lista de bebidas siembre y cuando no existan pedidos en lista de espera
-
-'''
 
 
 from flask import render_template, redirect, session, request, flash, jsonify, make_response

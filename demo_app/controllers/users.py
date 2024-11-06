@@ -1,21 +1,3 @@
-'''
-
-Este script contiene las rutas de las paginas de la seccion de login y para administrar usuarios. 
-
-La ruta /login valida el usuario y contraseña ingresado y te redirige a la pagina correspondiente y asigna la sension al id de usuario
-
-La ruta /register muestra la pagina de registro de usuario
-
-La ruta /user/create crea un nuevo usuario 
-
-La ruta /user/modify modifica la contraseña de un usuario ya reado
-
-La ruta /user/delete elimina un usuario
-
-La ruta /logout elimina la id del usuario de la sesion y te redirige a la pagina de login
-
-'''
-
 
 
 from flask import render_template, redirect, session, request, flash, jsonify, make_response
