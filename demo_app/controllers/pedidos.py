@@ -173,16 +173,19 @@ def send():
         hielo = ped.hielo
         keys, values = get_ing(rec.asdict())
         keys = keys[:-1]
+        print(keys)
         values = values[:-1]
         cantUsed = [x * 30 for x in values]
         pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
         pos_list = pos.aslist()
         posiciones = []
-        
+        ingredientes = []
         for x in keys:
             try:
                 ing_aux = ingrediente.get_by_name({'nombre': x})
+                ingredientes.append(ing_aux.id_ingrediente)
                 indice = pos_list.index(ing_aux.id_ingrediente)
+
                 posiciones.append(indice + 1)
             except ValueError:
                 is_valid_pos = False
@@ -193,15 +196,25 @@ def send():
         cant = cantidad.get_by_id({'id_cantidad': id_aux})
         cant_list = cant.asdict()
         z = 0
-
+        counter = 0
         for p in posiciones:
             aux = 'cant' + str(p)
             while cant_list[aux] < cantUsed[z]:  # Sigue buscando si la cantidad no es suficiente
                 try:
+                    counter += 1
+                    print('cant_list[aux]: ',cant_list[aux])
+                    print('z: ',z)
                     # Busca el siguiente índice con el mismo ingrediente
-                    indice = pos_list.index(ing_aux.id_ingrediente, pos_list.index(ing_aux.id_ingrediente) + 1)
-                    p = indice + 1
+                    print('ingredientes[z]: ',ingredientes[z])
+                    indice = pos_list.index(ingredientes[z], pos_list.index(ingredientes[z]) + 1)
+                    p = indice + 1  
+                    print('indice: ',indice)
+                    print('posiciones[z]: ',posiciones[z])
+                    posiciones[z] = indice
                     aux = 'cant' + str(p)
+                    if counter > len(pos_list):
+                        is_valid_cant = False
+                        break
                 except ValueError:
                     is_valid_cant = False
                     break
@@ -228,7 +241,6 @@ def send():
 
     print('is_valid: ', is_valid)
     print('is_valid_pos: ', is_valid_pos)
-    print('is_valid_cant: ', is_valid_cant)
     return jsonify({'posiciones': posiciones, 'cantidades': values, 'hielo': hielo})
 
 
