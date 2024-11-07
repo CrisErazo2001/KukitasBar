@@ -20,6 +20,7 @@ const Distribucion = () => {
   const [botonSeleccionado, setBotonSeleccionado] = useState('');
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
   const [nombreDisposicion, setNombreDisposicion] = useState('');
+  const [mostrarInputNombre, setMostrarInputNombre] = useState(false);  // Nuevo estado para visibilidad del campo de entrada
   const [ingredientes, setIngredientes] = useState(['']);
   const [distribucionNombres, setDistribucionNombres] = useState([]);
   const [cantidades, setCantidades] = useState(Array.from({ length: 28 }, () => ({ cantidadActual: -1, cantidadUsada: 0 })));
@@ -154,14 +155,22 @@ const Distribucion = () => {
     cerrarModal();
   };
 
+  /* Nuevo */
+  const toggleMostrarInputNombre = () => setMostrarInputNombre(!mostrarInputNombre);
+
+  /* */
   const guardarDisposicion = () => {
 
     fetch('/posicion/save-distribucion', {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({nombreSeleccionado: distribucion,nuevoNombre: nombreDisposicion, posiciones: distribucionNombres})
+      body: JSON.stringify({
+        nombreSeleccionado: distribucion,
+        nuevoNombre: nombreDisposicion, 
+        posiciones: distribucionNombres
+      })
     })
     .then(response => {
         console.log('Respuesta del servidor:', response); // Log de la respuesta
@@ -170,6 +179,7 @@ const Distribucion = () => {
     .then(data => {
         console.log('Datos recibidos:', data); // Log de los datos recibidos
         setGuardarStatus(data); // Guarda la respuesta 
+        setMostrarInputNombre(false);  // Ocultar el campo de entrada al guardar
         
     })
     .catch(error => console.error('Error:', error));
@@ -460,15 +470,34 @@ const Distribucion = () => {
           ))}
         </div>
       </div>
-
+      
+      {/* Botones para Guardar */}
       <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-        <Input
-          type="text"
-          value={nombreDisposicion}
-          onChange={(e) => setNombreDisposicion(e.target.value)}
-          placeholder={nombreDisposicion != ''?  nombreDisposicion : "Nombre de la disposición"}
-        />
+        {/* Botón de Guardar Como */}
+        <Button className={s.nBotonRecetas} onClick={toggleMostrarInputNombre}>
+          Guardar Como
+        </Button>
+        
+ 
       </div>
+
+      {/* Campo de entrada para el nombre de disposición (oculto/invisible por defecto) */}
+      {mostrarInputNombre && (
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <Input
+            type="text"
+            style={{maxWidth:'400px'}}
+            value={nombreDisposicion}
+            onChange={(e) => setNombreDisposicion(e.target.value)}
+            placeholder={nombreDisposicion !== '' ? nombreDisposicion : "Nuevo nombre de la disposición"}
+          />
+          <div className='mb-5'></div>
+          <div className='mb-5'></div>
+          <div className='mb-5'></div>
+        </div>
+      )}
+
+ 
       <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
         <Button className={s.nBotonRecetas} onClick={guardarDisposicion}>Guardar Disposición</Button>
         
