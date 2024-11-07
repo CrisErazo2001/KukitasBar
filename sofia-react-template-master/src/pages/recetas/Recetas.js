@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon, Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
 import NuevaReceta from './NuevaReceta'; // Importa el componente para crear/editar recetas
 import Modal from 'react-modal'; // Para mostrar el popup de vista detallada
 import s from "../ingredientes/Ingredientes.module.scss";
@@ -24,6 +24,12 @@ const Recetas = () => {
   const [recetaSeleccionada, setRecetaSeleccionada] = useState(null);
   const [modoEditar, setModoEditar] = useState(false); // Modo para editar receta
   const [deleteRecStatus, setDeleteRecStatus] = useState({});
+  // N
+   const [mostrarTabla, setMostrarTabla] = useState(false); // Estado para la tabla
+  // Estado para la paginación
+  const [paginaActual, setPaginaActual] = useState(1);
+  const elementosPorPagina = 6; // Cambia este número según la cantidad de elementos que desees mostrar por página
+
 
   const fetchIngredientes = async () => {
     try {
@@ -71,6 +77,7 @@ const Recetas = () => {
     setModoEditar(true);
     setRecetaSeleccionada(receta);
     setMostrarFormulario(true);
+    setMostrarTabla(false); // Ocultar tabla cuando se edita
   };
 
   // Función para eliminar una receta
@@ -115,20 +122,20 @@ const Recetas = () => {
     fetchRecetas();
   }, [mostrarFormulario,deleteRecStatus]);
 
+  /* Nuevo */
+
+  // Configuración de la paginación
+  const indiceUltimoElemento = paginaActual * elementosPorPagina;
+  const indicePrimerElemento = indiceUltimoElemento - elementosPorPagina;
+  const ingredientesPaginados = filtrarRecetas.slice(indicePrimerElemento, indiceUltimoElemento);
+
+  const cambiarPagina = (pagina) => setPaginaActual(pagina);
+  const totalPaginas = Math.ceil(filtrarRecetas.length / elementosPorPagina);
+
+
   return (
     <div>
       <Row>
-        {/* Formulario de creación/edición de receta */}
-        {mostrarFormulario && (
-          <NuevaReceta
-            onClose={() => setMostrarFormulario(false)}
-            setRecetas={setRecetas}
-            recetas={recetas}
-            ingredientes={ingredientes} // Ingredientes disponibles
-            receta={recetaSeleccionada} // Receta seleccionada para edición
-            modoEditar={modoEditar} // Modo edición
-          />
-        )}
         <Col className="mb-4" xs={12}>
 
           <div className='d-flex flex-column justify-content-sm-center align-items-center'>
@@ -137,11 +144,38 @@ const Recetas = () => {
               setMostrarFormulario(true); // Mostrar formulario de creación de recetas
               setModoEditar(false); // Modo crear, no editar
               setRecetaSeleccionada(null); // Limpia selección anterior
+              setMostrarTabla(false); // p
             }}>
               Crear Nueva Receta
             </Button>
           </div>
+          <div className="d-flex flex-column align-items-center justify-content-space-between mt-3">
+            <h5 className='mr-4'>Mostrar Recetas</h5>
+            <Button className={s.nBotonRecetas} onClick={() => {
+              setMostrarTabla(true);
+              setMostrarFormulario(false);
+            }}>
+              Mostrar Recetas
+            </Button>
+          </div>
+          {/* Formulario de creación/edición de receta */}
+          {mostrarFormulario && (
+            <NuevaReceta
+              onClose={() => setMostrarFormulario(false)}
+              setRecetas={setRecetas}
+              recetas={recetas}
+              ingredientes={ingredientes} // Ingredientes disponibles
+              receta={recetaSeleccionada} // Receta seleccionada para edición
+              modoEditar={modoEditar} // Modo edición
+            />
+          )}
         </Col>
+      </Row>
+
+      
+
+      {mostrarTabla && (
+      <div>
         {/* Buscador y botón */}
         <div className={s.boxbuscador}>
           <div className={s.searchContainer}>
@@ -161,39 +195,64 @@ const Recetas = () => {
             </InputGroup>
           </div>
         </div>
-      </Row>
+     
 
-      {/* Tabla de recetas */}
-      <Table responsive>
-        <thead>
-          <tr>
-            <th>Nombre de la Receta</th>
-            <th>Ingredientes</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtrarRecetas.map((receta, index) => (
-            <tr key={index}>
-              <td>{receta.nombre}</td>
-              <td>
-                {receta.ingredientes.map((ing, idx) => (
-                  <span key={idx}>
-                    {ing.nombre}{idx < receta.ingredientes.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
-              </td>
-              <td>
-                <div className='d-flex flex-column'>
-                  <Button className={s.nBotonEdicion} onClick={() => abrirFormularioEdicion(receta)}>Editar</Button>
-                  <div className='mb-3'></div>
-                  <Button className={s.nBotonEdicion} onClick={() => eliminarReceta(receta)}>Eliminar</Button>
-                </div>
-              </td>
+        {/* Tabla de recetas */}
+        <Table responsive>
+          <thead>
+            <tr>
+              <th>Nombre de la Receta</th>
+              <th>Ingredientes</th>
+              <th>Acciones</th>
             </tr>
+          </thead>
+          <tbody>
+            {ingredientesPaginados.map((receta, index) => (
+              <tr key={index}>
+                <td>{receta.nombre}</td>
+                <td>
+                  {receta.ingredientes.map((ing, idx) => (
+                    <span key={idx}>
+                      {ing.nombre}{idx < receta.ingredientes.length - 1 ? ', ' : ''}
+                    </span>
+                  ))}
+                </td>
+                <td>
+                  <div className='d-flex flex-column'>
+                    <Button className={s.nBotonEdicion} onClick={() => abrirFormularioEdicion(receta)}>Editar</Button>
+                    <div className='mb-3'></div>
+                    <Button className={s.nBotonEdicion} onClick={() => eliminarReceta(receta)}>Eliminar</Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        {/* Paginación */}
+        <Pagination className="d-flex justify-content-center">
+          <PaginationItem disabled={paginaActual === 1}>
+            <PaginationLink first onClick={() => cambiarPagina(1)} />
+          </PaginationItem>
+          <PaginationItem disabled={paginaActual === 1}>
+            <PaginationLink previous onClick={() => cambiarPagina(paginaActual - 1)} />
+          </PaginationItem>
+          {[...Array(totalPaginas)].map((_, index) => (
+            <PaginationItem active={paginaActual === index + 1} key={index}>
+              <PaginationLink onClick={() => cambiarPagina(index + 1)}>
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
           ))}
-        </tbody>
-      </Table>
+          <PaginationItem disabled={paginaActual === totalPaginas}>
+            <PaginationLink next onClick={() => cambiarPagina(paginaActual + 1)} />
+          </PaginationItem>
+          <PaginationItem disabled={paginaActual === totalPaginas}>
+            <PaginationLink last onClick={() => cambiarPagina(totalPaginas)} />
+          </PaginationItem>
+        </Pagination>
+      </div>
+      )}
+
     </div>
   );
 };

@@ -156,7 +156,7 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
                 <Input type="textarea" name="descripcion" value={nuevoIngrediente.descripcion} onChange={handleInputChange} />
               </FormGroup>
               <FormGroup>
-                <Label for="cantidad">Cantidad en Stock (cm3)</Label>
+                <Label for="cantidad">Volumen de la botella (cm3)</Label>
                 <Input type="select" name="cantidad" value={nuevoIngrediente.cantidad} onChange={handleInputChange}>
                   <option value={750}>750</option>
                   <option value={1000}>1000</option>
@@ -167,7 +167,7 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
             </Col>
             <Col md={6}>
               <FormGroup>
-                <Label for="costo">Costo por Unidad</Label>
+                <Label for="costo">Costo por botella ($)</Label>
                 <Input type="number" name="costo" step="0.01" value={nuevoIngrediente.costo} onChange={handleInputChange} />
               </FormGroup>
               <FormGroup>
