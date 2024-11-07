@@ -109,8 +109,32 @@ const Distribucion = () => {
   };
 
   const manejarCambioDistribucion = (dis) => {
-      console.log('distribucion',dis)
+    let algunValorEsTrue = false;
+
+    for (let i = 0; i < cambioIngrediente.length; i++) {
+      if (cambioIngrediente[i] === true) {
+        algunValorEsTrue = true;
+        break; // Detenemos el bucle porque encontramos un valor `true`
+      }
+    }
+
+    if (algunValorEsTrue){
+      toast(
+        
+        <Notification 
+            type='warning'
+            errorMessage='Has realizado cambios sin guardarlos'
+            withIcon 
+        />, 
+        options
+      );
+
+    }
+    else{
+      console.log('distribucion',dis);
       setDistribucion(dis); 
+    }
+      
   };
 
   const rellenarCantidad = () => {
@@ -237,12 +261,14 @@ const Distribucion = () => {
   const obtenerColorBoton = (boton) => {
     // console.log('boton #:',boton);
     const ingrediente  = distribucionNombres[boton];
-    if (ingrediente == '') return '#d3d3d3'; // Gris cuando no hay selección
     if (cambioIngrediente[boton] == true) return '#00FF28';
+    if (ingrediente == '') return '#d3d3d3'; // Gris cuando no hay selección
     if (cantidades[boton].cantidadActual < 30 && cantidades[boton].cantidadActual != -1) return '#ffd700'; // Amarillo cuando está vacío
      
     return '#ff8b05'; // Naranja para los demás ingredientes
   };
+
+ 
   useEffect(()=>{
     
     fetch('/posicion/set', {
@@ -250,7 +276,7 @@ const Distribucion = () => {
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({nombre: distribucion})
+      body: JSON.stringify({nombre: distribucion,posiciones: distribucionNombres})
     })
     .then(response => {
         console.log('Respuesta del servidor:', response); // Log de la respuesta
@@ -387,7 +413,10 @@ const Distribucion = () => {
           onChange={manejarCambioDistribucion}
           
         />
+        
       </div>
+      
+      
       <div className={s.leyendaContainer}>
         <h3>Set de distribucion: {nombre}</h3>
       

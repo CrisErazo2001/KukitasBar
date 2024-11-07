@@ -65,12 +65,13 @@ def get_name_posiciones():
     mensaje = "Exitoso"
     status = 'success'
     code = 200
-    data = [{'value':0 ,'label': 'Ninguno'}]
     
+    data = []
     distribuciones = posicion_bebidas.get_all()
     for p in distribuciones:
         data.append({'value': p.id_posicion, 'label': p.nombre})
-   
+    
+    data.append({'value':0 ,'label': 'Contenido Vacio'})
     
     value = {   #valor de salida de la api
         "valid": is_valid,
@@ -94,7 +95,7 @@ def set_distribucion():
     data = request.json
     
     print('data: ',data)
-
+    
     f = open('posicion.txt','r')
     id_aux = f.read()
     if id_aux == '':
