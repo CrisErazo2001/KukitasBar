@@ -238,9 +238,9 @@
 
                         </div>
 
-                        <div class="slider slider-single">
+                        <div class="slider slider-single d-flex">
  
-
+                            <!--
                             <div class="items-menu">
                                 <h2 class="block-title text-center">Selecciona una Bebida</h2>
 
@@ -249,13 +249,36 @@
                                     <div class="bebida-item">
                                         <h2 class="block-title text-center">{{ o.nombre }}</h2>
                                         <h3 class="block-title text-center">{{ o.ingredientes }}</h3>
-                                        <!-- Botón para seleccionar bebida y abrir el popup -->
+                                        
                                         <button class="botonera-n" onclick="openPopup('{{ o.nombre }}')">Pedir
                                             aquí</button>
                                     </div>
                                     {% endfor %}
                                 </div>
                             </div>
+                            -->
+
+                            <div class="items-menu">
+                                <h2 class="menu-title">Selecciona una Bebida</h2>
+                            
+                                <!-- Encabezado para el menú de bebidas -->
+                                <div class="menu-header">
+                                    <span>Nombre de la Bebida</span>
+                                    <span>Ingredientes</span>
+                                    <span>Acción</span>
+                                </div>
+                            
+                                <div class="bebidas-contenedor">
+                                    {% for o in recetas %}
+                                    <div class="bebida-item">
+                                        <div class="bebida-nombre">{{ o.nombre }}</div>
+                                        <div class="bebida-ingredientes">{{ o.ingredientes }}</div>
+                                        <button class="botonera-n" onclick="openPopup('{{ o.nombre }}')">Pedir aquí</button>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
 
                           
                             <div>

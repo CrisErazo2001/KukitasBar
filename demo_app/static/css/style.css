@@ -2174,18 +2174,7 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
 }
 
 
-.bebidas-contenedor {
-    display: flex;
 
-    
-    justify-content: center; /* Centrar las bebidas horizontalmente */
-    
-    width: 100%; 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-}
 
 .bebida-item {
     border: 1px solid #ddd;
@@ -2195,8 +2184,7 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
     border-radius: 5px;
     text-align: center;
     transition: transform 0.3s ease;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .bebida-item:hover {
@@ -2256,42 +2244,9 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
 }
 
 
-.items-menu{
-    display: flex;
-    /* flex-wrap: wrap; */
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: auto;
-    width: 100%;
-    flex-direction: column;
-    padding-top: 20px;
-    box-sizing: border-box;
-}
 
-.botonera-n{
-	/*background:#e75b1e;*/
-	color:#fff;
-	width: 40%;
-    padding: 15px 10px 15px 10px;
-    display: inline-block;
-    text-align: center;
-    font-weight: 800;
-	text-transform:uppercase;
-	font-size:18px;
-    background-color: #e75b1e;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 50px;
-    margin-top: 50px;
-}
 
-.botonera-n:hover{
-	border:3px solid red;
-	background:none;
-    color: #e75b1e;
-}
+
 
 /* RESPONSIVE DESIGN */
 
@@ -2439,5 +2394,174 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
     .letras-popup,
     .letras-npopup {
         font-size: 15px;
+    }
+}
+
+/* Contenedor principal */
+.items-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fdfdfd;
+}
+
+/* Título del menú */
+.menu-title {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #e75b1e;
+    font-family: 'nautilus_pompiliusregular';
+}
+
+/* Encabezado de columnas */
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #333;
+    border-bottom: 2px solid #e75b1e;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.menu-header span {
+    flex: 1;
+    text-align: center;
+}
+
+/* Contenedor de las bebidas */
+.bebidas-contenedor {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo de cada bebida */
+.bebida-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    font-size: 18px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    padding-right: 10px;
+}
+
+/* Columnas centradas */
+.bebida-item > div,
+.bebida-item > button {
+    flex: 1;
+    text-align: center;
+}
+
+/* Nombre de la bebida */
+.bebida-nombre {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+    font-family: 'nautilus_pompiliusregular';
+    color: #e75b1e;
+    font-size: 30px;
+}
+
+/* Ingredientes con color más tenue */
+.bebida-ingredientes {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/* Botón de acción */
+.botonera-n {
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #e75b1e;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, border 0.3s;
+    padding-left: 7px;
+}
+
+.botonera-n:hover {
+    background: none;
+    border: 3px solid #e75b1e;
+    color: #e75b1e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .menu-header, .bebidas-contenedor {
+        width: 100%;
+    }
+    
+    .menu-header {
+        font-size: 16px;
+    }
+    
+    .bebida-item {
+        flex-direction: row;
+        align-items: center;
+        padding-right: 10px;
+    }
+    
+    .bebida-item > div, .bebida-item > button {
+        text-align: left;
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    .botonera-n {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 14px;
+    }
+    .bebida-nombre {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-title {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .menu-header {
+        font-size: 14px;
+    }
+
+    .bebida-item {
+        font-size: 16px;
+        padding: 8px 0;
+    }
+
+    .botonera-n {
+        font-size: 12px;
+        padding: 10px 0;
     }
 }

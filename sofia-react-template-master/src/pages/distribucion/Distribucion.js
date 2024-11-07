@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, Button, Row, Col, Input, FormGroup, Label } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Button, Row, Col, Input, FormGroup, Label, InputGroup, InputGroupText } from 'reactstrap';
 import Select from 'react-select';
 import s from './Distribucion.module.scss';
 // Notificaciones
@@ -368,7 +368,7 @@ const Distribucion = () => {
 
   return (
     <div>
-      <div style={{width:"50%", position: 'absolute', top: 20, right: 20 }}>
+      <div style={{width:"50%", top: 20, right: 20 }}>
         {console.log('distribucion front',distribucion)}
         <Select 
           options={nombres} 
@@ -494,28 +494,65 @@ const Distribucion = () => {
               placeholder={distribucionNombres[botonSeleccionado] !== ''? distribucionNombres[botonSeleccionado]:"Seleccione un ingrediente"}
             />
           </FormGroup>
-          
-          <div className='d-flex'>
+          <div className='d-flex align-items-end'>
             <FormGroup>
               <Label for="cantidad">Contenido de la Botella</Label>
-              <Input
-                type="number"
-                id="cantidad"
-                value={cantidades[botonSeleccionado]?.cantidadActual || 0}
-                
-                disabled = {true}
-              />
+              <InputGroup>
+                <Input
+                  type="number"
+                  id="cantidad"
+                  value={cantidades[botonSeleccionado]?.cantidadActual || 0}
+                  style={{ 
+                    paddingRight: '0.5rem',
+                  }}
+                  disabled = {true}
+                />
+                <InputGroupText style={{
+                  height: 'auto',
+                  paddingLeft: '0.5rem',  // Espacio a la izquierda de "cm³"
+                  paddingRight: '0.5rem',
+                  borderLeft:"none",
+                  borderTopLeftRadius: '0',
+                  borderBottomLeftRadius: '0',
+                  
+                }}>
+                  ml
+                </InputGroupText>
+                </InputGroup>
             </FormGroup>
+
             <FormGroup className='ml-2'>
               <Label for="cantidad">Cantidad Usada</Label>
-              <Input
-                type="number"
-                id="cantidad"
-                value={cantidades[botonSeleccionado]?.cantidadUsada||0}
-                disabled = {true}
-              />
+              <InputGroup>
+                <Input
+                  type="number"
+                  id="cantidad"
+                  value={cantidades[botonSeleccionado]?.cantidadUsada || 0}
+                  disabled={true}
+                  style={{ 
+                    paddingRight: '0.5rem',
+                    //backgroundColor: "#58c48c",
+                    color:'red'
+                  }} // Ajusta el espacio dentro del input
+                />
+                <InputGroupText style={{
+                  //backgroundColor: '#58c48c',
+                  height: 'auto',
+                  paddingLeft: '0.5rem',  // Espacio a la izquierda de "cm³"
+                  paddingRight: '0.5rem',
+                  borderLeft:"none",
+                  borderTopLeftRadius: '0',
+                  borderBottomLeftRadius: '0',
+                  color:'red'
+                  
+                }}>
+                  ml
+                </InputGroupText>
+              </InputGroup>
             </FormGroup>
+            
           </div>
+
           <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '30px 0' }}>
               <Button className={s.nBotonRecetas} onClick={rellenarCantidad}>Rellenar</Button>
           </div>
