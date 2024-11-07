@@ -78,7 +78,7 @@ def crear_ingredientes():
 
     data = request.json
     ingredienteNuevo = {
-        'id_ingrediente': int(data['stockNumber']),
+        # 'id_ingrediente': int(data['stockNumber']),
         'nombre': data['nombre'],
         'descripcion': data['descripcion'],
         'precio_unitario': float(data['costo']),
@@ -88,13 +88,14 @@ def crear_ingredientes():
     }
     #validaciones para ingresar nuevo ingrediente
     
-    if ingredienteNuevo['id_ingrediente'] <= 0:
-        is_valid = False
-        categoria = "crear ingredientes"
-        mensaje = "El id no puede ser 0 o menor a 0"
-        status = 'error'
-        code = 400
-    elif ingredienteNuevo['nombre'] == '':
+    # if ingredienteNuevo['id_ingrediente'] <= 0:
+    #     is_valid = False
+    #     categoria = "crear ingredientes"
+    #     mensaje = "El id no puede ser 0 o menor a 0"
+    #     status = 'error'
+    #     code = 400
+    # el
+    if ingredienteNuevo['nombre'] == '':
         is_valid = False
         categoria = "crear ingredientes"
         mensaje = "Por favor, ingrese un nombre"
@@ -144,14 +145,15 @@ def crear_ingredientes():
         code = 400
     else:
         for x in ingredientes:
-            if ingredienteNuevo['id_ingrediente'] == x.id_ingrediente:
-                is_valid = False
-                categoria = "crear ingredientes"
-                mensaje = "No pueden existir ingredientes con el mismo ID"
-                status = 'error'
-                code = 400
-                break
-            elif ingredienteNuevo['nombre'] == x.nombre:
+            # if ingredienteNuevo['id_ingrediente'] == x.id_ingrediente:
+            #     is_valid = False
+            #     categoria = "crear ingredientes"
+            #     mensaje = "No pueden existir ingredientes con el mismo ID"
+            #     status = 'error'
+            #     code = 400
+            #     break
+            # el
+            if ingredienteNuevo['nombre'] == x.nombre:
                 is_valid = False
                 categoria = "crear ingredientes"
                 mensaje = "No pueden existir ingredientes con el mismo nombre"
@@ -199,7 +201,7 @@ def modificar_ingredientes():
         'categoria': data['tipo'],
         'proveedor': data['proveedor']
     }
-    modIngrediente = ingrediente.get_by_id(aux_ingrediente)
+    modIngrediente = ingrediente.get_by_name(aux_ingrediente)
     #validaciones para ingresar nuevo ingrediente
     for x in ingredientes:
         if aux_ingrediente['nombre'] == x.nombre and aux_ingrediente['nombre'] != modIngrediente.nombre:

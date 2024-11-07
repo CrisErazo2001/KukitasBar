@@ -43,7 +43,7 @@ class ingrediente:
     
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO "+ table_name +" ( id_ingrediente,nombre,descripcion,precio_unitario,cantidad_unitaria,categoria,proveedor) VALUES ( %(id_ingrediente)s,%(nombre)s, %(descripcion)s, %(precio_unitario)s,%(cantidad_unitaria)s,%(categoria)s,%(proveedor)s);"
+        query = "INSERT INTO "+ table_name +" ( nombre,descripcion,precio_unitario,cantidad_unitaria,categoria,proveedor) VALUES ( %(nombre)s, %(descripcion)s, %(precio_unitario)s,%(cantidad_unitaria)s,%(categoria)s,%(proveedor)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
     
     @classmethod
