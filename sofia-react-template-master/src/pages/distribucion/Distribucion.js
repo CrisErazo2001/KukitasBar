@@ -120,10 +120,39 @@ const Distribucion = () => {
     setModalIsOpen(false);
   };
 
+
+  /* ANTIGUO 
   const manejarCambioIngrediente = (ingrediente) => {
     console.log('ingrediente', ingrediente)
     setIngredienteSeleccionado(ingrediente);
   };
+  /* ANTIGUO */
+
+  /* NUEVO */
+  const manejarCambioIngrediente = (ingrediente) => {
+    console.log('ingrediente seleccionado:', ingrediente);
+    setIngredienteSeleccionado(ingrediente);
+
+    // Actualizar el contenido de la botella para el botón seleccionado
+    const nuevaCantidad = obtenerCantidadPorIngrediente(ingrediente); // Función para obtener cantidad del ingrediente
+
+    setCantidades((prevCantidades) => {
+        const nuevasCantidades = [...prevCantidades];
+        nuevasCantidades[botonSeleccionado] = {
+            ...nuevasCantidades[botonSeleccionado],
+            cantidadActual: nuevaCantidad,
+        };
+        return nuevasCantidades;
+    });
+};
+const obtenerCantidadPorIngrediente = (ingrediente) => {
+  // Aquí se determina la cantidad asociada al ingrediente. 
+  // Por ejemplo, una búsqueda en un array u objeto con las cantidades de ingredientes.
+  return ingrediente.cantidadActual || "-";
+};
+
+
+  /* NUEVO */
 
   const manejarCambioDistribucion = (dis) => {
     let algunValorEsTrue = false;
@@ -523,9 +552,9 @@ const Distribucion = () => {
                 <div>
                   <strong>Ingrediente: </strong>{distribucionNombres[20 - i] || 'N/A'}
                   <br />
-                  <strong>Contenido Botella: </strong>{cantidades[20 - i]?.cantidadActual || 0} ml
+                  <strong>Contenido Botella: </strong>{cantidades[20 - i]?.cantidadActual || "-"} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[20 - i]?.cantidadUsada || 0} ml
+                  <strong>Cantidad Usada: </strong>{cantidades[20 - i]?.cantidadUsada || "-"} ml
                 </div>
               </Tooltip>
               
