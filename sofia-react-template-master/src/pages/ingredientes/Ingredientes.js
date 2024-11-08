@@ -126,26 +126,28 @@ const Ingredientes = () => {
   return (
     <div>
     <Row>
-    <Col className="mb-4" xs={12}>
-      <div className="d-flex flex-column align-items-center justify-content-space-between">
-        <h5 className='mr-4'>Crear Nuevo Ingrediente</h5>
-        <Button className={s.nBotonRecetas} onClick={() => {
-          setMostrarFormulario(true);
-          setModoEditar(false);
-          setIngredienteSeleccionado(null);
-          setMostrarTabla(false); // p
-        }}>
-          Nuevo Ingrediente
-        </Button>
-      </div>
-      <div className="d-flex flex-column align-items-center justify-content-space-between mt-3">
-        <h5 className='mr-4'>Mostrar Ingredientes</h5>
-        <Button className={s.nBotonRecetas} onClick={() => {
-          setMostrarTabla(true);
-          setMostrarFormulario(false);
-        }}>
-          Mostrar Ingredientes
-        </Button>
+    <Col className="mb-4" xs={12} >
+      <div className='mb-4' style={{backgroundColor:'#ebf5fa', padding:'20px'}}>
+        <div className="d-flex flex-column align-items-center justify-content-space-between">
+          <h5 className='mr-4'>Crear Nuevo Ingrediente</h5>
+          <Button className={s.nBotonRecetas} onClick={() => {
+            setMostrarFormulario(true);
+            setModoEditar(false);
+            setIngredienteSeleccionado(null);
+            setMostrarTabla(false); // p
+          }}>
+            Nuevo Ingrediente
+          </Button>
+        </div>
+        <div className="d-flex flex-column align-items-center justify-content-space-between mt-3">
+          <h5 className='mr-4'>Mostrar Ingredientes</h5>
+          <Button className={s.nBotonRecetas} onClick={() => {
+            setMostrarTabla(true);
+            setMostrarFormulario(false);
+          }}>
+            Mostrar Ingredientes
+          </Button>
+        </div>
       </div>
       {mostrarFormulario && (
         <NuevoIngrediente
