@@ -96,6 +96,7 @@ const Distribucion = () => {
   const abrirModal = (boton) => {
     setBotonSeleccionado(boton);
     setIngredienteSeleccionado(distribucionNombres[boton]);
+    // cantidades[boton] = distribucionNombres[boton].cant;
     setModalIsOpen(true);
   };
 

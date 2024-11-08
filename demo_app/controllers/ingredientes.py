@@ -50,7 +50,7 @@ def get_nombres_ingredientes():
 
     aux_data = ingrediente.get_all()
     for ing in aux_data:
-        data.append({'value': ing.nombre,'label':ing.nombre})
+        data.append({'value': ing.nombre,'label':ing.nombre, 'cant': ing.cantidad_unitaria})
     
     value = {   #valor de salida de la api
         "valid": is_valid,
