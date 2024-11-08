@@ -490,7 +490,7 @@ const Distribucion = () => {
                 <div>
                   <strong>Ingrediente: </strong>{distribucionNombres[27 - i] || 'N/A'}
                   <br />
-                  <strong>Cantidad Actual: </strong>{cantidades[27 - i]?.cantidadActual || 0} ml
+                  <strong>Contenido Botella: </strong>{cantidades[27 - i]?.cantidadActual || 0} ml
                   <br />
                   <strong>Cantidad Usada: </strong>{cantidades[27 - i]?.cantidadUsada || 0} ml
                 </div>
@@ -523,7 +523,7 @@ const Distribucion = () => {
                 <div>
                   <strong>Ingrediente: </strong>{distribucionNombres[20 - i] || 'N/A'}
                   <br />
-                  <strong>Cantidad Actual: </strong>{cantidades[20 - i]?.cantidadActual || 0} ml
+                  <strong>Contenido Botella: </strong>{cantidades[20 - i]?.cantidadActual || 0} ml
                   <br />
                   <strong>Cantidad Usada: </strong>{cantidades[20 - i]?.cantidadUsada || 0} ml
                 </div>
@@ -557,7 +557,7 @@ const Distribucion = () => {
                 <div>
                   <strong>Ingrediente: </strong>{distribucionNombres[13 - i] || 'N/A'}
                   <br />
-                  <strong>Cantidad Actual: </strong>{cantidades[13 - i]?.cantidadActual || 0} ml
+                  <strong>Contenido Botella: </strong>{cantidades[13 - i]?.cantidadActual || 0} ml
                   <br />
                   <strong>Cantidad Usada: </strong>{cantidades[13 - i]?.cantidadUsada || 0} ml
                 </div>
@@ -587,7 +587,7 @@ const Distribucion = () => {
                 <div>
                   <strong>Ingrediente: </strong>{distribucionNombres[6 - i] || 'N/A'}
                   <br />
-                  <strong>Cantidad Actual: </strong>{cantidades[6 - i]?.cantidadActual || 0} ml
+                  <strong>Contenido Botella: </strong>{cantidades[6 - i]?.cantidadActual || 0} ml
                   <br />
                   <strong>Cantidad Usada: </strong>{cantidades[6 - i]?.cantidadUsada || 0} ml
                 </div>

@@ -26,6 +26,11 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
     proveedor: ''
   });
 
+  /* nuevo */
+  const [customCantidad, setCustomCantidad] = useState(""); // Estado para cantidad personalizada
+  const [isCustomCantidad, setIsCustomCantidad] = useState(false); // Estado para verificar si es "Otro"
+  /* nuevo */
+
   useEffect(() => {
     if (modoEditar && ingrediente) {
       setNuevoIngrediente(ingrediente);
@@ -42,10 +47,37 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
     }
   }, [ingrediente, modoEditar]);
 
+
+/* antiguo 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNuevoIngrediente({ ...nuevoIngrediente, [name]: value });
   };
+
+  /* antiguo */
+
+  /* nuevo */
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "cantidad" && value === "otro") {
+      setIsCustomCantidad(true);
+      setNuevoIngrediente({ ...nuevoIngrediente, cantidad: customCantidad });
+    } else if (name === "cantidad") {
+      setIsCustomCantidad(false);
+      setNuevoIngrediente({ ...nuevoIngrediente, cantidad: Number(value) });
+    } else {
+      setNuevoIngrediente({ ...nuevoIngrediente, [name]: value });
+    }
+  };
+
+  const handleCustomCantidadChange = (e) => {
+    const value = e.target.value;
+    setCustomCantidad(value);
+    setNuevoIngrediente({ ...nuevoIngrediente, cantidad: Number(value) });
+  };
+  /* nuevo */
+
+
 
   
 
@@ -157,12 +189,22 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
               </FormGroup>
               <FormGroup>
                 <Label for="cantidad">Volumen de la botella (cm3)</Label>
-                <Input type="select" name="cantidad" value={nuevoIngrediente.cantidad} onChange={handleInputChange}>
+                <Input type="select" name="cantidad" value={isCustomCantidad ? "otro" : nuevoIngrediente.cantidad} onChange={handleInputChange}>
                   <option value={750}>750</option>
                   <option value={1000}>1000</option>
                   <option value={1500}>1500</option>
                   <option value={2000}>2000</option>
+                  <option value="otro">Otro</option>
                 </Input>
+                {isCustomCantidad && (
+                  <Input
+                    type="number"
+                    placeholder="Ingrese cantidad personalizada"
+                    value={customCantidad}
+                    onChange={handleCustomCantidadChange}
+                    className="mt-2"
+                  />
+                )}
               </FormGroup>
             </Col>
             <Col md={6}>
