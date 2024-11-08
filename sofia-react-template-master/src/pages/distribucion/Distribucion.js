@@ -23,8 +23,8 @@ const Distribucion = () => {
   const [mostrarInputNombre, setMostrarInputNombre] = useState(false);  // Nuevo estado para visibilidad del campo de entrada
   const [ingredientes, setIngredientes] = useState(['']);
   const [distribucionNombres, setDistribucionNombres] = useState([]);
-  const [cantidades, setCantidades] = useState(Array.from({ length: 28 }, () => ({ cantidadActual: -1, cantidadUsada: 0 })));
-  const [cambioIngrediente, setCambioIngrediente] = useState(Array.from({ length: 28 }, () => (false)));
+  const [cantidades, setCantidades] = useState(Array.from({ length: 24 }, () => ({ cantidadActual: -1, cantidadUsada: 0 })));
+  const [cambioIngrediente, setCambioIngrediente] = useState(Array.from({ length: 24 }, () => (false)));
   const [nombres, setNombres] = useState([]);
   const [distribucion, setDistribucion] = useState('');
   const [nombreDistribStatus, setNombreDistribStatus] = useState({}); //seleccion de una distrib
@@ -38,7 +38,7 @@ const Distribucion = () => {
 
 
   /* Tooltip */
-  const [tooltips, setTooltips] = useState(Array.from({ length: 28 }, () => false));
+  const [tooltips, setTooltips] = useState(Array.from({ length: 24 }, () => false));
 
   const toggleTooltip = (index) => {
     setTooltips((prevTooltips) => {
@@ -255,7 +255,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
     })
     .catch(error => console.error('Error:', error));
 
-    setCambioIngrediente(Array.from({ length: 28 }, () => (false)));
+    setCambioIngrediente(Array.from({ length: 24 }, () => (false)));
     setNombreDisposicion('');
 
   }
@@ -503,25 +503,25 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
               <div>
               <Button
                 key={`D${6 - i}`}
-                id={`tooltip-${27 - i}`} //
-                style={{ backgroundColor: obtenerColorBoton(27 - i) }}
-                onClick={() => abrirModal(27 - i)}
+                id={`tooltip-${23 - i}`} //
+                style={{ backgroundColor: obtenerColorBoton(23 - i) }}
+                onClick={() => abrirModal(23 - i)}
                 className={`${s.distribucionButton}`}
               >
                 {`D${6 - i}`}
               </Button>
               <Tooltip
-                isOpen={tooltips[27 - i]}
-                target={`tooltip-${27 - i}`}
-                toggle={() => toggleTooltip(27 - i)}
+                isOpen={tooltips[23 - i]}
+                target={`tooltip-${23 - i}`}
+                toggle={() => toggleTooltip(23 - i)}
               >
                 {/* Aquí, usando JSX para mostrar saltos de línea con <br /> */}
                 <div>
-                  <strong>Ingrediente: </strong>{distribucionNombres[27 - i] || 'N/A'}
+                  <strong>Ingrediente: </strong>{distribucionNombres[23 - i] || 'N/A'}
                   <br />
-                  <strong>Contenido Botella: </strong>{cantidades[27 - i]?.cantidadActual || 0} ml
+                  <strong>Contenido Botella: </strong>{cantidades[23 - i]?.cantidadActual || 0} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[27 - i]?.cantidadUsada || 0} ml
+                  <strong>Cantidad Usada: </strong>{cantidades[23 - i]?.cantidadUsada || 0} ml
                 </div>
               </Tooltip>
              </div>
@@ -536,25 +536,25 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
               <div>
               <Button
                 key={`C${6 - i}`}
-                id={`tooltip-${20 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(20 - i) }}
-                onClick={() => abrirModal(20 - i)}
+                id={`tooltip-${17 - i}`}
+                style={{ backgroundColor: obtenerColorBoton(17 - i) }}
+                onClick={() => abrirModal(17 - i)}
                 className={`${s.distribucionButton}`}
               >
                 {`C${6 - i}`}
               </Button>
               <Tooltip
-                isOpen={tooltips[20 - i]}
-                target={`tooltip-${20 - i}`}
-                toggle={() => toggleTooltip(20 - i)}
+                isOpen={tooltips[17 - i]}
+                target={`tooltip-${17 - i}`}
+                toggle={() => toggleTooltip(17 - i)}
               >
                 {/* Aquí, usando JSX para mostrar saltos de línea con <br /> */}
                 <div>
-                  <strong>Ingrediente: </strong>{distribucionNombres[20 - i] || 'N/A'}
+                  <strong>Ingrediente: </strong>{distribucionNombres[17 - i] || 'N/A'}
                   <br />
-                  <strong>Contenido Botella: </strong>{cantidades[20 - i]?.cantidadActual || "-"} ml
+                  <strong>Contenido Botella: </strong>{cantidades[17 - i]?.cantidadActual || "-"} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[20 - i]?.cantidadUsada || "-"} ml
+                  <strong>Cantidad Usada: </strong>{cantidades[17 - i]?.cantidadUsada || "-"} ml
                 </div>
               </Tooltip>
               
@@ -570,25 +570,25 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
             <div>
               <Button
                 key={`B${6 - i}`}
-                id={`tooltip-${13 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(13 - i) }}
-                onClick={() => abrirModal(13 - i)}
+                id={`tooltip-${11 - i}`}
+                style={{ backgroundColor: obtenerColorBoton(11 - i) }}
+                onClick={() => abrirModal(11 - i)}
                 className={`${s.distribucionButton}`}
               >
                 {`B${6 - i}`}
               </Button>
               <Tooltip
-                isOpen={tooltips[13 - i]}
-                target={`tooltip-${13 - i}`}
-                toggle={() => toggleTooltip(13 - i)}
+                isOpen={tooltips[11 - i]}
+                target={`tooltip-${11 - i}`}
+                toggle={() => toggleTooltip(11 - i)}
               >
                 {/* Aquí, usando JSX para mostrar saltos de línea con <br /> */}
                 <div>
-                  <strong>Ingrediente: </strong>{distribucionNombres[13 - i] || 'N/A'}
+                  <strong>Ingrediente: </strong>{distribucionNombres[11 - i] || 'N/A'}
                   <br />
-                  <strong>Contenido Botella: </strong>{cantidades[13 - i]?.cantidadActual || 0} ml
+                  <strong>Contenido Botella: </strong>{cantidades[11 - i]?.cantidadActual || 0} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[13 - i]?.cantidadUsada || 0} ml
+                  <strong>Cantidad Usada: </strong>{cantidades[11 - i]?.cantidadUsada || 0} ml
                 </div>
               </Tooltip>
             </div>
@@ -600,25 +600,25 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
             <div>
               <Button
                 key={`A${6 - i}`}
-                id={`tooltip-${6 - i}`}
-                style={{ backgroundColor: obtenerColorBoton(6 - i) }}
-                onClick={() => abrirModal(6 - i)}
+                id={`tooltip-${5 - i}`}
+                style={{ backgroundColor: obtenerColorBoton(5 - i) }}
+                onClick={() => abrirModal(5 - i)}
                 className={`${s.distribucionButton}`}
               >
-                {`A${6 - i}`}
+                {`A${5 - i}`}
               </Button>
               <Tooltip
-                isOpen={tooltips[6 - i]}
-                target={`tooltip-${6 - i}`}
-                toggle={() => toggleTooltip(6 - i)}
+                isOpen={tooltips[5 - i]}
+                target={`tooltip-${5 - i}`}
+                toggle={() => toggleTooltip(5 - i)}
               >
                 {/* Aquí, usando JSX para mostrar saltos de línea con <br /> */}
                 <div>
-                  <strong>Ingrediente: </strong>{distribucionNombres[6 - i] || 'N/A'}
+                  <strong>Ingrediente: </strong>{distribucionNombres[5 - i] || 'N/A'}
                   <br />
-                  <strong>Contenido Botella: </strong>{cantidades[6 - i]?.cantidadActual || 0} ml
+                  <strong>Contenido Botella: </strong>{cantidades[5 - i]?.cantidadActual || 0} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[6 - i]?.cantidadUsada || 0} ml
+                  <strong>Cantidad Usada: </strong>{cantidades[5 - i]?.cantidadUsada || 0} ml
                 </div>
               </Tooltip>
             </div>
@@ -659,7 +659,16 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
         <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Todo</Button>
        */}
         </div>
-      <Modal isOpen={modalIsOpen} toggle={cerrarModal}>
+      <Modal 
+        isOpen={modalIsOpen} 
+        toggle={cerrarModal} 
+        onClick={(e) => {
+          // Detecta si el clic fue fuera del modal
+          if (e.target.classList.contains("modal")) {
+            cerrarModal();  // Cierra el modal si se hace clic fuera de él
+          }
+        }} 
+      >
         <ModalHeader toggle={cerrarModal}>Configurar {botonSeleccionado}</ModalHeader>
         <ModalBody>
           
