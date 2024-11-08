@@ -144,7 +144,7 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
   return (
     <div className={s.total}>
       <div className={s.cuadroGeneral}>
-        <h2>{modoEditar ? 'Editar Receta' : 'Crear Nueva Receta'}</h2>
+        <h3 className='mb-4'>{modoEditar ? 'Editar Receta' : 'Crear Nueva Receta'}</h3>
         
         <FormGroup>
           {modoEditar && (
@@ -187,11 +187,20 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
           ))}
         </div>
 
-        <div className="d-flex justify-content-center mt-4">
-          <Button className={`${s.nBotonRecetas} mr-3`} onClick={guardarReceta}>Guardar Receta</Button>
+        <div className="mt-4" 
+          style={{
+            width:'100%',
+            display:'flex',
+            flexDirection:'column',
+            justifyContent:'center',
+            alignContent:'center',
+            alignItems:'center'
+          }}
+        >
+          <Button className={`${s.nBotonRecetas} mb-4`} onClick={guardarReceta}>Guardar Receta</Button>
           <Button className={s.nBotonRecetas} onClick={onClose}>Cancelar</Button>
         </div>
-        <div className='mb-5'></div>
+        <div className='mb-4'></div>
         <hr></hr>
         <div className='mb-4'></div>
       </div>

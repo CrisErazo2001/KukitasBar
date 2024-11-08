@@ -137,26 +137,27 @@ const Recetas = () => {
     <div>
       <Row>
         <Col className="mb-4" xs={12}>
-
-          <div className='d-flex flex-column justify-content-sm-center align-items-center'>
-            <h5>Crear Nueva Receta</h5>
-            <Button className={s.nBotonRecetas} onClick={() => {
-              setMostrarFormulario(true); // Mostrar formulario de creación de recetas
-              setModoEditar(false); // Modo crear, no editar
-              setRecetaSeleccionada(null); // Limpia selección anterior
-              setMostrarTabla(false); // p
-            }}>
-              Crear Nueva Receta
-            </Button>
-          </div>
-          <div className="d-flex flex-column align-items-center justify-content-space-between mt-3">
-            <h5 className='mr-4'>Mostrar Recetas</h5>
-            <Button className={s.nBotonRecetas} onClick={() => {
-              setMostrarTabla(true);
-              setMostrarFormulario(false);
-            }}>
-              Mostrar Recetas
-            </Button>
+          <div className='mb-4' style={{backgroundColor:'#ebf5fa', padding:'20px'}}>
+            <div className='d-flex flex-column justify-content-sm-center align-items-center'>
+              <h5>Crear Nueva Receta</h5>
+              <Button className={s.nBotonRecetas} onClick={() => {
+                setMostrarFormulario(true); // Mostrar formulario de creación de recetas
+                setModoEditar(false); // Modo crear, no editar
+                setRecetaSeleccionada(null); // Limpia selección anterior
+                setMostrarTabla(false); // p
+              }}>
+                Crear Nueva Receta
+              </Button>
+            </div>
+            <div className="d-flex flex-column align-items-center justify-content-space-between mt-3">
+              <h5 className='mr-4'>Mostrar Recetas</h5>
+              <Button className={s.nBotonRecetas} onClick={() => {
+                setMostrarTabla(true);
+                setMostrarFormulario(false);
+              }}>
+                Mostrar Recetas
+              </Button>
+            </div>
           </div>
           {/* Formulario de creación/edición de receta */}
           {mostrarFormulario && (

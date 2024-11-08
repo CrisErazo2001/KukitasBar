@@ -404,19 +404,22 @@ const Distribucion = () => {
 
   return (
     <div>
-      <div style={{width:"50%", top: 20, right: 20 }}>
-        {console.log('distribucion front',distribucion)}
-        <Select 
-          options={nombres} 
-          placeholder='Seleccione un set de posiciones'
-          value = {distribucion}
-          onChange={manejarCambioDistribucion}
-          
-        />
-        
+      <div className='mb-3' style={{
+        width:'100%',
+        display:'flex',
+        justifyContent:'center'
+      }}>
+        <div style={{width:"50%", top: 20, right: 20 }}>
+          {console.log('distribucion front',distribucion)}
+          <Select 
+            options={nombres} 
+            placeholder='Seleccione un set de posiciones'
+            value = {distribucion}
+            onChange={manejarCambioDistribucion}
+          />
+        </div>
       </div>
-      
-      
+
       <div className={s.leyendaContainer}>
         <h3>Set de distribucion: {nombre}</h3>
       

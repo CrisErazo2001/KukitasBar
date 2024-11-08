@@ -128,7 +128,7 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
 }, [createIngStatus]);
 
   return (
-    <div>
+    <div style={{marginTop:'50px', borderTop:'1px solid #c4cbcf', paddingTop:'20px'}}>
       <Row>
         <Col>
           <h3>{modoEditar ? 'Editar Ingrediente' : 'Agregar Nuevo Ingrediente'}</h3>
