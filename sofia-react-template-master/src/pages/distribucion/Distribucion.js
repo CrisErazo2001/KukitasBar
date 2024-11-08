@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, Button, Row, Col, Input, FormGroup, Label, InputGroup, InputGroupText } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Button, Row, Col, Input, FormGroup, Label, InputGroup, InputGroupText, Tooltip  } from 'reactstrap';
 import Select from 'react-select';
 import s from './Distribucion.module.scss';
 // Notificaciones
@@ -33,6 +33,49 @@ const Distribucion = () => {
   const [borrarStatus,setBorrarStatus] = useState({});
   const [guardarStatus,setGuardarStatus] = useState({});
   const [nombre,setNombre] = useState('');
+  //
+  // Estado para los tooltips
+  const [tooltipOpen, setTooltipOpen] = useState(Array.from({ length: 24 }, () => false));
+
+  /* Nuevo */
+
+  const [botellas, setBotellas] = useState(
+    Array.from({ length: 24 }, () => ({
+      nombre: "",           // Nombre del ingrediente
+      cantidadUtilizada: 0,  // Cantidad utilizada
+    }))
+  );
+  
+
+    // Función para alternar el estado de cada tooltip
+    const toggleTooltip = (index) => {
+      setTooltipOpen((prev) => {
+        const newTooltipState = [...prev];
+        newTooltipState[index] = !newTooltipState[index];
+        return newTooltipState;
+      });
+    };
+  
+    const obtenerContenidoTooltip = (index) => {
+      // Obtener el nombre de la posición según el índice del botón (A1, B3, etc.)
+      const fila = ["D", "C", "B", "A"][Math.floor(index / 6)];
+      const columna = 6 - (index % 6);
+      const posicion = `${fila}${columna}`;
+    
+      // Obtener el nombre del ingrediente y la cantidad utilizada
+      const nombreBotella = distribucionNombres[index] || "Sin asignar"; // "Sin asignar" si no tiene nombre
+      const cantidadUsada = cantidades[index]?.cantidadUsada || 0; // 0 si no hay cantidad usada
+    
+      return (
+        <>
+          <div>{posicion}</div>
+          <div>Bebida seleccionada: {nombreBotella}</div>
+          <div>Cantidad utilizada (ml): {cantidadUsada}</div>
+        </>
+      );
+    };
+
+  /* fin nuevo */
 
   const fetchIngredientes = async () => {
     try {
@@ -92,12 +135,23 @@ const Distribucion = () => {
     }
   };
 
-  
+  {/* Viejo AbrirModal 
   const abrirModal = (boton) => {
     setBotonSeleccionado(boton);
     setIngredienteSeleccionado(distribucionNombres[boton]);
     setModalIsOpen(true);
   };
+  {/* Viejo AbrirModal */}
+
+  const abrirModal = (botonIndex) => {
+    setBotonSeleccionado(botonIndex);
+    setModalIsOpen(true);
+  };
+
+  {/* Nuevo AbrirModal */}
+
+
+  {/* Nuevo AbrirModal */}
 
   const cerrarModal = () => {
     setModalIsOpen(false);
@@ -160,7 +214,7 @@ const Distribucion = () => {
     
   };
 
-
+  {/* Anterior GuardarPosicion */}
   const guardarPosicion = () => {
     
     if (ingredienteSeleccionado.value != ingredientes[botonSeleccionado]) {
@@ -178,6 +232,7 @@ const Distribucion = () => {
     
     cerrarModal();
   };
+  {/* Anterior GuardarPosicion */}
 
   /* Nuevo */
   const toggleMostrarInputNombre = () => setMostrarInputNombre(!mostrarInputNombre);
@@ -446,7 +501,51 @@ const Distribucion = () => {
 
       {/* Botonera */}
       <div className={s.botonera}>
-        {/* Fila D y C */}
+
+
+        {/* Nuevo */}
+
+        <div className={s.filaVertical}>
+          <div className={s.columnaVertical}>
+            {Array.from({ length: 6 }, (_, i) => {
+              const botonIndex = 27 - i;
+              return (
+                <Button
+                  key={`D${6 - i}`}
+                  id={`Tooltip-D${6 - i}`} // Agrega un id único para el tooltip
+                  style={{ backgroundColor: obtenerColorBoton(botonIndex) }}
+                  onClick={() => abrirModal(botonIndex)}
+                  className={`${s.distribucionButton}`}
+                >
+                  {`D${6 - i}`}
+                </Button>
+              );
+            })}
+          </div>
+          <div className={s.separadorVertical} />
+          <div className={s.columnaVertical}>
+            {Array.from({ length: 6 }, (_, i) => {
+              const botonIndex = 20 - i;
+              return (
+                <Button
+                  key={`C${6 - i}`}
+                  id={`Tooltip-C${6 - i}`}
+                  style={{ backgroundColor: obtenerColorBoton(botonIndex) }}
+                  onClick={() => abrirModal(botonIndex)}
+                  className={`${s.distribucionButton}`}
+                >
+                  {`C${6 - i}`}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Nuevo */}
+
+
+
+        {/* Fila D y C 
         <div className={s.filaVertical}>
           <div className={s.columnaVertical}>
             {Array.from({ length: 6 }, (_, i) => (
@@ -474,8 +573,9 @@ const Distribucion = () => {
             ))}
           </div>
         </div>
+        */}
 
-        {/* Fila B y A */}
+        {/* Fila B y A 
         <div className={s.filaHorizontal}>
           {Array.from({ length: 6 }, (_, i) => (
             <Button
@@ -501,7 +601,55 @@ const Distribucion = () => {
             </Button>
           ))}
         </div>
+        */}
+
+        {/* nuevo */}
+
       </div>
+
+      
+
+        {/* Fila B */}
+        <div className={s.filaHorizontal}>
+          {Array.from({ length: 6 }, (_, i) => {
+            const botonIndex = 13 - i;
+            return (
+              <Button
+                key={`B${6 - i}`}
+                id={`Tooltip-B${6 - i}`}
+                style={{ backgroundColor: obtenerColorBoton(botonIndex) }}
+                onClick={() => abrirModal(botonIndex)}
+                className={`${s.distribucionButton}`}
+              >
+                {`B${6 - i}`}
+              </Button>
+            );
+          })}
+        </div>
+
+        <div className={s.separadorHorizontal} />
+
+        {/* Fila A */}
+        <div className={s.filaHorizontal}>
+          {Array.from({ length: 6 }, (_, i) => {
+            const botonIndex = 6 - i;
+            return (
+              <Button
+                key={`A${6 - i}`}
+                id={`Tooltip-A${6 - i}`}
+                style={{ backgroundColor: obtenerColorBoton(botonIndex) }}
+                onClick={() => abrirModal(botonIndex)}
+                className={`${s.distribucionButton}`}
+              >
+                {`A${6 - i}`}
+              </Button>
+            );
+          })}
+        </div>
+      
+
+      {/* fin nuevo */}
+
       
       {/* Botones para Guardar */}
       <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
@@ -538,6 +686,20 @@ const Distribucion = () => {
         <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Todo</Button>
        */}
         </div>
+
+
+  {/* Agregar Tooltips a cada botón */}
+  {Array.from({ length: 24 }, (_, i) => (
+    <Tooltip
+      key={i}
+      isOpen={tooltipOpen[i]}
+      target={`Tooltip-${["D", "C", "B", "A"][Math.floor(i / 6)]}${6 - (i % 6)}`} // ID correspondiente al botón
+      toggle={() => toggleTooltip(i)}
+    >
+      {obtenerContenidoTooltip(i)}
+    </Tooltip>
+  ))}
+
 
       <Modal isOpen={modalIsOpen} toggle={cerrarModal}>
         <ModalHeader toggle={cerrarModal}>Configurar {botonSeleccionado}</ModalHeader>
