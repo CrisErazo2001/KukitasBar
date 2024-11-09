@@ -48,6 +48,18 @@ const Recetas = () => {
   
   const [recetas, setRecetas] = useState([]); // Inicia con recetas predeterminadas
 
+  /* Nuevo */
+  // Nuevo estado para almacenar el estado de "en menú" de cada receta.
+  const [recetasEnMenu, setRecetasEnMenu] = useState({}); // Objeto que almacenará el estado para cada receta por ID
+    // Función para alternar el estado de "en menú" de una receta específica.
+  const toggleMenuStatus = (recetaId) => {
+    setRecetasEnMenu((prevState) => ({
+      ...prevState,
+      [recetaId]: !prevState[recetaId], // Cambia el estado actual: si era true, pasa a false, y viceversa
+    }));
+  };
+  /* Nuevo */
+
   const fetchRecetas = async () => {
     try {
       const response = await fetch('/recetas'); // Reemplaza con tu URL de API
@@ -223,6 +235,18 @@ const Recetas = () => {
                     <Button className={s.nBotonEdicion} onClick={() => abrirFormularioEdicion(receta)}>Editar</Button>
                     <div className='mb-3'></div>
                     <Button className={s.nBotonEdicion} onClick={() => eliminarReceta(receta)}>Eliminar</Button>
+                  </div>
+                  {/* Nuevo botón para agregar/quitar del menú */}
+                  <Button
+                    className={`${s.nBotonEdicion} ${recetasEnMenu[receta.id] ? s.botonRojo : ''} mt-3`} // Cambia la clase en función del estado
+                    onClick={() => toggleMenuStatus(receta.id)} // Llama a toggleMenuStatus con el ID de la receta
+                  >
+                    {recetasEnMenu[receta.id] ? 'Quitar del Menú' : 'Agregar al Menú'} {/* Texto dinámico */}
+                  </Button>
+
+                  {/* Estado de la receta para visualización */}
+                  <div style={{ marginTop: '10px', fontSize: '14px' }}>
+                    La receta irá en el Menú: {recetasEnMenu[receta.id] ? 'Verdadero' : 'Falso'}
                   </div>
                 </td>
               </tr>
