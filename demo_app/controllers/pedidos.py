@@ -76,11 +76,12 @@ def home():
     
     for rec in aux_data:
         aux = rec.asdict_front()
-        ingredientes = '' 
-        for ing in aux['ingredientes']:
-            ingredientes = ingredientes + ' ' + ing['nombre']
-        aux['ingredientes'] = ingredientes
-        recetas.append(aux)
+        if aux['menu'] == 1:
+            ingredientes = '' 
+            for ing in aux['ingredientes']:
+                ingredientes = ingredientes + ' ' + ing['nombre']
+            aux['ingredientes'] = ingredientes
+            recetas.append(aux)
 
       
     

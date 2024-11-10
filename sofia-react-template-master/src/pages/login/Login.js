@@ -139,11 +139,11 @@ const Login = (props) => {
               </form>
               <p className="dividing-line my-3">&#8195; ir a &#8195;</p>
                 <div className="bg-widget d-flex justify-content-center flex-column align-items-center my-7">
-                  {/*<Button className="button-log my-2 d-flex justify-content-center align-items-center" href ='http://192.168.0.226:5000http://127.0.0.1:5000' color="secondary-red">Menú Principal</Button>
-                  */}
+                  {/* <Button className="button-log my-2 d-flex justify-content-center align-items-center" href ='http://127.0.0.1:5000' color="secondary-red">Menú Principal</Button> */}
+                 
                   <Button className="button-log my-2 d-flex justify-content-center align-items-center" href ='http://192.168.0.241:5000' color="secondary-red">Menú Principal</Button>
-                  {/*<Button className="button-log my-1 d-flex justify-content-center align-items-center" href ='http://127.0.0.1:5000/lista-pedidos http://192.168.0.226:5000/lista-pedidos' color="secondary-red">Listado de Bebidas</Button>
-                  */}
+                  {/* <Button className="button-log my-1 d-flex justify-content-center align-items-center" href ='http://127.0.0.1:5000/lista-pedidos' color="secondary-red">Listado de Bebidas</Button> */}
+                 
                   <Button className="button-log my-1 d-flex justify-content-center align-items-center" href ='http://192.168.0.241:5000/lista-pedidos' color="secondary-red">Listado de Bebidas</Button>
                 </div>
             </Widget>

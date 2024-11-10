@@ -242,3 +242,34 @@ def eliminar_recetas():
 
     }
     return jsonify(value)
+
+@app.route('/receta/toggleStatus', methods=['POST'])
+def toggleStatus_recetas():
+    is_valid = True
+    categoria = "eliminar recetas"
+    mensaje = "Receta eliminada"
+    status = 'success'
+    code = 200
+    data = request.json
+
+    aux_receta = {
+        'id_receta': data['id_receta']
+        
+    }
+    recetaSelected = receta.get_by_id(aux_receta)
+    recetaSelected.change_status()
+    aux = recetaSelected.asdict()
+    receta.update_status(aux)
+    
+    
+    print('data toggle status: ',recetaSelected.asdict())
+    
+    value = {   #valor de salida de la api
+        "valid": is_valid,
+        "message": mensaje,
+        "category": categoria,
+        "status": status,
+        "code": code
+
+    }
+    return jsonify(value)

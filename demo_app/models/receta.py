@@ -33,6 +33,7 @@ class receta:
         self.ing9  =  data['ing9']
         self.ing10  =  data['ing10']
         self.tiempo_prep  =  data['tiempo_prep']
+        self.status = data['status']
         
         
 
@@ -54,6 +55,12 @@ class receta:
     def save(cls, data):
         query = "INSERT INTO "+ table_name +" ( nombre,ing1,ing2,ing3,ing4,ing5,ing6,ing7,ing8,ing9,ing10,tiempo_prep ) VALUES ( %(nombre)s, %(ing1)s, %(ing2)s, %(ing3)s, %(ing4)s, %(ing5)s, %(ing6)s, %(ing7)s, %(ing8)s, %(ing9)s, %(ing10)s, %(tiempo_prep)s);"
         return connectToMySQL(cls.db_name).query_db( query, data )
+    
+    @classmethod
+    def update_status(cls, data):
+        query  = "UPDATE "+ table_name +" SET status = %(status)s"+" WHERE id_receta = %(id_receta)s;"
+        result = connectToMySQL(cls.db_name).query_db(query,data)
+        return result
     
     @classmethod
     def get_by_id(cls, data):
@@ -113,7 +120,8 @@ class receta:
             'ing8': self.ing8  ,
             'ing9': self.ing9  ,
             'ing10': self.ing10 ,
-            'tiempo_prep': self.tiempo_prep
+            'tiempo_prep': self.tiempo_prep,
+            'status': self.status
             
         }
         
@@ -140,6 +148,7 @@ class receta:
         dict = {
             'id_receta': self.id_receta,
             'nombre': self.nombre, 
+            'menu': self.status,
             'ingredientes':[{ 'nombre': self.ing1},
                             { 'nombre': self.ing2},
                             { 'nombre': self.ing3},
@@ -163,3 +172,10 @@ class receta:
         dict['ingredientes']=aux_ingredientes
         
         return dict
+    
+
+    def change_status(self):
+        if self.status == 1:
+            self.status = 0
+        else:
+            self.status = 1

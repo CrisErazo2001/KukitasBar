@@ -24,6 +24,7 @@ const Recetas = () => {
   const [recetaSeleccionada, setRecetaSeleccionada] = useState(null);
   const [modoEditar, setModoEditar] = useState(false); // Modo para editar receta
   const [deleteRecStatus, setDeleteRecStatus] = useState({});
+  const [toggleStatus, setToggleStatus] = useState({});
   // N
    const [mostrarTabla, setMostrarTabla] = useState(false); // Estado para la tabla
   // Estado para la paginación
@@ -52,11 +53,26 @@ const Recetas = () => {
   // Nuevo estado para almacenar el estado de "en menú" de cada receta.
   const [recetasEnMenu, setRecetasEnMenu] = useState({}); // Objeto que almacenará el estado para cada receta por ID
     // Función para alternar el estado de "en menú" de una receta específica.
-  const toggleMenuStatus = (recetaId) => {
-    setRecetasEnMenu((prevState) => ({
-      ...prevState,
-      [recetaId]: !prevState[recetaId], // Cambia el estado actual: si era true, pasa a false, y viceversa
-    }));
+  const toggleMenuStatus = (receta) => {
+
+    fetch('/receta/toggleStatus', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(receta)
+    })
+    .then(response => {
+        console.log('Respuesta del servidor:', response); // Log de la respuesta
+        return response.json();
+    })
+    .then(data => {
+        console.log('Datos recibidos:', data); // Log de los datos recibidos
+        setToggleStatus(data); // Guarda la respuesta en createIngStatus
+        // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoIngrediente]);
+    })
+    .catch(error => console.error('Error:', error));
+    
   };
   /* Nuevo */
 
@@ -132,7 +148,7 @@ const Recetas = () => {
   useEffect(() => {
     fetchIngredientes();
     fetchRecetas();
-  }, [mostrarFormulario,deleteRecStatus]);
+  }, [mostrarFormulario,deleteRecStatus,toggleStatus]);
 
   /* Nuevo */
 
@@ -235,18 +251,17 @@ const Recetas = () => {
                     <Button className={s.nBotonEdicion} onClick={() => abrirFormularioEdicion(receta)}>Editar</Button>
                     <div className='mb-3'></div>
                     <Button className={s.nBotonEdicion} onClick={() => eliminarReceta(receta)}>Eliminar</Button>
+                    <div className='mb-3'></div>
+                    <Button className={s.nBotonEdicion} onClick={() => toggleMenuStatus(receta)}>
+                      {receta.menu ? 'Quitar del Menú' : 'Agregar al Menú'} {/* Texto dinámico */}
+                    </Button>
                   </div>
                   {/* Nuevo botón para agregar/quitar del menú */}
-                  <Button
-                    className={`${s.nBotonEdicion} ${recetasEnMenu[receta.id] ? s.botonRojo : ''} mt-3`} // Cambia la clase en función del estado
-                    onClick={() => toggleMenuStatus(receta.id)} // Llama a toggleMenuStatus con el ID de la receta
-                  >
-                    {recetasEnMenu[receta.id] ? 'Quitar del Menú' : 'Agregar al Menú'} {/* Texto dinámico */}
-                  </Button>
+                  
 
                   {/* Estado de la receta para visualización */}
                   <div style={{ marginTop: '10px', fontSize: '14px' }}>
-                    La receta irá en el Menú: {recetasEnMenu[receta.id] ? 'Verdadero' : 'Falso'}
+                    La receta irá en el Menú: {receta.menu ? 'Verdadero' : 'Falso'}
                   </div>
                 </td>
               </tr>
