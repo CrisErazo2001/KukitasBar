@@ -180,8 +180,12 @@ def modificar_ingredientes():
     f = open('posicion.txt','r')
     id_aux = int(f.read())
     f.close()
+    
     pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
-    pos_list = pos.aslist()
+    if pos == []:
+        pos_list = []
+    else:
+        pos_list = pos.aslist()
     
     #obtener todos los ingredientes existentes
     ingredientes = ingrediente.get_all()
@@ -285,7 +289,10 @@ def eliminar_ingredientes():
     id_aux = int(f.read())
     f.close()
     pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
-    pos_list = pos.aslist()
+    if pos == []:
+        pos_list = []
+    else:
+        pos_list = pos.aslist()
 
     is_valid = True
     categoria = "eliminar ingredientes"
