@@ -101,7 +101,7 @@ const Login = (props) => {
               <div className="text-center py-3">
                 <p className="auth-header mb-0" style={{ fontSize: "3rem" }}>KUKITA'S</p>
                 <div className="d-flex justify-content-end">
-                  <p className="auth-header mb-0" style={{ marginRight: "0", marginTop: "10px" }}>Login</p>
+                  <p className="auth-header mb-0" style={{ marginRight: "0", marginTop: "10px" }}>Ingrear</p>
                 </div>
               </div>
               <form onSubmit={doLogin}>
@@ -115,7 +115,7 @@ const Login = (props) => {
                     type="text"
                     required
                     name="username"
-                    placeholder="Username"
+                    placeholder="Usuario"
                   />
                 </FormGroup>
                 <FormGroup className="my-3">
@@ -128,12 +128,12 @@ const Login = (props) => {
                     type="password"
                     required
                     name="password"
-                    placeholder="Password"
+                    placeholder="Contraseña"
                   />
                 </FormGroup>
                 <div className="bg-widget d-flex justify-content-center">
                   <Button className="button-log my-3" type="submit" color="secondary-red">
-                    Login
+                    Ingresar
                   </Button>
                 </div>
               </form>

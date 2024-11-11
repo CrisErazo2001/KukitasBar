@@ -28,7 +28,11 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
   ];
   const [idReceta, setIdReceta] = useState(receta ? receta.id_receta : '');
   const [nombreReceta, setNombreReceta] = useState(receta ? receta.nombre : '');
-  
+  // Estado para manejar si la bebida lleva hielo
+  const [llevaHielo, setLlevaHielo] = useState(false);
+
+  // Función para alternar el estado de llevaHielo cuando se cambia el checkbox
+  const toggleHielo = () => setLlevaHielo((prev) => !prev);
   {/*
   const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(
     receta ? receta.ingredientes.map(ing => ({ label: ing.nombre, value: ing })) : []
@@ -182,9 +186,28 @@ const NuevaReceta = ({ onClose, setRecetas, recetas, receta, modoEditar, ingredi
                 isSearchable={true}
                 placeholder={`Selecciona ingrediente ${index + 1}`}
               />
-
-            </div>
+            </div>            
           ))}
+          <div>
+          {/* Otros componentes y elementos de la interfaz */}
+          
+          {/* Checkbox para indicar si la bebida lleva hielo */}
+          <div className="mt-3">
+            <label>
+              <input
+                type="checkbox"
+                checked={llevaHielo}
+                onChange={toggleHielo}
+              />
+              {' '}La bebida lleva hielo?
+            </label>
+          </div>
+          
+          {/* Texto que muestra si lleva hielo o no */}
+          <p>La bebida lleva hielo: {llevaHielo ? "Sí" : "No"}</p>
+
+          {/* Código existente para el resto del componente */}
+          </div>
         </div>
 
         <div className="mt-4" 

@@ -48,6 +48,63 @@ const Distribucion = () => {
     });
 };
 
+/* Tabla Nueva */
+const [tablaVisible, setTablaVisible] = useState(false);
+const toggleTabla = () => {
+  setTablaVisible(!tablaVisible);
+};
+
+// Agregar este componente dentro de Distribucion o en un archivo separado
+// Agregar este componente dentro de Distribucion o en un archivo separado
+const TablaInformacion = ({ distribucionNombres, cantidades }) => {
+
+
+  return (
+    <div className={s.tablaInformacionContainer}>
+      <h4>Información distribución</h4>
+      <table className={s.tablaInformacion}>
+        <thead>
+          <tr>
+            <th style={{fontWeight: 'bold'}}>Posición</th>
+            <th style={{fontWeight: 'bold'}}>Ingrediente</th>
+            <th style={{fontWeight: 'bold'}}>Contenido en Botella (ml)</th>
+            <th style={{fontWeight: 'bold'}}>Disponible (ml)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: 24 }, (_, i) => {
+            // Calcular el valor de Disponible (ml)
+            const disponible = cantidades[i]?.cantidadActual - cantidades[i]?.cantidadUsada || '-';
+
+            // Determinar si el valor es menor o igual a 50 ml
+            const claseDisponible = disponible <= 50 ? s.textoRojo : '';
+
+            // Condicional para mostrar "-" si el ingrediente es N/A
+            const contenidoBotella = distribucionNombres[i] === 'N/A' ? '-' : cantidades[i]?.cantidadActual || '-';
+            const disponibleTexto = distribucionNombres[i] === 'N/A' ? '-' : disponible;
+
+            return (
+              <tr key={i}>
+                <td style={{fontWeight: 'bold'}}>
+                  {i < 6 ? 'D' : i < 12 ? 'C' : i < 18 ? 'B' : 'A'}
+                  {6 - (i % 6)}
+                </td>
+                <td>{distribucionNombres[i] || 'N/A'}</td>
+                <td>{contenidoBotella}</td>
+                <td className={claseDisponible}>{disponibleTexto}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+
+
+/* Fin Tabla Nueva */
+
 
   /* Fin Tooltip */
   const fetchIngredientes = async () => {
@@ -491,16 +548,28 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
         </div>
       </div>
 
-      {/* Botonera */}
+      <div>
+        {/* Botón para mostrar/ocultar la tabla */}
+        <button className={`${s.nBotonRecetas} mt-3 mb-3`}
+          onClick={toggleTabla} 
+          style={{ backgroundColor: tablaVisible ? 'red' : '#ff8b05', color: 'white', fontWeight: 'bold' }}
+        >
+          {tablaVisible ? 'Esconder Tabla' : 'Ver Tabla de Cantidades'}
+        </button>
+
+        {/* Tabla de Información */}
+        {tablaVisible && (
+          <TablaInformacion distribucionNombres={distribucionNombres} cantidades={cantidades} />
+        )}
+      </div>
+
       <div className={s.botonera}>
-
-
 
         {/* Fila D */}
         <div className={s.filaVertical}>
           <div className={s.columnaVertical}>
             {Array.from({ length: 6 }, (_, i) => (
-              <div>
+            <div style={{display:'flex'}}>
               <Button
                 key={`D${6 - i}`}
                 id={`tooltip-${23 - i}`} //
@@ -521,10 +590,16 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   <br />
                   <strong>Contenido Botella: </strong>{cantidades[23 - i]?.cantidadActual || 0} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[23 - i]?.cantidadUsada || 0} ml
+                  <strong>Disponible: </strong>
+                  { 
+                    // Realizamos el cálculo de la cantidad disponible
+                    cantidades[23 - i]?.cantidadActual && cantidades[23 - i]?.cantidadUsada 
+                      ? (cantidades[23 - i].cantidadActual - cantidades[23 - i].cantidadUsada) + " ml"
+                      : "-"
+                  }
                 </div>
               </Tooltip>
-             </div>
+            </div>
               
             ))}
           </div>
@@ -554,7 +629,13 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   <br />
                   <strong>Contenido Botella: </strong>{cantidades[17 - i]?.cantidadActual || "-"} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[17 - i]?.cantidadUsada || "-"} ml
+                  <strong>Disponible: </strong>
+                  { 
+                    // Realizamos el cálculo de la cantidad disponible
+                    cantidades[17 - i]?.cantidadActual && cantidades[17 - i]?.cantidadUsada 
+                      ? (cantidades[17 - i].cantidadActual - cantidades[17 - i].cantidadUsada) + " ml"
+                      : "-"
+                  }
                 </div>
               </Tooltip>
               
@@ -588,7 +669,13 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   <br />
                   <strong>Contenido Botella: </strong>{cantidades[11 - i]?.cantidadActual || 0} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[11 - i]?.cantidadUsada || 0} ml
+                  <strong>Disponible: </strong>
+                  { 
+                    // Realizamos el cálculo de la cantidad disponible
+                    cantidades[11 - i]?.cantidadActual && cantidades[11 - i]?.cantidadUsada 
+                      ? (cantidades[11 - i].cantidadActual - cantidades[11 - i].cantidadUsada) + " ml"
+                      : "-"
+                  }
                 </div>
               </Tooltip>
             </div>
@@ -605,7 +692,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                 onClick={() => abrirModal(5 - i)}
                 className={`${s.distribucionButton}`}
               >
-                {`A${5 - i}`}
+                {`A${6 - i}`}
               </Button>
               <Tooltip
                 isOpen={tooltips[5 - i]}
@@ -618,7 +705,13 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   <br />
                   <strong>Contenido Botella: </strong>{cantidades[5 - i]?.cantidadActual || 0} ml
                   <br />
-                  <strong>Cantidad Usada: </strong>{cantidades[5 - i]?.cantidadUsada || 0} ml
+                  <strong>Disponible: </strong>
+                  { 
+                    // Realizamos el cálculo de la cantidad disponible
+                    cantidades[5 - i]?.cantidadActual && cantidades[5 - i]?.cantidadUsada 
+                      ? (cantidades[5 - i].cantidadActual - cantidades[5 - i].cantidadUsada) + " ml"
+                      : "-"
+                  }
                 </div>
               </Tooltip>
             </div>
@@ -691,7 +784,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                 <Input
                   type="number"
                   id="cantidad"
-                  value={cantidades[botonSeleccionado]?.cantidadActual || 0}
+                  value={cantidades[botonSeleccionado]?.cantidadActual || '-'}
                   style={{ 
                     paddingRight: '0.5rem',
                   }}
@@ -712,12 +805,12 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
             </FormGroup>
 
             <FormGroup className='ml-2'>
-              <Label for="cantidad">Cantidad Usada</Label>
+              <Label for="cantidad">Cantidad Disponible</Label>
               <InputGroup>
                 <Input
                   type="number"
                   id="cantidad"
-                  value={cantidades[botonSeleccionado]?.cantidadUsada || 0}
+                  value={cantidades[botonSeleccionado]?.cantidadActual - cantidades[botonSeleccionado]?.cantidadUsada || '-'}
                   disabled={true}
                   style={{ 
                     paddingRight: '0.5rem',

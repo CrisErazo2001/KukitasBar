@@ -138,12 +138,22 @@ const Header = (props) => {
             <span className="small d-none d-sm-block ml-1 mr-2 body-1">{user.user}</span>
           </DropdownToggle>
           <DropdownMenu className="navbar-dropdown profile-dropdown" style={{ width: "194px" } } right>
+            {/*
             <DropdownItem className={s.dropdownProfileItem}><ProfileIcon/><span>Profile</span></DropdownItem>
             <DropdownItem className={s.dropdownProfileItem}><TasksIcon/><span>Tasks</span></DropdownItem>
             <DropdownItem className={s.dropdownProfileItem}><MessagesIcon/><span>Messages</span></DropdownItem>
+             */}
             <NavItem>
               <NavLink onClick={() => doLogout()} href="#" >
-                <button  className="btn btn-primary rounded-pill mx-auto logout-btn" type="submit"><img src={logoutIcon} alt="Logout"/><span className="ml-1">Logout</span></button>
+                <button  className="btn btn-primary rounded-pill logout-btn"
+                style={{
+                  backgroundColor:'#f4431f',
+                  width:'100%'
+
+
+                }}
+                
+                type="submit"><img src={logoutIcon} alt="Logout"/><span className="ml-1">Logout</span></button>
               </NavLink>
             </NavItem>
           </DropdownMenu>
