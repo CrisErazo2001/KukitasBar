@@ -67,7 +67,7 @@ const TablaInformacion = ({ distribucionNombres, cantidades }) => {
           <tr>
             <th style={{fontWeight: 'bold'}}>Posición</th>
             <th style={{fontWeight: 'bold'}}>Ingrediente</th>
-            <th style={{fontWeight: 'bold'}}>Contenido en Botella (ml)</th>
+            <th style={{fontWeight: 'bold'}}>Contenido Botella (ml)</th>
             <th style={{fontWeight: 'bold'}}>Disponible (ml)</th>
           </tr>
         </thead>
@@ -77,17 +77,17 @@ const TablaInformacion = ({ distribucionNombres, cantidades }) => {
             const disponible = cantidades[i]?.cantidadActual - cantidades[i]?.cantidadUsada || '-';
 
             // Determinar si el valor es menor o igual a 50 ml
-            const claseDisponible = disponible <= 50 ? s.textoRojo : '';
+            const claseDisponible = disponible <= 100 ? s.textoRojo : '';
 
             // Condicional para mostrar "-" si el ingrediente es N/A
-            const contenidoBotella = distribucionNombres[i] === 'N/A' ? '-' : cantidades[i]?.cantidadActual || '-';
-            const disponibleTexto = distribucionNombres[i] === 'N/A' ? '-' : disponible;
+            const contenidoBotella = distribucionNombres[i] === 'N/A' ? '-' : cantidades[i]?.cantidadActual || 0;
+            const disponibleTexto = distribucionNombres[i] === 'N/A' ? 0 : disponible;
 
             return (
               <tr key={i}>
-                <td style={{fontWeight: 'bold'}}>
-                  {i < 6 ? 'D' : i < 12 ? 'C' : i < 18 ? 'B' : 'A'}
-                  {6 - (i % 6)}
+               <td style={{ fontWeight: 'bold' }}>
+                  {i < 6 ? 'A' : i < 12 ? 'B' : i < 18 ? 'C' : 'D'}
+                  {1 + (i % 6)}
                 </td>
                 <td>{distribucionNombres[i] || 'N/A'}</td>
                 <td>{contenidoBotella}</td>
@@ -749,8 +749,9 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
         
         {/*
         <Button className={s.nBotonRecetas} onClick={rellenarTodasBotellas}>Rellenar Todo</Button>
+        */}
         <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Todo</Button>
-       */}
+       
         </div>
       <Modal 
         isOpen={modalIsOpen} 
