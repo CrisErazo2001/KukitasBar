@@ -188,7 +188,7 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
                 <Input type="textarea" name="descripcion" value={nuevoIngrediente.descripcion} onChange={handleInputChange} />
               </FormGroup>
               <FormGroup>
-                <Label for="cantidad">Volumen de la botella (cm3)</Label>
+                <Label for="cantidad">Volumen de la botella (ml)</Label>
                 <Input type="select" name="cantidad" value={isCustomCantidad ? "otro" : nuevoIngrediente.cantidad} onChange={handleInputChange}>
                   <option value={750}>750</option>
                   <option value={1000}>1000</option>

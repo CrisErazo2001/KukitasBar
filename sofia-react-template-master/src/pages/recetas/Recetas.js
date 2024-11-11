@@ -52,6 +52,7 @@ const Recetas = () => {
   /* Nuevo */
   // Nuevo estado para almacenar el estado de "en menú" de cada receta.
   const [recetasEnMenu, setRecetasEnMenu] = useState({}); // Objeto que almacenará el estado para cada receta por ID
+  const ws = new WebSocket('ws://192.168.0.241:1880/ws/refresh-in'); // URL del WebSocket
     // Función para alternar el estado de "en menú" de una receta específica.
   const toggleMenuStatus = (receta) => {
 
@@ -67,13 +68,29 @@ const Recetas = () => {
         return response.json();
     })
     .then(data => {
-        console.log('Datos recibidos:', data); // Log de los datos recibidos
-        setToggleStatus(data); // Guarda la respuesta en createIngStatus
-        // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoIngrediente]);
+      console.log('Datos recibidos:', data); // Log de los datos recibidos
+      setToggleStatus(data); // Guarda la respuesta en createIngStatus
+      // setIngredientes((prevIngredientes) => [...prevIngredientes, nuevoIngrediente]);}
+      localStorage.setItem('refreshUserMenu', new Date().toISOString());
+      // Envía un mensaje al servidor Node-RED para notificar la actualización
+    
+      ws.send(true); // Puedes enviar un mensaje de texto simple
+      
+        
     })
+
     .catch(error => console.error('Error:', error));
     
   };
+
+  useEffect(() => {
+    // Abre el WebSocket en Node-RED al cargar el componente
+    ws.onopen = () => console.log("Conectado al WebSocket en Node-RED");
+    ws.onerror = (error) => console.error("Error en WebSocket:", error);
+    
+    // Cierra el WebSocket al desmontar el componente
+    return () => ws.close();
+  }, [ws]);
   /* Nuevo */
 
   const fetchRecetas = async () => {
@@ -252,17 +269,24 @@ const Recetas = () => {
                     <div className='mb-3'></div>
                     <Button className={s.nBotonEdicion} onClick={() => eliminarReceta(receta)}>Eliminar</Button>
                     <div className='mb-3'></div>
-                    <Button className={s.nBotonEdicion} onClick={() => toggleMenuStatus(receta)}>
-                      {receta.menu ? 'Quitar del Menú' : 'Agregar al Menú'} {/* Texto dinámico */}
-                    </Button>
+{/*                    <Button className={s.nBotonEdicion} onClick={() => toggleMenuStatus(receta)}>
+                      {receta.menu ? 'Quitar del Menú' : 'Agregar al Menú'} 
+                    </Button>*/}
+                    <Button
+                    className={`${s.nBotonEdicion} ${recetasEnMenu[receta] ? s.botonRojo : ''}`} // Cambia la clase en función del estado
+                    onClick={() => toggleMenuStatus(receta)} // Llama a toggleMenuStatus con el ID de la receta
+                  >
+                    {receta.menu ? 'Quitar del Menú' : 'Agregar al Menú'} {/* Texto dinámico */}
+                  </Button>
                   </div>
                   {/* Nuevo botón para agregar/quitar del menú */}
                   
 
-                  {/* Estado de la receta para visualización */}
+                  {/* Estado de la receta para visualización 
                   <div style={{ marginTop: '10px', fontSize: '14px' }}>
                     La receta irá en el Menú: {receta.menu ? 'Verdadero' : 'Falso'}
                   </div>
+                  */}
                 </td>
               </tr>
             ))}

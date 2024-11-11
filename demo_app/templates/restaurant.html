@@ -577,7 +577,25 @@
     <script src="../static/js/all.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
     <script>
+        // Escucha el evento `storage` para detectar cambios en `localStorage`
+        window.addEventListener('storage', function(event) {
+          if (event.key === 'refreshUserMenu') {
+            // Refresca la página cuando la clave 'refreshUserMenu' cambia
+            location.reload();
+          }
+        });
+      </script>
+    <script>
         // Conectar al WebSocket en Node-RED
+
+        const nrefresh = new WebSocket('ws://192.168.0.241:1880/ws/rrefresh'); // Escucha en el mismo WebSocket out de Node-RED
+
+        nrefresh.onmessage = function(event) {
+            console.log('Mensaje recibido desde Node-RED:', event.data);
+            
+            location.reload(); // Recarga la página cuando recibe "refresh"
+            
+        };
         const ws = new WebSocket('http://192.168.0.241:1880/ws/data');
         const refresh = new WebSocket('http://192.168.0.241:1880/ws/n-refresh');
 
