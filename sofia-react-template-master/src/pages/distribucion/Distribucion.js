@@ -49,13 +49,19 @@ const Distribucion = () => {
 };
 
 /* Tabla Nueva */
+const [tablaVisible, setTablaVisible] = useState(false);
+const toggleTabla = () => {
+  setTablaVisible(!tablaVisible);
+};
 
 // Agregar este componente dentro de Distribucion o en un archivo separado
 // Agregar este componente dentro de Distribucion o en un archivo separado
 const TablaInformacion = ({ distribucionNombres, cantidades }) => {
+
+
   return (
     <div className={s.tablaInformacionContainer}>
-      <h4>Información de los Botones</h4>
+      <h4>Información distribución</h4>
       <table className={s.tablaInformacion}>
         <thead>
           <tr>
@@ -68,13 +74,13 @@ const TablaInformacion = ({ distribucionNombres, cantidades }) => {
         <tbody>
           {Array.from({ length: 24 }, (_, i) => {
             // Calcular el valor de Disponible (ml)
-            const disponible = cantidades[i]?.cantidadActual - cantidades[i]?.cantidadUsada || 0;
+            const disponible = cantidades[i]?.cantidadActual - cantidades[i]?.cantidadUsada || '-';
 
             // Determinar si el valor es menor o igual a 50 ml
             const claseDisponible = disponible <= 50 ? s.textoRojo : '';
 
             // Condicional para mostrar "-" si el ingrediente es N/A
-            const contenidoBotella = distribucionNombres[i] === 'N/A' ? '-' : cantidades[i]?.cantidadActual || 0;
+            const contenidoBotella = distribucionNombres[i] === 'N/A' ? '-' : cantidades[i]?.cantidadActual || '-';
             const disponibleTexto = distribucionNombres[i] === 'N/A' ? '-' : disponible;
 
             return (
@@ -541,16 +547,29 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
           <div className={s.circuloLeyenda} style={{ backgroundColor: "#00ff28" }}></div>
         </div>
       </div>
- {/* Tabla de Información */}
- <TablaInformacion distribucionNombres={distribucionNombres} cantidades={cantidades} />
-      {/* Botonera */}
+
+      <div>
+        {/* Botón para mostrar/ocultar la tabla */}
+        <button className={`${s.nBotonRecetas} mt-3 mb-3`}
+          onClick={toggleTabla} 
+          style={{ backgroundColor: tablaVisible ? 'red' : '#ff8b05', color: 'white', fontWeight: 'bold' }}
+        >
+          {tablaVisible ? 'Esconder Tabla' : 'Ver Tabla de Cantidades'}
+        </button>
+
+        {/* Tabla de Información */}
+        {tablaVisible && (
+          <TablaInformacion distribucionNombres={distribucionNombres} cantidades={cantidades} />
+        )}
+      </div>
+
       <div className={s.botonera}>
 
         {/* Fila D */}
         <div className={s.filaVertical}>
           <div className={s.columnaVertical}>
             {Array.from({ length: 6 }, (_, i) => (
-              <div>
+            <div style={{display:'flex'}}>
               <Button
                 key={`D${6 - i}`}
                 id={`tooltip-${23 - i}`} //
@@ -580,7 +599,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   }
                 </div>
               </Tooltip>
-             </div>
+            </div>
               
             ))}
           </div>
