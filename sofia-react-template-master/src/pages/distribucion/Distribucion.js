@@ -74,7 +74,7 @@ const TablaInformacion = ({ distribucionNombres, cantidades }) => {
         <tbody>
           {Array.from({ length: 24 }, (_, i) => {
             // Calcular el valor de Disponible (ml)
-            const disponible = cantidades[i]?.cantidadActual - cantidades[i]?.cantidadUsada || '-';
+            const disponible = cantidades[i]?.cantidadUsada || '-';
 
             // Determinar si el valor es menor o igual a 50 ml
             const claseDisponible = disponible <= 100 ? s.textoRojo : '';
@@ -594,7 +594,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   { 
                     // Realizamos el cálculo de la cantidad disponible
                     cantidades[23 - i]?.cantidadActual && cantidades[23 - i]?.cantidadUsada 
-                      ? (cantidades[23 - i].cantidadActual - cantidades[23 - i].cantidadUsada) + " ml"
+                      ? (cantidades[23 - i].cantidadUsada) + " ml"
                       : "-"
                   }
                 </div>
@@ -633,7 +633,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   { 
                     // Realizamos el cálculo de la cantidad disponible
                     cantidades[17 - i]?.cantidadActual && cantidades[17 - i]?.cantidadUsada 
-                      ? (cantidades[17 - i].cantidadActual - cantidades[17 - i].cantidadUsada) + " ml"
+                      ? (cantidades[17 - i].cantidadUsada) + " ml"
                       : "-"
                   }
                 </div>
@@ -673,7 +673,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   { 
                     // Realizamos el cálculo de la cantidad disponible
                     cantidades[11 - i]?.cantidadActual && cantidades[11 - i]?.cantidadUsada 
-                      ? (cantidades[11 - i].cantidadActual - cantidades[11 - i].cantidadUsada) + " ml"
+                      ? (cantidades[11 - i].cantidadUsada) + " ml"
                       : "-"
                   }
                 </div>
@@ -709,7 +709,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   { 
                     // Realizamos el cálculo de la cantidad disponible
                     cantidades[5 - i]?.cantidadActual && cantidades[5 - i]?.cantidadUsada 
-                      ? (cantidades[5 - i].cantidadActual - cantidades[5 - i].cantidadUsada) + " ml"
+                      ? (cantidades[5 - i].cantidadUsada) + " ml"
                       : "-"
                   }
                 </div>
