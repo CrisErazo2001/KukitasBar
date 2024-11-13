@@ -235,6 +235,7 @@
 .leyendaContainer {
   display: flex;
   justify-content: center;
+  align-items: end;
   gap: 20px;
   padding: 10px 0;
 }
@@ -288,3 +289,7 @@
   color: red;
   font-weight: bold;
 }
+
+
+/* new modal */
+

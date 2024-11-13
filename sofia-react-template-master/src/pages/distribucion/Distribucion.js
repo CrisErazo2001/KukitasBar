@@ -67,27 +67,27 @@ const TablaInformacion = ({ distribucionNombres, cantidades }) => {
           <tr>
             <th style={{fontWeight: 'bold'}}>Posición</th>
             <th style={{fontWeight: 'bold'}}>Ingrediente</th>
-            <th style={{fontWeight: 'bold'}}>Contenido en Botella (ml)</th>
+            <th style={{fontWeight: 'bold'}}>Contenido Botella (ml)</th>
             <th style={{fontWeight: 'bold'}}>Disponible (ml)</th>
           </tr>
         </thead>
         <tbody>
           {Array.from({ length: 24 }, (_, i) => {
             // Calcular el valor de Disponible (ml)
-            const disponible = cantidades[i]?.cantidadActual - cantidades[i]?.cantidadUsada || '-';
+            const disponible = cantidades[i]?.cantidadUsada || '-';
 
             // Determinar si el valor es menor o igual a 50 ml
-            const claseDisponible = disponible <= 50 ? s.textoRojo : '';
+            const claseDisponible = disponible <= 100 ? s.textoRojo : '';
 
             // Condicional para mostrar "-" si el ingrediente es N/A
-            const contenidoBotella = distribucionNombres[i] === 'N/A' ? '-' : cantidades[i]?.cantidadActual || '-';
-            const disponibleTexto = distribucionNombres[i] === 'N/A' ? '-' : disponible;
+            const contenidoBotella = distribucionNombres[i] === 'N/A' ? '-' : cantidades[i]?.cantidadActual || 0;
+            const disponibleTexto = distribucionNombres[i] === 'N/A' ? 0 : disponible;
 
             return (
               <tr key={i}>
-                <td style={{fontWeight: 'bold'}}>
-                  {i < 6 ? 'D' : i < 12 ? 'C' : i < 18 ? 'B' : 'A'}
-                  {6 - (i % 6)}
+               <td style={{ fontWeight: 'bold' }}>
+                  {i < 6 ? 'A' : i < 12 ? 'B' : i < 18 ? 'C' : 'D'}
+                  {1 + (i % 6)}
                 </td>
                 <td>{distribucionNombres[i] || 'N/A'}</td>
                 <td>{contenidoBotella}</td>
@@ -176,6 +176,33 @@ const TablaInformacion = ({ distribucionNombres, cantidades }) => {
   const cerrarModal = () => {
     setModalIsOpen(false);
   };
+
+  /* nuevo modal */
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para mostrar el modal de confirmación
+  
+  /* Nuevo Modal*/
+  // Mostrar el modal de confirmación
+  const handleShowConfirmModal = () => {
+    setShowConfirmModal(true);
+  };
+
+  // Ocultar el modal de confirmación
+  const handleCloseConfirmModal = () => {
+    setShowConfirmModal(false);
+
+  };
+
+    // Confirmar la eliminación
+    const handleConfirmDelete = () => {
+      borrarDisposicion();
+      guardarDisposicion();
+      handleCloseConfirmModal(); // Cerrar el modal después de la eliminación
+    };
+
+
+
+  /* nuevo modal */
 
 
   /* ANTIGUO 
@@ -594,7 +621,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   { 
                     // Realizamos el cálculo de la cantidad disponible
                     cantidades[23 - i]?.cantidadActual && cantidades[23 - i]?.cantidadUsada 
-                      ? (cantidades[23 - i].cantidadActual - cantidades[23 - i].cantidadUsada) + " ml"
+                      ? (cantidades[23 - i].cantidadUsada) + " ml"
                       : "-"
                   }
                 </div>
@@ -633,7 +660,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   { 
                     // Realizamos el cálculo de la cantidad disponible
                     cantidades[17 - i]?.cantidadActual && cantidades[17 - i]?.cantidadUsada 
-                      ? (cantidades[17 - i].cantidadActual - cantidades[17 - i].cantidadUsada) + " ml"
+                      ? (cantidades[17 - i].cantidadUsada) + " ml"
                       : "-"
                   }
                 </div>
@@ -673,7 +700,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   { 
                     // Realizamos el cálculo de la cantidad disponible
                     cantidades[11 - i]?.cantidadActual && cantidades[11 - i]?.cantidadUsada 
-                      ? (cantidades[11 - i].cantidadActual - cantidades[11 - i].cantidadUsada) + " ml"
+                      ? (cantidades[11 - i].cantidadUsada) + " ml"
                       : "-"
                   }
                 </div>
@@ -709,7 +736,7 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
                   { 
                     // Realizamos el cálculo de la cantidad disponible
                     cantidades[5 - i]?.cantidadActual && cantidades[5 - i]?.cantidadUsada 
-                      ? (cantidades[5 - i].cantidadActual - cantidades[5 - i].cantidadUsada) + " ml"
+                      ? (cantidades[5 - i].cantidadUsada) + " ml"
                       : "-"
                   }
                 </div>
@@ -749,9 +776,17 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
         
         {/*
         <Button className={s.nBotonRecetas} onClick={rellenarTodasBotellas}>Rellenar Todo</Button>
-        <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Todo</Button>
-       */}
+        */}
+
         </div>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "60px" }}>
+        {/*
+        <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Disposición</Button>
+         */}
+        <Button className={s.nBotonRecetas} onClick={handleShowConfirmModal}>Borrar Disposición</Button>
+        </div>
+
+
       <Modal 
         isOpen={modalIsOpen} 
         toggle={cerrarModal} 
@@ -842,6 +877,46 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
           <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '10px 0' }}>
             <Button className={s.nBotonRecetas} onClick={guardarPosicion}>Ok</Button>
           </div>
+        </ModalBody>
+      </Modal>
+
+      {/* Modal de confirmación para eliminar receta */}
+      <Modal 
+        isOpen={showConfirmModal} 
+        toggle={handleCloseConfirmModal}
+        onClick={(e) => {
+          // Detecta si el clic fue fuera del modal
+          if (e.target.classList.contains("modal")) {
+            handleCloseConfirmModal();  // Cierra el modal si se hace clic fuera de él
+          }
+        }} 
+        style={{
+          overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
+          content: { maxWidth: '500px', maxHeight:'320px', margin: 'auto', padding: '20px', borderRadius: '10px' }
+        }}
+        
+      >
+        <ModalBody>
+        <div className="d-flex flex-column justify-content-center">
+          <h3 className="d-flex  justify-content-center align-content-center">
+            Confirmar eliminación
+          </h3>
+          <p className="d-flex  justify-content-center mt-3">
+            ¿Estás seguro de que deseas eliminar esta Disposición?
+          </p>
+          <div className='d-flex  justify-content-center mt-4' >
+
+            <Button className={s.nBotonRecetas} onClick={handleConfirmDelete}>Borrar Disposición</Button>
+            
+            <Button 
+              color="secondary" 
+              onClick={handleCloseConfirmModal}
+              className={`${s.nBotonRecetas} ml-2`}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </div>
         </ModalBody>
       </Modal>
     </div>

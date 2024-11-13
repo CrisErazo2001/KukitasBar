@@ -9,7 +9,9 @@ import {
   Button,
   Input,
   InputGroup,
-  InputGroupAddon
+  InputGroupAddon,
+  Modal,
+  ModalBody
 } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from 'xlsx';
@@ -61,6 +63,31 @@ const Tables = () => {
   const pedidosFiltrados = listaPedidos.filter(pedido =>
     pedido.nombre_cliente.toLowerCase().includes(busqueda.toLowerCase())
   );
+
+
+  /*nuevo Modal */
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para mostrar el modal de confirmación
+  const [pedidoParaEliminar, setPedidoParaEliminar] = useState(null); // Estado para la receta a eliminar
+  
+  // Mostrar el modal de confirmación
+  const handleShowConfirmModal = (receta) => {
+    setPedidoParaEliminar(receta);
+    setShowConfirmModal(true);
+  };
+
+  // Ocultar el modal de confirmación
+  const handleCloseConfirmModal = () => {
+    setShowConfirmModal(false);
+    setPedidoParaEliminar(null);
+  };
+
+  // Confirmar la eliminación
+  const handleConfirmDelete = () => {
+    eliminarPedido(pedidoParaEliminar);
+    handleCloseConfirmModal(); // Cerrar el modal después de la eliminación
+  };
+
+  /* Nuevo Modal*/
 
   // Elimina un pedido de la lista
   const eliminarPedido = (pedido) => {
@@ -183,9 +210,17 @@ const Tables = () => {
                         <td>{pedido.create_at}</td>
                         <td>{pedido.deliver_at}</td>
                         <td>
+                          {/*
                           <Button
                             className={s.nBotonEdicion}
                             onClick={() => eliminarPedido(pedido)}
+                          >
+                            Eliminar
+                          </Button>
+                          */}
+                          <Button
+                            className={s.nBotonEdicion}
+                            onClick={() => handleShowConfirmModal(pedido)}
                           >
                             Eliminar
                           </Button>
@@ -222,6 +257,49 @@ const Tables = () => {
           </Row>
         </Col>
       </Row>
+      {/* Modal de confirmación para eliminar receta */}
+      <Modal 
+        isOpen={showConfirmModal} 
+        toggle={handleCloseConfirmModal}
+        onClick={(e) => {
+          // Detecta si el clic fue fuera del modal
+          if (e.target.classList.contains("modal")) {
+            handleCloseConfirmModal();  // Cierra el modal si se hace clic fuera de él
+          }
+        }} 
+        style={{
+          overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
+          content: { maxWidth: '500px', maxHeight:'320px', margin: 'auto', padding: '20px', borderRadius: '10px' }
+        }}
+        
+      >
+        <ModalBody>
+        <div className="d-flex flex-column justify-content-center">
+          <h3 className="d-flex  justify-content-center align-content-center">
+            Confirmar eliminación
+          </h3>
+          <p className="d-flex  justify-content-center mt-3">
+            ¿Estás seguro de que deseas eliminar este Pedido?
+          </p>
+          <div className='d-flex  justify-content-center mt-4' >
+            <Button 
+              color="danger" 
+              onClick={handleConfirmDelete}
+              className={s.nBotonEdicion}
+            >
+              Eliminar
+            </Button>
+            <Button 
+              color="secondary" 
+              onClick={handleCloseConfirmModal}
+              className={s.nBotonEdicion}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </div>
+        </ModalBody>
+      </Modal>
     </div>
   );
 };

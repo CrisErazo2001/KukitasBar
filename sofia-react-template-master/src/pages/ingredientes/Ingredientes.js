@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon, Pagination, PaginationItem, PaginationLink, ModalBody } from 'reactstrap';
 import NuevoIngrediente from '../nuevoIngrediente/NuevoIngrediente';
 import Modal from 'react-modal';
 import s from "./Ingredientes.module.scss";
@@ -62,6 +62,32 @@ const Ingredientes = () => {
     setModalIsOpen(false);
     setIngredienteSeleccionado(null);
   };
+
+  /* Nuevo Modal */
+  /*nuevo Modal */
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para mostrar el modal de confirmación
+  const [ingredienteParaEliminar, setIngredienteParaEliminar] = useState(null); // Estado para la receta a eliminar
+
+  // Mostrar el modal de confirmación
+  const handleShowConfirmModal = (ingrediente) => {
+    setIngredienteParaEliminar(ingrediente);
+    setShowConfirmModal(true);
+  };
+
+  // Ocultar el modal de confirmación
+  const handleCloseConfirmModal = () => {
+    setShowConfirmModal(false);
+    setIngredienteParaEliminar(null);
+  };
+
+  // Confirmar la eliminación
+  const handleConfirmDelete = () => {
+    eliminarIngrediente(ingredienteParaEliminar);
+    handleCloseConfirmModal(); // Cerrar el modal después de la eliminación
+  };
+
+
+  /* Nuevo Modal */
 
   const abrirFormularioEdicion = (ingrediente) => {
     setModoEditar(true);
@@ -203,7 +229,10 @@ const Ingredientes = () => {
               <div className='d-flex flex-column'>
                 <Button className={`${s.nBotonEdicion} mb-2`} onClick={() => abrirModal(ingrediente)}>Ver</Button>
                 <Button className={`${s.nBotonEdicion} mb-2`} onClick={() => abrirFormularioEdicion(ingrediente)}>Editar</Button>
+                {/*
                 <Button className={s.nBotonEdicion} onClick={() => eliminarIngrediente(ingrediente)}>Eliminar</Button>
+                */}
+                <Button className={s.nBotonEdicion} onClick={() => handleShowConfirmModal(ingrediente)}>Eliminar</Button>
               </div>
             </td>
           </tr>
@@ -289,6 +318,50 @@ const Ingredientes = () => {
           </div>
         )}
       </Modal>
+
+      {/* Modal de confirmación para eliminar receta */}
+      <Modal 
+          isOpen={showConfirmModal} 
+          toggle={handleCloseConfirmModal}
+          onClick={(e) => {
+            // Detecta si el clic fue fuera del modal
+            if (e.target.classList.contains("modal")) {
+              handleCloseConfirmModal();  // Cierra el modal si se hace clic fuera de él
+            }
+          }} 
+          style={{
+            overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
+            content: { maxWidth: '500px', maxHeight:'320px', margin: 'auto', padding: '20px', borderRadius: '10px' }
+          }}
+          
+        >
+          <ModalBody>
+          <div className="d-flex flex-column justify-content-center">
+            <h3 className="d-flex  justify-content-center align-content-center">
+              Confirmar eliminación
+            </h3>
+            <p className="d-flex  justify-content-center align-content-center mt-3">
+              ¿Estás seguro de que deseas eliminar este Ingrediente?
+            </p>
+            <div className='d-flex  justify-content-center mt-4' >
+              <Button 
+                color="danger" 
+                onClick={handleConfirmDelete}
+                className={s.nBotonEdicion}
+              >
+                Eliminar
+              </Button>
+              <Button 
+                color="secondary" 
+                onClick={handleCloseConfirmModal}
+                className={s.nBotonEdicion}
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
+          </ModalBody>
+        </Modal>
 
     </div>
   );

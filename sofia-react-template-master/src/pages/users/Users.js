@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon, ModalBody } from 'reactstrap';
 import NuevoUsuario from './ModUsers.jsx';
 import Modal from 'react-modal';
 import s from "./Users.module.scss";
@@ -42,9 +42,6 @@ const Users = () => {
     }
   };
 
-  
-  
-
   const filtrarUsuarios = usuarios.filter((usuario) =>
     usuario.user.toLowerCase().includes(busqueda.toLowerCase())
   );
@@ -55,6 +52,35 @@ const Users = () => {
     setUsuarioSeleccionado(ingrediente);
     setMostrarFormulario(true);
   };
+
+
+  /* Nuevo Modal */
+
+  /*nuevo Modal */
+  /*nuevo Modal */
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para mostrar el modal de confirmación
+  const [usuarioParaEliminar, setUsuarioParaEliminar] = useState(null); // Estado para la receta a eliminar
+
+  // Mostrar el modal de confirmación
+  const handleShowConfirmModal = (ingrediente) => {
+    setUsuarioParaEliminar(ingrediente);
+    setShowConfirmModal(true);
+  };
+
+  // Ocultar el modal de confirmación
+  const handleCloseConfirmModal = () => {
+    setShowConfirmModal(false);
+    setUsuarioParaEliminar(null);
+  };
+
+  // Confirmar la eliminación
+  const handleConfirmDelete = () => {
+    eliminarIngrediente(usuarioParaEliminar);
+    handleCloseConfirmModal(); // Cerrar el modal después de la eliminación
+  };
+
+
+  /* Nuevo Modal */
 
   const eliminarIngrediente = (ingrediente) => {
     fetch('/usuario/eliminar', {
@@ -153,13 +179,60 @@ const Users = () => {
               <td>
                 <div className='d-flex flex-column'>
                   <Button className={`${s.nBotonEdicion} mb-2`} onClick={() => abrirFormularioEdicion(usuario)}>Editar</Button>
+                  {/*
                   <Button className={s.nBotonEdicion} onClick={() => eliminarIngrediente(usuario)}>Eliminar</Button>
+                  */}
+                  <Button className={s.nBotonEdicion} onClick={() => handleShowConfirmModal(usuario)}>Eliminar</Button>
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+
+      {/* Modal de confirmación para eliminar receta */}
+      <Modal 
+        isOpen={showConfirmModal} 
+        toggle={handleCloseConfirmModal}
+        onClick={(e) => {
+          // Detecta si el clic fue fuera del modal
+          if (e.target.classList.contains("modal")) {
+            handleCloseConfirmModal();  // Cierra el modal si se hace clic fuera de él
+          }
+        }} 
+        style={{
+          overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
+          content: { maxWidth: '500px', maxHeight:'320px', margin: 'auto', padding: '20px', borderRadius: '10px' }
+        }}
+        
+      >
+        <ModalBody>
+        <div className="d-flex flex-column justify-content-center">
+          <h3 className="d-flex  justify-content-center align-content-center">
+            Confirmar eliminación
+          </h3>
+          <p className="d-flex  justify-content-center mt-3">
+            ¿Estás seguro de que deseas eliminar esta Usuario?
+          </p>
+          <div className='d-flex  justify-content-center mt-4' >
+            <Button 
+              color="danger" 
+              onClick={handleConfirmDelete}
+              className={s.nBotonEdicion}
+            >
+              Eliminar
+            </Button>
+            <Button 
+              color="secondary" 
+              onClick={handleCloseConfirmModal}
+              className={s.nBotonEdicion}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </div>
+        </ModalBody>
+      </Modal>
 
       
     </div>

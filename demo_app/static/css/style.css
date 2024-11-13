@@ -394,7 +394,7 @@ html, body{ height: 100%; }
 	background-attachment:fixed;
 	background-size:cover;
 	height:100vh;
-	min-height:100%;
+	min-height:8cm;
 }
 
 .banner .container, .banner .banner-static, .banner .col-lg-12 {
@@ -409,7 +409,7 @@ html, body{ height: 100%; }
     text-align: center;
 }
 .banner-cell {
-    display: table-cell;
+    /*display: table-cell;*/
     vertical-align: middle;
     color: #fff;
 }
@@ -2494,7 +2494,7 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
 .botonera-n {
     display: flex;
     justify-content: center;
-    padding: 10px 20px;
+    padding: 20px;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
@@ -2504,7 +2504,7 @@ textarea:focus, input:focus, select:focus, .bootstrap-select .dropdown-toggle:fo
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s, border 0.3s;
-    padding-left: 7px;
+ 
 }
 
 .botonera-n:hover {

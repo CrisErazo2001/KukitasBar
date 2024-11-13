@@ -14,7 +14,7 @@ import datetime
 import math
 
 
-@app.route('/cantidades',methods=['GET'])
+@app.route('/cantidades', methods=['GET'])
 def get_cantidades():
 
     is_valid = True
@@ -23,10 +23,10 @@ def get_cantidades():
     status = 'success'
     code = 200
     data = []
-    f = open('posicion.txt','r')
+    f = open('posicion.txt', 'r')
     id_aux = int(f.read())
     f.close()
-    if id_aux != 0 :
+    if id_aux != 0:
         pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
         pos_list = pos.aslist()
         cant = cantidad.get_by_id({'id_cantidad': id_aux})
@@ -36,22 +36,22 @@ def get_cantidades():
             ing = []
             if pos_list[i] != 0:
                 ing = ingrediente.get_by_id({'id_ingrediente': pos_list[i]})
-            
+
             if ing == []:
                 cantXu.append(0)
             else:
                 cantXu.append(int(ing.cantidad_unitaria))
 
         for i in range(28):
-            datosIniciales = { 'cantidadActual': cant_aux[i], 'cantidadUsada': cantXu[i]-cant_aux[i]}
+            datosIniciales = {
+                'cantidadActual': cantXu[i], 'cantidadUsada': cant_aux[i]}
             # print(datosIniciales)
             data.append(datosIniciales)
     else:
         for i in range(28):
-            data.append({ 'cantidadActual': 0, 'cantidadUsada': 0})
-      
-    
-    value = {   #valor de salida de la api
+            data.append({'cantidadActual': 0, 'cantidadUsada': 0})
+
+    value = {  # valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
@@ -61,7 +61,8 @@ def get_cantidades():
     }
     return jsonify(value)
 
-@app.route('/cantidad/rellenar',methods=['POST'])
+
+@app.route('/cantidad/rellenar', methods=['POST'])
 def set_cantidades():
 
     is_valid = True
@@ -70,9 +71,9 @@ def set_cantidades():
     status = 'success'
     code = 200
     data = request.json
-    
+
     # print(data)
-    f = open('posicion.txt','r')
+    f = open('posicion.txt', 'r')
     id_aux = int(f.read())
     f.close()
     pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
@@ -82,21 +83,19 @@ def set_cantidades():
     pos_aux = int(data['pos'])
 
     id_aux = pos_list[pos_aux]
-    ing = ingrediente.get_by_id({'id_ingrediente':id_aux})
+    ing = ingrediente.get_by_id({'id_ingrediente': id_aux})
     canXu = 0
     if ing != []:
-        mensaje=mensaje+"ingrediente numero "+str(pos_aux)
+        mensaje = mensaje+"ingrediente numero "+str(pos_aux)
         canXu = ing.cantidad_unitaria
     else:
         mensaje = "No esta rellenando ningun ingrediente"
         status = 'warning'
         code = 300
-    cant_aux['cant'+str(pos_aux+1)]=canXu
+    cant_aux['cant'+str(pos_aux+1)] = canXu
     cantidad.update_by_id(cant_aux)
-    
-    
-    
-    value = {   #valor de salida de la api
+
+    value = {  # valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
@@ -106,7 +105,8 @@ def set_cantidades():
     }
     return jsonify(value)
 
-@app.route('/cantidad/rellenar-todo',methods=['POST'])
+
+@app.route('/cantidad/rellenar-todo', methods=['POST'])
 def set_all_cantidades():
 
     is_valid = True
@@ -115,8 +115,8 @@ def set_all_cantidades():
     status = 'success'
     code = 200
     data = request.json
-    
-    f = open('posicion.txt','r')
+
+    f = open('posicion.txt', 'r')
     id_aux = int(f.read())
     f.close()
     pos = posicion_bebidas.get_by_id({'id_posicion': id_aux})
@@ -128,19 +128,19 @@ def set_all_cantidades():
         ing = []
         if pos_list[i] != 0:
             ing = ingrediente.get_by_id({'id_ingrediente': pos_list[i]})
-        
+
         if ing == []:
             cantXu.append(0)
         else:
             cantXu.append(int(ing.cantidad_unitaria))
 
     dict2 = {
-        'id_cantidad':id_aux, 
-        'cant1': cantXu[0], 
-        'cant2': cantXu[1] , 
-        'cant3': cantXu[2], 
-        'cant4':  cantXu[3] , 
-        'cant5':  cantXu[4], 
+        'id_cantidad': id_aux,
+        'cant1': cantXu[0],
+        'cant2': cantXu[1],
+        'cant3': cantXu[2],
+        'cant4':  cantXu[3],
+        'cant5':  cantXu[4],
         'cant6': cantXu[5],
         'cant7': cantXu[6],
         'cant8': cantXu[7],
@@ -168,7 +168,7 @@ def set_all_cantidades():
     }
     cantidad.update_by_id(dict2)
 
-    value = {   #valor de salida de la api
+    value = {  # valor de salida de la api
         "valid": is_valid,
         "message": mensaje,
         "category": categoria,
