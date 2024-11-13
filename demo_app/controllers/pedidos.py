@@ -73,15 +73,19 @@ def home():
     recetas = []    
     aux_data = receta.get_all()
     print(aux_data)
-    
+    aux_ingredientes = []
     for rec in aux_data:
-        aux = rec.asdict_front()
-        if aux['menu'] == 1:
+        aux1 = rec.asdict_front()
+        aux = rec.asdict()
+        keys,values = get_ing(aux)
+        if aux['status'] == 1:
             ingredientes = '' 
-            for ing in aux['ingredientes']:
-                ingredientes = ingredientes + ' ' + ing['nombre']
-            aux['ingredientes'] = ingredientes
-            recetas.append(aux)
+            for ing in keys:
+                if ing == '':
+                    break
+                ingredientes = ingredientes + ' - ' + ing
+            aux1['ingredientes'] = ingredientes
+            recetas.append(aux1)
 
       
     
@@ -268,14 +272,21 @@ def end():
         ingredientes = ''
         cost = []
         cantXu = []
+        cont_i = 0
         for i in keys:
-            ingredientes = ingredientes + '-' + i
+            if cont_i != len(values)-1:
+                for x in range(values[cont_i]):
+                    ingredientes = ingredientes + '-' + i
+            else:
+                ingredientes = ingredientes + '-'
+
             
             ing = ingrediente.get_by_name({'nombre': i})
             if ing != False:
                 # print('nombre ', ing.precio_unitario)
                 cost.append(ing.precio_unitario)
                 cantXu.append(ing.cantidad_unitaria)
+            cont_i += 1
         costo_bebida = 0.0
         
         for c in range(len(keys)-1):

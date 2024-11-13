@@ -9,10 +9,21 @@ from demo_app.models.receta import receta
 from flask_bcrypt import Bcrypt
 import datetime
 from random import randint
+from collections import Counter
+
 bcrypt = Bcrypt(app)
 app.secret_key = 'keep it secret, keep it safe'
 
-
+def get_ing(receta):
+    ingredientes = []
+    for i in range(10):
+        aux = 'ing'+str(i+1)
+        ingredientes.append(receta[aux])
+    conteo = Counter(ingredientes)
+    conteo_dict = dict(conteo)
+    clave = list(conteo_dict.keys())
+    valor = list(conteo_dict.values())
+    return clave,valor
 
 
 @app.route('/pedidos',methods=['GET'])
@@ -88,6 +99,8 @@ def show_pedidos():
             nombre_cliente_actual = pedidos[0].nombre_cliente
             rec = receta.get_by_id({'id_receta':pedidos[0].id_receta})
             lista = rec.ingredientes()
+            receta_aux = rec.asdict()
+            keys,values = get_ing(receta_aux)
             for i in lista:
                 if i == '':
                     break
