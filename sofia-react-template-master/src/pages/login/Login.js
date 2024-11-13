@@ -101,7 +101,7 @@ const Login = (props) => {
               <div className="text-center py-3">
                 <p className="auth-header mb-0" style={{ fontSize: "3rem" }}>KUKITA'S</p>
                 <div className="d-flex justify-content-end">
-                  <p className="auth-header mb-0" style={{ marginRight: "0", marginTop: "10px" }}>Ingrear</p>
+                  <p className="auth-header mb-0" style={{ marginRight: "0", marginTop: "10px" }}>Ingresar</p>
                 </div>
               </div>
               <form onSubmit={doLogin}>

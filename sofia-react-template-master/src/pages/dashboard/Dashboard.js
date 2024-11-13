@@ -9,7 +9,9 @@ import {
   Button,
   Input,
   InputGroup,
-  InputGroupAddon
+  InputGroupAddon,
+  Modal,
+  ModalBody
 } from "reactstrap";
 
 import ApexCharts from "react-apexcharts";
@@ -70,6 +72,32 @@ const Tables = () => {
     const matchesSearch = pedido.nombre_receta.toLowerCase().includes(busqueda.toLowerCase());
     return matchesSearch && inDateRange;
   });
+
+    /* nuevo modal */
+
+    const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para mostrar el modal de confirmación
+  
+    /* Nuevo Modal*/
+    // Mostrar el modal de confirmación
+    const handleShowConfirmModal = () => {
+      setShowConfirmModal(true);
+    };
+  
+    // Ocultar el modal de confirmación
+    const handleCloseConfirmModal = () => {
+      setShowConfirmModal(false);
+  
+    };
+  
+      // Confirmar la eliminación
+      const handleConfirmDelete = () => {
+        eliminarPedido();
+        handleCloseConfirmModal(); // Cerrar el modal después de la eliminación
+      };
+  
+  
+  
+    /* nuevo modal */
 
   const eliminarPedido = async (pedido) => {
     try {
@@ -318,10 +346,55 @@ const Tables = () => {
       </div>
 
       <div style={{ marginTop:'50px', display:'flex', width:'100%', height:'50px', justifyContent:'center'}}>
+        {/*
         <button className={s.nBotonRecetas} onClick={eliminarPedido}>
           <p>Eliminar Toda la Tabla de Pedidos</p>
         </button>
+        */}
+        <button className={s.nBotonRecetas} onClick={handleShowConfirmModal}>
+          <p>Eliminar Toda la Tabla de Pedidos</p>
+        </button>
       </div>
+
+      {/* Modal de confirmación para eliminar receta */}
+      <Modal 
+        isOpen={showConfirmModal} 
+        toggle={handleCloseConfirmModal}
+        onClick={(e) => {
+          // Detecta si el clic fue fuera del modal
+          if (e.target.classList.contains("modal")) {
+            handleCloseConfirmModal();  // Cierra el modal si se hace clic fuera de él
+          }
+        }} 
+        style={{
+          overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
+          content: { maxWidth: '500px', maxHeight:'320px', margin: 'auto', padding: '20px', borderRadius: '10px' }
+        }}
+        
+      >
+        <ModalBody>
+        <div className="d-flex flex-column justify-content-center">
+          <h3 className="d-flex  justify-content-center align-content-center">
+            Confirmar eliminación
+          </h3>
+          <p className="d-flex  justify-content-center mt-3">
+            ¿Estás seguro de que deseas eliminar toda la Tabla?
+          </p>
+          <div className='d-flex  justify-content-center mt-4' >
+
+            <Button className={s.nBotonRecetas} onClick={handleConfirmDelete}>Borrar Tabla</Button>
+            
+            <Button 
+              color="secondary" 
+              onClick={handleCloseConfirmModal}
+              className={`${s.nBotonRecetas} ml-2`}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </div>
+        </ModalBody>
+      </Modal>
       
     </div>
   );

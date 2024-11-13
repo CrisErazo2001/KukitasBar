@@ -177,6 +177,33 @@ const TablaInformacion = ({ distribucionNombres, cantidades }) => {
     setModalIsOpen(false);
   };
 
+  /* nuevo modal */
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para mostrar el modal de confirmación
+  
+  /* Nuevo Modal*/
+  // Mostrar el modal de confirmación
+  const handleShowConfirmModal = () => {
+    setShowConfirmModal(true);
+  };
+
+  // Ocultar el modal de confirmación
+  const handleCloseConfirmModal = () => {
+    setShowConfirmModal(false);
+
+  };
+
+    // Confirmar la eliminación
+    const handleConfirmDelete = () => {
+      borrarDisposicion();
+      guardarDisposicion();
+      handleCloseConfirmModal(); // Cerrar el modal después de la eliminación
+    };
+
+
+
+  /* nuevo modal */
+
 
   /* ANTIGUO 
   const manejarCambioIngrediente = (ingrediente) => {
@@ -750,9 +777,16 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
         {/*
         <Button className={s.nBotonRecetas} onClick={rellenarTodasBotellas}>Rellenar Todo</Button>
         */}
-        <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Todo</Button>
-       
+
         </div>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "60px" }}>
+        {/*
+        <Button className={s.nBotonRecetas} onClick={borrarDisposicion}>Borrar Disposición</Button>
+         */}
+        <Button className={s.nBotonRecetas} onClick={handleShowConfirmModal}>Borrar Disposición</Button>
+        </div>
+
+
       <Modal 
         isOpen={modalIsOpen} 
         toggle={cerrarModal} 
@@ -843,6 +877,46 @@ const obtenerCantidadPorIngrediente = (ingrediente) => {
           <div style={{ display:"flex", justifyContent:"center", textAlign: 'center', margin: '10px 0' }}>
             <Button className={s.nBotonRecetas} onClick={guardarPosicion}>Ok</Button>
           </div>
+        </ModalBody>
+      </Modal>
+
+      {/* Modal de confirmación para eliminar receta */}
+      <Modal 
+        isOpen={showConfirmModal} 
+        toggle={handleCloseConfirmModal}
+        onClick={(e) => {
+          // Detecta si el clic fue fuera del modal
+          if (e.target.classList.contains("modal")) {
+            handleCloseConfirmModal();  // Cierra el modal si se hace clic fuera de él
+          }
+        }} 
+        style={{
+          overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
+          content: { maxWidth: '500px', maxHeight:'320px', margin: 'auto', padding: '20px', borderRadius: '10px' }
+        }}
+        
+      >
+        <ModalBody>
+        <div className="d-flex flex-column justify-content-center">
+          <h3 className="d-flex  justify-content-center align-content-center">
+            Confirmar eliminación
+          </h3>
+          <p className="d-flex  justify-content-center mt-3">
+            ¿Estás seguro de que deseas eliminar esta Disposición?
+          </p>
+          <div className='d-flex  justify-content-center mt-4' >
+
+            <Button className={s.nBotonRecetas} onClick={handleConfirmDelete}>Borrar Disposición</Button>
+            
+            <Button 
+              color="secondary" 
+              onClick={handleCloseConfirmModal}
+              className={`${s.nBotonRecetas} ml-2`}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </div>
         </ModalBody>
       </Modal>
     </div>

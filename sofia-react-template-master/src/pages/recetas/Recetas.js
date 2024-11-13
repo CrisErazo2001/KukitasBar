@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon, Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
+import { Row, Col, Button, Table, Input, InputGroup, InputGroupAddon, Pagination, PaginationItem, PaginationLink, ModalHeader, ModalBody } from 'reactstrap';
 import NuevaReceta from './NuevaReceta'; // Importa el componente para crear/editar recetas
 import Modal from 'react-modal'; // Para mostrar el popup de vista detallada
 import s from "../ingredientes/Ingredientes.module.scss";
@@ -30,6 +30,10 @@ const Recetas = () => {
   // Estado para la paginación
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 6; // Cambia este número según la cantidad de elementos que desees mostrar por página
+  /*nuevo Modal */
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para mostrar el modal de confirmación
+  const [recetaParaEliminar, setRecetaParaEliminar] = useState(null); // Estado para la receta a eliminar
+
 
 
   const fetchIngredientes = async () => {
@@ -178,6 +182,28 @@ const Recetas = () => {
   const totalPaginas = Math.ceil(filtrarRecetas.length / elementosPorPagina);
 
 
+  /* Nuevo Modal*/
+  // Mostrar el modal de confirmación
+  const handleShowConfirmModal = (receta) => {
+    setRecetaParaEliminar(receta);
+    setShowConfirmModal(true);
+  };
+
+  // Ocultar el modal de confirmación
+  const handleCloseConfirmModal = () => {
+    setShowConfirmModal(false);
+    setRecetaParaEliminar(null);
+  };
+
+  // Confirmar la eliminación
+  const handleConfirmDelete = () => {
+    eliminarReceta(recetaParaEliminar);
+    handleCloseConfirmModal(); // Cerrar el modal después de la eliminación
+  };
+
+
+
+
   return (
     <div>
       <Row>
@@ -267,17 +293,17 @@ const Recetas = () => {
                   <div className='d-flex flex-column'>
                     <Button className={s.nBotonEdicion} onClick={() => abrirFormularioEdicion(receta)}>Editar</Button>
                     <div className='mb-3'></div>
+                    <Button className={s.nBotonEdicion} onClick={() => handleShowConfirmModal(receta)}>Eliminar</Button>
+                    {/*
                     <Button className={s.nBotonEdicion} onClick={() => eliminarReceta(receta)}>Eliminar</Button>
+                    */}
                     <div className='mb-3'></div>
-{/*                    <Button className={s.nBotonEdicion} onClick={() => toggleMenuStatus(receta)}>
-                      {receta.menu ? 'Quitar del Menú' : 'Agregar al Menú'} 
-                    </Button>*/}
                     <Button
                     className={`${s.nBotonEdicion} ${recetasEnMenu[receta] ? s.botonRojo : ''}`} // Cambia la clase en función del estado
                     onClick={() => toggleMenuStatus(receta)} // Llama a toggleMenuStatus con el ID de la receta
-                  >
-                    {receta.menu ? 'Quitar del Menú' : 'Agregar al Menú'} {/* Texto dinámico */}
-                  </Button>
+                    >
+                      {receta.menu ? 'Quitar del Menú' : 'Agregar al Menú'} {/* Texto dinámico */}
+                    </Button>
                   </div>
                   {/* Nuevo botón para agregar/quitar del menú */}
                   
@@ -314,6 +340,49 @@ const Recetas = () => {
             <PaginationLink last onClick={() => cambiarPagina(totalPaginas)} />
           </PaginationItem>
         </Pagination>
+        {/* Modal de confirmación para eliminar receta */}
+        <Modal 
+          isOpen={showConfirmModal} 
+          toggle={handleCloseConfirmModal}
+          onClick={(e) => {
+            // Detecta si el clic fue fuera del modal
+            if (e.target.classList.contains("modal")) {
+              handleCloseConfirmModal();  // Cierra el modal si se hace clic fuera de él
+            }
+          }} 
+          style={{
+            overlay: { backgroundColor: 'rgba(255, 139, 5, 0.7)' },
+            content: { maxWidth: '500px', maxHeight:'320px', margin: 'auto', padding: '20px', borderRadius: '10px' }
+          }}
+          
+        >
+          <ModalBody>
+          <div className="d-flex flex-column justify-content-center">
+            <h3 className="d-flex  justify-content-center align-content-center">
+              Confirmar eliminación
+            </h3>
+            <p className="d-flex  justify-content-center mt-3">
+              ¿Estás seguro de que deseas eliminar esta receta?
+            </p>
+            <div className='d-flex  justify-content-center mt-4' >
+              <Button 
+                color="danger" 
+                onClick={handleConfirmDelete}
+                className={s.nBotonEdicion}
+              >
+                Eliminar
+              </Button>
+              <Button 
+                color="secondary" 
+                onClick={handleCloseConfirmModal}
+                className={s.nBotonEdicion}
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
+          </ModalBody>
+        </Modal>
       </div>
       )}
 
