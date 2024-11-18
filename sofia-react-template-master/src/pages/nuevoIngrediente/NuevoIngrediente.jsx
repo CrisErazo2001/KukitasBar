@@ -71,9 +71,13 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
   };
 
   const handleCustomCantidadChange = (e) => {
-    const value = e.target.value;
+    let value = Number(e.target.value);
+    //const value = e.target.value;
+    if (value > 2000) {
+      value = 2000; // Limitar el valor máximo a 2000
+    }
     setCustomCantidad(value);
-    setNuevoIngrediente({ ...nuevoIngrediente, cantidad: Number(value) });
+    setNuevoIngrediente({ ...nuevoIngrediente, cantidad: value });
   };
   /* nuevo */
 
@@ -202,6 +206,7 @@ const NuevoIngrediente = ({ onClose, setIngredientes, ingredientes, ingrediente,
                     placeholder="Ingrese cantidad personalizada"
                     value={customCantidad}
                     onChange={handleCustomCantidadChange}
+                    max={2000} // Restricción en el input
                     className="mt-2"
                   />
                 )}

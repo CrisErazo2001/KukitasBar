@@ -14,9 +14,11 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
+  Button,
   DropdownItem,
   Form,
   FormGroup,
+  Alert,
 } from "reactstrap";
 
 import { logoutUser } from "../../actions/auth";
@@ -46,6 +48,22 @@ const Header = (props) => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [user, setUser] = useState({user:''});
 
+  // WebSocket States
+  const [showManualAddButton, setShowManualAddButton] = useState(false); // To control visibility of the button
+  const [showRetirarMessage, setShowRetirarMessage] = useState(false); // To control "Retirar Vaso" message visibility
+  const [showParoMessage, setShowParoMessage] = useState(false); // To control "Retirar Vaso" message visibility
+  const [showParoEMessage, setShowParoEMessage] = useState(false); // To control "Retirar Vaso" message visibility
+  const [showParoFMessage, setShowParoFMessage] = useState(false); // To control "Retirar Vaso" message visibility
+  const [wsError, setWsError] = useState(null); // WebSocket for errorbotella
+  const [wsReconocer, setWsReconocer] = useState(null); // WebSocket for reconocervaso
+  const [wsRetirar, setWsRetirar] = useState(null); // WebSocket for retirarvaso
+  const [wsParo, setWsParo] = useState(null); // WebSocket for paro Robots
+  const [wsParoE, setWsParoE] = useState(null); // WebSocket for paro Robots
+  const [wsParoF, setWsParoF] = useState(null); // WebSocket for paro Robots
+  
+
+  
+
   const fetchData = async () => {
     try {
       const response = await fetch('/user', {
@@ -72,6 +90,109 @@ const Header = (props) => {
     fetchData();
   }, []);
 
+    // Initialize WebSockets on mount
+    useEffect(() => {
+      const wserror = new WebSocket("ws://192.168.0.241:1880/ws/errorbotella");
+      const wsreconocer = new WebSocket("ws://192.168.0.241:1880/ws/reconocervaso");
+      const wsretirar = new WebSocket("ws://192.168.0.241:1880/ws/retirarvaso");
+      const wsparo = new WebSocket("ws://192.168.0.241:1880/ws/stoprobots");
+      const wsparoe = new WebSocket("ws://192.168.0.241:1880/ws/paroexterno");
+      const wsparof = new WebSocket("ws://192.168.0.241:1880/ws/robotsfallo");
+  
+      setWsError(wserror);
+      setWsReconocer(wsreconocer);
+      setWsRetirar(wsretirar);
+      setWsParo(wsparo);
+      setWsParoE(wsparoe);
+      setWsParoF(wsparof);
+  
+      // Listener for wsError
+      wserror.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log("Received from wserror:", data);
+          if (data === true) {
+            setShowManualAddButton(true); // Show button if error is true
+          } else {
+            setShowManualAddButton(false);
+          }
+        } catch (e) {
+          console.error("Error parsing WebSocket message:", e);
+        }
+      };
+      // Listener for wsRetirar
+      wsretirar.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log("Received from wsretirar:", data);
+          setShowRetirarMessage(data === true); // Show "Retirar Vaso" message if true
+        } catch (e) {
+          console.error("Error parsing WebSocket message:", e);
+        }
+      };
+      // Listener for wsParo
+      wsparo.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log("Received from wsparo:", data);
+          setShowParoMessage(data === true); // Show "Retirar Vaso" message if true
+        } catch (e) {
+          console.error("Error parsing WebSocket message:", e);
+        }
+      };
+      // Listener for wsParo
+      wsparoe.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log("Received from wsparo:", data);
+          setShowParoEMessage(data === false); // Show "Retirar Vaso" message if true
+        } catch (e) {
+          console.error("Error parsing WebSocket message:", e);
+        }
+      };
+      // Listener for wsParo
+      wsparof.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log("Received from wsparo:", data);
+          setShowParoFMessage(data === false); // Show "Retirar Vaso" message if true
+        } catch (e) {
+          console.error("Error parsing WebSocket message:", e);
+        }
+      };
+  
+      // Cleanup WebSocket connections on component unmount
+      return () => {
+        wserror.close();
+        wsreconocer.close();
+        wsretirar.close();
+        wsparo.close();
+        wsparoe.close();
+        wsparof.close();
+      };
+    }, []);
+  
+    // Handle manual glass addition
+    const handleManualAdd = () => {
+      if (wsReconocer && wsReconocer.readyState === WebSocket.OPEN) {
+        // Envía "true"
+        wsReconocer.send(JSON.stringify(true));
+        console.log("Sent true to wsreconocer");
+    
+        // Espera 1 segundo y envía "false"
+        setTimeout(() => {
+          if (wsReconocer && wsReconocer.readyState === WebSocket.OPEN) {
+            wsReconocer.send(JSON.stringify(false));
+            console.log("Sent false to wsreconocer");
+          }
+          wsReconocer.send(JSON.stringify(false));
+        }, 1000);
+      } else {
+        console.error("WebSocket for reconocervaso is not open");
+      }
+    };
+    
+
   const toggleNotifications = () => {
     setNotificationsOpen(!notificationsOpen);
   }
@@ -94,6 +215,8 @@ const Header = (props) => {
     props.dispatch(logoutUser());
   }
 
+
+
   return (
     <Navbar className={`${s.root} d-print-none`}>
       <div>
@@ -104,7 +227,9 @@ const Header = (props) => {
         >
           <MenuIcon className={s.menuIcon} />
         </NavLink>
+        
       </div>
+      
       {/*
       <Form className="d-none d-sm-block" inline>
         <FormGroup>
@@ -119,6 +244,40 @@ const Header = (props) => {
         </FormGroup>
       </Form>
        */}
+      {/* Manual Add Button */}
+      {showManualAddButton && (
+        <Button
+          className={s.nBotonRecetas}
+          onClick={handleManualAdd}
+        >
+          Se Agregó un Vaso Manualmente
+        </Button>
+      )}
+
+      {/* Retirar Vaso Message */}
+      {showParoMessage && (
+        <p  className={s.quitarvaso}>
+          ¡ Alerta Los Robots se han Pausado !
+        </p>
+      )}
+      {/* Retirar Vaso Message */}
+      {showRetirarMessage && (
+        <p  className={s.quitarvaso}>
+          ¡ Alerta Retirar Vaso !
+        </p>
+      )}
+      {/* Retirar Vaso Message */}
+      {showParoEMessage && (
+        <p  className={s.quitarvaso}>
+          ¡ Alerta Paro Externo de Emergencia !
+        </p>
+      )}
+      {/* Retirar Vaso Message */}
+      {showParoFMessage && (
+        <p  className={s.quitarvaso}>
+          ¡ Alerta Los Robots Están en Fallo !
+        </p>
+      )}
 
       <Nav className="ml-auto">
         <NavItem className="d-sm-none mr-4">
@@ -126,10 +285,13 @@ const Header = (props) => {
             className=""
             href="#"
           >
+            
             <SearchIcon />
           </NavLink>
         </NavItem>
-        
+
+
+ 
         <Dropdown isOpen={notificationsOpen} toggle={() => toggleNotifications()} nav id="basic-nav-dropdown" className="ml-3">
           <DropdownToggle nav caret className="navbar-dropdown-toggle">
             <span className={`${s.avatar} rounded-circle float-left mr-2`}>

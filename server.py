@@ -25,5 +25,6 @@ APP = app
 if __name__ == "__main__":
     # APP.run(debug=True)
     # descomentar esta linea para arrancar el sistema desde la red y no solo en local asi se puede acceder desde cualquier punto de la red, cambiar host con la ip del servidor
+
     APP.run(debug=True, host='0.0.0.0')
     # APP.run(debug=True, host='192.168.0.241')
